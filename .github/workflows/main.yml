@@ -1,0 +1,47 @@
+name: Ramen-api CI
+
+on:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  test:
+    name: 'Lint & Test'
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+
+      - id: node-modules-cache
+        name: Node modules cache
+        uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-modules-
+
+      - name: Install 🔧
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: yarn install
+
+      - name: Lint 🧐
+        run: yarn lint
+
+      - name: Build 🏗️
+        run: yarn build
+
+      # TODO
+      # - name: Test 🚨
+      #   run: yarn test
