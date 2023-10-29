@@ -1,4 +1,4 @@
-name: Ramen-api CI
+name: Sushi CI
 
 on:
   push:
