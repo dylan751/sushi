@@ -9,7 +9,8 @@
     "export": "next export",
     "lint": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
-    "build:icons": "tsc -b src/iconify-bundle && node src/iconify-bundle/bundle-icons-react.js"
+    "build:icons": "tsc -b src/iconify-bundle && node src/iconify-bundle/bundle-icons-react.js",
+    "api-gen": "node scripts/swagger-gen.js"
   },
   "dependencies": {
     "@casl/ability": "6.5.0",
@@ -70,6 +71,7 @@
     "recharts": "2.5.0",
     "stylis": "4.1.4",
     "stylis-plugin-rtl": "2.1.1",
+    "swagger-typescript-api": "^13.0.3",
     "yup": "1.1.1"
   },
   "devDependencies": {
