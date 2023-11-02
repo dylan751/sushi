@@ -2,23 +2,26 @@
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
 
 const navigation = (): VerticalNavItemsType => {
+  const organization = JSON.parse(window.localStorage.getItem('organization')!)
+  const uniqueName = organization ? `/${organization.uniqueName}` : ''
+
   return [
     {
       title: 'Home',
-      path: '/home',
-      icon: 'mdi:home-outline',
+      path: `${uniqueName}/home`,
+      icon: 'mdi:home-outline'
     },
     {
       title: 'Second Page',
-      path: '/second-page',
-      icon: 'mdi:email-outline',
+      path: `${uniqueName}/second-page`,
+      icon: 'mdi:email-outline'
     },
     {
-      path: '/acl',
+      path: `${uniqueName}/acl`,
       action: 'read',
       subject: 'acl-page',
       title: 'Access Control',
-      icon: 'mdi:shield-outline',
+      icon: 'mdi:shield-outline'
     }
   ]
 }

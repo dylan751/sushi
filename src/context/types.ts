@@ -10,10 +10,23 @@ export type UserDataType = {
   id: number
   role: string
   email: string
-  fullName: string
-  username: string
+  name: string
   password: string
+  organizations: UserOrganizationType[]
   avatar?: string | null
+}
+
+export type OrganizationType = {
+  id: number
+  name: string
+  uniqueName: string
+}
+
+export type UserOrganizationType = {
+  id: number
+  name: string
+  uniqueName: string
+  roles: any[]
 }
 
 export type AuthValuesType = {

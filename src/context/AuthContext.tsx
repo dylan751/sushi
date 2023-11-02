@@ -40,17 +40,18 @@ const AuthProvider = ({ children }: Props) => {
   useEffect(() => {
     const initAuth = async (): Promise<void> => {
       const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
+      const organization = JSON.parse(window.localStorage.getItem('organization')!)
       if (storedToken) {
         setLoading(true)
         await axios
           .get(authConfig.meEndpoint, {
             headers: {
-              Authorization: storedToken
+              Authorization: `Bearer ${storedToken}`
             }
           })
           .then(async response => {
             setLoading(false)
-            setUser({ ...response.data.userData })
+            setUser({ ...response.data, role: organization.roles[0].slug })
           })
           .catch(() => {
             localStorage.removeItem('userData')
@@ -75,13 +76,16 @@ const AuthProvider = ({ children }: Props) => {
     axios
       .post(authConfig.loginEndpoint, params)
       .then(async response => {
+        console.log(response)
         params.rememberMe
           ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken)
           : null
         const returnUrl = router.query.returnUrl
 
-        setUser({ ...response.data.userData })
-        params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.userData)) : null
+        setUser({ ...response.data.userData, role: 'unknown' })
+        params.rememberMe
+          ? window.localStorage.setItem('userData', JSON.stringify({ ...response.data.userData, role: 'unknown' }))
+          : null
 
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
 
@@ -96,6 +100,7 @@ const AuthProvider = ({ children }: Props) => {
   const handleLogout = () => {
     setUser(null)
     window.localStorage.removeItem('userData')
+    window.localStorage.removeItem('organization')
     window.localStorage.removeItem(authConfig.storageTokenKeyName)
     router.push('/login')
   }
