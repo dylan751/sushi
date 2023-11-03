@@ -133,7 +133,6 @@ const Register = () => {
   const onSubmit = (data: RegisterRequestDto) => {
     const { email, name, password } = data
 
-    // TODO: Handle error message sent from BE
     auth.register({ email, name, password }, () => {
       setError('email', {
         type: 'manual',

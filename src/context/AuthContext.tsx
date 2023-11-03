@@ -7,6 +7,9 @@ import { useRouter } from 'next/router'
 // ** Config
 import authConfig from 'src/configs/auth'
 
+// ** Third Party Imports
+import toast from 'react-hot-toast'
+
 // ** Hooks
 import { useApi } from 'src/hooks/useApi'
 
@@ -99,7 +102,7 @@ const AuthProvider = ({ children }: Props) => {
 
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
 
-        // TODO: Toast success message
+        toast.success('Login succeed')
         router.replace(redirectURL as string)
 
         // Create axios instance with Bearer token
@@ -123,7 +126,7 @@ const AuthProvider = ({ children }: Props) => {
     $api.internal
       .register(params)
       .then(() => {
-        // TODO: Toast success message
+        toast.success('Register succeed')
         router.replace('/login')
       })
 
