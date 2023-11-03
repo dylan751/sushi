@@ -65,7 +65,7 @@ const AuthProvider = ({ children }: Props) => {
       if (storedToken) {
         setLoading(true)
 
-        await $api.internal
+        $api.internal
           .getUserProfile()
           .then(async response => {
             setLoading(false)
@@ -73,6 +73,8 @@ const AuthProvider = ({ children }: Props) => {
           })
           .catch(() => {
             localStorage.removeItem('userData')
+            localStorage.removeItem('organization')
+            localStorage.removeItem('permissions')
             localStorage.removeItem('refreshToken')
             localStorage.removeItem('accessToken')
             setUser(null)
@@ -102,9 +104,6 @@ const AuthProvider = ({ children }: Props) => {
 
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
 
-        toast.success('Login succeed')
-        router.replace(redirectURL as string)
-
         // Create axios instance with Bearer token
         set$Api(
           new Api({
@@ -115,6 +114,9 @@ const AuthProvider = ({ children }: Props) => {
             }
           })
         )
+
+        toast.success('Login succeed')
+        router.replace(redirectURL as string)
       })
 
       .catch(err => {
