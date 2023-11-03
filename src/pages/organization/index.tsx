@@ -1,61 +1,139 @@
+import { ReactNode } from 'react'
+import BlankLayout from 'src/@core/layouts/BlankLayout'
+
 // ** MUI Imports
-import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import CardHeader from '@mui/material/CardHeader'
-import CardContent from '@mui/material/CardContent'
-import CardActions from '@mui/material/CardActions'
 import { useAuth } from 'src/hooks/useAuth'
 import Button from '@mui/material/Button'
 import { useRouter } from 'next/router'
-import { UserOrganizationType } from 'src/context/types'
+import { CaslPermission, OrganizationProfileResponseDto } from 'src/__generated__/AccountifyAPI'
+import authConfig from 'src/configs/auth'
+import axios from 'axios'
+import { Avatar, Box, Card, CardContent, CardHeader, Typography } from '@mui/material'
 
 const OrganizationPage = () => {
-  const { user, setUser } = useAuth()
+  const { user, setPermissions, setOrganization } = useAuth()
   const router = useRouter()
 
-  const loginToOrganization = (organization: UserOrganizationType) => {
-    // Took user's role & permissions for that organization
-    window.localStorage.setItem('userData', JSON.stringify({ ...user, role: organization.roles[0].slug }))
-    window.localStorage.setItem('organization', JSON.stringify(organization))
+  const loginToOrganization = async (organization: OrganizationProfileResponseDto) => {
+    const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
 
-    if (user) {
-      user.role = organization.roles[0].slug
-      setUser(user)
-    }
+    // Fetch user's permissions for that organization
+    const response = await axios.get(
+      `http://localhost:4000/internal/api/v1/organizations/${organization.id}/users/permissions`,
+      {
+        headers: {
+          Authorization: `Bearer ${storedToken}`
+        }
+      }
+    )
+    const userPermissions: CaslPermission[] = response.data.permissions
+
+    // Set organization and permissions data into AuthContext
+    window.localStorage.setItem('organization', JSON.stringify(organization))
+    setOrganization(organization)
+
+    window.localStorage.setItem('permissions', JSON.stringify(response.data.permissions))
+    setPermissions(userPermissions)
+
     router.replace(`/${organization.uniqueName}/home`)
   }
 
+  const navigateToCreateOrganizationPage = () => {
+    router.replace('/organization/new')
+  }
+
   return (
-    <Grid container spacing={6}>
-      <Grid item xs={12}>
-        {user && user.organizations && user.organizations.length > 0 ? (
-          user.organizations.map((organization: UserOrganizationType) => (
-            <Card key={organization.id}>
-              <CardHeader title={organization.name}></CardHeader>
-              <CardActions className='card-action-dense'>
-                <Button variant='text' onClick={() => loginToOrganization(organization)}>
-                  Open
-                </Button>
-              </CardActions>
-            </Card>
-          ))
-        ) : (
-          <Card>
-            <CardHeader title='Create new organization 🚀'></CardHeader>
-            <CardContent>
-              <Typography sx={{ mb: 2 }}>Start with creating your organization.</Typography>
-            </CardContent>
-          </Card>
-        )}
-      </Grid>
-    </Grid>
+    <Box className='content-center'>
+      <Card sx={{ width: 1 / 2 }}>
+        <CardHeader
+          title={
+            user && user.organizations && user.organizations.length > 0
+              ? 'Choose an organization'
+              : 'Create new organization 🚀'
+          }
+        />
+        <CardContent
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px'
+          }}
+        >
+          {user && user.organizations && user.organizations.length > 0 ? (
+            user.organizations.map((organization: OrganizationProfileResponseDto) => {
+              return (
+                <Box
+                  key={organization.id}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                >
+                  <Avatar src='...' alt={organization.name} sx={{ mr: 3, height: 38, width: 38 }} />
+                  <Box
+                    sx={{
+                      width: '100%',
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      alignItems: 'center',
+                      justifyContent: 'space-between'
+                    }}
+                  >
+                    <Box sx={{ mr: 2, display: 'flex', mb: 0.4, flexDirection: 'column' }}>
+                      <Typography variant='subtitle1' sx={{ mb: 0.5, fontWeight: 600, color: 'text.primary' }}>
+                        {organization.name}
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          '& svg': { mr: 1.5, color: 'text.secondary', verticalAlign: 'middle' }
+                        }}
+                      >
+                        <Typography variant='caption'>{organization.uniqueName}</Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                  <Button variant='contained' onClick={() => loginToOrganization(organization)}>
+                    Open
+                  </Button>
+                </Box>
+              )
+            })
+          ) : (
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center'
+              }}
+            >
+              <Box
+                sx={{
+                  width: '100%'
+                }}
+              >
+                <Box sx={{ mr: 2, display: 'flex', mb: 0.4, flexDirection: 'column' }}>
+                  <Typography variant='subtitle1' sx={{ mb: 0.5, fontWeight: 600, color: 'text.primary' }}>
+                    Kick start your project
+                  </Typography>
+                </Box>
+              </Box>
+              <Button variant='contained' onClick={navigateToCreateOrganizationPage}>
+                Create
+              </Button>
+            </Box>
+          )}
+        </CardContent>
+      </Card>
+    </Box>
   )
 }
 
 OrganizationPage.acl = {
   action: 'read',
-  subject: 'organization-page'
+  subject: 'user'
 }
+
+OrganizationPage.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
 
 export default OrganizationPage

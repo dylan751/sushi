@@ -7,11 +7,11 @@ const { generateApi } = require('swagger-typescript-api')
 function fixTypesWorkaround() {
   // removes HeadersDefaults which doesn't exist in the version of axios we use
   const occurances = [', HeadersDefaults', ' as keyof HeadersDefaults']
-  let content = fs.readFileSync(path.resolve(process.cwd(), './__generated__/AccountifyAPI.ts'), 'utf8')
+  let content = fs.readFileSync(path.resolve(process.cwd(), './src/__generated__/AccountifyAPI.ts'), 'utf8')
   occurances.forEach(occurance => {
     content = content.replace(occurance, '')
   })
-  fs.writeFileSync(path.resolve(process.cwd(), './__generated__/AccountifyAPI.ts'), content)
+  fs.writeFileSync(path.resolve(process.cwd(), './src/__generated__/AccountifyAPI.ts'), content)
 }
 
 // ChatGPT generated code, convert camelCase case to snake_case
@@ -23,7 +23,7 @@ generateApi({
   name: 'AccountifyAPI.ts',
 
   // set to `false` to prevent the tool from writing to disk
-  output: path.resolve(process.cwd(), './__generated__'),
+  output: path.resolve(process.cwd(), './src/__generated__'),
   url: 'http://localhost:4000/api/docs/v1-json',
 
   // input: path.resolve(process.cwd(), "./v1-json.json"),

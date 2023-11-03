@@ -7,20 +7,24 @@ const navigation = (): VerticalNavItemsType => {
 
   return [
     {
-      title: 'Home',
       path: `${uniqueName}/home`,
+      action: 'read',
+      subject: 'user',
+      title: 'Home',
       icon: 'mdi:home-outline'
     },
     {
-      title: 'Second Page',
       path: `${uniqueName}/second-page`,
+      action: 'read',
+      subject: 'user',
+      title: 'Second Page',
       icon: 'mdi:email-outline'
     },
     {
-      path: `${uniqueName}/acl`,
+      path: `${uniqueName}/role`,
       action: 'read',
-      subject: 'acl-page',
-      title: 'Access Control',
+      subject: 'role',
+      title: 'Role Page',
       icon: 'mdi:shield-outline'
     }
   ]

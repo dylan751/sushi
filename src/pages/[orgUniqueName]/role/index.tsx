@@ -11,7 +11,7 @@ import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 
-const ACLPage = () => {
+const RolePage = () => {
   // ** Hooks
   const ability = useContext(AbilityContext)
 
@@ -41,9 +41,9 @@ const ACLPage = () => {
   )
 }
 
-ACLPage.acl = {
+RolePage.acl = {
   action: 'read',
-  subject: 'acl-page'
+  subject: 'role'
 }
 
-export default ACLPage
+export default RolePage

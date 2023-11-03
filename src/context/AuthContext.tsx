@@ -11,13 +11,24 @@ import axios from 'axios'
 import authConfig from 'src/configs/auth'
 
 // ** Types
-import { AuthValuesType, LoginParams, ErrCallbackType, UserDataType } from './types'
+import { AuthValuesType, LoginParams, ErrCallbackType } from './types'
+import {
+  CaslPermission,
+  OrganizationProfileResponseDto,
+  PermissionAction,
+  PermissionSubject,
+  ProfileResponseDto
+} from 'src/__generated__/AccountifyAPI'
 
 // ** Defaults
 const defaultProvider: AuthValuesType = {
   user: null,
+  organization: null,
+  permissions: [{ action: PermissionAction.READ, subject: PermissionSubject.USER }],
   loading: true,
   setUser: () => null,
+  setOrganization: () => null,
+  setPermissions: () => null,
   setLoading: () => Boolean,
   login: () => Promise.resolve(),
   logout: () => Promise.resolve()
@@ -31,7 +42,9 @@ type Props = {
 
 const AuthProvider = ({ children }: Props) => {
   // ** States
-  const [user, setUser] = useState<UserDataType | null>(defaultProvider.user)
+  const [user, setUser] = useState<ProfileResponseDto | null>(defaultProvider.user)
+  const [organization, setOrganization] = useState<OrganizationProfileResponseDto | null>(defaultProvider.organization)
+  const [permissions, setPermissions] = useState<CaslPermission[]>(defaultProvider.permissions)
   const [loading, setLoading] = useState<boolean>(defaultProvider.loading)
 
   // ** Hooks
@@ -40,7 +53,7 @@ const AuthProvider = ({ children }: Props) => {
   useEffect(() => {
     const initAuth = async (): Promise<void> => {
       const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
-      const organization = JSON.parse(window.localStorage.getItem('organization')!)
+
       if (storedToken) {
         setLoading(true)
         await axios
@@ -51,7 +64,7 @@ const AuthProvider = ({ children }: Props) => {
           })
           .then(async response => {
             setLoading(false)
-            setUser({ ...response.data, role: organization.roles[0].slug })
+            setUser(response.data)
           })
           .catch(() => {
             localStorage.removeItem('userData')
@@ -76,16 +89,13 @@ const AuthProvider = ({ children }: Props) => {
     axios
       .post(authConfig.loginEndpoint, params)
       .then(async response => {
-        console.log(response)
         params.rememberMe
           ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken)
           : null
         const returnUrl = router.query.returnUrl
 
-        setUser({ ...response.data.userData, role: 'unknown' })
-        params.rememberMe
-          ? window.localStorage.setItem('userData', JSON.stringify({ ...response.data.userData, role: 'unknown' }))
-          : null
+        setUser(response.data.userData)
+        params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.userData)) : null
 
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
 
@@ -101,14 +111,19 @@ const AuthProvider = ({ children }: Props) => {
     setUser(null)
     window.localStorage.removeItem('userData')
     window.localStorage.removeItem('organization')
+    window.localStorage.removeItem('permissions')
     window.localStorage.removeItem(authConfig.storageTokenKeyName)
     router.push('/login')
   }
 
   const values = {
     user,
+    organization,
+    permissions,
     loading,
     setUser,
+    setOrganization,
+    setPermissions,
     setLoading,
     login: handleLogin,
     logout: handleLogout

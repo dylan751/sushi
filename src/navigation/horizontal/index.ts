@@ -2,22 +2,29 @@
 import { HorizontalNavItemsType } from 'src/@core/layouts/types'
 
 const navigation = (): HorizontalNavItemsType => {
+  const organization = JSON.parse(window.localStorage.getItem('organization')!)
+  const uniqueName = organization ? `/${organization.uniqueName}` : ''
+
   return [
     {
+      path: `${uniqueName}/home`,
+      action: 'read',
+      subject: 'user',
       title: 'Home',
-      path: '/home',
       icon: 'mdi:home-outline'
     },
     {
+      path: `${uniqueName}/second-page`,
+      action: 'read',
+      subject: 'user',
       title: 'Second Page',
-      path: '/second-page',
       icon: 'mdi:email-outline'
     },
     {
-      path: '/acl',
+      path: `${uniqueName}/role`,
       action: 'read',
-      subject: 'acl-page',
-      title: 'Access Control',
+      subject: 'role',
+      title: 'Role Page',
       icon: 'mdi:shield-outline'
     }
   ]
