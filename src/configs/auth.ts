@@ -1,10 +1,7 @@
 export default {
-  // meEndpoint: '/auth/me',
-  meEndpoint: 'http://localhost:4000/internal/api/v1/auth/profile',
-
-  // loginEndpoint: '/jwt/login',
-  loginEndpoint: 'http://localhost:4000/internal/api/v1/auth/login',
-  registerEndpoint: '/jwt/register',
+  userProfileEndpoint: `${process.env.NEXT_PUBLIC_API_ENDPOINT}/auth/profile`,
+  loginEndpoint: `${process.env.NEXT_PUBLIC_API_ENDPOINT}/auth/login`,
+  registerEndpoint: `${process.env.NEXT_PUBLIC_API_ENDPOINT}/auth/register`,
   storageTokenKeyName: 'accessToken',
   onTokenExpiration: 'refreshToken' // logout | refreshToken
 }
