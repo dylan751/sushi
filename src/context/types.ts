@@ -3,7 +3,8 @@ import {
   CaslPermission,
   LoginRequestDto,
   OrganizationProfileResponseDto,
-  ProfileResponseDto
+  ProfileResponseDto,
+  RegisterRequestDto
 } from '../__generated__/AccountifyAPI'
 
 export type ErrCallbackType = (err: { [key: string]: string }) => void
@@ -19,6 +20,7 @@ export type AuthValuesType = {
   setOrganization: (value: OrganizationProfileResponseDto | null) => void
   setPermissions: (value: CaslPermission[]) => void
   login: (params: LoginRequestDto, errorCallback?: ErrCallbackType) => void
+  register: (params: RegisterRequestDto, errorCallback?: ErrCallbackType) => void
 }
 
 export type ApiValuesType = {
