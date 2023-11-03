@@ -1,4 +1,3 @@
-'use client'
 import { Api } from 'src/__generated__/AccountifyAPI'
 
 export const $api = (token?: string) => {
