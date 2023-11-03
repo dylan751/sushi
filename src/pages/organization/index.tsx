@@ -19,7 +19,7 @@ const OrganizationPage = () => {
 
     // Fetch user's permissions for that organization
     const response = await axios.get(
-      `http://localhost:4000/internal/api/v1/organizations/${organization.id}/users/permissions`,
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/organizations/${organization.id}/users/permissions`,
       {
         headers: {
           Authorization: `Bearer ${storedToken}`
