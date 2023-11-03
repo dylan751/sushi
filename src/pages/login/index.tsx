@@ -123,7 +123,6 @@ const LoginPage = () => {
   const onSubmit = (data: LoginRequestDto) => {
     const { email, password } = data
 
-    // TODO: Handle error message sent from BE
     auth.login({ email, password }, () => {
       setError('email', {
         type: 'manual',
