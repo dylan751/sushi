@@ -11,311 +11,311 @@
 
 export interface LoginRequestDto {
   /** @example "foo@gmail.com" */
-  email: string;
+  email: string
   /** @example "password" */
-  password: string;
+  password: string
 }
 
 export interface UserRole {
   /** @example 1 */
-  id: number;
+  id: number
   /** @example "Admin" */
-  name: string;
+  name: string
   /** @example "admin" */
-  slug: string;
+  slug: string
 }
 
 export interface OrganizationProfileResponseDto {
   /** @example 1 */
-  id: number;
+  id: number
   /** @example "Organization Fullname" */
-  name: string;
+  name: string
   /** @example "org_unique_name" */
-  uniqueName: string;
-  roles: UserRole[];
+  uniqueName: string
+  roles: UserRole[]
 }
 
 export interface ProfileResponseDto {
   /** @example 1 */
-  id: number;
+  id: number
   /** @example "robin@moneyforward.co.jp" */
-  email: string;
+  email: string
   /** @example "robin" */
-  name: string;
+  name: string
   /** @example [{"id":1,"name":"First Organization Name","uniqueName":"first_organization_unique_name","roles":[{"id":1,"name":"Admin"}]}] */
-  organizations: OrganizationProfileResponseDto[];
+  organizations: OrganizationProfileResponseDto[]
 }
 
 export interface LoginResponse {
   /** @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" */
-  accessToken: string;
-  userData: ProfileResponseDto;
+  accessToken: string
+  userData: ProfileResponseDto
 }
 
 export interface RegisterRequestDto {
   /** @example "foo@gmail.com" */
-  email: string;
+  email: string
   /** @example "foo" */
-  name: string;
+  name: string
   /** @example "password" */
-  password: string;
+  password: string
 }
 
 export interface RegisterResponse {
   /** @example "foo@gmail.com" */
-  email: string;
+  email: string
   /** @example "foo" */
-  name: string;
+  name: string
   /** @example "password" */
-  password: string;
+  password: string
 }
 
 export interface OrganizationUserResponseDto {
   /** @example 1 */
-  id: number;
+  id: number
   /** @example "robin@moneyforward.co.jp" */
-  email: string;
+  email: string
   /** @example "robin" */
-  name: string;
-  roles: UserRole[];
+  name: string
+  roles: UserRole[]
 }
 
 export interface MetaData {
-  prevPage: number | null;
-  nextPage: number | null;
+  prevPage: number | null
+  nextPage: number | null
 }
 
 export interface OrganizationUserListResponseDto {
-  users: OrganizationUserResponseDto[];
-  metadata: MetaData;
+  users: OrganizationUserResponseDto[]
+  metadata: MetaData
 }
 
 export interface TotalAdminResponseDto {
   /** @example 5 */
-  totalAdmins: number;
+  totalAdmins: number
 }
 
 export interface BulkInviteRequestDto {
   /** @example ["hoge@i.moneyforward.com","fuga@i.moneyforward.com"] */
-  emails: string[];
+  emails: string[]
   /** @example [2,3] */
-  roleIds: number[];
+  roleIds: number[]
 }
 
 export interface BulkInviteResponseDto {
   /** @example 1 */
-  invitedCount: number;
+  invitedCount: number
   /** @example 1 */
-  notInvitedCount: number;
+  notInvitedCount: number
 }
 
 export interface UpdateOrganizationUserRequestDto {
   /** @example [2,3] */
-  roleIds: number[];
+  roleIds: number[]
 }
 
-export type EmptyResponseDto = object;
+export type EmptyResponseDto = object
 
 export enum PermissionAction {
-  MANAGE = "manage",
-  CREATE = "create",
-  READ = "read",
-  UPDATE = "update",
-  DELETE = "delete",
+  MANAGE = 'manage',
+  CREATE = 'create',
+  READ = 'read',
+  UPDATE = 'update',
+  DELETE = 'delete'
 }
 
 export enum PermissionSubject {
-  ALL = "all",
-  ORGANIZATION = "organization",
-  USER = "user",
-  ROLE = "role",
+  ALL = 'all',
+  ORGANIZATION = 'organization',
+  USER = 'user',
+  ROLE = 'role'
 }
 
 export interface CaslPermission {
-  action: PermissionAction;
-  subject: PermissionSubject;
+  action: PermissionAction
+  subject: PermissionSubject
 }
 
 export interface GetUserPermissionsResponseDto {
-  permissions: CaslPermission[];
+  permissions: CaslPermission[]
 }
 
 export interface CreateOrganizationRequestDto {
   /** @example "Example organization" */
-  name: string;
+  name: string
   /** @example "example-org" */
-  uniqueName: string;
+  uniqueName: string
 }
 
 export interface OrganizationResponseDto {
   /** @example 1 */
-  id: number;
+  id: number
   /** @example "Test org" */
-  name: string;
+  name: string
   /** @example "test-org" */
-  uniqueName: string;
+  uniqueName: string
   /**
    * @format date-time
    * @example "2020/01/01 15:00:00"
    */
-  createdAt: string;
+  createdAt: string
 }
 
 export interface UpdateOrganizationRequestDto {
   /** @example "Example organization" */
-  name?: string;
+  name?: string
   /** @example "example-org" */
-  uniqueName?: string;
+  uniqueName?: string
 }
 
 export interface PermissionConfigDto {
   /** @example "create" */
-  action: PermissionConfigDtoActionEnum;
+  action: PermissionConfigDtoActionEnum
   /** @example "organization" */
-  subject: PermissionConfigDtoSubjectEnum;
+  subject: PermissionConfigDtoSubjectEnum
 }
 
 export interface CreateRoleRequestDto {
   /** @example "Developer" */
-  name: string;
+  name: string
   /** @example "developer" */
-  slug: string;
-  permissionConfigs: PermissionConfigDto[];
+  slug: string
+  permissionConfigs: PermissionConfigDto[]
 }
 
 export interface RoleResponseDto {
   /** @example 1 */
-  id: number;
+  id: number
   /** @example "Admin" */
-  name: string;
+  name: string
   /** @example "admin" */
-  slug: string;
+  slug: string
   /**
    * @format date-time
    * @example "2020/01/01 15:00:00"
    */
-  createdAt: string;
+  createdAt: string
 }
 
 export interface RoleResponseListDto {
-  items: RoleResponseDto[];
+  items: RoleResponseDto[]
 }
 
 export interface UpdateRoleRequestDto {
   /** @example "Admin" */
-  name?: string;
+  name?: string
   /** @example "admin" */
-  slug?: string;
-  permissionConfigs: PermissionConfigDto[];
+  slug?: string
+  permissionConfigs: PermissionConfigDto[]
 }
 
 /** @example "create" */
 export enum PermissionConfigDtoActionEnum {
-  MANAGE = "manage",
-  CREATE = "create",
-  READ = "read",
-  UPDATE = "update",
-  DELETE = "delete",
+  MANAGE = 'manage',
+  CREATE = 'create',
+  READ = 'read',
+  UPDATE = 'update',
+  DELETE = 'delete'
 }
 
 /** @example "organization" */
 export enum PermissionConfigDtoSubjectEnum {
-  ALL = "all",
-  ORGANIZATION = "organization",
-  USER = "user",
-  ROLE = "role",
+  ALL = 'all',
+  ORGANIZATION = 'organization',
+  USER = 'user',
+  ROLE = 'role'
 }
 
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
-import axios from "axios";
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType } from 'axios'
+import axios from 'axios'
 
-export type QueryParamsType = Record<string | number, any>;
+export type QueryParamsType = Record<string | number, any>
 
-export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "params" | "url" | "responseType"> {
+export interface FullRequestParams extends Omit<AxiosRequestConfig, 'data' | 'params' | 'url' | 'responseType'> {
   /** set parameter to `true` for call `securityWorker` for this request */
-  secure?: boolean;
+  secure?: boolean
   /** request path */
-  path: string;
+  path: string
   /** content type of request body */
-  type?: ContentType;
+  type?: ContentType
   /** query params */
-  query?: QueryParamsType;
+  query?: QueryParamsType
   /** format of response (i.e. response.json() -> format: "json") */
-  format?: ResponseType;
+  format?: ResponseType
   /** request body */
-  body?: unknown;
+  body?: unknown
 }
 
-export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
+export type RequestParams = Omit<FullRequestParams, 'body' | 'method' | 'query' | 'path'>
 
-export interface ApiConfig<SecurityDataType = unknown> extends Omit<AxiosRequestConfig, "data" | "cancelToken"> {
+export interface ApiConfig<SecurityDataType = unknown> extends Omit<AxiosRequestConfig, 'data' | 'cancelToken'> {
   securityWorker?: (
-    securityData: SecurityDataType | null,
-  ) => Promise<AxiosRequestConfig | void> | AxiosRequestConfig | void;
-  secure?: boolean;
-  format?: ResponseType;
+    securityData: SecurityDataType | null
+  ) => Promise<AxiosRequestConfig | void> | AxiosRequestConfig | void
+  secure?: boolean
+  format?: ResponseType
 }
 
 export enum ContentType {
-  Json = "application/json",
-  FormData = "multipart/form-data",
-  UrlEncoded = "application/x-www-form-urlencoded",
-  Text = "text/plain",
+  Json = 'application/json',
+  FormData = 'multipart/form-data',
+  UrlEncoded = 'application/x-www-form-urlencoded',
+  Text = 'text/plain'
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public instance: AxiosInstance;
-  private securityData: SecurityDataType | null = null;
-  private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
-  private secure?: boolean;
-  private format?: ResponseType;
+  public instance: AxiosInstance
+  private securityData: SecurityDataType | null = null
+  private securityWorker?: ApiConfig<SecurityDataType>['securityWorker']
+  private secure?: boolean
+  private format?: ResponseType
 
   constructor({ securityWorker, secure, format, ...axiosConfig }: ApiConfig<SecurityDataType> = {}) {
-    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "" });
-    this.secure = secure;
-    this.format = format;
-    this.securityWorker = securityWorker;
+    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || '' })
+    this.secure = secure
+    this.format = format
+    this.securityWorker = securityWorker
   }
 
   public setSecurityData = (data: SecurityDataType | null) => {
-    this.securityData = data;
-  };
+    this.securityData = data
+  }
 
   protected mergeRequestParams(params1: AxiosRequestConfig, params2?: AxiosRequestConfig): AxiosRequestConfig {
-    const method = params1.method || (params2 && params2.method);
+    const method = params1.method || (params2 && params2.method)
 
     return {
       ...this.instance.defaults,
       ...params1,
       ...(params2 || {}),
       headers: {
-        ...((method && this.instance.defaults.headers[method.toLowerCase() as keyof HeadersDefaults]) || {}),
+        ...(((method && this.instance.defaults.headers[method.toLowerCase()]) || {}) as object),
         ...(params1.headers || {}),
-        ...((params2 && params2.headers) || {}),
-      },
-    };
+        ...((params2 && params2.headers) || {})
+      }
+    }
   }
 
   protected stringifyFormItem(formItem: unknown) {
-    if (typeof formItem === "object" && formItem !== null) {
-      return JSON.stringify(formItem);
+    if (typeof formItem === 'object' && formItem !== null) {
+      return JSON.stringify(formItem)
     } else {
-      return `${formItem}`;
+      return `${formItem}`
     }
   }
 
   protected createFormData(input: Record<string, unknown>): FormData {
     return Object.keys(input || {}).reduce((formData, key) => {
-      const property = input[key];
-      const propertyContent: any[] = property instanceof Array ? property : [property];
+      const property = input[key]
+      const propertyContent: any[] = property instanceof Array ? property : [property]
 
       for (const formItem of propertyContent) {
-        const isFileType = formItem instanceof Blob || formItem instanceof File;
-        formData.append(key, isFileType ? formItem : this.stringifyFormItem(formItem));
+        const isFileType = formItem instanceof Blob || formItem instanceof File
+        formData.append(key, isFileType ? formItem : this.stringifyFormItem(formItem))
       }
 
-      return formData;
-    }, new FormData());
+      return formData
+    }, new FormData())
   }
 
   public request = async <T = any, _E = any>({
@@ -328,33 +328,33 @@ export class HttpClient<SecurityDataType = unknown> {
     ...params
   }: FullRequestParams): Promise<AxiosResponse<T>> => {
     const secureParams =
-      ((typeof secure === "boolean" ? secure : this.secure) &&
+      ((typeof secure === 'boolean' ? secure : this.secure) &&
         this.securityWorker &&
         (await this.securityWorker(this.securityData))) ||
-      {};
-    const requestParams = this.mergeRequestParams(params, secureParams);
-    const responseFormat = format || this.format || undefined;
+      {}
+    const requestParams = this.mergeRequestParams(params, secureParams)
+    const responseFormat = format || this.format || undefined
 
-    if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
-      body = this.createFormData(body as Record<string, unknown>);
+    if (type === ContentType.FormData && body && body !== null && typeof body === 'object') {
+      body = this.createFormData(body as Record<string, unknown>)
     }
 
-    if (type === ContentType.Text && body && body !== null && typeof body !== "string") {
-      body = JSON.stringify(body);
+    if (type === ContentType.Text && body && body !== null && typeof body !== 'string') {
+      body = JSON.stringify(body)
     }
 
     return this.instance.request({
       ...requestParams,
       headers: {
         ...(requestParams.headers || {}),
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
+        ...(type && type !== ContentType.FormData ? { 'Content-Type': type } : {})
       },
       params: query,
       responseType: responseFormat,
       data: body,
-      url: path,
-    });
-  };
+      url: path
+    })
+  }
 }
 
 /**
@@ -374,9 +374,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   appControllerGetHello = (params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/`,
-      method: "GET",
-      ...params,
-    });
+      method: 'GET',
+      ...params
+    })
 
   internal = {
     /**
@@ -390,11 +390,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     login: (data: LoginRequestDto, params: RequestParams = {}) =>
       this.request<LoginResponse, any>({
         path: `/internal/api/v1/auth/login`,
-        method: "POST",
+        method: 'POST',
         body: data,
         type: ContentType.Json,
-        format: "json",
-        ...params,
+        format: 'json',
+        ...params
       }),
 
     /**
@@ -408,11 +408,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     register: (data: RegisterRequestDto, params: RequestParams = {}) =>
       this.request<RegisterResponse, any>({
         path: `/internal/api/v1/auth/register`,
-        method: "POST",
+        method: 'POST',
         body: data,
         type: ContentType.Json,
-        format: "json",
-        ...params,
+        format: 'json',
+        ...params
       }),
 
     /**
@@ -427,10 +427,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getUserProfile: (params: RequestParams = {}) =>
       this.request<ProfileResponseDto, any>({
         path: `/internal/api/v1/auth/profile`,
-        method: "GET",
+        method: 'GET',
         secure: true,
-        format: "json",
-        ...params,
+        format: 'json',
+        ...params
       }),
 
     /**
@@ -445,10 +445,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     usersControllerFindAll: (organizationId: number, params: RequestParams = {}) =>
       this.request<OrganizationUserListResponseDto[], any>({
         path: `/internal/api/v1/organizations/${organizationId}/users`,
-        method: "GET",
+        method: 'GET',
         secure: true,
-        format: "json",
-        ...params,
+        format: 'json',
+        ...params
       }),
 
     /**
@@ -463,10 +463,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     usersControllerCountAdmin: (organizationId: number, params: RequestParams = {}) =>
       this.request<TotalAdminResponseDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/users/admin-count`,
-        method: "GET",
+        method: 'GET',
         secure: true,
-        format: "json",
-        ...params,
+        format: 'json',
+        ...params
       }),
 
     /**
@@ -481,12 +481,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     usersControllerBulkInvite: (organizationId: number, data: BulkInviteRequestDto, params: RequestParams = {}) =>
       this.request<BulkInviteResponseDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/users/bulk-invitations`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
-        ...params,
+        format: 'json',
+        ...params
       }),
 
     /**
@@ -502,16 +502,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       organizationId: number,
       id: number,
       data: UpdateOrganizationUserRequestDto,
-      params: RequestParams = {},
+      params: RequestParams = {}
     ) =>
       this.request<OrganizationUserResponseDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/users/${id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
-        ...params,
+        format: 'json',
+        ...params
       }),
 
     /**
@@ -526,10 +526,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     usersControllerDelete: (organizationId: number, id: number, params: RequestParams = {}) =>
       this.request<EmptyResponseDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/users/${id}`,
-        method: "DELETE",
+        method: 'DELETE',
         secure: true,
-        format: "json",
-        ...params,
+        format: 'json',
+        ...params
       }),
 
     /**
@@ -544,10 +544,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getUserPermissions: (organizationId: number, params: RequestParams = {}) =>
       this.request<GetUserPermissionsResponseDto[], any>({
         path: `/internal/api/v1/organizations/${organizationId}/users/permissions`,
-        method: "GET",
+        method: 'GET',
         secure: true,
-        format: "json",
-        ...params,
+        format: 'json',
+        ...params
       }),
 
     /**
@@ -562,12 +562,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     organizationsControllerCreate: (data: CreateOrganizationRequestDto, params: RequestParams = {}) =>
       this.request<OrganizationResponseDto, any>({
         path: `/internal/api/v1/organizations`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
-        ...params,
+        format: 'json',
+        ...params
       }),
 
     /**
@@ -582,10 +582,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getOrganization: (id: number, params: RequestParams = {}) =>
       this.request<OrganizationResponseDto, any>({
         path: `/internal/api/v1/organizations/${id}`,
-        method: "GET",
+        method: 'GET',
         secure: true,
-        format: "json",
-        ...params,
+        format: 'json',
+        ...params
       }),
 
     /**
@@ -600,12 +600,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     updateOrganization: (id: number, data: UpdateOrganizationRequestDto, params: RequestParams = {}) =>
       this.request<OrganizationResponseDto, any>({
         path: `/internal/api/v1/organizations/${id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
-        ...params,
+        format: 'json',
+        ...params
       }),
 
     /**
@@ -620,10 +620,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     deleteAnOrganization: (id: number, params: RequestParams = {}) =>
       this.request<EmptyResponseDto, any>({
         path: `/internal/api/v1/organizations/${id}`,
-        method: "DELETE",
+        method: 'DELETE',
         secure: true,
-        format: "json",
-        ...params,
+        format: 'json',
+        ...params
       }),
 
     /**
@@ -638,12 +638,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     createRolesForAnOrganization: (organizationId: number, data: CreateRoleRequestDto, params: RequestParams = {}) =>
       this.request<RoleResponseListDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/roles`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
-        ...params,
+        format: 'json',
+        ...params
       }),
 
     /**
@@ -658,10 +658,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getRoleListForOrganization: (organizationId: number, params: RequestParams = {}) =>
       this.request<RoleResponseListDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/roles`,
-        method: "GET",
+        method: 'GET',
         secure: true,
-        format: "json",
-        ...params,
+        format: 'json',
+        ...params
       }),
 
     /**
@@ -676,10 +676,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getRoleByIdForAnOrg: (organizationId: number, id: number, params: RequestParams = {}) =>
       this.request<RoleResponseDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/roles/${id}`,
-        method: "GET",
+        method: 'GET',
         secure: true,
-        format: "json",
-        ...params,
+        format: 'json',
+        ...params
       }),
 
     /**
@@ -695,16 +695,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       organizationId: number,
       id: number,
       data: UpdateRoleRequestDto,
-      params: RequestParams = {},
+      params: RequestParams = {}
     ) =>
       this.request<RoleResponseDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/roles/${id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
-        ...params,
+        format: 'json',
+        ...params
       }),
 
     /**
@@ -719,10 +719,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     deleteARoleForAnOrganization: (organizationId: number, id: number, params: RequestParams = {}) =>
       this.request<EmptyResponseDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/roles/${id}`,
-        method: "DELETE",
+        method: 'DELETE',
         secure: true,
-        format: "json",
-        ...params,
-      }),
-  };
+        format: 'json',
+        ...params
+      })
+  }
 }
