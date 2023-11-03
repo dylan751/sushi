@@ -4,11 +4,11 @@ import { createContext, useEffect, useState, ReactNode } from 'react'
 // ** Next Import
 import { useRouter } from 'next/router'
 
-// ** Axios
-import axios from 'axios'
-
 // ** Config
 import authConfig from 'src/configs/auth'
+
+// ** Api
+import { $api } from 'src/utils/api'
 
 // ** Types
 import { AuthValuesType, ErrCallbackType } from './types'
@@ -57,12 +57,8 @@ const AuthProvider = ({ children }: Props) => {
 
       if (storedToken) {
         setLoading(true)
-        await axios
-          .get(authConfig.userProfileEndpoint, {
-            headers: {
-              Authorization: `Bearer ${storedToken}`
-            }
-          })
+        await $api(storedToken)
+          .internal.getUserProfile()
           .then(async response => {
             setLoading(false)
             setUser(response.data)
@@ -87,8 +83,8 @@ const AuthProvider = ({ children }: Props) => {
   }, [])
 
   const handleLogin = (params: LoginRequestDto, errorCallback?: ErrCallbackType) => {
-    axios
-      .post(authConfig.loginEndpoint, params)
+    $api()
+      .internal.login(params)
       .then(async response => {
         window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken)
         const returnUrl = router.query.returnUrl

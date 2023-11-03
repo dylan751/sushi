@@ -1,13 +1,15 @@
 import { ReactNode } from 'react'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
+// ** Api
+import { $api } from 'src/utils/api'
+
 // ** MUI Imports
 import { useAuth } from 'src/hooks/useAuth'
 import Button from '@mui/material/Button'
 import { useRouter } from 'next/router'
 import { CaslPermission, OrganizationProfileResponseDto } from 'src/__generated__/AccountifyAPI'
 import authConfig from 'src/configs/auth'
-import axios from 'axios'
 import { Avatar, Box, Card, CardContent, CardHeader, Typography } from '@mui/material'
 
 const OrganizationPage = () => {
@@ -18,14 +20,7 @@ const OrganizationPage = () => {
     const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
 
     // Fetch user's permissions for that organization
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/organizations/${organization.id}/users/permissions`,
-      {
-        headers: {
-          Authorization: `Bearer ${storedToken}`
-        }
-      }
-    )
+    const response = await $api(storedToken).internal.getUserPermissions(organization.id)
     const userPermissions: CaslPermission[] = response.data.permissions
 
     // Set organization and permissions data into AuthContext
