@@ -59,13 +59,32 @@ const AuthProvider = ({ children }: Props) => {
 
   const { $api, set$Api } = useApi()
 
+  // This runs whenever the page is reloaded
   useEffect(() => {
     const initAuth = async (): Promise<void> => {
       const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
       if (storedToken) {
+        // Re-create axios instance with Bearer token everytime the page is reloaded
+        set$Api(
+          new Api({
+            baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+            timeout: 30 * 1000, // 30 seconds
+            headers: {
+              Authorization: `Bearer ${storedToken}`
+            }
+          })
+        )
+
         setLoading(true)
 
-        await $api.internal
+        // This api is called right after the page is reloaded, therefore it haven't had attached accesstoken yet
+        new Api({
+          baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+          timeout: 30 * 1000, // 30 seconds
+          headers: {
+            Authorization: `Bearer ${storedToken}`
+          }
+        }).internal
           .getUserProfile()
           .then(async response => {
             setLoading(false)
@@ -73,6 +92,8 @@ const AuthProvider = ({ children }: Props) => {
           })
           .catch(() => {
             localStorage.removeItem('userData')
+            localStorage.removeItem('organization')
+            localStorage.removeItem('permissions')
             localStorage.removeItem('refreshToken')
             localStorage.removeItem('accessToken')
             setUser(null)
@@ -102,9 +123,6 @@ const AuthProvider = ({ children }: Props) => {
 
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
 
-        toast.success('Login succeed')
-        router.replace(redirectURL as string)
-
         // Create axios instance with Bearer token
         set$Api(
           new Api({
@@ -115,6 +133,9 @@ const AuthProvider = ({ children }: Props) => {
             }
           })
         )
+
+        toast.success('Login succeed')
+        router.replace(redirectURL as string)
       })
 
       .catch(err => {
