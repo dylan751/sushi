@@ -542,7 +542,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     getUserPermissions: (organizationId: number, params: RequestParams = {}) =>
-      this.request<GetUserPermissionsResponseDto[], any>({
+      this.request<GetUserPermissionsResponseDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/users/permissions`,
         method: 'GET',
         secure: true,
