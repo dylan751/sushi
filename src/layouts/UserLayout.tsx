@@ -23,6 +23,7 @@ import HorizontalAppBarContent from './components/horizontal/AppBarContent'
 
 // ** Hook Import
 import { useSettings } from 'src/@core/hooks/useSettings'
+import { Box, Typography } from '@mui/material'
 
 interface Props {
   children: ReactNode
@@ -51,6 +52,17 @@ const UserLayout = ({ children, contentHeightFixed }: Props) => {
     settings.layout = 'vertical'
   }
 
+  const AppBrand = () => {
+    return (
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <img src='/images/pages/tree.png' alt='logo' width='30' height='30' />
+        <Typography variant='h6' sx={{ ml: 2 }}>
+          Dylan
+        </Typography>
+      </Box>
+    )
+  }
+
   return (
     <Layout
       hidden={hidden}
@@ -59,6 +71,7 @@ const UserLayout = ({ children, contentHeightFixed }: Props) => {
       contentHeightFixed={contentHeightFixed}
       verticalLayoutProps={{
         navMenu: {
+          branding: () => <AppBrand />,
           navItems: VerticalNavItems()
 
           // Uncomment the below line when using server-side menu in vertical layout and comment the above line
