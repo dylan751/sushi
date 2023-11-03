@@ -27,7 +27,8 @@ yarn api-gen
 - Use the below and fill in your function name and params to make the API call.
 
 ```ts
-const resp = this.$api.internal.yourFunctionName()
+const { $api } = useApi()
+const resp = $api.internal.yourFunctionName()
 ```
 
 ### Misc

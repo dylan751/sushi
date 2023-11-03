@@ -7,12 +7,13 @@ import { useRouter } from 'next/router'
 // ** Config
 import authConfig from 'src/configs/auth'
 
-// ** Api
-import { $api } from 'src/utils/api'
+// ** Hooks
+import { useApi } from 'src/hooks/useApi'
 
 // ** Types
 import { AuthValuesType, ErrCallbackType } from './types'
 import {
+  Api,
   CaslPermission,
   LoginRequestDto,
   OrganizationProfileResponseDto,
@@ -51,14 +52,16 @@ const AuthProvider = ({ children }: Props) => {
   // ** Hooks
   const router = useRouter()
 
+  const { $api, set$Api } = useApi()
+
   useEffect(() => {
     const initAuth = async (): Promise<void> => {
       const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
-
       if (storedToken) {
         setLoading(true)
-        await $api(storedToken)
-          .internal.getUserProfile()
+
+        await $api.internal
+          .getUserProfile()
           .then(async response => {
             setLoading(false)
             setUser(response.data)
@@ -83,8 +86,8 @@ const AuthProvider = ({ children }: Props) => {
   }, [])
 
   const handleLogin = (params: LoginRequestDto, errorCallback?: ErrCallbackType) => {
-    $api()
-      .internal.login(params)
+    $api.internal
+      .login(params)
       .then(async response => {
         window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken)
         const returnUrl = router.query.returnUrl
@@ -95,6 +98,17 @@ const AuthProvider = ({ children }: Props) => {
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
 
         router.replace(redirectURL as string)
+
+        // Create axios instance with Bearer token
+        set$Api(
+          new Api({
+            baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+            timeout: 30 * 1000, // 30 seconds
+            headers: {
+              Authorization: `Bearer ${window.localStorage.getItem(authConfig.storageTokenKeyName)}`
+            }
+          })
+        )
       })
 
       .catch(err => {
