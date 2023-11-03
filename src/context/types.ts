@@ -1,4 +1,5 @@
 import {
+  Api,
   CaslPermission,
   LoginRequestDto,
   OrganizationProfileResponseDto,
@@ -18,4 +19,9 @@ export type AuthValuesType = {
   setOrganization: (value: OrganizationProfileResponseDto | null) => void
   setPermissions: (value: CaslPermission[]) => void
   login: (params: LoginRequestDto, errorCallback?: ErrCallbackType) => void
+}
+
+export type ApiValuesType = {
+  $api: Api<unknown>
+  set$Api: (value: Api<unknown>) => void
 }

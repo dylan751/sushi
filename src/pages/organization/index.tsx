@@ -1,26 +1,27 @@
 import { ReactNode } from 'react'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
-// ** Api
-import { $api } from 'src/utils/api'
-
 // ** MUI Imports
 import { useAuth } from 'src/hooks/useAuth'
 import Button from '@mui/material/Button'
 import { useRouter } from 'next/router'
-import { CaslPermission, OrganizationProfileResponseDto } from 'src/__generated__/AccountifyAPI'
-import authConfig from 'src/configs/auth'
 import { Avatar, Box, Card, CardContent, CardHeader, Typography } from '@mui/material'
+
+// ** Types
+import { CaslPermission, OrganizationProfileResponseDto } from 'src/__generated__/AccountifyAPI'
+
+// ** Hooks
+import { useApi } from 'src/hooks/useApi'
 
 const OrganizationPage = () => {
   const { user, setPermissions, setOrganization } = useAuth()
+  const { $api } = useApi()
   const router = useRouter()
 
   const loginToOrganization = async (organization: OrganizationProfileResponseDto) => {
-    const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
-
     // Fetch user's permissions for that organization
-    const response = await $api(storedToken).internal.getUserPermissions(organization.id)
+    console.log($api)
+    const response = await $api.internal.getUserPermissions(organization.id)
     const userPermissions: CaslPermission[] = response.data.permissions
 
     // Set organization and permissions data into AuthContext
