@@ -19,7 +19,8 @@ import {
   OrganizationProfileResponseDto,
   PermissionAction,
   PermissionSubject,
-  ProfileResponseDto
+  ProfileResponseDto,
+  RegisterRequestDto
 } from 'src/__generated__/AccountifyAPI'
 
 // ** Defaults
@@ -33,6 +34,7 @@ const defaultProvider: AuthValuesType = {
   setPermissions: () => null,
   setLoading: () => Boolean,
   login: () => Promise.resolve(),
+  register: () => Promise.resolve(),
   logout: () => Promise.resolve()
 }
 
@@ -97,6 +99,7 @@ const AuthProvider = ({ children }: Props) => {
 
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
 
+        // TODO: Toast success message
         router.replace(redirectURL as string)
 
         // Create axios instance with Bearer token
@@ -109,6 +112,19 @@ const AuthProvider = ({ children }: Props) => {
             }
           })
         )
+      })
+
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
+  const handleRegister = (params: RegisterRequestDto, errorCallback?: ErrCallbackType) => {
+    $api.internal
+      .register(params)
+      .then(() => {
+        // TODO: Toast success message
+        router.replace('/login')
       })
 
       .catch(err => {
@@ -135,6 +151,7 @@ const AuthProvider = ({ children }: Props) => {
     setPermissions,
     setLoading,
     login: handleLogin,
+    register: handleRegister,
     logout: handleLogout
   }
 

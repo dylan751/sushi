@@ -57,7 +57,7 @@ const UserLayout = ({ children, contentHeightFixed }: Props) => {
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <img src='/images/pages/tree.png' alt='logo' width='30' height='30' />
         <Typography variant='h6' sx={{ ml: 2 }}>
-          Dylan
+          Accountify
         </Typography>
       </Box>
     )
