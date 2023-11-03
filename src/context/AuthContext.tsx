@@ -11,9 +11,10 @@ import axios from 'axios'
 import authConfig from 'src/configs/auth'
 
 // ** Types
-import { AuthValuesType, LoginParams, ErrCallbackType } from './types'
+import { AuthValuesType, ErrCallbackType } from './types'
 import {
   CaslPermission,
+  LoginRequestDto,
   OrganizationProfileResponseDto,
   PermissionAction,
   PermissionSubject,
@@ -85,17 +86,15 @@ const AuthProvider = ({ children }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType) => {
+  const handleLogin = (params: LoginRequestDto, errorCallback?: ErrCallbackType) => {
     axios
       .post(authConfig.loginEndpoint, params)
       .then(async response => {
-        params.rememberMe
-          ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken)
-          : null
+        window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken)
         const returnUrl = router.query.returnUrl
 
         setUser(response.data.userData)
-        params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.userData)) : null
+        window.localStorage.setItem('userData', JSON.stringify(response.data.userData))
 
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
 
