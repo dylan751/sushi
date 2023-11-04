@@ -10,7 +10,7 @@ const navigation = (): HorizontalNavItemsType => {
       path: `${uniqueName}/home`,
       action: 'read',
       subject: 'user',
-      title: 'Home',
+      title: 'navbar.home',
       icon: 'mdi:home-outline'
     },
     {
@@ -24,7 +24,7 @@ const navigation = (): HorizontalNavItemsType => {
       path: `${uniqueName}/role`,
       action: 'read',
       subject: 'role',
-      title: 'Role Page',
+      title: 'navbar.role_page',
       icon: 'mdi:shield-outline'
     }
   ]

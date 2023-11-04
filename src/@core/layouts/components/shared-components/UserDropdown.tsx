@@ -19,6 +19,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** Context
 import { useAuth } from 'src/hooks/useAuth'
+import { useTranslation } from 'react-i18next'
 
 // ** Type Imports
 import { Settings } from 'src/@core/context/settingsContext'
@@ -44,6 +45,7 @@ const UserDropdown = (props: Props) => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
   // ** Hooks
+  const { t } = useTranslation()
   const router = useRouter()
   const { logout } = useAuth()
 
@@ -132,38 +134,38 @@ const UserDropdown = (props: Props) => {
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:account-outline' />
-            Profile
+            {t('user_dropdown.profile')}
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:email-outline' />
-            Inbox
+            {t('user_dropdown.inbox')}
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:message-outline' />
-            Chat
+            {t('user_dropdown.chat')}
           </Box>
         </MenuItem>
         <Divider />
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:cog-outline' />
-            Settings
+            {t('user_dropdown.settings')}
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:currency-usd' />
-            Pricing
+            {t('user_dropdown.pricing')}
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:help-circle-outline' />
-            FAQ
+            {t('user_dropdown.faq')}
           </Box>
         </MenuItem>
         <Divider />
@@ -172,7 +174,7 @@ const UserDropdown = (props: Props) => {
           sx={{ py: 2, '& svg': { mr: 2, fontSize: '1.375rem', color: 'text.primary' } }}
         >
           <Icon icon='mdi:logout-variant' />
-          Logout
+          {t('user_dropdown.logout')}
         </MenuItem>
       </Menu>
     </Fragment>

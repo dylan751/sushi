@@ -1,0 +1,15 @@
+{
+    "navbar": {
+        "home": "Trang chủ",
+        "role_page": "Trang phân quyền"
+    },
+    "user_dropdown": {
+        "profile": "Trang cá nhân",
+        "inbox": "Hộp thư",
+        "chat": "Nhắn tin",
+        "settings": "Cài đặt",
+        "pricing": "Chiến lược giá",
+        "faq": "Câu hỏi hay gặp",
+        "logout": "Đăng xuất"
+    }
+}

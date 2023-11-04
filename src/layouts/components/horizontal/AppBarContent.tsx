@@ -6,6 +6,7 @@ import { Settings } from 'src/@core/context/settingsContext'
 
 // ** Components
 import ModeToggler from 'src/@core/layouts/components/shared-components/ModeToggler'
+import UserLanguageDropdown from '../UserLanguageDropdown'
 import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
 
 interface Props {
@@ -18,6 +19,7 @@ const AppBarContent = (props: Props) => {
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <UserLanguageDropdown settings={settings} />
       <ModeToggler settings={settings} saveSettings={saveSettings} />
       <UserDropdown settings={settings} />
     </Box>

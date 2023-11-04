@@ -1,0 +1,15 @@
+{
+    "navbar": {
+        "home": "ホームページ",
+        "role_page": "役割ページ"
+    },
+    "user_dropdown": {
+        "profile": "プロフィール",
+        "inbox": "受信箱",
+        "chat": "チャット",
+        "settings": "設定",
+        "pricing": "価格設定",
+        "faq": "よくある質問",
+        "logout": "ログアウト"
+    }
+}
