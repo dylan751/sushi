@@ -1,5 +1,15 @@
 {
-    "profile": "Profile",
-    "inbox": "Inbox",
-    "chat": "Chat"
+    "navbar": {
+        "home": "Home",
+        "role_page": "Role Page"
+    },
+    "user_dropdown": {
+        "profile": "Profile",
+        "inbox": "Inbox",
+        "chat": "Chat",
+        "settings": "Settings",
+        "pricing": "Pricing",
+        "faq": "FAQ",
+        "logout": "Logout"
+    }
 }
