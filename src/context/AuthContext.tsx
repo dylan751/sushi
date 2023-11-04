@@ -63,6 +63,9 @@ const AuthProvider = ({ children }: Props) => {
   useEffect(() => {
     const initAuth = async (): Promise<void> => {
       const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
+      const storedOrganization = JSON.parse(window.localStorage.getItem('organization')!)
+      const storedPermissions = JSON.parse(window.localStorage.getItem('permissions')!)
+
       if (storedToken) {
         // Re-create axios instance with Bearer token everytime the page is reloaded
         set$Api(
@@ -89,6 +92,10 @@ const AuthProvider = ({ children }: Props) => {
           .then(async response => {
             setLoading(false)
             setUser(response.data)
+            if (storedOrganization) {
+              setOrganization(storedOrganization)
+              setPermissions(storedPermissions)
+            }
           })
           .catch(() => {
             localStorage.removeItem('userData')
