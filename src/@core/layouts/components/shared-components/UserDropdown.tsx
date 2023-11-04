@@ -19,6 +19,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** Context
 import { useAuth } from 'src/hooks/useAuth'
+import { useTranslation } from 'react-i18next'
 
 // ** Type Imports
 import { Settings } from 'src/@core/context/settingsContext'
@@ -44,6 +45,7 @@ const UserDropdown = (props: Props) => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
   // ** Hooks
+  const { t } = useTranslation()
   const router = useRouter()
   const { logout } = useAuth()
 
@@ -132,19 +134,19 @@ const UserDropdown = (props: Props) => {
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:account-outline' />
-            Profile
+            {t('profile')}
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:email-outline' />
-            Inbox
+            {t('inbox')}
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:message-outline' />
-            Chat
+            {t('chat')}
           </Box>
         </MenuItem>
         <Divider />
