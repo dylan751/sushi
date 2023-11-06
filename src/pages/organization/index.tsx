@@ -47,7 +47,7 @@ const OrganizationPage = () => {
           title={
             user && user.organizations && user.organizations.length > 0
               ? t('home.choose_an_organization')
-              : 'Create new organization 🚀'
+              : t('home.create_organization_header')
           }
         />
         <CardContent
@@ -112,12 +112,12 @@ const OrganizationPage = () => {
               >
                 <Box sx={{ mr: 2, display: 'flex', mb: 0.4, flexDirection: 'column' }}>
                   <Typography variant='subtitle1' sx={{ mb: 0.5, fontWeight: 600, color: 'text.primary' }}>
-                    Kick start your project
+                    {t('home.create_organization_description')}
                   </Typography>
                 </Box>
               </Box>
-              <Button variant='contained' onClick={navigateToCreateOrganizationPage}>
-                Create
+              <Button variant='contained' sx={{ width: 1 / 5 }} onClick={navigateToCreateOrganizationPage}>
+                {t('home.create')}
               </Button>
             </Box>
           )}

@@ -22,6 +22,9 @@
     },
     "home": {
         "choose_an_organization": "組織の選択",
-        "open": "選択する"
+        "open": "選択する",
+        "create_organization_header": "新規登録 🚀",
+        "create_organization_description": "プロジェクトをスタートする",
+        "create": "登録"
     }
 }

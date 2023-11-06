@@ -22,6 +22,9 @@
     },
     "home": {
         "choose_an_organization": "Chọn tổ chức",
-        "open": "Chọn"
+        "open": "Chọn",
+        "create_organization_header": "Tạo tổ chức 🚀",
+        "create_organization_description": "Khởi tạo dự án của bạn",
+        "create": "Tạo"
     }
 }

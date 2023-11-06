@@ -22,6 +22,9 @@
     },
     "home": {
         "choose_an_organization": "Choose an organization",
-        "open": "Open"
+        "open": "Open",
+        "create_organization_header": "Create new organization 🚀",
+        "create_organization_description": "Kick start your project",
+        "create": "Create"
     }
 }
