@@ -5,7 +5,7 @@
     },
     "user_dropdown": {
         "profile": "Profile",
-        "inbox": "Inbox",
+        "organization": "Organizations",
         "chat": "Chat",
         "settings": "Settings",
         "pricing": "Pricing",
