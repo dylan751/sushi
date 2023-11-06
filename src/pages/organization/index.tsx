@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import BlankLayout from 'src/@core/layouts/BlankLayout'
+import UserBlankLayoutWithAppBar from 'src/layouts/UserBlankLayoutWithAppBar'
 
 // ** MUI Imports
 import { useAuth } from 'src/hooks/useAuth'
@@ -124,6 +124,6 @@ const OrganizationPage = () => {
   )
 }
 
-OrganizationPage.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
+OrganizationPage.getLayout = (page: ReactNode) => <UserBlankLayoutWithAppBar>{page}</UserBlankLayoutWithAppBar>
 
 export default OrganizationPage
