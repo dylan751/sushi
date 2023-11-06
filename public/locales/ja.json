@@ -5,7 +5,7 @@
     },
     "user_dropdown": {
         "profile": "プロフィール",
-        "inbox": "受信箱",
+        "organization": "組織選択",
         "chat": "チャット",
         "settings": "設定",
         "pricing": "価格設定",

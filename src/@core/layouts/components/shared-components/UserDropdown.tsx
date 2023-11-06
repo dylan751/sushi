@@ -78,6 +78,10 @@ const UserDropdown = (props: Props) => {
     }
   }
 
+  const handleOrganization = () => {
+    router.replace('/organization')
+  }
+
   const handleLogout = () => {
     logout()
     handleDropdownClose()
@@ -137,10 +141,10 @@ const UserDropdown = (props: Props) => {
             {t('user_dropdown.profile')}
           </Box>
         </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        <MenuItem sx={{ p: 0 }} onClick={handleOrganization}>
           <Box sx={styles}>
-            <Icon icon='mdi:email-outline' />
-            {t('user_dropdown.inbox')}
+            <Icon icon='mdi:office-building-outline' />
+            {t('user_dropdown.organization')}
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
