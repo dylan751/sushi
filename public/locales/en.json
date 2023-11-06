@@ -19,5 +19,9 @@
         "organization_url": "Organization URL",
         "enter_new_organization_unique_url": "Enter new organization unique URL",
         "create": "Create"
+    },
+    "home": {
+        "choose_an_organization": "Choose an organization",
+        "open": "Open"
     }
 }

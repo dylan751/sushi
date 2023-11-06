@@ -12,10 +12,13 @@ import { CaslPermission, OrganizationProfileResponseDto } from 'src/__generated_
 
 // ** Hooks
 import { useApi } from 'src/hooks/useApi'
+import { useTranslation } from 'react-i18next'
 
 const OrganizationPage = () => {
+  // ** Hooks
   const { user, setPermissions, setOrganization } = useAuth()
   const { $api } = useApi()
+  const { t } = useTranslation()
   const router = useRouter()
 
   const loginToOrganization = async (organization: OrganizationProfileResponseDto) => {
@@ -43,7 +46,7 @@ const OrganizationPage = () => {
         <CardHeader
           title={
             user && user.organizations && user.organizations.length > 0
-              ? 'Choose an organization'
+              ? t('home.choose_an_organization')
               : 'Create new organization 🚀'
           }
         />
@@ -89,8 +92,8 @@ const OrganizationPage = () => {
                       </Box>
                     </Box>
                   </Box>
-                  <Button variant='contained' onClick={() => loginToOrganization(organization)}>
-                    Open
+                  <Button variant='contained' sx={{ width: 1 / 4 }} onClick={() => loginToOrganization(organization)}>
+                    {t('home.open')}
                   </Button>
                 </Box>
               )

@@ -19,5 +19,9 @@
         "organization_url": "URL của tổ chức",
         "enter_new_organization_unique_url": "Vui lòng nhập URL của tổ chức",
         "create": "Tạo"
+    },
+    "home": {
+        "choose_an_organization": "Chọn tổ chức",
+        "open": "Chọn"
     }
 }

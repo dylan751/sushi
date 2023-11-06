@@ -19,5 +19,9 @@
         "organization_url": "URLパス",
         "enter_new_organization_unique_url": "会社のURLパスを入れてください",
         "create": "登録"
+    },
+    "home": {
+        "choose_an_organization": "組織の選択",
+        "open": "選択する"
     }
 }
