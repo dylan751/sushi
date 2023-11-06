@@ -124,11 +124,6 @@ const OrganizationPage = () => {
   )
 }
 
-OrganizationPage.acl = {
-  action: 'read',
-  subject: 'user'
-}
-
 OrganizationPage.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
 
 export default OrganizationPage
