@@ -11,5 +11,13 @@
         "pricing": "Pricing",
         "faq": "FAQ",
         "logout": "Logout"
+    },
+    "new": {
+        "create_organization": "Create Organization",
+        "organization_name": "Organization Name",
+        "enter_new_organization_name": "Enter new organization name",
+        "organization_url": "Organization URL",
+        "enter_new_organization_unique_url": "Enter new organization unique URL",
+        "create": "Create"
     }
 }
