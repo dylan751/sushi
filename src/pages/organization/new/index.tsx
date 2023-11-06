@@ -121,7 +121,7 @@ const CreateOrganizationPage = () => {
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position='start'>
-                              <Icon icon='mdi:office-xml' />
+                              <Icon icon='mdi:xml' />
                             </InputAdornment>
                           )
                         }}
