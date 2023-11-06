@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import BlankLayout from 'src/@core/layouts/BlankLayout'
+import UserBlankLayoutWithAppBar from 'src/layouts/UserBlankLayoutWithAppBar'
 
 // ** MUI Imports
 import Button from '@mui/material/Button'
@@ -28,6 +28,7 @@ import Icon from 'src/@core/components/icon'
 import * as yup from 'yup'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useTranslation } from 'react-i18next'
 
 const schema = yup.object().shape({
   name: yup.string().max(256).required(),
@@ -40,7 +41,9 @@ const defaultValues = {
 }
 
 const CreateOrganizationPage = () => {
+  // ** Hooks
   const { $api } = useApi()
+  const { t } = useTranslation()
 
   const {
     control,
@@ -71,7 +74,7 @@ const CreateOrganizationPage = () => {
   return (
     <Box className='content-center'>
       <Card sx={{ width: 1 / 2 }}>
-        <CardHeader title='Create Orgnanization' />
+        <CardHeader title={t('new.create_organization')} />
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={5}>
@@ -84,12 +87,12 @@ const CreateOrganizationPage = () => {
                     render={({ field: { value, onChange, onBlur } }) => (
                       <TextField
                         autoFocus
-                        label='Organization Name'
+                        label={t('new.organization_name')}
                         value={value}
                         onBlur={onBlur}
                         onChange={onChange}
                         error={Boolean(errors.name)}
-                        placeholder='Enter new organization name'
+                        placeholder={t('new.enter_new_organization_name')!}
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position='start'>
@@ -112,12 +115,12 @@ const CreateOrganizationPage = () => {
                     render={({ field: { value, onChange, onBlur } }) => (
                       <TextField
                         autoFocus
-                        label='Organization URL'
+                        label={t('new.organization_url')}
                         value={value}
                         onBlur={onBlur}
                         onChange={onChange}
                         error={Boolean(errors.name)}
-                        placeholder='Enter new organization unique URL'
+                        placeholder={t('new.enter_new_organization_unique_url')!}
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position='start'>
@@ -135,7 +138,7 @@ const CreateOrganizationPage = () => {
               </Grid>
               <Grid item xs={12}>
                 <Button type='submit' variant='contained' size='large'>
-                  Create
+                  {t('new.create')}
                 </Button>
               </Grid>
             </Grid>
@@ -146,6 +149,6 @@ const CreateOrganizationPage = () => {
   )
 }
 
-CreateOrganizationPage.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
+CreateOrganizationPage.getLayout = (page: ReactNode) => <UserBlankLayoutWithAppBar>{page}</UserBlankLayoutWithAppBar>
 
 export default CreateOrganizationPage

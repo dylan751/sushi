@@ -11,5 +11,20 @@
         "pricing": "価格設定",
         "faq": "よくある質問",
         "logout": "ログアウト"
+    },
+    "new": {
+        "create_organization": "新規登録",
+        "organization_name": "会社名",
+        "enter_new_organization_name": "会社名を入れてください",
+        "organization_url": "URLパス",
+        "enter_new_organization_unique_url": "会社のURLパスを入れてください",
+        "create": "登録"
+    },
+    "home": {
+        "choose_an_organization": "組織の選択",
+        "open": "選択する",
+        "create_organization_header": "新規登録 🚀",
+        "create_organization_description": "プロジェクトをスタートする",
+        "create": "登録"
     }
 }

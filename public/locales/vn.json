@@ -11,5 +11,20 @@
         "pricing": "Chiến lược giá",
         "faq": "Câu hỏi hay gặp",
         "logout": "Đăng xuất"
+    },
+    "new": {
+        "create_organization": "Tạo tổ chức",
+        "organization_name": "Tên tổ chức",
+        "enter_new_organization_name": "Vui lòng nhập tên tổ chức",
+        "organization_url": "URL của tổ chức",
+        "enter_new_organization_unique_url": "Vui lòng nhập URL của tổ chức",
+        "create": "Tạo"
+    },
+    "home": {
+        "choose_an_organization": "Chọn tổ chức",
+        "open": "Chọn",
+        "create_organization_header": "Tạo tổ chức 🚀",
+        "create_organization_description": "Khởi tạo dự án của bạn",
+        "create": "Tạo"
     }
 }

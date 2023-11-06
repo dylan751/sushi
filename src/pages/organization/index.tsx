@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import BlankLayout from 'src/@core/layouts/BlankLayout'
+import UserBlankLayoutWithAppBar from 'src/layouts/UserBlankLayoutWithAppBar'
 
 // ** MUI Imports
 import { useAuth } from 'src/hooks/useAuth'
@@ -12,10 +12,13 @@ import { CaslPermission, OrganizationProfileResponseDto } from 'src/__generated_
 
 // ** Hooks
 import { useApi } from 'src/hooks/useApi'
+import { useTranslation } from 'react-i18next'
 
 const OrganizationPage = () => {
+  // ** Hooks
   const { user, setPermissions, setOrganization } = useAuth()
   const { $api } = useApi()
+  const { t } = useTranslation()
   const router = useRouter()
 
   const loginToOrganization = async (organization: OrganizationProfileResponseDto) => {
@@ -43,8 +46,8 @@ const OrganizationPage = () => {
         <CardHeader
           title={
             user && user.organizations && user.organizations.length > 0
-              ? 'Choose an organization'
-              : 'Create new organization 🚀'
+              ? t('home.choose_an_organization')
+              : t('home.create_organization_header')
           }
         />
         <CardContent
@@ -89,8 +92,8 @@ const OrganizationPage = () => {
                       </Box>
                     </Box>
                   </Box>
-                  <Button variant='contained' onClick={() => loginToOrganization(organization)}>
-                    Open
+                  <Button variant='contained' sx={{ width: 1 / 4 }} onClick={() => loginToOrganization(organization)}>
+                    {t('home.open')}
                   </Button>
                 </Box>
               )
@@ -109,12 +112,12 @@ const OrganizationPage = () => {
               >
                 <Box sx={{ mr: 2, display: 'flex', mb: 0.4, flexDirection: 'column' }}>
                   <Typography variant='subtitle1' sx={{ mb: 0.5, fontWeight: 600, color: 'text.primary' }}>
-                    Kick start your project
+                    {t('home.create_organization_description')}
                   </Typography>
                 </Box>
               </Box>
-              <Button variant='contained' onClick={navigateToCreateOrganizationPage}>
-                Create
+              <Button variant='contained' sx={{ width: 1 / 5 }} onClick={navigateToCreateOrganizationPage}>
+                {t('home.create')}
               </Button>
             </Box>
           )}
@@ -124,6 +127,6 @@ const OrganizationPage = () => {
   )
 }
 
-OrganizationPage.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
+OrganizationPage.getLayout = (page: ReactNode) => <UserBlankLayoutWithAppBar>{page}</UserBlankLayoutWithAppBar>
 
 export default OrganizationPage
