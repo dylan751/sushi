@@ -1,5 +1,5 @@
 // ** React Imports
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
@@ -40,6 +40,9 @@ import { RoleResponseDto } from 'src/__generated__/AccountifyAPI'
 import { useApi } from 'src/hooks/useApi'
 import { useAuth } from 'src/hooks/useAuth'
 
+// ** Context Imports
+import { AbilityContext } from 'src/layouts/components/acl/Can'
+
 const cardDummyData = {
   totalUsers: 5,
   avatars: ['4.png', '5.png', '6.png', '7.png', '8.png']
@@ -61,6 +64,7 @@ const RolesCards = () => {
   // ** Hooks
   const { $api } = useApi()
   const { organization } = useAuth()
+  const ability = useContext(AbilityContext)
 
   // ** States
   const [open, setOpen] = useState<boolean>(false)
@@ -136,19 +140,21 @@ const RolesCards = () => {
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
               <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
                 <Typography variant='h6'>{item.name}</Typography>
-                <Typography
-                  href='/'
-                  variant='body2'
-                  component={Link}
-                  sx={{ color: 'primary.main', textDecoration: 'none' }}
-                  onClick={e => {
-                    e.preventDefault()
-                    handleClickOpen()
-                    setDialogTitle('Edit')
-                  }}
-                >
-                  Edit Role
-                </Typography>
+                {ability?.can('update', 'role') && (
+                  <Typography
+                    href='/'
+                    variant='body2'
+                    component={Link}
+                    sx={{ color: 'primary.main', textDecoration: 'none' }}
+                    onClick={e => {
+                      e.preventDefault()
+                      handleClickOpen()
+                      setDialogTitle('Edit')
+                    }}
+                  >
+                    Edit Role
+                  </Typography>
+                )}
               </Box>
               <IconButton sx={{ color: 'text.secondary' }}>
                 <Icon icon='mdi:content-copy' fontSize={20} />
@@ -162,40 +168,42 @@ const RolesCards = () => {
   return (
     <Grid container spacing={6} className='match-height'>
       {renderCards()}
-      <Grid item xs={12} sm={6} lg={4}>
-        <Card
-          sx={{ cursor: 'pointer' }}
-          onClick={() => {
-            handleClickOpen()
-            setDialogTitle('Add')
-          }}
-        >
-          <Grid container sx={{ height: '100%' }}>
-            <Grid item xs={5}>
-              <Box sx={{ height: '100%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
-                <img width={65} height={130} alt='add-role' src='/images/cards/pose_m1.png' />
-              </Box>
-            </Grid>
-            <Grid item xs={7}>
-              <CardContent>
-                <Box sx={{ textAlign: 'right' }}>
-                  <Button
-                    variant='contained'
-                    sx={{ mb: 3, whiteSpace: 'nowrap' }}
-                    onClick={() => {
-                      handleClickOpen()
-                      setDialogTitle('Add')
-                    }}
-                  >
-                    Add Role
-                  </Button>
-                  <Typography>Add role, if it doesn't exist.</Typography>
+      {ability?.can('create', 'role') && (
+        <Grid item xs={12} sm={6} lg={4}>
+          <Card
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              handleClickOpen()
+              setDialogTitle('Add')
+            }}
+          >
+            <Grid container sx={{ height: '100%' }}>
+              <Grid item xs={5}>
+                <Box sx={{ height: '100%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+                  <img width={65} height={130} alt='add-role' src='/images/cards/pose_m1.png' />
                 </Box>
-              </CardContent>
+              </Grid>
+              <Grid item xs={7}>
+                <CardContent>
+                  <Box sx={{ textAlign: 'right' }}>
+                    <Button
+                      variant='contained'
+                      sx={{ mb: 3, whiteSpace: 'nowrap' }}
+                      onClick={() => {
+                        handleClickOpen()
+                        setDialogTitle('Add')
+                      }}
+                    >
+                      Add Role
+                    </Button>
+                    <Typography>Add role, if it doesn't exist.</Typography>
+                  </Box>
+                </CardContent>
+              </Grid>
             </Grid>
-          </Grid>
-        </Card>
-      </Grid>
+          </Card>
+        </Grid>
+      )}
       <Dialog fullWidth maxWidth='md' scroll='body' onClose={handleClose} open={open}>
         <DialogTitle
           sx={{

@@ -9,7 +9,7 @@ import PageHeader from 'src/@core/components/page-header'
 import Table from 'src/views/apps/roles/Table'
 import RoleCards from 'src/views/apps/roles/RoleCards'
 
-const RolesComponent = () => {
+const RolePage = () => {
   return (
     <Grid container spacing={6}>
       <PageHeader
@@ -39,4 +39,9 @@ const RolesComponent = () => {
   )
 }
 
-export default RolesComponent
+RolePage.acl = {
+  action: 'read',
+  subject: 'role'
+}
+
+export default RolePage
