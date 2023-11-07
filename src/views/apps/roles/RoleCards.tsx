@@ -33,19 +33,17 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-interface CardDataType {
-  title: string
-  avatars: string[]
-  totalUsers: number
-}
+// ** Types
+import { RoleResponseDto } from 'src/__generated__/AccountifyAPI'
 
-const cardData: CardDataType[] = [
-  { totalUsers: 4, title: 'Administrator', avatars: ['1.png', '2.png', '3.png', '4.png'] },
-  { totalUsers: 7, title: 'Manager', avatars: ['5.png', '6.png', '7.png', '8.png', '1.png', '2.png', '3.png'] },
-  { totalUsers: 5, title: 'Users', avatars: ['4.png', '5.png', '6.png', '7.png', '8.png'] },
-  { totalUsers: 3, title: 'Support', avatars: ['1.png', '2.png', '3.png'] },
-  { totalUsers: 2, title: 'Restricted User', avatars: ['4.png', '5.png'] }
-]
+// ** Hooks
+import { useApi } from 'src/hooks/useApi'
+import { useAuth } from 'src/hooks/useAuth'
+
+const cardDummyData = {
+  totalUsers: 5,
+  avatars: ['4.png', '5.png', '6.png', '7.png', '8.png']
+}
 
 const rolesArr: string[] = [
   'User Management',
@@ -60,11 +58,16 @@ const rolesArr: string[] = [
 ]
 
 const RolesCards = () => {
+  // ** Hooks
+  const { $api } = useApi()
+  const { organization } = useAuth()
+
   // ** States
   const [open, setOpen] = useState<boolean>(false)
   const [dialogTitle, setDialogTitle] = useState<'Add' | 'Edit'>('Add')
   const [selectedCheckbox, setSelectedCheckbox] = useState<string[]>([])
   const [isIndeterminateCheckbox, setIsIndeterminateCheckbox] = useState<boolean>(false)
+  const [roles, setRoles] = useState<RoleResponseDto[]>([])
 
   const handleClickOpen = () => setOpen(true)
 
@@ -99,6 +102,17 @@ const RolesCards = () => {
   }
 
   useEffect(() => {
+    const fetchRoles = () => {
+      $api.internal.getRoleListForOrganization(organization!.id).then(response => {
+        console.log(response.data.items)
+        setRoles(response.data.items)
+      })
+    }
+
+    fetchRoles()
+  }, [$api, organization])
+
+  useEffect(() => {
     if (selectedCheckbox.length > 0 && selectedCheckbox.length < rolesArr.length * 3) {
       setIsIndeterminateCheckbox(true)
     } else {
@@ -107,21 +121,21 @@ const RolesCards = () => {
   }, [selectedCheckbox])
 
   const renderCards = () =>
-    cardData.map((item, index: number) => (
+    roles.map((item, index: number) => (
       <Grid item xs={12} sm={6} lg={4} key={index}>
         <Card>
           <CardContent>
             <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography variant='body2'>{`Total ${item.totalUsers} users`}</Typography>
+              <Typography variant='body2'>{`Total ${cardDummyData.totalUsers} users`}</Typography>
               <AvatarGroup max={4} sx={{ '& .MuiAvatar-root': { width: 32, height: 32, fontSize: '0.875rem' } }}>
-                {item.avatars.map((img, index: number) => (
-                  <Avatar key={index} alt={item.title} src={`/images/avatars/${img}`} />
+                {cardDummyData.avatars.map((img, index: number) => (
+                  <Avatar key={index} alt={item.name} src={`/images/avatars/${img}`} />
                 ))}
               </AvatarGroup>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
               <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-                <Typography variant='h6'>{item.title}</Typography>
+                <Typography variant='h6'>{item.name}</Typography>
                 <Typography
                   href='/'
                   variant='body2'
