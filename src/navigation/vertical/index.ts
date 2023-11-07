@@ -21,7 +21,7 @@ const navigation = (): VerticalNavItemsType => {
       icon: 'mdi:email-outline'
     },
     {
-      path: `${uniqueName}/role`,
+      path: `${uniqueName}/roles`,
       action: 'read',
       subject: 'role',
       title: 'navbar.role_page',
