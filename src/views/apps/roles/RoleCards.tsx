@@ -57,8 +57,8 @@ const rolesArr: string[] = [
   'Disputes Management',
   'Database Management',
   'Financial Management',
-  'Reporting',
-  'API Control',
+  'User',
+  'Role',
   'Repository Management',
   'Payroll'
 ]
@@ -77,7 +77,19 @@ const RolesCards = () => {
   const [selectedCheckbox, setSelectedCheckbox] = useState<string[]>([])
   const [isIndeterminateCheckbox, setIsIndeterminateCheckbox] = useState<boolean>(false)
 
-  const handleClickOpen = () => setOpen(true)
+  const handleClickOpenAdd = () => setOpen(true)
+
+  const handleClickOpenEdit = (roleId: number) => {
+    const role = (store.data as RoleResponseDto[]).find(role => role.id === roleId)!
+    role.permissions.forEach((permission: any) => {
+      if (permission.action === 'manage' && permission.subject === 'all') {
+        handleSelectAllCheckbox()
+      } else {
+        togglePermission(`${permission.action}-${permission.subject}`)
+      }
+    })
+    setOpen(true)
+  }
 
   const handleClose = () => {
     setOpen(false)
@@ -153,7 +165,7 @@ const RolesCards = () => {
                     sx={{ color: 'primary.main', textDecoration: 'none' }}
                     onClick={e => {
                       e.preventDefault()
-                      handleClickOpen()
+                      handleClickOpenEdit(item.id)
                       setDialogTitle('Edit')
                     }}
                   >
@@ -178,7 +190,7 @@ const RolesCards = () => {
           <Card
             sx={{ cursor: 'pointer' }}
             onClick={() => {
-              handleClickOpen()
+              handleClickOpenAdd()
               setDialogTitle('Add')
             }}
           >
@@ -195,7 +207,7 @@ const RolesCards = () => {
                       variant='contained'
                       sx={{ mb: 3, whiteSpace: 'nowrap' }}
                       onClick={() => {
-                        handleClickOpen()
+                        handleClickOpenAdd()
                         setDialogTitle('Add')
                       }}
                     >

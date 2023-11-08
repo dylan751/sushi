@@ -191,6 +191,8 @@ export interface CreateRoleRequestDto {
   permissionConfigs: PermissionConfigDto[]
 }
 
+export type Permission = object
+
 export interface RoleResponseDto {
   /** @example 1 */
   id: number
@@ -198,6 +200,7 @@ export interface RoleResponseDto {
   name: string
   /** @example "admin" */
   slug: string
+  permissions: Permission[]
   /**
    * @format date-time
    * @example "2020/01/01 15:00:00"
@@ -206,7 +209,7 @@ export interface RoleResponseDto {
 }
 
 export interface RoleResponseListDto {
-  items: RoleResponseDto[]
+  roles: RoleResponseDto[]
 }
 
 export interface UpdateRoleRequestDto {
