@@ -36,46 +36,61 @@ import Icon from 'src/@core/components/icon'
 // ** Types
 import { RoleResponseDto } from 'src/__generated__/AccountifyAPI'
 
-// ** Hooks
-import { useApi } from 'src/hooks/useApi'
-import { useAuth } from 'src/hooks/useAuth'
-
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
+
+// ** Store Imports
+import { useDispatch, useSelector } from 'react-redux'
+
+// ** Types Imports
+import { AppDispatch, RootState } from 'src/store'
+import { fetchData } from 'src/store/apps/role'
+
+// ** Hooks
+import { useApi } from 'src/hooks/useApi'
 
 const cardDummyData = {
   totalUsers: 5,
   avatars: ['4.png', '5.png', '6.png', '7.png', '8.png']
 }
 
-const rolesArr: string[] = [
-  'User Management',
-  'Content Management',
-  'Disputes Management',
-  'Database Management',
-  'Financial Management',
-  'Reporting',
-  'API Control',
-  'Repository Management',
-  'Payroll'
-]
-
 const RolesCards = () => {
   // ** Hooks
-  const { $api } = useApi()
-  const { organization } = useAuth()
   const ability = useContext(AbilityContext)
+  const { $api } = useApi()
+
+  // ** Hooks
+  const dispatch = useDispatch<AppDispatch>()
+  const store = useSelector((state: RootState) => state.role)
 
   // ** States
   const [open, setOpen] = useState<boolean>(false)
   const [dialogTitle, setDialogTitle] = useState<'Add' | 'Edit'>('Add')
   const [selectedCheckbox, setSelectedCheckbox] = useState<string[]>([])
   const [isIndeterminateCheckbox, setIsIndeterminateCheckbox] = useState<boolean>(false)
-  const [roles, setRoles] = useState<RoleResponseDto[]>([])
+  const [permissionSubjects, setPermissionSubjects] = useState<string[]>([])
 
-  const handleClickOpen = () => setOpen(true)
+  const handleClickOpenAdd = () => setOpen(true)
+
+  const handleClickOpenEdit = (roleId: number) => {
+    const role = (store.data as RoleResponseDto[]).find(role => role.id === roleId)!
+    role.permissions.forEach((permission: any) => {
+      if (permission.action === 'manage' && permission.subject === 'all') {
+        handleSelectAllCheckbox()
+      } else {
+        togglePermission(`${permission.action}-${permission.subject}`)
+      }
+    })
+    setOpen(true)
+  }
 
   const handleClose = () => {
+    setOpen(false)
+    setSelectedCheckbox([])
+    setIsIndeterminateCheckbox(false)
+  }
+
+  const handleSubmit = () => {
     setOpen(false)
     setSelectedCheckbox([])
     setIsIndeterminateCheckbox(false)
@@ -96,35 +111,41 @@ const RolesCards = () => {
     if (isIndeterminateCheckbox) {
       setSelectedCheckbox([])
     } else {
-      rolesArr.forEach(row => {
+      permissionSubjects.forEach(row => {
         const id = row.toLowerCase().split(' ').join('-')
-        togglePermission(`${id}-read`)
-        togglePermission(`${id}-write`)
-        togglePermission(`${id}-create`)
+        togglePermission(`create-${id}`)
+        togglePermission(`read-${id}`)
+        togglePermission(`update-${id}`)
+        togglePermission(`delete-${id}`)
       })
     }
   }
 
   useEffect(() => {
-    const fetchRoles = () => {
-      $api.internal.getRoleListForOrganization(organization!.id).then(response => {
-        setRoles(response.data.items)
-      })
+    const fetchPermissionSubjects = async () => {
+      const response = await $api.internal.getPermissionSubjectList()
+      const subjects = response.data.filter(item => item.subject !== 'all') // Exclude 'all' from permission subjects response list
+      const filteredSubjects = subjects.map(item => item.subject.charAt(0).toUpperCase() + item.subject.slice(1)) // Uppercase the first letter
+      setPermissionSubjects(filteredSubjects)
     }
 
-    fetchRoles()
-  }, [$api, organization])
+    // Fetch organization's roles
+    dispatch(fetchData())
+
+    // Fetch all permission subjects
+    fetchPermissionSubjects()
+  }, [dispatch, $api.internal])
 
   useEffect(() => {
-    if (selectedCheckbox.length > 0 && selectedCheckbox.length < rolesArr.length * 3) {
+    if (selectedCheckbox.length > 0 && selectedCheckbox.length < permissionSubjects.length * 3) {
       setIsIndeterminateCheckbox(true)
     } else {
       setIsIndeterminateCheckbox(false)
     }
-  }, [selectedCheckbox])
+  }, [selectedCheckbox, permissionSubjects.length])
 
   const renderCards = () =>
-    roles.map((item, index: number) => (
+    (store.data as RoleResponseDto[]).map((item, index: number) => (
       <Grid item xs={12} sm={6} lg={4} key={index}>
         <Card>
           <CardContent>
@@ -147,7 +168,7 @@ const RolesCards = () => {
                     sx={{ color: 'primary.main', textDecoration: 'none' }}
                     onClick={e => {
                       e.preventDefault()
-                      handleClickOpen()
+                      handleClickOpenEdit(item.id)
                       setDialogTitle('Edit')
                     }}
                   >
@@ -172,7 +193,7 @@ const RolesCards = () => {
           <Card
             sx={{ cursor: 'pointer' }}
             onClick={() => {
-              handleClickOpen()
+              handleClickOpenAdd()
               setDialogTitle('Add')
             }}
           >
@@ -189,7 +210,7 @@ const RolesCards = () => {
                       variant='contained'
                       sx={{ mb: 3, whiteSpace: 'nowrap' }}
                       onClick={() => {
-                        handleClickOpen()
+                        handleClickOpenAdd()
                         setDialogTitle('Add')
                       }}
                     >
@@ -260,7 +281,7 @@ const RolesCards = () => {
                           size='small'
                           onChange={handleSelectAllCheckbox}
                           indeterminate={isIndeterminateCheckbox}
-                          checked={selectedCheckbox.length === rolesArr.length * 3}
+                          checked={selectedCheckbox.length === permissionSubjects.length * 4}
                         />
                       }
                     />
@@ -268,7 +289,7 @@ const RolesCards = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rolesArr.map((i: string, index: number) => {
+                {permissionSubjects.map((i: string, index: number) => {
                   const id = i.toLowerCase().split(' ').join('-')
 
                   return (
@@ -284,39 +305,52 @@ const RolesCards = () => {
                       </TableCell>
                       <TableCell>
                         <FormControlLabel
-                          label='Read'
-                          control={
-                            <Checkbox
-                              size='small'
-                              id={`${id}-read`}
-                              onChange={() => togglePermission(`${id}-read`)}
-                              checked={selectedCheckbox.includes(`${id}-read`)}
-                            />
-                          }
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <FormControlLabel
-                          label='Write'
-                          control={
-                            <Checkbox
-                              size='small'
-                              id={`${id}-write`}
-                              onChange={() => togglePermission(`${id}-write`)}
-                              checked={selectedCheckbox.includes(`${id}-write`)}
-                            />
-                          }
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <FormControlLabel
                           label='Create'
                           control={
                             <Checkbox
                               size='small'
-                              id={`${id}-create`}
-                              onChange={() => togglePermission(`${id}-create`)}
-                              checked={selectedCheckbox.includes(`${id}-create`)}
+                              id={`create-${id}`}
+                              onChange={() => togglePermission(`create-${id}`)}
+                              checked={selectedCheckbox.includes(`create-${id}`)}
+                            />
+                          }
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <FormControlLabel
+                          label='Read'
+                          control={
+                            <Checkbox
+                              size='small'
+                              id={`read-${id}`}
+                              onChange={() => togglePermission(`read-${id}`)}
+                              checked={selectedCheckbox.includes(`read-${id}`)}
+                            />
+                          }
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <FormControlLabel
+                          label='Update'
+                          control={
+                            <Checkbox
+                              size='small'
+                              id={`update-${id}`}
+                              onChange={() => togglePermission(`update-${id}`)}
+                              checked={selectedCheckbox.includes(`update-${id}`)}
+                            />
+                          }
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <FormControlLabel
+                          label='Delete'
+                          control={
+                            <Checkbox
+                              size='small'
+                              id={`delete-${id}`}
+                              onChange={() => togglePermission(`delete-${id}`)}
+                              checked={selectedCheckbox.includes(`delete-${id}`)}
                             />
                           }
                         />
@@ -337,7 +371,7 @@ const RolesCards = () => {
           }}
         >
           <Box className='demo-space-x'>
-            <Button size='large' type='submit' variant='contained' onClick={handleClose}>
+            <Button size='large' type='submit' variant='contained' onClick={handleSubmit}>
               Submit
             </Button>
             <Button size='large' color='secondary' variant='outlined' onClick={handleClose}>
