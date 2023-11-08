@@ -3,10 +3,12 @@ import { configureStore } from '@reduxjs/toolkit'
 
 // ** Reducers
 import user from 'src/store/apps/user'
+import role from 'src/store/apps/role'
 
 export const store = configureStore({
   reducer: {
-    user
+    user,
+    role
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

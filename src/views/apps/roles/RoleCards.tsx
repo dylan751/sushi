@@ -36,12 +36,15 @@ import Icon from 'src/@core/components/icon'
 // ** Types
 import { RoleResponseDto } from 'src/__generated__/AccountifyAPI'
 
-// ** Hooks
-import { useApi } from 'src/hooks/useApi'
-import { useAuth } from 'src/hooks/useAuth'
-
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
+
+// ** Store Imports
+import { useDispatch, useSelector } from 'react-redux'
+
+// ** Types Imports
+import { AppDispatch, RootState } from 'src/store'
+import { fetchData } from 'src/store/apps/role'
 
 const cardDummyData = {
   totalUsers: 5,
@@ -62,20 +65,28 @@ const rolesArr: string[] = [
 
 const RolesCards = () => {
   // ** Hooks
-  const { $api } = useApi()
-  const { organization } = useAuth()
   const ability = useContext(AbilityContext)
+
+  // ** Hooks
+  const dispatch = useDispatch<AppDispatch>()
+  const store = useSelector((state: RootState) => state.role)
 
   // ** States
   const [open, setOpen] = useState<boolean>(false)
   const [dialogTitle, setDialogTitle] = useState<'Add' | 'Edit'>('Add')
   const [selectedCheckbox, setSelectedCheckbox] = useState<string[]>([])
   const [isIndeterminateCheckbox, setIsIndeterminateCheckbox] = useState<boolean>(false)
-  const [roles, setRoles] = useState<RoleResponseDto[]>([])
 
   const handleClickOpen = () => setOpen(true)
 
   const handleClose = () => {
+    setOpen(false)
+    setSelectedCheckbox([])
+    setIsIndeterminateCheckbox(false)
+  }
+
+  const handleSubmit = () => {
+    console.log(selectedCheckbox)
     setOpen(false)
     setSelectedCheckbox([])
     setIsIndeterminateCheckbox(false)
@@ -98,22 +109,17 @@ const RolesCards = () => {
     } else {
       rolesArr.forEach(row => {
         const id = row.toLowerCase().split(' ').join('-')
-        togglePermission(`${id}-read`)
-        togglePermission(`${id}-write`)
-        togglePermission(`${id}-create`)
+        togglePermission(`create-${id}`)
+        togglePermission(`read-${id}`)
+        togglePermission(`update-${id}`)
+        togglePermission(`delete-${id}`)
       })
     }
   }
 
   useEffect(() => {
-    const fetchRoles = () => {
-      $api.internal.getRoleListForOrganization(organization!.id).then(response => {
-        setRoles(response.data.items)
-      })
-    }
-
-    fetchRoles()
-  }, [$api, organization])
+    dispatch(fetchData())
+  }, [dispatch])
 
   useEffect(() => {
     if (selectedCheckbox.length > 0 && selectedCheckbox.length < rolesArr.length * 3) {
@@ -124,7 +130,7 @@ const RolesCards = () => {
   }, [selectedCheckbox])
 
   const renderCards = () =>
-    roles.map((item, index: number) => (
+    (store.data as RoleResponseDto[]).map((item, index: number) => (
       <Grid item xs={12} sm={6} lg={4} key={index}>
         <Card>
           <CardContent>
@@ -260,7 +266,7 @@ const RolesCards = () => {
                           size='small'
                           onChange={handleSelectAllCheckbox}
                           indeterminate={isIndeterminateCheckbox}
-                          checked={selectedCheckbox.length === rolesArr.length * 3}
+                          checked={selectedCheckbox.length === rolesArr.length * 4}
                         />
                       }
                     />
@@ -284,39 +290,52 @@ const RolesCards = () => {
                       </TableCell>
                       <TableCell>
                         <FormControlLabel
-                          label='Read'
-                          control={
-                            <Checkbox
-                              size='small'
-                              id={`${id}-read`}
-                              onChange={() => togglePermission(`${id}-read`)}
-                              checked={selectedCheckbox.includes(`${id}-read`)}
-                            />
-                          }
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <FormControlLabel
-                          label='Write'
-                          control={
-                            <Checkbox
-                              size='small'
-                              id={`${id}-write`}
-                              onChange={() => togglePermission(`${id}-write`)}
-                              checked={selectedCheckbox.includes(`${id}-write`)}
-                            />
-                          }
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <FormControlLabel
                           label='Create'
                           control={
                             <Checkbox
                               size='small'
-                              id={`${id}-create`}
-                              onChange={() => togglePermission(`${id}-create`)}
-                              checked={selectedCheckbox.includes(`${id}-create`)}
+                              id={`create-${id}`}
+                              onChange={() => togglePermission(`create-${id}`)}
+                              checked={selectedCheckbox.includes(`create-${id}`)}
+                            />
+                          }
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <FormControlLabel
+                          label='Read'
+                          control={
+                            <Checkbox
+                              size='small'
+                              id={`read-${id}`}
+                              onChange={() => togglePermission(`read-${id}`)}
+                              checked={selectedCheckbox.includes(`read-${id}`)}
+                            />
+                          }
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <FormControlLabel
+                          label='Update'
+                          control={
+                            <Checkbox
+                              size='small'
+                              id={`update-${id}`}
+                              onChange={() => togglePermission(`update-${id}`)}
+                              checked={selectedCheckbox.includes(`update-${id}`)}
+                            />
+                          }
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <FormControlLabel
+                          label='Delete'
+                          control={
+                            <Checkbox
+                              size='small'
+                              id={`delete-${id}`}
+                              onChange={() => togglePermission(`delete-${id}`)}
+                              checked={selectedCheckbox.includes(`delete-${id}`)}
                             />
                           }
                         />
@@ -337,7 +356,7 @@ const RolesCards = () => {
           }}
         >
           <Box className='demo-space-x'>
-            <Button size='large' type='submit' variant='contained' onClick={handleClose}>
+            <Button size='large' type='submit' variant='contained' onClick={handleSubmit}>
               Submit
             </Button>
             <Button size='large' color='secondary' variant='outlined' onClick={handleClose}>
