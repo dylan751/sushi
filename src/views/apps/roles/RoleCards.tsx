@@ -49,7 +49,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
-import { addRole, fetchData } from 'src/store/apps/role'
+import { addRole, fetchData, updateRole } from 'src/store/apps/role'
 
 // ** Hooks
 import { useApi } from 'src/hooks/useApi'
@@ -78,9 +78,11 @@ const RolesCards = () => {
   const [selectedCheckbox, setSelectedCheckbox] = useState<string[]>([])
   const [isIndeterminateCheckbox, setIsIndeterminateCheckbox] = useState<boolean>(false)
   const [permissionSubjects, setPermissionSubjects] = useState<string[]>([])
+  const [selectedRole, setSelectedRole] = useState<RoleResponseDto | null>(null)
 
   const { control, handleSubmit } = useForm({
-    mode: 'onBlur'
+    mode: 'onBlur',
+    values: { name: selectedRole ? selectedRole.name : '' }
   })
 
   const handleClickOpenAdd = () => setOpen(true)
@@ -94,6 +96,8 @@ const RolesCards = () => {
         togglePermission(`${permission.action}-${permission.subject}`)
       }
     })
+
+    setSelectedRole(role)
     setOpen(true)
   }
 
@@ -101,10 +105,11 @@ const RolesCards = () => {
     setOpen(false)
     setSelectedCheckbox([])
     setIsIndeterminateCheckbox(false)
+    setSelectedRole(null)
   }
 
   const onSubmit = (data: FieldValues) => {
-    const createRoleRequest: CreateRoleRequestDto = {
+    const createOrUpdateRoleRequest: CreateRoleRequestDto = {
       name: data.name,
       slug: data.name.toLowerCase().split(' ').join('-'),
       permissionConfigs: selectedCheckbox.map(checkbox => {
@@ -118,12 +123,17 @@ const RolesCards = () => {
     }
 
     // Call api
-    dispatch(addRole(createRoleRequest))
+    if (dialogTitle === 'Add') {
+      dispatch(addRole(createOrUpdateRoleRequest))
+    } else if (dialogTitle === 'Edit' && selectedRole) {
+      dispatch(updateRole({ ...createOrUpdateRoleRequest, roleId: selectedRole.id }))
+    }
 
-    toast.success('Create role succeed')
+    toast.success(`${dialogTitle} role succeed`)
     setOpen(false)
     setSelectedCheckbox([])
     setIsIndeterminateCheckbox(false)
+    setSelectedRole(null)
   }
 
   const togglePermission = (id: string) => {

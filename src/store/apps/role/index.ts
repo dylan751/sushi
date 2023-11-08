@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk, Dispatch } from '@reduxjs/toolkit'
 
 // ** Types
-import { Api, CreateRoleRequestDto, RoleResponseDto } from 'src/__generated__/AccountifyAPI'
+import { Api, CreateRoleRequestDto, RoleResponseDto, UpdateRoleRequestDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Utils
 import { getAccessToken, getOrgId } from 'src/utils/localStorage'
@@ -47,6 +47,25 @@ export const addRole = createAsyncThunk('appRoles/addRole', async (data: CreateR
 })
 
 // ** Update Role
+export const updateRole = createAsyncThunk(
+  'appRoles/updateRole',
+  async (data: UpdateRoleRequestDto & { roleId: number }, { dispatch }: Redux) => {
+    const organizationId = getOrgId()
+    const storedToken = getAccessToken()
+
+    const response = await new Api({
+      baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+      timeout: 30 * 1000, // 30 seconds
+      headers: {
+        Authorization: `Bearer ${storedToken}`
+      }
+    }).internal.updateARoleForAnOrganization(organizationId, data.roleId, data)
+
+    dispatch(fetchData())
+
+    return response.data
+  }
+)
 
 // ** Delete Role
 
