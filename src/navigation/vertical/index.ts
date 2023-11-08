@@ -1,8 +1,11 @@
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
 
+// ** Utils
+import { getOrganization } from 'src/utils/localStorage'
+
 const navigation = (): VerticalNavItemsType => {
-  const organization = JSON.parse(window.localStorage.getItem('organization')!)
+  const organization = getOrganization()
   const uniqueName = organization ? `/${organization.uniqueName}` : ''
 
   return [
@@ -21,7 +24,7 @@ const navigation = (): VerticalNavItemsType => {
       icon: 'mdi:email-outline'
     },
     {
-      path: `${uniqueName}/role`,
+      path: `${uniqueName}/roles`,
       action: 'read',
       subject: 'role',
       title: 'navbar.role_page',

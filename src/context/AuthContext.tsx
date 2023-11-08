@@ -26,6 +26,9 @@ import {
   RegisterRequestDto
 } from 'src/__generated__/AccountifyAPI'
 
+// ** Utils
+import { getAccessToken, getOrganization, getPermissions } from 'src/utils/localStorage'
+
 // ** Defaults
 const defaultProvider: AuthValuesType = {
   user: null,
@@ -62,9 +65,9 @@ const AuthProvider = ({ children }: Props) => {
   // This runs whenever the page is reloaded
   useEffect(() => {
     const initAuth = async (): Promise<void> => {
-      const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
-      const storedOrganization = JSON.parse(window.localStorage.getItem('organization')!)
-      const storedPermissions = JSON.parse(window.localStorage.getItem('permissions')!)
+      const storedToken = getAccessToken()
+      const storedOrganization = getOrganization()
+      const storedPermissions = getPermissions()
 
       if (storedToken) {
         // Re-create axios instance with Bearer token everytime the page is reloaded
@@ -102,7 +105,7 @@ const AuthProvider = ({ children }: Props) => {
             localStorage.removeItem('organization')
             localStorage.removeItem('permissions')
             localStorage.removeItem('refreshToken')
-            localStorage.removeItem('accessToken')
+            localStorage.removeItem(authConfig.storageTokenKeyName)
             setUser(null)
             setLoading(false)
             if (authConfig.onTokenExpiration === 'logout' && !router.pathname.includes('login')) {
@@ -136,7 +139,7 @@ const AuthProvider = ({ children }: Props) => {
             baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
             timeout: 30 * 1000, // 30 seconds
             headers: {
-              Authorization: `Bearer ${window.localStorage.getItem(authConfig.storageTokenKeyName)}`
+              Authorization: `Bearer ${getAccessToken()}`
             }
           })
         )

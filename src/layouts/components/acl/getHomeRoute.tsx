@@ -1,10 +1,14 @@
+// ** Types
 import { OrganizationProfileResponseDto, ProfileResponseDto } from 'src/__generated__/AccountifyAPI'
+
+// ** Utils
+import { getOrganization } from 'src/utils/localStorage'
 
 /**
  *  Set Home URL based on User Roles
  */
 const getHomeRoute = (user: ProfileResponseDto) => {
-  const organization: OrganizationProfileResponseDto = JSON.parse(window.localStorage.getItem('organization')!)
+  const organization: OrganizationProfileResponseDto = getOrganization()
   const uniqueName = organization ? `/${organization.uniqueName}` : ''
 
   // Get user's organization's role

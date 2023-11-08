@@ -80,9 +80,17 @@ export interface OrganizationUserResponseDto {
   roles: UserRole[]
 }
 
+export interface UserSearchRequestDto {
+  query?: string
+  role?: string
+}
+
+export type User = object
+
 export interface MetaData {
-  prevPage: number | null
-  nextPage: number | null
+  total: number
+  params: UserSearchRequestDto
+  allData: User[]
 }
 
 export interface OrganizationUserListResponseDto {
@@ -442,10 +450,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/internal/api/v1/organizations/{organizationId}/users
      * @secure
      */
-    usersControllerFindAll: (organizationId: number, params: RequestParams = {}) =>
+    usersControllerFindAll: (
+      organizationId: number,
+      query?: {
+        query?: string
+        role?: string
+      },
+      params: RequestParams = {}
+    ) =>
       this.request<OrganizationUserListResponseDto[], any>({
         path: `/internal/api/v1/organizations/${organizationId}/users`,
         method: 'GET',
+        query: query,
         secure: true,
         format: 'json',
         ...params
