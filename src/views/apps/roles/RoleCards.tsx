@@ -212,7 +212,7 @@ const RolesCards = () => {
                       setDialogTitle('Edit')
                     }}
                   >
-                    Edit Role
+                    {item.slug === 'admin' || item.slug === 'member' ? 'Show' : 'Edit'} Role
                   </Typography>
                 )}
               </Box>
@@ -420,19 +420,33 @@ const RolesCards = () => {
           <DialogActions
             sx={{
               display: 'flex',
+              flexDirection: 'column',
               justifyContent: 'center',
+              gap: 4,
               px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
               pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
             }}
           >
             <Box className='demo-space-x'>
-              <Button size='large' type='submit' variant='contained'>
+              <Button
+                size='large'
+                type='submit'
+                variant='contained'
+                disabled={
+                  selectedRole && (selectedRole.slug === 'admin' || selectedRole.slug === 'member') ? true : false
+                }
+              >
                 Submit
               </Button>
               <Button size='large' color='secondary' variant='outlined' onClick={handleClose}>
                 Cancel
               </Button>
             </Box>
+            {selectedRole && (selectedRole.slug === 'admin' || selectedRole.slug === 'member') && (
+              <Typography variant='body2' color='error'>
+                This is the default role, you shouldn't edit this
+              </Typography>
+            )}
           </DialogActions>
         </form>
       </Dialog>
