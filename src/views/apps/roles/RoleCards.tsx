@@ -34,7 +34,12 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Icon from 'src/@core/components/icon'
 
 // ** Types
-import { RoleResponseDto } from 'src/__generated__/AccountifyAPI'
+import {
+  CreateRoleRequestDto,
+  PermissionConfigDtoActionEnum,
+  PermissionConfigDtoSubjectEnum,
+  RoleResponseDto
+} from 'src/__generated__/AccountifyAPI'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
@@ -44,10 +49,14 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
-import { fetchData } from 'src/store/apps/role'
+import { addRole, fetchData } from 'src/store/apps/role'
 
 // ** Hooks
 import { useApi } from 'src/hooks/useApi'
+
+// ** Third parties Imports
+import { Controller, FieldValues, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 
 const cardDummyData = {
   totalUsers: 5,
@@ -70,10 +79,14 @@ const RolesCards = () => {
   const [isIndeterminateCheckbox, setIsIndeterminateCheckbox] = useState<boolean>(false)
   const [permissionSubjects, setPermissionSubjects] = useState<string[]>([])
 
+  const { control, handleSubmit } = useForm({
+    mode: 'onBlur'
+  })
+
   const handleClickOpenAdd = () => setOpen(true)
 
   const handleClickOpenEdit = (roleId: number) => {
-    const role = (store.data as RoleResponseDto[]).find(role => role.id === roleId)!
+    const role = store.data.find(role => role.id === roleId)!
     role.permissions.forEach((permission: any) => {
       if (permission.action === 'manage' && permission.subject === 'all') {
         handleSelectAllCheckbox()
@@ -90,7 +103,24 @@ const RolesCards = () => {
     setIsIndeterminateCheckbox(false)
   }
 
-  const handleSubmit = () => {
+  const onSubmit = (data: FieldValues) => {
+    const createRoleRequest: CreateRoleRequestDto = {
+      name: data.name,
+      slug: data.name.toLowerCase().split(' ').join('-'),
+      permissionConfigs: selectedCheckbox.map(checkbox => {
+        const config = checkbox.split('-')
+
+        return {
+          action: config[0] as PermissionConfigDtoActionEnum,
+          subject: config[1] as PermissionConfigDtoSubjectEnum
+        }
+      })
+    }
+
+    // Call api
+    dispatch(addRole(createRoleRequest))
+
+    toast.success('Create role succeed')
     setOpen(false)
     setSelectedCheckbox([])
     setIsIndeterminateCheckbox(false)
@@ -237,148 +267,164 @@ const RolesCards = () => {
           </Typography>
           <Typography variant='body2'>Set Role Permissions</Typography>
         </DialogTitle>
-        <DialogContent
-          sx={{
-            pb: theme => `${theme.spacing(5)} !important`,
-            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`]
-          }}
-        >
-          <Box sx={{ my: 4 }}>
-            <FormControl fullWidth>
-              <TextField label='Role Name' placeholder='Enter Role Name' />
-            </FormControl>
-          </Box>
-          <Typography variant='h6'>Role Permissions</Typography>
-          <TableContainer>
-            <Table size='small'>
-              <TableHead>
-                <TableRow>
-                  <TableCell sx={{ pl: '0 !important' }}>
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        fontSize: '0.875rem',
-                        whiteSpace: 'nowrap',
-                        alignItems: 'center',
-                        textTransform: 'capitalize',
-                        '& svg': { ml: 1, cursor: 'pointer' }
-                      }}
-                    >
-                      Administrator Access
-                      <Tooltip placement='top' title='Allows a full access to the system'>
-                        <Box sx={{ display: 'flex' }}>
-                          <Icon icon='mdi:information-outline' fontSize='1rem' />
-                        </Box>
-                      </Tooltip>
-                    </Box>
-                  </TableCell>
-                  <TableCell colSpan={3}>
-                    <FormControlLabel
-                      label='Select All'
-                      sx={{ '& .MuiTypography-root': { textTransform: 'capitalize' } }}
-                      control={
-                        <Checkbox
-                          size='small'
-                          onChange={handleSelectAllCheckbox}
-                          indeterminate={isIndeterminateCheckbox}
-                          checked={selectedCheckbox.length === permissionSubjects.length * 4}
-                        />
-                      }
+        <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+          <DialogContent
+            sx={{
+              pb: theme => `${theme.spacing(5)} !important`,
+              px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`]
+            }}
+          >
+            <Box sx={{ my: 4 }}>
+              <FormControl fullWidth>
+                <Controller
+                  name='name'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange, onBlur } }) => (
+                    <TextField
+                      autoFocus
+                      label='Role Name'
+                      value={value}
+                      onBlur={onBlur}
+                      onChange={onChange}
+                      placeholder='Enter Role Name'
                     />
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {permissionSubjects.map((i: string, index: number) => {
-                  const id = i.toLowerCase().split(' ').join('-')
-
-                  return (
-                    <TableRow key={index} sx={{ '& .MuiTableCell-root:first-of-type': { pl: '0 !important' } }}>
-                      <TableCell
+                  )}
+                />
+              </FormControl>
+            </Box>
+            <Typography variant='h6'>Role Permissions</Typography>
+            <TableContainer>
+              <Table size='small'>
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ pl: '0 !important' }}>
+                      <Box
                         sx={{
-                          fontWeight: 600,
+                          display: 'flex',
+                          fontSize: '0.875rem',
                           whiteSpace: 'nowrap',
-                          color: theme => `${theme.palette.text.primary} !important`
+                          alignItems: 'center',
+                          textTransform: 'capitalize',
+                          '& svg': { ml: 1, cursor: 'pointer' }
                         }}
                       >
-                        {i}
-                      </TableCell>
-                      <TableCell>
-                        <FormControlLabel
-                          label='Create'
-                          control={
-                            <Checkbox
-                              size='small'
-                              id={`create-${id}`}
-                              onChange={() => togglePermission(`create-${id}`)}
-                              checked={selectedCheckbox.includes(`create-${id}`)}
-                            />
-                          }
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <FormControlLabel
-                          label='Read'
-                          control={
-                            <Checkbox
-                              size='small'
-                              id={`read-${id}`}
-                              onChange={() => togglePermission(`read-${id}`)}
-                              checked={selectedCheckbox.includes(`read-${id}`)}
-                            />
-                          }
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <FormControlLabel
-                          label='Update'
-                          control={
-                            <Checkbox
-                              size='small'
-                              id={`update-${id}`}
-                              onChange={() => togglePermission(`update-${id}`)}
-                              checked={selectedCheckbox.includes(`update-${id}`)}
-                            />
-                          }
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <FormControlLabel
-                          label='Delete'
-                          control={
-                            <Checkbox
-                              size='small'
-                              id={`delete-${id}`}
-                              onChange={() => togglePermission(`delete-${id}`)}
-                              checked={selectedCheckbox.includes(`delete-${id}`)}
-                            />
-                          }
-                        />
-                      </TableCell>
-                    </TableRow>
-                  )
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </DialogContent>
-        <DialogActions
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-            pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
-          }}
-        >
-          <Box className='demo-space-x'>
-            <Button size='large' type='submit' variant='contained' onClick={handleSubmit}>
-              Submit
-            </Button>
-            <Button size='large' color='secondary' variant='outlined' onClick={handleClose}>
-              Cancel
-            </Button>
-          </Box>
-        </DialogActions>
+                        Administrator Access
+                        <Tooltip placement='top' title='Allows a full access to the system'>
+                          <Box sx={{ display: 'flex' }}>
+                            <Icon icon='mdi:information-outline' fontSize='1rem' />
+                          </Box>
+                        </Tooltip>
+                      </Box>
+                    </TableCell>
+                    <TableCell colSpan={3}>
+                      <FormControlLabel
+                        label='Select All'
+                        sx={{ '& .MuiTypography-root': { textTransform: 'capitalize' } }}
+                        control={
+                          <Checkbox
+                            size='small'
+                            onChange={handleSelectAllCheckbox}
+                            indeterminate={isIndeterminateCheckbox}
+                            checked={selectedCheckbox.length === permissionSubjects.length * 4}
+                          />
+                        }
+                      />
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {permissionSubjects.map((i: string, index: number) => {
+                    const id = i.toLowerCase().split(' ').join('-')
+
+                    return (
+                      <TableRow key={index} sx={{ '& .MuiTableCell-root:first-of-type': { pl: '0 !important' } }}>
+                        <TableCell
+                          sx={{
+                            fontWeight: 600,
+                            whiteSpace: 'nowrap',
+                            color: theme => `${theme.palette.text.primary} !important`
+                          }}
+                        >
+                          {i}
+                        </TableCell>
+                        <TableCell>
+                          <FormControlLabel
+                            label='Create'
+                            control={
+                              <Checkbox
+                                size='small'
+                                id={`create-${id}`}
+                                onChange={() => togglePermission(`create-${id}`)}
+                                checked={selectedCheckbox.includes(`create-${id}`)}
+                              />
+                            }
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <FormControlLabel
+                            label='Read'
+                            control={
+                              <Checkbox
+                                size='small'
+                                id={`read-${id}`}
+                                onChange={() => togglePermission(`read-${id}`)}
+                                checked={selectedCheckbox.includes(`read-${id}`)}
+                              />
+                            }
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <FormControlLabel
+                            label='Update'
+                            control={
+                              <Checkbox
+                                size='small'
+                                id={`update-${id}`}
+                                onChange={() => togglePermission(`update-${id}`)}
+                                checked={selectedCheckbox.includes(`update-${id}`)}
+                              />
+                            }
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <FormControlLabel
+                            label='Delete'
+                            control={
+                              <Checkbox
+                                size='small'
+                                id={`delete-${id}`}
+                                onChange={() => togglePermission(`delete-${id}`)}
+                                checked={selectedCheckbox.includes(`delete-${id}`)}
+                              />
+                            }
+                          />
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </DialogContent>
+          <DialogActions
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
+              pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+            }}
+          >
+            <Box className='demo-space-x'>
+              <Button size='large' type='submit' variant='contained'>
+                Submit
+              </Button>
+              <Button size='large' color='secondary' variant='outlined' onClick={handleClose}>
+                Cancel
+              </Button>
+            </Box>
+          </DialogActions>
+        </form>
       </Dialog>
     </Grid>
   )
