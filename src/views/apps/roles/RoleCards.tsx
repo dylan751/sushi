@@ -123,9 +123,9 @@ const RolesCards = () => {
     }
 
     // Call api
-    if (dialogTitle === 'Add') {
+    if (!selectedRole) {
       dispatch(addRole(createOrUpdateRoleRequest))
-    } else if (dialogTitle === 'Edit' && selectedRole) {
+    } else if (selectedRole) {
       dispatch(updateRole({ ...createOrUpdateRoleRequest, roleId: selectedRole.id }))
     }
 
