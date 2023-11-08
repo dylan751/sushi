@@ -176,6 +176,11 @@ export interface UpdateOrganizationRequestDto {
   uniqueName?: string
 }
 
+export interface PermissionSubjectResponseDto {
+  /** @example "organization" */
+  subject: string
+}
+
 export interface PermissionConfigDto {
   /** @example "create" */
   action: PermissionConfigDtoActionEnum
@@ -640,6 +645,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<EmptyResponseDto, any>({
         path: `/internal/api/v1/organizations/${id}`,
         method: 'DELETE',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get permission subject list
+     *
+     * @tags Permission
+     * @name GetPermissionSubjectList
+     * @summary Get permission subject list
+     * @request GET:/internal/api/v1/permissions
+     * @secure
+     */
+    getPermissionSubjectList: (params: RequestParams = {}) =>
+      this.request<PermissionSubjectResponseDto[], any>({
+        path: `/internal/api/v1/permissions`,
+        method: 'GET',
         secure: true,
         format: 'json',
         ...params

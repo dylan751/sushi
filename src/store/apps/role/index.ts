@@ -20,7 +20,6 @@ export const fetchData = createAsyncThunk('appRoles/fetchData', async () => {
       }
     }
   )
-  console.log(response.data)
 
   return response.data
 })

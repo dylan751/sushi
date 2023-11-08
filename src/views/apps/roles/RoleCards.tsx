@@ -46,26 +46,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'src/store'
 import { fetchData } from 'src/store/apps/role'
 
+// ** Hooks
+import { useApi } from 'src/hooks/useApi'
+
 const cardDummyData = {
   totalUsers: 5,
   avatars: ['4.png', '5.png', '6.png', '7.png', '8.png']
 }
 
-const rolesArr: string[] = [
-  'User Management',
-  'Content Management',
-  'Disputes Management',
-  'Database Management',
-  'Financial Management',
-  'User',
-  'Role',
-  'Repository Management',
-  'Payroll'
-]
-
 const RolesCards = () => {
   // ** Hooks
   const ability = useContext(AbilityContext)
+  const { $api } = useApi()
 
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
@@ -76,6 +68,7 @@ const RolesCards = () => {
   const [dialogTitle, setDialogTitle] = useState<'Add' | 'Edit'>('Add')
   const [selectedCheckbox, setSelectedCheckbox] = useState<string[]>([])
   const [isIndeterminateCheckbox, setIsIndeterminateCheckbox] = useState<boolean>(false)
+  const [permissionSubjects, setPermissionSubjects] = useState<string[]>([])
 
   const handleClickOpenAdd = () => setOpen(true)
 
@@ -98,7 +91,6 @@ const RolesCards = () => {
   }
 
   const handleSubmit = () => {
-    console.log(selectedCheckbox)
     setOpen(false)
     setSelectedCheckbox([])
     setIsIndeterminateCheckbox(false)
@@ -119,7 +111,7 @@ const RolesCards = () => {
     if (isIndeterminateCheckbox) {
       setSelectedCheckbox([])
     } else {
-      rolesArr.forEach(row => {
+      permissionSubjects.forEach(row => {
         const id = row.toLowerCase().split(' ').join('-')
         togglePermission(`create-${id}`)
         togglePermission(`read-${id}`)
@@ -130,16 +122,27 @@ const RolesCards = () => {
   }
 
   useEffect(() => {
+    const fetchPermissionSubjects = async () => {
+      const response = await $api.internal.getPermissionSubjectList()
+      const subjects = response.data.filter(item => item.subject !== 'all') // Exclude 'all' from permission subjects response list
+      const filteredSubjects = subjects.map(item => item.subject.charAt(0).toUpperCase() + item.subject.slice(1)) // Uppercase the first letter
+      setPermissionSubjects(filteredSubjects)
+    }
+
+    // Fetch organization's roles
     dispatch(fetchData())
-  }, [dispatch])
+
+    // Fetch all permission subjects
+    fetchPermissionSubjects()
+  }, [dispatch, $api.internal])
 
   useEffect(() => {
-    if (selectedCheckbox.length > 0 && selectedCheckbox.length < rolesArr.length * 3) {
+    if (selectedCheckbox.length > 0 && selectedCheckbox.length < permissionSubjects.length * 3) {
       setIsIndeterminateCheckbox(true)
     } else {
       setIsIndeterminateCheckbox(false)
     }
-  }, [selectedCheckbox])
+  }, [selectedCheckbox, permissionSubjects.length])
 
   const renderCards = () =>
     (store.data as RoleResponseDto[]).map((item, index: number) => (
@@ -278,7 +281,7 @@ const RolesCards = () => {
                           size='small'
                           onChange={handleSelectAllCheckbox}
                           indeterminate={isIndeterminateCheckbox}
-                          checked={selectedCheckbox.length === rolesArr.length * 4}
+                          checked={selectedCheckbox.length === permissionSubjects.length * 4}
                         />
                       }
                     />
@@ -286,7 +289,7 @@ const RolesCards = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rolesArr.map((i: string, index: number) => {
+                {permissionSubjects.map((i: string, index: number) => {
                   const id = i.toLowerCase().split(' ').join('-')
 
                   return (
