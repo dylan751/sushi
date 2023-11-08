@@ -63,7 +63,6 @@ const CreateOrganizationPage = () => {
         location.replace('/organization')
       })
       .catch(res => {
-        console.log(res)
         setError('name', {
           type: 'manual',
           message: res.response.data.message

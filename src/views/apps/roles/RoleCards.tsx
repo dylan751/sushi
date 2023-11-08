@@ -108,7 +108,6 @@ const RolesCards = () => {
   useEffect(() => {
     const fetchRoles = () => {
       $api.internal.getRoleListForOrganization(organization!.id).then(response => {
-        console.log(response.data.items)
         setRoles(response.data.items)
       })
     }

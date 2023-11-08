@@ -1,8 +1,11 @@
 // ** Type import
 import { HorizontalNavItemsType } from 'src/@core/layouts/types'
 
+// ** Utils
+import { getOrganization } from 'src/utils/localStorage'
+
 const navigation = (): HorizontalNavItemsType => {
-  const organization = JSON.parse(window.localStorage.getItem('organization')!)
+  const organization = getOrganization()
   const uniqueName = organization ? `/${organization.uniqueName}` : ''
 
   return [

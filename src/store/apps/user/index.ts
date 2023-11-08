@@ -5,8 +5,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 // ** Axios Imports
 import axios from 'axios'
 
-// ** Config
-import authConfig from 'src/configs/auth'
+// ** Utils
+import { getAccessToken, getOrgId } from 'src/utils/localStorage'
 
 interface DataParams {
   query: string
@@ -20,8 +20,8 @@ interface Redux {
 
 // ** Fetch Users
 export const fetchData = createAsyncThunk('appUsers/fetchData', async (params: DataParams) => {
-  const organizationId = JSON.parse(window.localStorage.getItem('organization')!).id
-  const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
+  const organizationId = getOrgId()
+  const storedToken = getAccessToken()
 
   const response = await axios.get(
     `${process.env.NEXT_PUBLIC_API_ENDPOINT}/internal/api/v1/organizations/${organizationId}/users`,
