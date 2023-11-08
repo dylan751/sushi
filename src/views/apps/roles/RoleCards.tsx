@@ -49,7 +49,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
-import { addRole, fetchData } from 'src/store/apps/role'
+import { addRole, fetchData, updateRole } from 'src/store/apps/role'
 
 // ** Hooks
 import { useApi } from 'src/hooks/useApi'
@@ -78,9 +78,11 @@ const RolesCards = () => {
   const [selectedCheckbox, setSelectedCheckbox] = useState<string[]>([])
   const [isIndeterminateCheckbox, setIsIndeterminateCheckbox] = useState<boolean>(false)
   const [permissionSubjects, setPermissionSubjects] = useState<string[]>([])
+  const [selectedRole, setSelectedRole] = useState<RoleResponseDto | null>(null)
 
   const { control, handleSubmit } = useForm({
-    mode: 'onBlur'
+    mode: 'onBlur',
+    values: { name: selectedRole ? selectedRole.name : '' }
   })
 
   const handleClickOpenAdd = () => setOpen(true)
@@ -94,6 +96,8 @@ const RolesCards = () => {
         togglePermission(`${permission.action}-${permission.subject}`)
       }
     })
+
+    setSelectedRole(role)
     setOpen(true)
   }
 
@@ -101,10 +105,11 @@ const RolesCards = () => {
     setOpen(false)
     setSelectedCheckbox([])
     setIsIndeterminateCheckbox(false)
+    setSelectedRole(null)
   }
 
   const onSubmit = (data: FieldValues) => {
-    const createRoleRequest: CreateRoleRequestDto = {
+    const createOrUpdateRoleRequest: CreateRoleRequestDto = {
       name: data.name,
       slug: data.name.toLowerCase().split(' ').join('-'),
       permissionConfigs: selectedCheckbox.map(checkbox => {
@@ -118,12 +123,17 @@ const RolesCards = () => {
     }
 
     // Call api
-    dispatch(addRole(createRoleRequest))
+    if (!selectedRole) {
+      dispatch(addRole(createOrUpdateRoleRequest))
+    } else if (selectedRole) {
+      dispatch(updateRole({ ...createOrUpdateRoleRequest, roleId: selectedRole.id }))
+    }
 
-    toast.success('Create role succeed')
+    toast.success(`${dialogTitle} role succeed`)
     setOpen(false)
     setSelectedCheckbox([])
     setIsIndeterminateCheckbox(false)
+    setSelectedRole(null)
   }
 
   const togglePermission = (id: string) => {
@@ -202,7 +212,7 @@ const RolesCards = () => {
                       setDialogTitle('Edit')
                     }}
                   >
-                    Edit Role
+                    {item.slug === 'admin' || item.slug === 'member' ? 'Show' : 'Edit'} Role
                   </Typography>
                 )}
               </Box>
@@ -410,19 +420,33 @@ const RolesCards = () => {
           <DialogActions
             sx={{
               display: 'flex',
+              flexDirection: 'column',
               justifyContent: 'center',
+              gap: 4,
               px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
               pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
             }}
           >
             <Box className='demo-space-x'>
-              <Button size='large' type='submit' variant='contained'>
+              <Button
+                size='large'
+                type='submit'
+                variant='contained'
+                disabled={
+                  selectedRole && (selectedRole.slug === 'admin' || selectedRole.slug === 'member') ? true : false
+                }
+              >
                 Submit
               </Button>
               <Button size='large' color='secondary' variant='outlined' onClick={handleClose}>
                 Cancel
               </Button>
             </Box>
+            {selectedRole && (selectedRole.slug === 'admin' || selectedRole.slug === 'member') && (
+              <Typography variant='body2' color='error'>
+                This is the default role, you shouldn't edit this
+              </Typography>
+            )}
           </DialogActions>
         </form>
       </Dialog>
