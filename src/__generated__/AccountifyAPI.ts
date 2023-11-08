@@ -85,12 +85,10 @@ export interface UserSearchRequestDto {
   role?: string
 }
 
-export type User = object
-
 export interface MetaData {
   total: number
   params: UserSearchRequestDto
-  allData: User[]
+  allData: OrganizationUserResponseDto[]
 }
 
 export interface OrganizationUserListResponseDto {
@@ -466,7 +464,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {}
     ) =>
-      this.request<OrganizationUserListResponseDto[], any>({
+      this.request<OrganizationUserListResponseDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/users`,
         method: 'GET',
         query: query,

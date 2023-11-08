@@ -1,9 +1,8 @@
 // ** Redux Imports
-import { Dispatch } from 'redux'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-// ** Axios Imports
-import axios from 'axios'
+// ** Types
+import { Api, OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Utils
 import { getAccessToken, getOrgId } from 'src/utils/localStorage'
@@ -13,62 +12,35 @@ interface DataParams {
   role: string
 }
 
-interface Redux {
-  getState: any
-  dispatch: Dispatch<any>
-}
-
 // ** Fetch Users
 export const fetchData = createAsyncThunk('appUsers/fetchData', async (params: DataParams) => {
   const organizationId = getOrgId()
   const storedToken = getAccessToken()
 
-  const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/internal/api/v1/organizations/${organizationId}/users`,
-    {
-      params,
-      headers: {
-        Authorization: `Bearer ${storedToken}`
-      }
+  const response = await new Api({
+    baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+    timeout: 30 * 1000, // 30 seconds
+    headers: {
+      Authorization: `Bearer ${storedToken}`
     }
-  )
+  }).internal.usersControllerFindAll(organizationId, params)
 
   return response.data
 })
 
 // ** Add User
-export const addUser = createAsyncThunk(
-  'appUsers/addUser',
-  async (data: { [key: string]: number | string }, { getState, dispatch }: Redux) => {
-    const response = await axios.post('/apps/users/add-user', {
-      data
-    })
-    dispatch(fetchData(getState().user.params))
 
-    return response.data
-  }
-)
+// ** Update User
 
 // ** Delete User
-export const deleteUser = createAsyncThunk(
-  'appUsers/deleteUser',
-  async (id: number | string, { getState, dispatch }: Redux) => {
-    const response = await axios.delete('/apps/users/delete', {
-      data: id
-    })
-    dispatch(fetchData(getState().user.params))
-
-    return response.data
-  }
-)
 
 export const appUsersSlice = createSlice({
   name: 'appUsers',
   initialState: {
-    data: [],
+    data: [] as OrganizationUserResponseDto[],
     total: 1,
     params: {},
-    allData: []
+    allData: [] as OrganizationUserResponseDto[]
   },
   reducers: {},
   extraReducers: builder => {
