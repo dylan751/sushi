@@ -176,6 +176,11 @@ export interface UpdateOrganizationRequestDto {
   uniqueName?: string
 }
 
+export interface PermissionSubjectResponseDto {
+  /** @example "organization" */
+  subject: string
+}
+
 export interface PermissionConfigDto {
   /** @example "create" */
   action: PermissionConfigDtoActionEnum
@@ -191,6 +196,8 @@ export interface CreateRoleRequestDto {
   permissionConfigs: PermissionConfigDto[]
 }
 
+export type Permission = object
+
 export interface RoleResponseDto {
   /** @example 1 */
   id: number
@@ -198,6 +205,7 @@ export interface RoleResponseDto {
   name: string
   /** @example "admin" */
   slug: string
+  permissions: Permission[]
   /**
    * @format date-time
    * @example "2020/01/01 15:00:00"
@@ -206,7 +214,7 @@ export interface RoleResponseDto {
 }
 
 export interface RoleResponseListDto {
-  items: RoleResponseDto[]
+  roles: RoleResponseDto[]
 }
 
 export interface UpdateRoleRequestDto {
@@ -637,6 +645,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<EmptyResponseDto, any>({
         path: `/internal/api/v1/organizations/${id}`,
         method: 'DELETE',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get permission subject list
+     *
+     * @tags Permission
+     * @name GetPermissionSubjectList
+     * @summary Get permission subject list
+     * @request GET:/internal/api/v1/permissions
+     * @secure
+     */
+    getPermissionSubjectList: (params: RequestParams = {}) =>
+      this.request<PermissionSubjectResponseDto[], any>({
+        path: `/internal/api/v1/permissions`,
+        method: 'GET',
         secure: true,
         format: 'json',
         ...params
