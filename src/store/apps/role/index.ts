@@ -6,6 +6,7 @@ import { Api, CreateRoleRequestDto, RoleResponseDto, UpdateRoleRequestDto } from
 
 // ** Utils
 import { getAccessToken, getOrgId } from 'src/utils/localStorage'
+import { fetchUser } from '../user'
 
 interface Redux {
   getState: any
@@ -13,7 +14,7 @@ interface Redux {
 }
 
 // ** Fetch Roles
-export const fetchData = createAsyncThunk('appRoles/fetchData', async () => {
+export const fetchRole = createAsyncThunk('appRoles/fetchRole', async () => {
   const organizationId = getOrgId()
   const storedToken = getAccessToken()
 
@@ -41,7 +42,7 @@ export const addRole = createAsyncThunk('appRoles/addRole', async (data: CreateR
     }
   }).internal.createRolesForAnOrganization(organizationId, data)
 
-  dispatch(fetchData())
+  dispatch(fetchRole())
 
   return response.data
 })
@@ -61,7 +62,7 @@ export const updateRole = createAsyncThunk(
       }
     }).internal.updateARoleForAnOrganization(organizationId, data.roleId, data)
 
-    dispatch(fetchData())
+    dispatch(fetchRole())
 
     return response.data
   }
@@ -80,7 +81,8 @@ export const deleteRole = createAsyncThunk('appRoles/deleteRole', async (roleId:
     }
   }).internal.deleteARoleForAnOrganization(organizationId, roleId)
 
-  dispatch(fetchData())
+  dispatch(fetchRole())
+  dispatch(fetchUser({ role: '', query: '' }))
 
   return response.data
 })
@@ -92,7 +94,7 @@ export const appRolesSlice = createSlice({
   },
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(fetchData.fulfilled, (state, action) => {
+    builder.addCase(fetchRole.fulfilled, (state, action) => {
       state.data = action.payload.roles
     })
   }

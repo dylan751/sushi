@@ -13,7 +13,7 @@ interface DataParams {
 }
 
 // ** Fetch Users
-export const fetchData = createAsyncThunk('appUsers/fetchData', async (params: DataParams) => {
+export const fetchUser = createAsyncThunk('appUsers/fetchUser', async (params: DataParams) => {
   const organizationId = getOrgId()
   const storedToken = getAccessToken()
 
@@ -44,7 +44,7 @@ export const appUsersSlice = createSlice({
   },
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(fetchData.fulfilled, (state, action) => {
+    builder.addCase(fetchUser.fulfilled, (state, action) => {
       state.data = action.payload.users
       state.total = action.payload.metadata.total
       state.params = action.payload.metadata.params

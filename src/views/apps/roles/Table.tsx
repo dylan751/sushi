@@ -26,7 +26,7 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 import { getInitials } from 'src/@core/utils/get-initials'
 
 // ** Actions Imports
-import { fetchData } from 'src/store/apps/user'
+import { fetchUser } from 'src/store/apps/user'
 
 // ** Types Imports
 import { RootState, AppDispatch } from 'src/store'
@@ -114,7 +114,7 @@ const columns: GridColDef[] = [
         >
           {row.roles.map(role => (
             <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }} key={role.id}>
-              {role.slug}
+              {role.name}
             </Typography>
           ))}
         </Box>
@@ -147,7 +147,7 @@ const UserList = () => {
 
   useEffect(() => {
     dispatch(
-      fetchData({
+      fetchUser({
         role: role,
         query: value
       })

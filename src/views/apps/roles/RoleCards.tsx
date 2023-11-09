@@ -49,7 +49,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
-import { addRole, deleteRole, fetchData, updateRole } from 'src/store/apps/role'
+import { addRole, deleteRole, fetchRole, updateRole } from 'src/store/apps/role'
 
 // ** Hooks
 import { useApi } from 'src/hooks/useApi'
@@ -180,7 +180,7 @@ const RolesCards = () => {
     }
 
     // Fetch organization's roles
-    dispatch(fetchData())
+    dispatch(fetchRole())
 
     // Fetch all permission subjects
     fetchPermissionSubjects()
