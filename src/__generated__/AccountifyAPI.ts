@@ -204,6 +204,7 @@ export interface RoleResponseDto {
   /** @example "admin" */
   slug: string
   permissions: Permission[]
+  isCustom: boolean
   /**
    * @format date-time
    * @example "2020/01/01 15:00:00"
