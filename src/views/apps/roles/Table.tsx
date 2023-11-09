@@ -27,13 +27,15 @@ import { getInitials } from 'src/@core/utils/get-initials'
 
 // ** Actions Imports
 import { fetchUser } from 'src/store/apps/user'
+import { fetchRole } from 'src/store/apps/role'
 
 // ** Types Imports
 import { RootState, AppDispatch } from 'src/store'
+import { OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Custom Components Imports
 import TableHeader from 'src/views/apps/roles/TableHeader'
-import { OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
+import DialogEditUserRole from './dialogs/DialogEditUserRole'
 
 interface CellType {
   row: OrganizationUserResponseDto
@@ -48,7 +50,7 @@ const renderClient = (row: OrganizationUserResponseDto) => {
   )
 }
 
-const columns: GridColDef[] = [
+const defaultColumns: GridColDef[] = [
   {
     flex: 0.2,
     minWidth: 230,
@@ -120,30 +122,22 @@ const columns: GridColDef[] = [
         </Box>
       )
     }
-  },
-  {
-    flex: 0.1,
-    minWidth: 100,
-    sortable: false,
-    field: 'actions',
-    headerName: 'Actions',
-    renderCell: () => (
-      <IconButton component={Link} href='/apps/user/view/overview/'>
-        <Icon icon='mdi:eye-outline' />
-      </IconButton>
-    )
   }
 ]
 
 const UserList = () => {
   // ** State
+  const [showDialogEditUserRole, setShowDialogEditUserRole] = useState<boolean>(false)
   const [role, setRole] = useState<string>('')
   const [value, setValue] = useState<string>('')
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
+  const [selectedOrganizationUser, setSelectedOrganizationUser] = useState<OrganizationUserResponseDto | null>(null)
+  const [selectedCheckbox, setSelectedCheckbox] = useState<string[]>([])
 
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
-  const store = useSelector((state: RootState) => state.user)
+  const userStore = useSelector((state: RootState) => state.user)
+  const roleStore = useSelector((state: RootState) => state.role)
 
   useEffect(() => {
     dispatch(
@@ -152,6 +146,7 @@ const UserList = () => {
         query: value
       })
     )
+    dispatch(fetchRole())
   }, [dispatch, role, value])
 
   const handleFilter = useCallback((val: string) => {
@@ -162,6 +157,45 @@ const UserList = () => {
     setRole(e.target.value)
   }, [])
 
+  const handleEditUserRole = (orgUser: OrganizationUserResponseDto) => {
+    const userRoleIds = orgUser.roles.map(role => role.id)
+
+    userRoleIds.forEach(roleId => {
+      const arr = selectedCheckbox
+      if (selectedCheckbox.includes(roleId.toString())) {
+        arr.splice(arr.indexOf(roleId.toString()), 1)
+        setSelectedCheckbox([...arr])
+      } else {
+        arr.push(roleId.toString())
+        setSelectedCheckbox([...arr])
+      }
+    })
+
+    setSelectedOrganizationUser(orgUser)
+    setShowDialogEditUserRole(true)
+  }
+
+  const columns: GridColDef[] = [
+    ...defaultColumns,
+    {
+      flex: 0.1,
+      minWidth: 100,
+      sortable: false,
+      field: 'actions',
+      headerName: 'Actions',
+      renderCell: ({ row }: CellType) => (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <IconButton color='info' onClick={() => handleEditUserRole(row)}>
+            <Icon icon='mdi:pencil-outline' fontSize={20} />
+          </IconButton>
+          <IconButton color='error'>
+            <Icon icon='mdi:delete-outline' fontSize={20} />
+          </IconButton>
+        </Box>
+      )
+    }
+  ]
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -169,7 +203,7 @@ const UserList = () => {
           <TableHeader role={role} value={value} handleFilter={handleFilter} handleRoleChange={handleRoleChange} />
           <DataGrid
             autoHeight
-            rows={store.data}
+            rows={userStore.data}
             columns={columns}
             checkboxSelection
             disableRowSelectionOnClick
@@ -179,6 +213,14 @@ const UserList = () => {
           />
         </Card>
       </Grid>
+      <DialogEditUserRole
+        show={showDialogEditUserRole}
+        setShow={setShowDialogEditUserRole}
+        organizationUser={selectedOrganizationUser}
+        allRoles={roleStore.data}
+        selectedCheckbox={selectedCheckbox}
+        setSelectedCheckbox={setSelectedCheckbox}
+      />
     </Grid>
   )
 }

@@ -26,5 +26,13 @@
         "create_organization_header": "Tạo tổ chức 🚀",
         "create_organization_description": "Khởi tạo dự án của bạn",
         "create": "Tạo"
+    },
+    "role_page": {
+        "role_errors": {
+            "no_roles_selected": "Bạn chưa chọn quyền nào",
+            "admin": "Admin không thể được sử dụng cùng với quyền khác",
+            "no_admin_nor_member": "Member phải được chọn",
+            "max_of_roles_can_be_selected": "Chỉ được chọn một số lượng quyền giới hạn"
+        }
     }
 }

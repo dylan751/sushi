@@ -26,5 +26,13 @@
         "create_organization_header": "Create new organization 🚀",
         "create_organization_description": "Kick start your project",
         "create": "Create"
+    },
+    "role_page": {
+        "role_errors": {
+            "no_roles_selected": "No roles have been selected",
+            "admin": "Admin cannot be used with other roles",
+            "no_admin_nor_member": "Member has to be selected",
+            "max_of_roles_can_be_selected": "Only a maximum of roles can be selected"
+        }
     }
 }

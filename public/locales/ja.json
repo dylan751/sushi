@@ -26,5 +26,13 @@
         "create_organization_header": "新規登録 🚀",
         "create_organization_description": "プロジェクトをスタートする",
         "create": "登録"
+    },
+    "role_page": {
+        "role_errors": {
+            "no_roles_selected": "ロールが設定されていません",
+            "admin": "Adminは他のロールと一緒に使用することはできません",
+            "no_admin_nor_member": "Memberを選択する必要があります",
+            "max_of_roles_can_be_selected": "最大ロール個のみ選択できます"
+        }
     }
 }
