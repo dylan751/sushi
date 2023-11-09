@@ -228,7 +228,7 @@ const RolesCards = () => {
               </Box>
               {item.isCustom && (
                 <IconButton
-                  sx={{ color: 'error.light' }}
+                  color='error'
                   onClick={() => {
                     setShowDialogDeleteRole(true)
                     setSelectedRole(item)
