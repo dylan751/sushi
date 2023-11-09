@@ -49,7 +49,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
-import { addRole, fetchData, updateRole } from 'src/store/apps/role'
+import { addRole, deleteRole, fetchData, updateRole } from 'src/store/apps/role'
 
 // ** Hooks
 import { useApi } from 'src/hooks/useApi'
@@ -57,6 +57,7 @@ import { useApi } from 'src/hooks/useApi'
 // ** Third parties Imports
 import { Controller, FieldValues, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
+import DialogDeleteRole from './dialogs/DialogDeleteRole'
 
 const cardDummyData = {
   totalUsers: 5,
@@ -73,6 +74,7 @@ const RolesCards = () => {
   const store = useSelector((state: RootState) => state.role)
 
   // ** States
+  const [showDialogDeleteRole, setShowDialogDeleteRole] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false)
   const [dialogTitle, setDialogTitle] = useState<'Add' | 'Edit'>('Add')
   const [selectedCheckbox, setSelectedCheckbox] = useState<string[]>([])
@@ -99,6 +101,14 @@ const RolesCards = () => {
 
     setSelectedRole(role)
     setOpen(true)
+  }
+
+  const handleDelete = (roleId: number) => {
+    dispatch(deleteRole(roleId))
+
+    toast.success('Delete role succeed')
+    setShowDialogDeleteRole(false)
+    setSelectedRole(null)
   }
 
   const handleClose = () => {
@@ -216,12 +226,26 @@ const RolesCards = () => {
                   </Typography>
                 )}
               </Box>
-              <IconButton sx={{ color: 'text.secondary' }}>
-                <Icon icon='mdi:content-copy' fontSize={20} />
-              </IconButton>
+              {item.slug !== 'admin' && item.slug !== 'member' && (
+                <IconButton
+                  sx={{ color: 'error.light' }}
+                  onClick={() => {
+                    setShowDialogDeleteRole(true)
+                    setSelectedRole(item)
+                  }}
+                >
+                  <Icon icon='mdi:delete-outline' fontSize={20} />
+                </IconButton>
+              )}
             </Box>
           </CardContent>
         </Card>
+        <DialogDeleteRole
+          show={showDialogDeleteRole}
+          setShow={setShowDialogDeleteRole}
+          roleId={selectedRole?.id || 0}
+          handleDelete={handleDelete}
+        />
       </Grid>
     ))
 

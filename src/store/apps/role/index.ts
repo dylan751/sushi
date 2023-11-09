@@ -68,6 +68,22 @@ export const updateRole = createAsyncThunk(
 )
 
 // ** Delete Role
+export const deleteRole = createAsyncThunk('appRoles/deleteRole', async (roleId: number, { dispatch }: Redux) => {
+  const organizationId = getOrgId()
+  const storedToken = getAccessToken()
+
+  const response = await new Api({
+    baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+    timeout: 30 * 1000, // 30 seconds
+    headers: {
+      Authorization: `Bearer ${storedToken}`
+    }
+  }).internal.deleteARoleForAnOrganization(organizationId, roleId)
+
+  dispatch(fetchData())
+
+  return response.data
+})
 
 export const appRolesSlice = createSlice({
   name: 'appRoles',
