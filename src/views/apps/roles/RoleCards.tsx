@@ -222,11 +222,11 @@ const RolesCards = () => {
                       setDialogTitle('Edit')
                     }}
                   >
-                    {item.slug === 'admin' || item.slug === 'member' ? 'Show' : 'Edit'} Role
+                    {item.isCustom ? 'Edit' : 'Show'} Role
                   </Typography>
                 )}
               </Box>
-              {item.slug !== 'admin' && item.slug !== 'member' && (
+              {item.isCustom && (
                 <IconButton
                   sx={{ color: 'error.light' }}
                   onClick={() => {
@@ -456,9 +456,7 @@ const RolesCards = () => {
                 size='large'
                 type='submit'
                 variant='contained'
-                disabled={
-                  selectedRole && (selectedRole.slug === 'admin' || selectedRole.slug === 'member') ? true : false
-                }
+                disabled={selectedRole && !selectedRole.isCustom ? true : false}
               >
                 Submit
               </Button>
@@ -466,7 +464,7 @@ const RolesCards = () => {
                 Cancel
               </Button>
             </Box>
-            {selectedRole && (selectedRole.slug === 'admin' || selectedRole.slug === 'member') && (
+            {selectedRole && !selectedRole.isCustom && (
               <Typography variant='body2' color='error'>
                 This is the default role, you shouldn't edit this
               </Typography>
