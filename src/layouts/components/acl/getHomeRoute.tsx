@@ -15,7 +15,7 @@ const getHomeRoute = (user: ProfileResponseDto) => {
   let role = ''
   if (organization) {
     const userOrganization = user.organizations.find(org => org.id === organization.id)!
-    role = userOrganization.roles[0].slug // For now, each user of an organization only have 1 role
+    role = userOrganization.roles[0].slug // Just to check if an user has logged in an organization or not
   }
 
   if (!role) return '/organization'
