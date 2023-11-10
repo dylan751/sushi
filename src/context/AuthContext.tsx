@@ -27,7 +27,8 @@ import {
 } from 'src/__generated__/AccountifyAPI'
 
 // ** Utils
-import { getAccessToken, getOrganization, getPermissions } from 'src/utils/localStorage'
+import { getAccessToken } from 'src/utils/localStorage'
+import { getOrgUniqueName } from 'src/utils/organization'
 
 // ** Defaults
 const defaultProvider: AuthValuesType = {
@@ -66,44 +67,49 @@ const AuthProvider = ({ children }: Props) => {
   useEffect(() => {
     const initAuth = async (): Promise<void> => {
       const storedToken = getAccessToken()
-      const storedOrganization = getOrganization()
-      const storedPermissions = getPermissions()
 
       if (storedToken) {
-        // Re-create axios instance with Bearer token everytime the page is reloaded
-        set$Api(
-          new Api({
-            baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
-            timeout: 30 * 1000, // 30 seconds
-            headers: {
-              Authorization: `Bearer ${storedToken}`
-            }
-          })
-        )
-
-        setLoading(true)
-
-        // This api is called right after the page is reloaded, therefore it haven't had attached accesstoken yet
-        new Api({
+        const api = new Api({
           baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
           timeout: 30 * 1000, // 30 seconds
           headers: {
             Authorization: `Bearer ${storedToken}`
           }
-        }).internal
+        })
+
+        // Re-create axios instance with Bearer token everytime the page is reloaded
+        set$Api(api)
+
+        setLoading(true)
+
+        // This api is called right after the page is reloaded, therefore it haven't had attached accesstoken yet
+        api.internal
           .getUserProfile()
           .then(async response => {
             setLoading(false)
             setUser(response.data)
-            if (storedOrganization) {
-              setOrganization(storedOrganization)
-              setPermissions(storedPermissions)
+
+            /**
+             * Check current url
+             * Get uniqueName from the user's manual typing url
+             * If it's a valid uniqueName -> set organization, permissions in localStorage -> redirect
+             * If it's not a valid uniqueName -> redirect to /organization page for the user to select again
+             * TODO: Consider Server-side rendered navItems (dynamic?)
+             */
+            const orgUniqueName = getOrgUniqueName()
+            const organization = response.data.organizations.find(org => org.uniqueName === orgUniqueName)
+            if (organization) {
+              window.localStorage.setItem('organization', JSON.stringify(organization))
+              setOrganization(organization)
+              const response = await api.internal.getUserPermissions(organization.id)
+              setPermissions(response.data.permissions)
+            } else {
+              router.replace('/organization')
             }
           })
           .catch(() => {
             localStorage.removeItem('userData')
             localStorage.removeItem('organization')
-            localStorage.removeItem('permissions')
             localStorage.removeItem('refreshToken')
             localStorage.removeItem(authConfig.storageTokenKeyName)
             setUser(null)
@@ -170,7 +176,6 @@ const AuthProvider = ({ children }: Props) => {
     setUser(null)
     window.localStorage.removeItem('userData')
     window.localStorage.removeItem('organization')
-    window.localStorage.removeItem('permissions')
     window.localStorage.removeItem(authConfig.storageTokenKeyName)
     router.push('/login')
   }
