@@ -1,15 +1,15 @@
 // ** Types
-import { OrganizationProfileResponseDto, ProfileResponseDto } from 'src/__generated__/AccountifyAPI'
+import { ProfileResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Utils
-import { getOrganization } from 'src/utils/localStorage'
+import { getOrgUniqueName } from 'src/utils/organization'
 
 /**
  *  Set Home URL based on User Roles
  */
 const getHomeRoute = (user: ProfileResponseDto) => {
-  const organization: OrganizationProfileResponseDto = getOrganization()
-  const uniqueName = organization ? `/${organization.uniqueName}` : ''
+  const orgUniqueName = getOrgUniqueName()
+  const organization = user.organizations.find(org => org.uniqueName === orgUniqueName)
 
   // Get user's organization's role
   let role = ''
@@ -19,7 +19,7 @@ const getHomeRoute = (user: ProfileResponseDto) => {
   }
 
   if (!role) return '/organization'
-  else return `${uniqueName}/home`
+  else return `${orgUniqueName}/home`
 }
 
 export default getHomeRoute

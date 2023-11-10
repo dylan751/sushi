@@ -29,8 +29,6 @@ const OrganizationPage = () => {
     // Set organization and permissions data into AuthContext
     window.localStorage.setItem('organization', JSON.stringify(organization))
     setOrganization(organization)
-
-    window.localStorage.setItem('permissions', JSON.stringify(response.data.permissions))
     setPermissions(userPermissions)
 
     router.replace(`/${organization.uniqueName}/home`)
