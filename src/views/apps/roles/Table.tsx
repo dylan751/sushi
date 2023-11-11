@@ -26,7 +26,7 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 import { getInitials } from 'src/@core/utils/get-initials'
 
 // ** Actions Imports
-import { fetchUser } from 'src/store/apps/user'
+import { fetchAdminCount, fetchUser } from 'src/store/apps/user'
 import { fetchRole } from 'src/store/apps/role'
 
 // ** Types Imports
@@ -146,8 +146,13 @@ const UserList = () => {
         query: value
       })
     )
+    dispatch(fetchAdminCount())
     dispatch(fetchRole())
   }, [dispatch, role, value])
+
+  const hasOnlyOneAdmin = (): boolean => {
+    return userStore.totalAdmins <= 1
+  }
 
   const handleFilter = useCallback((val: string) => {
     setValue(val)
@@ -220,6 +225,7 @@ const UserList = () => {
         allRoles={roleStore.data}
         selectedCheckbox={selectedCheckbox}
         setSelectedCheckbox={setSelectedCheckbox}
+        hasOnlyOneAdmin={hasOnlyOneAdmin}
       />
     </Grid>
   )
