@@ -174,6 +174,14 @@ const RolesCards = () => {
     }
   }
 
+  const isSubmitDisabled = (): boolean => {
+    if (selectedRole) {
+      return !selectedRole.isCustom || !ability?.can('update', 'role')
+    } else {
+      return !ability?.can('create', 'role')
+    }
+  }
+
   useEffect(() => {
     const fetchPermissionSubjects = async () => {
       const response = await $api.internal.getPermissionSubjectList()
@@ -213,21 +221,19 @@ const RolesCards = () => {
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
               <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
                 <Typography variant='h6'>{item.name}</Typography>
-                {ability?.can('update', 'role') && (
-                  <Typography
-                    href='/'
-                    variant='body2'
-                    component={Link}
-                    sx={{ color: 'primary.main', textDecoration: 'none' }}
-                    onClick={e => {
-                      e.preventDefault()
-                      handleClickOpenEdit(item.id)
-                      setDialogTitle('Edit')
-                    }}
-                  >
-                    {item.isCustom ? 'Edit' : 'Show'} Role
-                  </Typography>
-                )}
+                <Typography
+                  href='/'
+                  variant='body2'
+                  component={Link}
+                  sx={{ color: 'primary.main', textDecoration: 'none' }}
+                  onClick={e => {
+                    e.preventDefault()
+                    handleClickOpenEdit(item.id)
+                    setDialogTitle('Edit')
+                  }}
+                >
+                  {item.isCustom ? 'Edit' : 'Show'} Role
+                </Typography>
               </Box>
               {ability?.can('delete', 'role') && item.isCustom && (
                 <IconButton
@@ -455,12 +461,7 @@ const RolesCards = () => {
             }}
           >
             <Box className='demo-space-x'>
-              <Button
-                size='large'
-                type='submit'
-                variant='contained'
-                disabled={selectedRole && !selectedRole.isCustom ? true : false}
-              >
+              <Button size='large' type='submit' variant='contained' disabled={isSubmitDisabled()}>
                 Submit
               </Button>
               <Button size='large' color='secondary' variant='outlined' onClick={handleClose}>
