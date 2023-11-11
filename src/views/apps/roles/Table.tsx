@@ -25,6 +25,7 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
 import { getOrgId } from 'src/utils/localStorage'
+import { isAdmin } from 'src/utils/role'
 
 // ** Actions Imports
 import { fetchAdminCount, fetchUser, updateUser } from 'src/store/apps/user'
@@ -163,6 +164,16 @@ const UserList = () => {
     return userStore.totalAdmins <= 1
   }
 
+  const isUserOnlyAdmin = (): boolean => {
+    if (!selectedOrganizationUser) return false
+
+    return hasOnlyOneAdmin() && isAdmin(selectedOrganizationUser.roles)
+  }
+
+  const isUserLastAdmin = (user: OrganizationUserResponseDto): boolean => {
+    return hasOnlyOneAdmin() && isAdmin(user.roles)
+  }
+
   const handleFilter = useCallback((val: string) => {
     setValue(val)
   }, [])
@@ -223,7 +234,7 @@ const UserList = () => {
             </IconButton>
           )}
           {ability?.can('delete', 'user') && (
-            <IconButton color='error'>
+            <IconButton color='error' disabled={isUserLastAdmin(row)}>
               <Icon icon='mdi:delete-outline' fontSize={20} />
             </IconButton>
           )}
@@ -253,11 +264,10 @@ const UserList = () => {
       <DialogEditUserRole
         show={showDialogEditUserRole}
         setShow={setShowDialogEditUserRole}
-        selectedOrganizationUser={selectedOrganizationUser}
         allRoles={roleStore.data}
         selectedCheckbox={selectedCheckbox}
         setSelectedCheckbox={setSelectedCheckbox}
-        hasOnlyOneAdmin={hasOnlyOneAdmin}
+        isUserOnlyAdmin={isUserOnlyAdmin}
         handleEditUserRole={onSubmitEditUserRole}
       />
     </Grid>
