@@ -238,6 +238,7 @@ const UserList = () => {
             pageSizeOptions={[10, 25, 50]}
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}
+            getRowHeight={() => 'auto'}
           />
         </Card>
       </Grid>
