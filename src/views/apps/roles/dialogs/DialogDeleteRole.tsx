@@ -13,12 +13,14 @@ import DialogActions from '@mui/material/DialogActions'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
+import { RoleResponseDto } from 'src/__generated__/AccountifyAPI'
 
 interface DialogDeleteRoleProps {
   show: boolean
   setShow: (value: boolean) => void
   roleId: number
   handleDelete: (roleId: number) => void
+  setSelectedRole: (value: RoleResponseDto | null) => void
 }
 
 const Transition = forwardRef(function Transition(
@@ -29,17 +31,15 @@ const Transition = forwardRef(function Transition(
 })
 
 const DialogDeleteRole = (props: DialogDeleteRoleProps) => {
-  const { show, setShow, roleId, handleDelete } = props
+  const { show, setShow, roleId, handleDelete, setSelectedRole } = props
+
+  const handleClose = () => {
+    setShow(false)
+    setSelectedRole(null)
+  }
 
   return (
-    <Dialog
-      fullWidth
-      open={show}
-      maxWidth='md'
-      scroll='body'
-      onClose={() => setShow(false)}
-      TransitionComponent={Transition}
-    >
+    <Dialog fullWidth open={show} maxWidth='sm' scroll='body' onClose={handleClose} TransitionComponent={Transition}>
       <DialogContent
         sx={{
           position: 'relative',
@@ -48,11 +48,7 @@ const DialogDeleteRole = (props: DialogDeleteRoleProps) => {
           pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
         }}
       >
-        <IconButton
-          size='small'
-          onClick={() => setShow(false)}
-          sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
-        >
+        <IconButton size='small' onClick={handleClose} sx={{ position: 'absolute', right: '1rem', top: '1rem' }}>
           <Icon icon='mdi:close' />
         </IconButton>
         <Box sx={{ mb: 8, textAlign: 'center' }}>
@@ -72,7 +68,7 @@ const DialogDeleteRole = (props: DialogDeleteRoleProps) => {
         <Button variant='contained' color='error' sx={{ mr: 1 }} onClick={() => handleDelete(roleId)}>
           Delete
         </Button>
-        <Button variant='outlined' color='secondary' onClick={() => setShow(false)}>
+        <Button variant='outlined' color='secondary' onClick={handleClose}>
           Discard
         </Button>
       </DialogActions>
