@@ -59,6 +59,9 @@ import { Controller, FieldValues, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import DialogDeleteRole from './dialogs/DialogDeleteRole'
 
+// ** Util Imports
+import { MAX_ROLES_PER_ORGANIZATION } from 'src/utils/role'
+
 const cardDummyData = {
   totalUsers: 5,
   avatars: ['4.png', '5.png', '6.png', '7.png', '8.png']
@@ -226,7 +229,7 @@ const RolesCards = () => {
                   </Typography>
                 )}
               </Box>
-              {item.isCustom && (
+              {ability?.can('delete', 'role') && item.isCustom && (
                 <IconButton
                   color='error'
                   onClick={() => {
@@ -252,7 +255,7 @@ const RolesCards = () => {
   return (
     <Grid container spacing={6} className='match-height'>
       {renderCards()}
-      {ability?.can('create', 'role') && (
+      {ability?.can('create', 'role') && store.data.length <= MAX_ROLES_PER_ORGANIZATION && (
         <Grid item xs={12} sm={6} lg={4}>
           <Card
             sx={{ cursor: 'pointer' }}
