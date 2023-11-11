@@ -24,18 +24,22 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
+import { getOrgId } from 'src/utils/localStorage'
 
 // ** Actions Imports
-import { fetchAdminCount, fetchUser } from 'src/store/apps/user'
+import { fetchAdminCount, fetchUser, updateUser } from 'src/store/apps/user'
 import { fetchRole } from 'src/store/apps/role'
 
 // ** Types Imports
 import { RootState, AppDispatch } from 'src/store'
-import { OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
+import { OrganizationProfileResponseDto, OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Custom Components Imports
 import TableHeader from 'src/views/apps/roles/TableHeader'
 import DialogEditUserRole from './dialogs/DialogEditUserRole'
+
+// ** Hook Imports
+import { useAuth } from 'src/hooks/useAuth'
 
 interface CellType {
   row: OrganizationUserResponseDto
@@ -138,6 +142,7 @@ const UserList = () => {
   const dispatch = useDispatch<AppDispatch>()
   const userStore = useSelector((state: RootState) => state.user)
   const roleStore = useSelector((state: RootState) => state.role)
+  const { user } = useAuth()
 
   useEffect(() => {
     dispatch(
@@ -178,6 +183,24 @@ const UserList = () => {
 
     setSelectedOrganizationUser(orgUser)
     setShowDialogEditUserRole(true)
+  }
+
+  const onSubmitEditUserRole = () => {
+    if (!selectedOrganizationUser) return
+    const orgId = getOrgId()
+    const data = {
+      userId: selectedOrganizationUser.id,
+      roleIds: selectedCheckbox.map(roleId => parseInt(roleId))
+    }
+    dispatch(updateUser(data))
+    if (selectedOrganizationUser.id !== user!.id) {
+      setShowDialogEditUserRole(false)
+      setSelectedCheckbox([])
+
+      return
+    }
+    const organization = user!.organizations.find((org: OrganizationProfileResponseDto) => org.id === orgId)!
+    window.location.assign(`/${organization.uniqueName}/home`)
   }
 
   const columns: GridColDef[] = [
@@ -221,11 +244,12 @@ const UserList = () => {
       <DialogEditUserRole
         show={showDialogEditUserRole}
         setShow={setShowDialogEditUserRole}
-        organizationUser={selectedOrganizationUser}
+        selectedOrganizationUser={selectedOrganizationUser}
         allRoles={roleStore.data}
         selectedCheckbox={selectedCheckbox}
         setSelectedCheckbox={setSelectedCheckbox}
         hasOnlyOneAdmin={hasOnlyOneAdmin}
+        handleEditUserRole={onSubmitEditUserRole}
       />
     </Grid>
   )

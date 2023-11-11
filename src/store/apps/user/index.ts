@@ -1,8 +1,8 @@
 // ** Redux Imports
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, Dispatch } from '@reduxjs/toolkit'
 
 // ** Types
-import { Api, OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
+import { Api, OrganizationUserResponseDto, UpdateOrganizationUserRequestDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Utils
 import { getAccessToken, getOrgId } from 'src/utils/localStorage'
@@ -10,6 +10,11 @@ import { getAccessToken, getOrgId } from 'src/utils/localStorage'
 interface DataParams {
   query: string
   role: string
+}
+
+interface Redux {
+  getState: any
+  dispatch: Dispatch<any>
 }
 
 // ** Fetch Users
@@ -31,6 +36,26 @@ export const fetchUser = createAsyncThunk('appUsers/fetchUser', async (params: D
 // ** Add User
 
 // ** Update User
+export const updateUser = createAsyncThunk(
+  'appUsers/updateUser',
+  async (data: UpdateOrganizationUserRequestDto & { userId: number }, { dispatch }: Redux) => {
+    const organizationId = getOrgId()
+    const storedToken = getAccessToken()
+
+    const response = await new Api({
+      baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+      timeout: 30 * 1000, // 30 seconds
+      headers: {
+        Authorization: `Bearer ${storedToken}`
+      }
+    }).internal.usersControllerUpdate(organizationId, data.userId, data)
+
+    dispatch(fetchUser({ role: '', query: '' }))
+    dispatch(fetchAdminCount())
+
+    return response.data
+  }
+)
 
 // ** Delete User
 
