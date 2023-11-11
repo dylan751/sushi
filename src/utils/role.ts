@@ -1,6 +1,7 @@
 import { UserRole } from 'src/__generated__/AccountifyAPI'
 
 export const MAX_ROLES_PER_USER = 5
+export const MAX_ROLES_PER_ORGANIZATION = 6
 export const ADMIN_ROLE_ID = 1
 export const MEMBER_ROLE_ID = 2
 

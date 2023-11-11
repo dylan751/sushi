@@ -1,5 +1,5 @@
 // ** React Imports
-import { useEffect, useCallback, useState } from 'react'
+import { useEffect, useCallback, useState, useContext } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
@@ -40,6 +40,9 @@ import DialogEditUserRole from './dialogs/DialogEditUserRole'
 
 // ** Hook Imports
 import { useAuth } from 'src/hooks/useAuth'
+
+// ** Context Imports
+import { AbilityContext } from 'src/layouts/components/acl/Can'
 
 interface CellType {
   row: OrganizationUserResponseDto
@@ -142,6 +145,7 @@ const UserList = () => {
   const dispatch = useDispatch<AppDispatch>()
   const userStore = useSelector((state: RootState) => state.user)
   const roleStore = useSelector((state: RootState) => state.role)
+  const ability = useContext(AbilityContext)
   const { user } = useAuth()
 
   useEffect(() => {
@@ -213,12 +217,16 @@ const UserList = () => {
       headerName: 'Actions',
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <IconButton color='info' onClick={() => handleEditUserRole(row)}>
-            <Icon icon='mdi:pencil-outline' fontSize={20} />
-          </IconButton>
-          <IconButton color='error'>
-            <Icon icon='mdi:delete-outline' fontSize={20} />
-          </IconButton>
+          {ability?.can('update', 'user') && (
+            <IconButton color='info' onClick={() => handleEditUserRole(row)}>
+              <Icon icon='mdi:pencil-outline' fontSize={20} />
+            </IconButton>
+          )}
+          {ability?.can('delete', 'user') && (
+            <IconButton color='error'>
+              <Icon icon='mdi:delete-outline' fontSize={20} />
+            </IconButton>
+          )}
         </Box>
       )
     }

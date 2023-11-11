@@ -59,6 +59,9 @@ import { Controller, FieldValues, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import DialogDeleteRole from './dialogs/DialogDeleteRole'
 
+// ** Util Imports
+import { MAX_ROLES_PER_ORGANIZATION } from 'src/utils/role'
+
 const cardDummyData = {
   totalUsers: 5,
   avatars: ['4.png', '5.png', '6.png', '7.png', '8.png']
@@ -171,6 +174,14 @@ const RolesCards = () => {
     }
   }
 
+  const isSubmitDisabled = (): boolean => {
+    if (selectedRole) {
+      return !selectedRole.isCustom || !ability?.can('update', 'role')
+    } else {
+      return !ability?.can('create', 'role')
+    }
+  }
+
   useEffect(() => {
     const fetchPermissionSubjects = async () => {
       const response = await $api.internal.getPermissionSubjectList()
@@ -210,23 +221,21 @@ const RolesCards = () => {
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
               <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
                 <Typography variant='h6'>{item.name}</Typography>
-                {ability?.can('update', 'role') && (
-                  <Typography
-                    href='/'
-                    variant='body2'
-                    component={Link}
-                    sx={{ color: 'primary.main', textDecoration: 'none' }}
-                    onClick={e => {
-                      e.preventDefault()
-                      handleClickOpenEdit(item.id)
-                      setDialogTitle('Edit')
-                    }}
-                  >
-                    {item.isCustom ? 'Edit' : 'Show'} Role
-                  </Typography>
-                )}
+                <Typography
+                  href='/'
+                  variant='body2'
+                  component={Link}
+                  sx={{ color: 'primary.main', textDecoration: 'none' }}
+                  onClick={e => {
+                    e.preventDefault()
+                    handleClickOpenEdit(item.id)
+                    setDialogTitle('Edit')
+                  }}
+                >
+                  {item.isCustom ? 'Edit' : 'Show'} Role
+                </Typography>
               </Box>
-              {item.isCustom && (
+              {ability?.can('delete', 'role') && item.isCustom && (
                 <IconButton
                   color='error'
                   onClick={() => {
@@ -252,7 +261,7 @@ const RolesCards = () => {
   return (
     <Grid container spacing={6} className='match-height'>
       {renderCards()}
-      {ability?.can('create', 'role') && (
+      {ability?.can('create', 'role') && store.data.length <= MAX_ROLES_PER_ORGANIZATION && (
         <Grid item xs={12} sm={6} lg={4}>
           <Card
             sx={{ cursor: 'pointer' }}
@@ -452,12 +461,7 @@ const RolesCards = () => {
             }}
           >
             <Box className='demo-space-x'>
-              <Button
-                size='large'
-                type='submit'
-                variant='contained'
-                disabled={selectedRole && !selectedRole.isCustom ? true : false}
-              >
+              <Button size='large' type='submit' variant='contained' disabled={isSubmitDisabled()}>
                 Submit
               </Button>
               <Button size='large' color='secondary' variant='outlined' onClick={handleClose}>
