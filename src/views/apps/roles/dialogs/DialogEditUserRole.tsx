@@ -23,11 +23,12 @@ import { useTranslation } from 'react-i18next'
 interface DialogEditUserRoleProps {
   show: boolean
   setShow: (value: boolean) => void
-  organizationUser: OrganizationUserResponseDto | null
+  selectedOrganizationUser: OrganizationUserResponseDto | null
   allRoles: RoleResponseDto[]
   selectedCheckbox: string[]
   setSelectedCheckbox: (value: string[]) => void
   hasOnlyOneAdmin: () => boolean
+  handleEditUserRole: () => void
 }
 
 const Transition = forwardRef(function Transition(
@@ -39,13 +40,24 @@ const Transition = forwardRef(function Transition(
 
 const DialogEditUserRole = (props: DialogEditUserRoleProps) => {
   // ** Props
-  const { show, setShow, organizationUser, allRoles, selectedCheckbox, setSelectedCheckbox, hasOnlyOneAdmin } = props
+  const {
+    show,
+    setShow,
+    selectedOrganizationUser,
+    allRoles,
+    selectedCheckbox,
+    setSelectedCheckbox,
+    hasOnlyOneAdmin,
+    handleEditUserRole
+  } = props
 
   // ** Hooks
   const { t } = useTranslation()
 
   const isUserOnlyAdmin = (): boolean => {
-    return hasOnlyOneAdmin() && isAdmin(organizationUser?.roles)
+    if (!selectedOrganizationUser) return false
+
+    return hasOnlyOneAdmin() && isAdmin(selectedOrganizationUser.roles)
   }
 
   const isRoleDisabled = (role: RoleResponseDto): boolean => {
@@ -67,13 +79,6 @@ const DialogEditUserRole = (props: DialogEditUserRoleProps) => {
       arr.push(id)
       setSelectedCheckbox([...arr])
     }
-  }
-
-  const handleEditUserRole = () => {
-    console.log(selectedCheckbox)
-    console.log(organizationUser)
-    setShow(false)
-    setSelectedCheckbox([])
   }
 
   const handleClose = () => {
