@@ -17,7 +17,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** Types Imports
 import { OrganizationUserResponseDto, RoleResponseDto } from 'src/__generated__/AccountifyAPI'
-import { areSelectedRolesValid, getRoleErrorMessageArgs } from 'src/utils/role'
+import { areSelectedRolesValid, getRoleErrorMessageArgs, isAdmin } from 'src/utils/role'
 import { useTranslation } from 'react-i18next'
 
 interface DialogEditUserRoleProps {
@@ -27,6 +27,7 @@ interface DialogEditUserRoleProps {
   allRoles: RoleResponseDto[]
   selectedCheckbox: string[]
   setSelectedCheckbox: (value: string[]) => void
+  hasOnlyOneAdmin: () => boolean
 }
 
 const Transition = forwardRef(function Transition(
@@ -38,10 +39,18 @@ const Transition = forwardRef(function Transition(
 
 const DialogEditUserRole = (props: DialogEditUserRoleProps) => {
   // ** Props
-  const { show, setShow, organizationUser, allRoles, selectedCheckbox, setSelectedCheckbox } = props
+  const { show, setShow, organizationUser, allRoles, selectedCheckbox, setSelectedCheckbox, hasOnlyOneAdmin } = props
 
   // ** Hooks
   const { t } = useTranslation()
+
+  const isUserOnlyAdmin = (): boolean => {
+    return hasOnlyOneAdmin() && isAdmin(organizationUser?.roles)
+  }
+
+  const isRoleDisabled = (role: RoleResponseDto): boolean => {
+    return isUserOnlyAdmin() && isAdmin(role)
+  }
 
   const maybeRoleError = (): string => {
     if (areSelectedRolesValid(selectedCheckbox.map(checkbox => parseInt(checkbox)))) return ''
@@ -104,6 +113,7 @@ const DialogEditUserRole = (props: DialogEditUserRoleProps) => {
                   id={item.id.toString()}
                   onChange={() => toggleRole(item.id.toString())}
                   checked={selectedCheckbox.includes(item.id.toString())}
+                  disabled={isRoleDisabled(item)}
                 />
               }
             />

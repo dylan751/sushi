@@ -1,6 +1,18 @@
+import { UserRole } from 'src/__generated__/AccountifyAPI'
+
 export const MAX_ROLES_PER_USER = 5
 export const ADMIN_ROLE_ID = 1
 export const MEMBER_ROLE_ID = 2
+
+export const isAdmin = (roleOrRoles?: UserRole | UserRole[]): boolean => {
+  if (!roleOrRoles) return false
+
+  if (!Array.isArray(roleOrRoles)) {
+    return roleOrRoles.id === ADMIN_ROLE_ID
+  }
+
+  return roleOrRoles.some(role => role.id === ADMIN_ROLE_ID)
+}
 
 /**
  * A user must have at least one role out of: [Admin, Member]
