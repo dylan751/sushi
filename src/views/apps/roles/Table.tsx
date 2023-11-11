@@ -28,7 +28,7 @@ import { getOrgId } from 'src/utils/localStorage'
 import { isAdmin } from 'src/utils/role'
 
 // ** Actions Imports
-import { fetchAdminCount, fetchUser, updateUser } from 'src/store/apps/user'
+import { deleteUser, fetchAdminCount, fetchUser, updateUser } from 'src/store/apps/user'
 import { fetchRole } from 'src/store/apps/role'
 
 // ** Types Imports
@@ -38,12 +38,16 @@ import { OrganizationProfileResponseDto, OrganizationUserResponseDto } from 'src
 // ** Custom Components Imports
 import TableHeader from 'src/views/apps/roles/TableHeader'
 import DialogEditUserRole from './dialogs/DialogEditUserRole'
+import DialogDeleteUser from './dialogs/DialogDeleteUser'
 
 // ** Hook Imports
 import { useAuth } from 'src/hooks/useAuth'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
+
+// ** Third Party Imports
+import toast from 'react-hot-toast'
 
 interface CellType {
   row: OrganizationUserResponseDto
@@ -136,6 +140,7 @@ const defaultColumns: GridColDef[] = [
 const UserList = () => {
   // ** State
   const [showDialogEditUserRole, setShowDialogEditUserRole] = useState<boolean>(false)
+  const [showDialogDeleteUser, setShowDialogDeleteUser] = useState<boolean>(false)
   const [role, setRole] = useState<string>('')
   const [value, setValue] = useState<string>('')
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
@@ -218,6 +223,14 @@ const UserList = () => {
     window.location.assign(`/${organization.uniqueName}/home`)
   }
 
+  const handleDeleteUser = (userId: number) => {
+    dispatch(deleteUser(userId))
+
+    toast.success('Remove user from this organization succeed')
+    setShowDialogDeleteUser(false)
+    setSelectedOrganizationUser(null)
+  }
+
   const columns: GridColDef[] = [
     ...defaultColumns,
     {
@@ -234,7 +247,14 @@ const UserList = () => {
             </IconButton>
           )}
           {ability?.can('delete', 'user') && (
-            <IconButton color='error' disabled={isUserLastAdmin(row)}>
+            <IconButton
+              color='error'
+              disabled={isUserLastAdmin(row)}
+              onClick={() => {
+                setShowDialogDeleteUser(true)
+                setSelectedOrganizationUser(row)
+              }}
+            >
               <Icon icon='mdi:delete-outline' fontSize={20} />
             </IconButton>
           )}
@@ -269,6 +289,13 @@ const UserList = () => {
         setSelectedCheckbox={setSelectedCheckbox}
         isUserOnlyAdmin={isUserOnlyAdmin}
         handleEditUserRole={onSubmitEditUserRole}
+      />
+      <DialogDeleteUser
+        show={showDialogDeleteUser}
+        setShow={setShowDialogDeleteUser}
+        userId={selectedOrganizationUser?.id || 0}
+        handleDelete={handleDeleteUser}
+        setSelectedOrganizationUser={setSelectedOrganizationUser}
       />
     </Grid>
   )
