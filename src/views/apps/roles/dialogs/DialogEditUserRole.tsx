@@ -16,18 +16,17 @@ import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'
 import Icon from 'src/@core/components/icon'
 
 // ** Types Imports
-import { OrganizationUserResponseDto, RoleResponseDto } from 'src/__generated__/AccountifyAPI'
+import { RoleResponseDto } from 'src/__generated__/AccountifyAPI'
 import { areSelectedRolesValid, getRoleErrorMessageArgs, isAdmin } from 'src/utils/role'
 import { useTranslation } from 'react-i18next'
 
 interface DialogEditUserRoleProps {
   show: boolean
   setShow: (value: boolean) => void
-  selectedOrganizationUser: OrganizationUserResponseDto | null
   allRoles: RoleResponseDto[]
   selectedCheckbox: string[]
   setSelectedCheckbox: (value: string[]) => void
-  hasOnlyOneAdmin: () => boolean
+  isUserOnlyAdmin: () => boolean
   handleEditUserRole: () => void
 }
 
@@ -40,25 +39,10 @@ const Transition = forwardRef(function Transition(
 
 const DialogEditUserRole = (props: DialogEditUserRoleProps) => {
   // ** Props
-  const {
-    show,
-    setShow,
-    selectedOrganizationUser,
-    allRoles,
-    selectedCheckbox,
-    setSelectedCheckbox,
-    hasOnlyOneAdmin,
-    handleEditUserRole
-  } = props
+  const { show, setShow, allRoles, selectedCheckbox, setSelectedCheckbox, isUserOnlyAdmin, handleEditUserRole } = props
 
   // ** Hooks
   const { t } = useTranslation()
-
-  const isUserOnlyAdmin = (): boolean => {
-    if (!selectedOrganizationUser) return false
-
-    return hasOnlyOneAdmin() && isAdmin(selectedOrganizationUser.roles)
-  }
 
   const isRoleDisabled = (role: RoleResponseDto): boolean => {
     return isUserOnlyAdmin() && isAdmin(role)

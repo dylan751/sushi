@@ -13,14 +13,14 @@ import DialogActions from '@mui/material/DialogActions'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
-import { RoleResponseDto } from 'src/__generated__/AccountifyAPI'
+import { OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
 
-interface DialogDeleteRoleProps {
+interface DialogDeleteUserProps {
   show: boolean
   setShow: (value: boolean) => void
-  roleId: number
-  handleDelete: (roleId: number) => void
-  setSelectedRole: (value: RoleResponseDto | null) => void
+  userId: number
+  handleDelete: (userId: number) => void
+  setSelectedOrganizationUser: (value: OrganizationUserResponseDto | null) => void
 }
 
 const Transition = forwardRef(function Transition(
@@ -30,12 +30,12 @@ const Transition = forwardRef(function Transition(
   return <Fade ref={ref} {...props} />
 })
 
-const DialogDeleteRole = (props: DialogDeleteRoleProps) => {
-  const { show, setShow, roleId, handleDelete, setSelectedRole } = props
+const DialogDeleteUser = (props: DialogDeleteUserProps) => {
+  const { show, setShow, userId, handleDelete, setSelectedOrganizationUser } = props
 
   const handleClose = () => {
     setShow(false)
-    setSelectedRole(null)
+    setSelectedOrganizationUser(null)
   }
 
   return (
@@ -53,9 +53,11 @@ const DialogDeleteRole = (props: DialogDeleteRoleProps) => {
         </IconButton>
         <Box sx={{ mb: 8, textAlign: 'center' }}>
           <Typography variant='h5' sx={{ mb: 3 }}>
-            Delete Role Confirmation
+            Remove User Confirmation
           </Typography>
-          <Typography variant='body2'>Delete this role will unassign it from every users.</Typography>
+          <Typography variant='body2'>
+            If this user does not belong to other organizations, it will be deleted.
+          </Typography>
         </Box>
       </DialogContent>
       <DialogActions
@@ -65,7 +67,7 @@ const DialogDeleteRole = (props: DialogDeleteRoleProps) => {
           pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
         }}
       >
-        <Button variant='contained' color='error' sx={{ mr: 1 }} onClick={() => handleDelete(roleId)}>
+        <Button variant='contained' color='error' sx={{ mr: 1 }} onClick={() => handleDelete(userId)}>
           Delete
         </Button>
         <Button variant='outlined' color='secondary' onClick={handleClose}>
@@ -76,4 +78,4 @@ const DialogDeleteRole = (props: DialogDeleteRoleProps) => {
   )
 }
 
-export default DialogDeleteRole
+export default DialogDeleteUser

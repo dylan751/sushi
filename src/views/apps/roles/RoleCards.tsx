@@ -249,19 +249,13 @@ const RolesCards = () => {
             </Box>
           </CardContent>
         </Card>
-        <DialogDeleteRole
-          show={showDialogDeleteRole}
-          setShow={setShowDialogDeleteRole}
-          roleId={selectedRole?.id || 0}
-          handleDelete={handleDelete}
-        />
       </Grid>
     ))
 
   return (
     <Grid container spacing={6} className='match-height'>
       {renderCards()}
-      {ability?.can('create', 'role') && store.data.length <= MAX_ROLES_PER_ORGANIZATION && (
+      {ability?.can('create', 'role') && store.data.length < MAX_ROLES_PER_ORGANIZATION && (
         <Grid item xs={12} sm={6} lg={4}>
           <Card
             sx={{ cursor: 'pointer' }}
@@ -476,6 +470,13 @@ const RolesCards = () => {
           </DialogActions>
         </form>
       </Dialog>
+      <DialogDeleteRole
+        show={showDialogDeleteRole}
+        setShow={setShowDialogDeleteRole}
+        roleId={selectedRole?.id || 0}
+        handleDelete={handleDelete}
+        setSelectedRole={setSelectedRole}
+      />
     </Grid>
   )
 }

@@ -58,6 +58,22 @@ export const updateUser = createAsyncThunk(
 )
 
 // ** Delete User
+export const deleteUser = createAsyncThunk('appRoles/deleteUser', async (userId: number, { dispatch }: Redux) => {
+  const organizationId = getOrgId()
+  const storedToken = getAccessToken()
+
+  const response = await new Api({
+    baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+    timeout: 30 * 1000, // 30 seconds
+    headers: {
+      Authorization: `Bearer ${storedToken}`
+    }
+  }).internal.usersControllerDelete(organizationId, userId)
+
+  dispatch(fetchUser({ role: '', query: '' }))
+
+  return response.data
+})
 
 // ** Fetch Admin counts
 export const fetchAdminCount = createAsyncThunk('appUsers/fetchAdminCount', async () => {
