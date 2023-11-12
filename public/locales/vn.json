@@ -12,6 +12,12 @@
         "faq": "Câu hỏi hay gặp",
         "logout": "Đăng xuất"
     },
+    "button": {
+        "submit": "Gửi",
+        "edit": "Sửa",
+        "delete": "Xoá",
+        "cancel": "Hủy bỏ"
+    },
     "new": {
         "create_organization": "Tạo tổ chức",
         "organization_name": "Tên tổ chức",
@@ -28,11 +34,54 @@
         "create": "Tạo"
     },
     "role_page": {
+        "role": {
+            "title": "Danh sách vai trò",
+            "subtitle_1": "Một vai trò cung cấp khả năng truy cập vào các menu và tính năng được xác định trước để tùy thuộc vào vai trò được giao, quản trị viên có thể có quyền truy cập vào những gì mình cần",
+            "subtitle_2": "Một tổ chức có thể có tối đa {{MAX_ROLES_PER_ORGANIZATION}} vai trò",
+            "total_users": "Có {{totalUsers}} người dùng",
+            "add": "Tạo",
+            "edit": "Sửa",
+            "show": "Xem",
+            "role": "vai trò",
+            "add_role": "Tạo vai trò",
+            "edit_role": "Sửa vai trò",
+            "show_role": "Xem vai trò",
+            "add_role_if_not_exists": "Tạo vai trò, nếu chưa tồn tại",
+            "set_role_permissions": "Cài đặt quyền hạn của vai trò",
+            "role_name": "Tên vai trò",
+            "enter_role_name": "Nhập tên vai trò",
+            "role_permissions": "Quyền hạn của vai trò",
+            "administrator_access": "Quyền quản trị",
+            "allow_full_access": "Cho phép truy cập toàn bộ hệ thống",
+            "select_all": "Chọn toàn bộ",
+            "create": "Thêm",
+            "read": "Đọc",
+            "update": "Sửa",
+            "delete": "Xoá",
+            "should_not_edit": "Đây là vai trò mặc định, bạn không nên chỉnh sửa nó",
+            "delete_role_dialog_title": "Xác nhận xoá vai trò",
+            "delete_role_dialog_subtitle": "Xóa vai trò này sẽ hủy chỉ định vai trò đó khỏi mọi người dùng."
+        },
+        "user": {
+            "title": "Danh sách người dùng với vai trò của họ",
+            "subtitle": "Tìm tất cả tài khoản quản trị viên của công ty bạn và vai trò tương ứng của họ.",
+            "export": "Export",
+            "search_user": "Tìm người dùng",
+            "select_role": "Chọn vai trò",
+            "user": "Người dùng",
+            "email": "Email",
+            "role": "Vai trò",
+            "actions": "Hành động",
+            "cannot_delete_last_admin": "Vì người dùng này là quản trị viên duy nhất, nên tài khoản này không thể bị xóa",
+            "edit_user_role_dialog_title": "Chỉnh sửa vai trò người dùng",
+            "remove_user_dialog_title": "Xác nhận xóa người dùng",
+            "remove_user_dialog_subtitle": "Nếu người dùng này không thuộc tổ chức khác thì tài khoản sẽ bị xóa."
+        },
         "role_errors": {
-            "no_roles_selected": "Bạn chưa chọn quyền nào",
-            "admin": "Admin không thể được sử dụng cùng với quyền khác",
+            "no_roles_selected": "Bạn chưa chọn vai trò nào",
+            "admin": "Admin không thể được sử dụng cùng với vai trò khác",
             "no_admin_nor_member": "Member phải được chọn",
-            "max_of_roles_can_be_selected": "Chỉ được chọn một số lượng quyền giới hạn"
+            "max_of_roles_can_be_selected": "Chỉ được chọn một số lượng vai trò giới hạn"
         }
     }
 }

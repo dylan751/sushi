@@ -53,6 +53,7 @@ import { addRole, deleteRole, fetchRole, updateRole } from 'src/store/apps/role'
 
 // ** Hooks
 import { useApi } from 'src/hooks/useApi'
+import { useTranslation } from 'react-i18next'
 
 // ** Third parties Imports
 import { Controller, FieldValues, useForm } from 'react-hook-form'
@@ -71,6 +72,7 @@ const RolesCards = () => {
   // ** Hooks
   const ability = useContext(AbilityContext)
   const { $api } = useApi()
+  const { t } = useTranslation()
 
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
@@ -79,7 +81,7 @@ const RolesCards = () => {
   // ** States
   const [showDialogDeleteRole, setShowDialogDeleteRole] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false)
-  const [dialogTitle, setDialogTitle] = useState<'Add' | 'Edit'>('Add')
+  const [dialogTitle, setDialogTitle] = useState(t('role_page.role.add'))
   const [selectedCheckbox, setSelectedCheckbox] = useState<string[]>([])
   const [isIndeterminateCheckbox, setIsIndeterminateCheckbox] = useState<boolean>(false)
   const [permissionSubjects, setPermissionSubjects] = useState<string[]>([])
@@ -211,7 +213,11 @@ const RolesCards = () => {
         <Card>
           <CardContent>
             <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography variant='body2'>{`Total ${cardDummyData.totalUsers} users`}</Typography>
+              <Typography variant='body2'>
+                {t('role_page.role.total_users', {
+                  totalUsers: cardDummyData.totalUsers
+                })}
+              </Typography>
               <AvatarGroup max={4} sx={{ '& .MuiAvatar-root': { width: 32, height: 32, fontSize: '0.875rem' } }}>
                 {cardDummyData.avatars.map((img, index: number) => (
                   <Avatar key={index} alt={item.name} src={`/images/avatars/${img}`} />
@@ -229,10 +235,10 @@ const RolesCards = () => {
                   onClick={e => {
                     e.preventDefault()
                     handleClickOpenEdit(item.id)
-                    setDialogTitle('Edit')
+                    setDialogTitle(t('role_page.role.edit'))
                   }}
                 >
-                  {item.isCustom ? 'Edit' : 'Show'} Role
+                  {item.isCustom ? t('role_page.role.edit_role') : t('role_page.role.show_role')}
                 </Typography>
               </Box>
               {ability?.can('delete', 'role') && item.isCustom && (
@@ -261,7 +267,7 @@ const RolesCards = () => {
             sx={{ cursor: 'pointer' }}
             onClick={() => {
               handleClickOpenAdd()
-              setDialogTitle('Add')
+              setDialogTitle(t('role_page.role.add'))
             }}
           >
             <Grid container sx={{ height: '100%' }}>
@@ -278,12 +284,12 @@ const RolesCards = () => {
                       sx={{ mb: 3, whiteSpace: 'nowrap' }}
                       onClick={() => {
                         handleClickOpenAdd()
-                        setDialogTitle('Add')
+                        setDialogTitle(t('role_page.role.add'))
                       }}
                     >
-                      Add Role
+                      {t('role_page.role.add_role')}
                     </Button>
-                    <Typography>Add role, if it doesn't exist.</Typography>
+                    <Typography>{t('role_page.role.add_role_if_not_exists')}</Typography>
                   </Box>
                 </CardContent>
               </Grid>
@@ -300,9 +306,9 @@ const RolesCards = () => {
           }}
         >
           <Typography variant='h5' component='span'>
-            {`${dialogTitle} Role`}
+            {`${dialogTitle} ${t('role_page.role.role')}`}
           </Typography>
-          <Typography variant='body2'>Set Role Permissions</Typography>
+          <Typography variant='body2'>{t('role_page.role.set_role_permissions')}</Typography>
         </DialogTitle>
         <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
           <DialogContent
@@ -320,17 +326,17 @@ const RolesCards = () => {
                   render={({ field: { value, onChange, onBlur } }) => (
                     <TextField
                       autoFocus
-                      label='Role Name'
+                      label={t('role_page.role.role_name')}
                       value={value}
                       onBlur={onBlur}
                       onChange={onChange}
-                      placeholder='Enter Role Name'
+                      placeholder={t('role_page.role.enter_role_name').toString()}
                     />
                   )}
                 />
               </FormControl>
             </Box>
-            <Typography variant='h6'>Role Permissions</Typography>
+            <Typography variant='h6'>{t('role_page.role.role_permissions')}</Typography>
             <TableContainer>
               <Table size='small'>
                 <TableHead>
@@ -346,8 +352,8 @@ const RolesCards = () => {
                           '& svg': { ml: 1, cursor: 'pointer' }
                         }}
                       >
-                        Administrator Access
-                        <Tooltip placement='top' title='Allows a full access to the system'>
+                        {t('role_page.role.administrator_access')}
+                        <Tooltip placement='top' title={t('role_page.role.allow_full_access')}>
                           <Box sx={{ display: 'flex' }}>
                             <Icon icon='mdi:information-outline' fontSize='1rem' />
                           </Box>
@@ -356,7 +362,7 @@ const RolesCards = () => {
                     </TableCell>
                     <TableCell colSpan={3}>
                       <FormControlLabel
-                        label='Select All'
+                        label={t('role_page.role.select_all')}
                         sx={{ '& .MuiTypography-root': { textTransform: 'capitalize' } }}
                         control={
                           <Checkbox
@@ -387,7 +393,7 @@ const RolesCards = () => {
                         </TableCell>
                         <TableCell>
                           <FormControlLabel
-                            label='Create'
+                            label={t('role_page.role.create')}
                             control={
                               <Checkbox
                                 size='small'
@@ -400,7 +406,7 @@ const RolesCards = () => {
                         </TableCell>
                         <TableCell>
                           <FormControlLabel
-                            label='Read'
+                            label={t('role_page.role.read')}
                             control={
                               <Checkbox
                                 size='small'
@@ -413,7 +419,7 @@ const RolesCards = () => {
                         </TableCell>
                         <TableCell>
                           <FormControlLabel
-                            label='Update'
+                            label={t('role_page.role.update')}
                             control={
                               <Checkbox
                                 size='small'
@@ -426,7 +432,7 @@ const RolesCards = () => {
                         </TableCell>
                         <TableCell>
                           <FormControlLabel
-                            label='Delete'
+                            label={t('role_page.role.delete')}
                             control={
                               <Checkbox
                                 size='small'
@@ -456,15 +462,15 @@ const RolesCards = () => {
           >
             <Box className='demo-space-x'>
               <Button size='large' type='submit' variant='contained' disabled={isSubmitDisabled()}>
-                Submit
+                {t('button.submit')}
               </Button>
               <Button size='large' color='secondary' variant='outlined' onClick={handleClose}>
-                Cancel
+                {t('button.cancel')}
               </Button>
             </Box>
             {selectedRole && !selectedRole.isCustom && (
               <Typography variant='body2' color='error'>
-                This is the default role, you shouldn't edit this
+                {t('role_page.role.should_not_edit')}
               </Typography>
             )}
           </DialogActions>

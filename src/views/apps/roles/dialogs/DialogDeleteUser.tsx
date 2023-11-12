@@ -13,7 +13,12 @@ import DialogActions from '@mui/material/DialogActions'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
+
+// ** Type Imports
 import { OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
+
+// ** Hook Imports
+import { useTranslation } from 'react-i18next'
 
 interface DialogDeleteUserProps {
   show: boolean
@@ -31,7 +36,11 @@ const Transition = forwardRef(function Transition(
 })
 
 const DialogDeleteUser = (props: DialogDeleteUserProps) => {
+  // ** Props
   const { show, setShow, userId, handleDelete, setSelectedOrganizationUser } = props
+
+  // ** Hooks
+  const { t } = useTranslation()
 
   const handleClose = () => {
     setShow(false)
@@ -53,11 +62,9 @@ const DialogDeleteUser = (props: DialogDeleteUserProps) => {
         </IconButton>
         <Box sx={{ mb: 8, textAlign: 'center' }}>
           <Typography variant='h5' sx={{ mb: 3 }}>
-            Remove User Confirmation
+            {t('role_page.user.remove_user_dialog_title')}
           </Typography>
-          <Typography variant='body2'>
-            If this user does not belong to other organizations, it will be deleted.
-          </Typography>
+          <Typography variant='body2'>{t('role_page.user.remove_user_dialog_subtitle')}</Typography>
         </Box>
       </DialogContent>
       <DialogActions
@@ -68,10 +75,10 @@ const DialogDeleteUser = (props: DialogDeleteUserProps) => {
         }}
       >
         <Button variant='contained' color='error' sx={{ mr: 1 }} onClick={() => handleDelete(userId)}>
-          Delete
+          {t('button.delete')}
         </Button>
         <Button variant='outlined' color='secondary' onClick={handleClose}>
-          Discard
+          {t('button.cancel')}
         </Button>
       </DialogActions>
     </Dialog>
