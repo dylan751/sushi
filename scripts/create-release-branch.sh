@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-CURRENT_BRANCH=$(git branch --show-current)
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 RELEASE_BRANCH="release/$(date "+%Y%m%d-%H%M%S")"
 
 if [[ "$CURRENT_BRANCH" != "develop" ]]; then
