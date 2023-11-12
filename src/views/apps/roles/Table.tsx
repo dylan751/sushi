@@ -265,7 +265,13 @@ const UserList = () => {
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <Card>
-          <TableHeader role={role} value={value} handleFilter={handleFilter} handleRoleChange={handleRoleChange} />
+          <TableHeader
+            role={role}
+            value={value}
+            allRoles={roleStore.data}
+            handleFilter={handleFilter}
+            handleRoleChange={handleRoleChange}
+          />
           <DataGrid
             autoHeight
             rows={userStore.data}
