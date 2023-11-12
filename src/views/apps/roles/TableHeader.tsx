@@ -10,6 +10,9 @@ import Select, { SelectChangeEvent } from '@mui/material/Select'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
+// ** Hook Imports
+import { useTranslation } from 'react-i18next'
+
 interface TableHeaderProps {
   role: string
   value: string
@@ -21,31 +24,34 @@ const TableHeader = (props: TableHeaderProps) => {
   // ** Props
   const { role, handleRoleChange, handleFilter, value } = props
 
+  // ** Hooks
+  const { t } = useTranslation()
+
   return (
     <Box sx={{ p: 5, pb: 3, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
       <Button sx={{ mr: 4, mb: 2 }} color='secondary' variant='outlined' startIcon={<Icon icon='mdi:export-variant' />}>
-        Export
+        {t('role_page.user.export')}
       </Button>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
         <TextField
           size='small'
           value={value}
-          placeholder='Search User'
+          placeholder={t('role_page.user.search_user').toString()}
           sx={{ mr: 4, mb: 2 }}
           onChange={e => handleFilter(e.target.value)}
         />
         <FormControl size='small' sx={{ mb: 2 }}>
-          <InputLabel id='role-select'>Select Role</InputLabel>
+          <InputLabel id='role-select'>{t('role_page.user.select_role')}</InputLabel>
           <Select
             size='small'
             value={role}
             id='select-role'
-            label='Select Role'
+            label={t('role_page.user.select_role')}
             labelId='role-select'
             onChange={handleRoleChange}
-            inputProps={{ placeholder: 'Select Role' }}
+            inputProps={{ placeholder: `${t('role_page.user.select_role')}` }}
           >
-            <MenuItem value=''>Select Role</MenuItem>
+            <MenuItem value=''>{t('role_page.user.select_role')}</MenuItem>
             <MenuItem value='admin'>Admin</MenuItem>
             <MenuItem value='member'>Member</MenuItem>
             <MenuItem value='developer'>Developer</MenuItem>

@@ -60,7 +60,14 @@
         },
         "user": {
             "title": "総ユーザーとそのロール",
-            "subtitle": "会社のすべての管理者アカウントとその関連ロールを検索します。"
+            "subtitle": "会社のすべての管理者アカウントとその関連ロールを検索します。",
+            "export": "エクスポート",
+            "search_user": "ユーザーの検索",
+            "select_role": "役割の選択",
+            "user": "ユーザー",
+            "email": "Eメール",
+            "role": "ロール",
+            "actions": "行動"
         },
         "role_errors": {
             "no_roles_selected": "ロールが設定されていません",

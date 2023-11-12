@@ -60,7 +60,14 @@
         },
         "user": {
             "title": "Total users with their roles",
-            "subtitle": "Find all of your company’s administrator accounts and their associate roles."
+            "subtitle": "Find all of your company’s administrator accounts and their associate roles.",
+            "export": "Export",
+            "search_user": "Search User",
+            "select_role": "Select Role",
+            "user": "User",
+            "email": "Email",
+            "role": "Role",
+            "actions": "Actions"
         },
         "role_errors": {
             "no_roles_selected": "No roles have been selected",

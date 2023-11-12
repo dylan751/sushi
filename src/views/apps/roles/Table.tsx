@@ -42,6 +42,7 @@ import DialogDeleteUser from './dialogs/DialogDeleteUser'
 
 // ** Hook Imports
 import { useAuth } from 'src/hooks/useAuth'
+import { useTranslation } from 'react-i18next'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
@@ -62,81 +63,6 @@ const renderClient = (row: OrganizationUserResponseDto) => {
   )
 }
 
-const defaultColumns: GridColDef[] = [
-  {
-    flex: 0.2,
-    minWidth: 230,
-    field: 'name',
-    headerName: 'User',
-    renderCell: ({ row }: CellType) => {
-      const { name, email } = row
-
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {renderClient(row)}
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-            <Typography
-              noWrap
-              variant='body2'
-              component={Link}
-              href='/apps/user/view/overview/'
-              sx={{
-                fontWeight: 600,
-                color: 'text.primary',
-                textDecoration: 'none',
-                '&:hover': { color: 'primary.main' }
-              }}
-            >
-              {name}
-            </Typography>
-            <Typography noWrap variant='caption'>
-              {`@${email}`}
-            </Typography>
-          </Box>
-        </Box>
-      )
-    }
-  },
-  {
-    flex: 0.2,
-    minWidth: 250,
-    field: 'email',
-    headerName: 'Email',
-    renderCell: ({ row }: CellType) => {
-      return (
-        <Typography variant='body2' noWrap>
-          {row.email}
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.15,
-    field: 'role',
-    minWidth: 150,
-    headerName: 'Role',
-    renderCell: ({ row }: CellType) => {
-      return (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            justifyContent: 'center',
-            '& svg': { mr: 3, color: 'primary' }
-          }}
-        >
-          {row.roles.map(role => (
-            <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }} key={role.id}>
-              {role.name}
-            </Typography>
-          ))}
-        </Box>
-      )
-    }
-  }
-]
-
 const UserList = () => {
   // ** State
   const [showDialogEditUserRole, setShowDialogEditUserRole] = useState<boolean>(false)
@@ -153,6 +79,7 @@ const UserList = () => {
   const roleStore = useSelector((state: RootState) => state.role)
   const ability = useContext(AbilityContext)
   const { user } = useAuth()
+  const { t } = useTranslation()
 
   useEffect(() => {
     dispatch(
@@ -232,13 +159,84 @@ const UserList = () => {
   }
 
   const columns: GridColDef[] = [
-    ...defaultColumns,
+    {
+      flex: 0.2,
+      minWidth: 230,
+      field: 'name',
+      headerName: `${t('role_page.user.user')}`,
+      renderCell: ({ row }: CellType) => {
+        const { name, email } = row
+
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {renderClient(row)}
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+              <Typography
+                noWrap
+                variant='body2'
+                component={Link}
+                href='/apps/user/view/overview/'
+                sx={{
+                  fontWeight: 600,
+                  color: 'text.primary',
+                  textDecoration: 'none',
+                  '&:hover': { color: 'primary.main' }
+                }}
+              >
+                {name}
+              </Typography>
+              <Typography noWrap variant='caption'>
+                {`@${email}`}
+              </Typography>
+            </Box>
+          </Box>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 250,
+      field: 'email',
+      headerName: `${t('role_page.user.email')}`,
+      renderCell: ({ row }: CellType) => {
+        return (
+          <Typography variant='body2' noWrap>
+            {row.email}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.15,
+      field: 'role',
+      minWidth: 150,
+      headerName: `${t('role_page.user.role')}`,
+      renderCell: ({ row }: CellType) => {
+        return (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              justifyContent: 'center',
+              '& svg': { mr: 3, color: 'primary' }
+            }}
+          >
+            {row.roles.map(role => (
+              <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }} key={role.id}>
+                {role.name}
+              </Typography>
+            ))}
+          </Box>
+        )
+      }
+    },
     {
       flex: 0.1,
       minWidth: 100,
       sortable: false,
       field: 'actions',
-      headerName: 'Actions',
+      headerName: `${t('role_page.user.actions')}`,
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           {ability?.can('update', 'user') && (

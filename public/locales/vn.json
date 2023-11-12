@@ -60,7 +60,14 @@
         },
         "user": {
             "title": "Danh sách người dùng với vai trò của họ",
-            "subtitle": "Tìm tất cả tài khoản quản trị viên của công ty bạn và vai trò tương ứng của họ."
+            "subtitle": "Tìm tất cả tài khoản quản trị viên của công ty bạn và vai trò tương ứng của họ.",
+            "export": "Export",
+            "search_user": "Tìm người dùng",
+            "select_role": "Chọn vai trò",
+            "user": "Người dùng",
+            "email": "Email",
+            "role": "Vai trò",
+            "actions": "Hành động"
         },
         "role_errors": {
             "no_roles_selected": "Bạn chưa chọn vai trò nào",
