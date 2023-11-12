@@ -72,6 +72,7 @@
             "email": "Email",
             "role": "Vai trò",
             "actions": "Hành động",
+            "cannot_delete_last_admin": "Vì người dùng này là quản trị viên duy nhất, nên tài khoản này không thể bị xóa",
             "edit_user_role_dialog_title": "Chỉnh sửa vai trò người dùng",
             "remove_user_dialog_title": "Xác nhận xóa người dùng",
             "remove_user_dialog_subtitle": "Nếu người dùng này không thuộc tổ chức khác thì tài khoản sẽ bị xóa."
