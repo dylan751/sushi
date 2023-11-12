@@ -12,6 +12,12 @@
         "faq": "FAQ",
         "logout": "Logout"
     },
+    "button": {
+        "submit": "Submit",
+        "edit": "Edit",
+        "delete": "Delete",
+        "cancel": "Cancel"
+    },
     "new": {
         "create_organization": "Create Organization",
         "organization_name": "Organization Name",
@@ -28,6 +34,48 @@
         "create": "Create"
     },
     "role_page": {
+        "role": {
+            "title": "Roles List",
+            "subtitle_1": "A role provided access to predefined menus and features so that depending on assigned role an administrator can have access to what he need",
+            "subtitle_2": "An organization can have maximum of {{MAX_ROLES_PER_ORGANIZATION}} roles",
+            "total_users": "Total {{totalUsers}} users",
+            "add": "Add",
+            "edit": "Edit",
+            "show": "Show",
+            "role": "Role",
+            "add_role": "Add Role",
+            "edit_role": "Edit Role",
+            "show_role": "Show Role",
+            "add_role_if_not_exists": "Add role, if it doesn't exist.",
+            "set_role_permissions": "Set role permissions",
+            "role_name": "Role Name",
+            "enter_role_name": "Enter Role Name",
+            "role_permissions": "Role Permissions",
+            "administrator_access": "Administrator Access",
+            "allow_full_access": "Allows a full access to the system",
+            "select_all": "Select All",
+            "create": "Create",
+            "read": "Read",
+            "update": "Update",
+            "delete": "Delete",
+            "should_not_edit": "This is the default role, you shouldn't edit this",
+            "delete_role_dialog_title": "Delete Role Confirmation",
+            "delete_role_dialog_subtitle": "Delete this role will unassign it from every users."
+        },
+        "user": {
+            "title": "Total users with their roles",
+            "subtitle": "Find all of your company’s administrator accounts and their associate roles.",
+            "export": "Export",
+            "search_user": "Search User",
+            "select_role": "Select Role",
+            "user": "User",
+            "email": "Email",
+            "role": "Role",
+            "actions": "Actions",
+            "edit_user_role_dialog_title": "Edit User Role",
+            "remove_user_dialog_title": "Remove User Confirmation",
+            "remove_user_dialog_subtitle": "If this user does not belong to other organizations, it will be deleted."
+        },
         "role_errors": {
             "no_roles_selected": "No roles have been selected",
             "admin": "Admin cannot be used with other roles",

@@ -89,7 +89,7 @@ const DialogEditUserRole = (props: DialogEditUserRoleProps) => {
         </IconButton>
         <Box sx={{ mb: 8, textAlign: 'center' }}>
           <Typography variant='h5' sx={{ mb: 3 }}>
-            Edit User Role
+            {t('role_page.user.edit_user_role_dialog_title')}
           </Typography>
         </Box>
         <FormGroup row sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -132,10 +132,10 @@ const DialogEditUserRole = (props: DialogEditUserRoleProps) => {
             onClick={handleEditUserRole}
             disabled={!areSelectedRolesValid(selectedCheckbox.map(checkbox => parseInt(checkbox)))}
           >
-            Edit
+            {t('button.edit')}
           </Button>
           <Button variant='outlined' color='secondary' onClick={handleClose}>
-            Discard
+            {t('button.cancel')}
           </Button>
         </Box>
       </DialogActions>

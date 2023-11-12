@@ -12,6 +12,12 @@
         "faq": "よくある質問",
         "logout": "ログアウト"
     },
+    "button": {
+        "submit": "提出する",
+        "edit": "編集",
+        "delete": "削除",
+        "cancel": "キャンセル"
+    },
     "new": {
         "create_organization": "新規登録",
         "organization_name": "会社名",
@@ -28,6 +34,48 @@
         "create": "登録"
     },
     "role_page": {
+        "role": {
+            "title": "ロール一覧",
+            "subtitle_1": "ロールによって事前定義されたメニューと機能へのアクセスが提供されるため、割り当てられた役割に応じて管理者は必要なものにアクセスできるようになります。",
+            "subtitle_2": "組織は最大 {{MAX_ROLES_PER_ORGANIZATION}} 個のロールを持つことができます",
+            "total_users": "合計 {{totalUsers}} ユーザー",
+            "add": "追加",
+            "edit": "編集",
+            "show": "見せる",
+            "role": "ロール",
+            "add_role": "ロールの追加",
+            "edit_role": "ロールの編集",
+            "show_role": "ロールをみせる",
+            "add_role_if_not_exists": "ロールを追加します。",
+            "set_role_permissions": "ロールの権限を設定する",
+            "role_name": "ロール名",
+            "enter_role_name": "ロール名を入力してください",
+            "role_permissions": "ロールの権限",
+            "administrator_access": "管理者アクセス",
+            "allow_full_access": "システムへのフルアクセスを許可します",
+            "select_all": "すべて選択",
+            "create": "作成",
+            "read": "読む",
+            "update": "修正",
+            "delete": "削除",
+            "should_not_edit": "これはデフォルトのロールです。これを編集しないでください",
+            "delete_role_dialog_title": "ロールの削除の確認",
+            "delete_role_dialog_subtitle": "このロールを削除すると、すべてのユーザーからの割り当てが解除されます。"
+        },
+        "user": {
+            "title": "総ユーザーとそのロール",
+            "subtitle": "会社のすべての管理者アカウントとその関連ロールを検索します。",
+            "export": "エクスポート",
+            "search_user": "ユーザーの検索",
+            "select_role": "役割の選択",
+            "user": "ユーザー",
+            "email": "Eメール",
+            "role": "ロール",
+            "actions": "行動",
+            "edit_user_role_dialog_title": "ユーザーロールの編集",
+            "remove_user_dialog_title": "ユーザー削除の確​​認",
+            "remove_user_dialog_subtitle": "このユーザーが他の組織に属していない場合は削除されます。"
+        },
         "role_errors": {
             "no_roles_selected": "ロールが設定されていません",
             "admin": "Adminは他のロールと一緒に使用することはできません",
