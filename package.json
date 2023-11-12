@@ -10,6 +10,7 @@
     "lint": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "build:icons": "tsc -b src/iconify-bundle && node src/iconify-bundle/bundle-icons-react.js",
+    "new-release": "./scripts/create-release-branch.sh",
     "api-gen": "node scripts/swagger-gen.js"
   },
   "dependencies": {

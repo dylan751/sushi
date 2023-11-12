@@ -5,9 +5,23 @@ on:
     types: [opened, reopened, edited, synchronize]
 
 jobs:
-  validate-mergeable:
-    name: Validate if dev merge can happen
+  validate-prod-mergeable:
+    name: Validate if merge can happen
     if: github.base_ref == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const branchName = "${{ github.head_ref }}";
+
+            if(!(branchName.startsWith("release/") || branchName.startsWith("hotfix/"))){
+              core.setFailed("This Pull Request can not be merged to the main branch");
+            }
+
+  validate-dev-mergeable:
+    name: Validate if dev merge can happen
+    if: github.base_ref == 'develop'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
