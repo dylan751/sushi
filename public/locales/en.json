@@ -72,6 +72,7 @@
             "email": "Email",
             "role": "Role",
             "actions": "Actions",
+            "cannot_delete_last_admin": "Since this user is the only admin, this account cannot be deleted",
             "edit_user_role_dialog_title": "Edit User Role",
             "remove_user_dialog_title": "Remove User Confirmation",
             "remove_user_dialog_subtitle": "If this user does not belong to other organizations, it will be deleted."

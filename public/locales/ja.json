@@ -72,6 +72,7 @@
             "email": "Eメール",
             "role": "ロール",
             "actions": "行動",
+            "cannot_delete_last_admin": "このユーザーは唯一の管理者であるため、このアカウントは削除できません",
             "edit_user_role_dialog_title": "ユーザーロールの編集",
             "remove_user_dialog_title": "ユーザー削除の確​​認",
             "remove_user_dialog_subtitle": "このユーザーが他の組織に属していない場合は削除されます。"

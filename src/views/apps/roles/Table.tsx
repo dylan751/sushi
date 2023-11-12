@@ -10,6 +10,7 @@ import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
+import Tooltip from '@mui/material/Tooltip'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { SelectChangeEvent } from '@mui/material/Select'
 
@@ -245,16 +246,25 @@ const UserList = () => {
             </IconButton>
           )}
           {ability?.can('delete', 'user') && (
-            <IconButton
-              color='error'
-              disabled={isUserLastAdmin(row)}
-              onClick={() => {
-                setShowDialogDeleteUser(true)
-                setSelectedOrganizationUser(row)
-              }}
-            >
-              <Icon icon='mdi:delete-outline' fontSize={20} />
-            </IconButton>
+            <>
+              <IconButton
+                color='error'
+                disabled={isUserLastAdmin(row)}
+                onClick={() => {
+                  setShowDialogDeleteUser(true)
+                  setSelectedOrganizationUser(row)
+                }}
+              >
+                <Icon icon='mdi:delete-outline' fontSize={20} />
+              </IconButton>
+              {isUserLastAdmin(row) && (
+                <Tooltip placement='top' title={t('role_page.user.cannot_delete_last_admin')}>
+                  <Box sx={{ display: 'flex' }}>
+                    <Icon icon='mdi:information-outline' fontSize='1rem' />
+                  </Box>
+                </Tooltip>
+              )}
+            </>
           )}
         </Box>
       )
