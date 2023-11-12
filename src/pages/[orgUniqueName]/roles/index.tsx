@@ -12,19 +12,22 @@ import RoleCards from 'src/views/apps/roles/RoleCards'
 // ** Util Imports
 import { MAX_ROLES_PER_ORGANIZATION } from 'src/utils/role'
 
+// ** Hook Imports
+import { useTranslation } from 'react-i18next'
+
 const RolePage = () => {
+  // ** Hooks
+  const { t } = useTranslation()
+
   return (
     <Grid container spacing={6}>
       <PageHeader
-        title={<Typography variant='h5'>Roles List</Typography>}
+        title={<Typography variant='h5'>{t('role_page.role.title')}</Typography>}
         subtitle={
           <>
-            <Typography variant='body2'>
-              A role provided access to predefined menus and features so that depending on assigned role an
-              administrator can have access to what he need
-            </Typography>
+            <Typography variant='body2'>{t('role_page.role.subtitle_1')}</Typography>
             <Typography variant='body2' color='info.main'>
-              An organization can have maximum of {MAX_ROLES_PER_ORGANIZATION} roles
+              {t('role_page.role.subtitle_2', { MAX_ROLES_PER_ORGANIZATION })}
             </Typography>
           </>
         }
@@ -33,12 +36,8 @@ const RolePage = () => {
         <RoleCards />
       </Grid>
       <PageHeader
-        title={<Typography variant='h5'>Total users with their roles</Typography>}
-        subtitle={
-          <Typography variant='body2'>
-            Find all of your company’s administrator accounts and their associate roles.
-          </Typography>
-        }
+        title={<Typography variant='h5'>{t('role_page.user.title')}</Typography>}
+        subtitle={<Typography variant='body2'>{t('role_page.user.subtitle')}</Typography>}
       />
       <Grid item xs={12}>
         <Table />
