@@ -14,6 +14,8 @@
     },
     "button": {
         "submit": "提出する",
+        "edit": "編集",
+        "delete": "削除",
         "cancel": "キャンセル"
     },
     "new": {
@@ -56,7 +58,9 @@
             "read": "読む",
             "update": "修正",
             "delete": "削除",
-            "should_not_edit": "これはデフォルトのロールです。これを編集しないでください"
+            "should_not_edit": "これはデフォルトのロールです。これを編集しないでください",
+            "delete_role_dialog_title": "ロールの削除の確認",
+            "delete_role_dialog_subtitle": "このロールを削除すると、すべてのユーザーからの割り当てが解除されます。"
         },
         "user": {
             "title": "総ユーザーとそのロール",
@@ -67,7 +71,10 @@
             "user": "ユーザー",
             "email": "Eメール",
             "role": "ロール",
-            "actions": "行動"
+            "actions": "行動",
+            "edit_user_role_dialog_title": "ユーザーロールの編集",
+            "remove_user_dialog_title": "ユーザー削除の確​​認",
+            "remove_user_dialog_subtitle": "このユーザーが他の組織に属していない場合は削除されます。"
         },
         "role_errors": {
             "no_roles_selected": "ロールが設定されていません",

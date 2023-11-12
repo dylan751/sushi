@@ -14,6 +14,8 @@
     },
     "button": {
         "submit": "Gửi",
+        "edit": "Sửa",
+        "delete": "Xoá",
         "cancel": "Hủy bỏ"
     },
     "new": {
@@ -56,7 +58,9 @@
             "read": "Đọc",
             "update": "Sửa",
             "delete": "Xoá",
-            "should_not_edit": "Đây là vai trò mặc định, bạn không nên chỉnh sửa nó"
+            "should_not_edit": "Đây là vai trò mặc định, bạn không nên chỉnh sửa nó",
+            "delete_role_dialog_title": "Xác nhận xoá vai trò",
+            "delete_role_dialog_subtitle": "Xóa vai trò này sẽ hủy chỉ định vai trò đó khỏi mọi người dùng."
         },
         "user": {
             "title": "Danh sách người dùng với vai trò của họ",
@@ -67,7 +71,10 @@
             "user": "Người dùng",
             "email": "Email",
             "role": "Vai trò",
-            "actions": "Hành động"
+            "actions": "Hành động",
+            "edit_user_role_dialog_title": "Chỉnh sửa vai trò người dùng",
+            "remove_user_dialog_title": "Xác nhận xóa người dùng",
+            "remove_user_dialog_subtitle": "Nếu người dùng này không thuộc tổ chức khác thì tài khoản sẽ bị xóa."
         },
         "role_errors": {
             "no_roles_selected": "Bạn chưa chọn vai trò nào",

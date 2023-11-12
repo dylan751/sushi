@@ -13,7 +13,12 @@ import DialogActions from '@mui/material/DialogActions'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
+
+// ** Type Imports
 import { RoleResponseDto } from 'src/__generated__/AccountifyAPI'
+
+// ** Hook Imports
+import { useTranslation } from 'react-i18next'
 
 interface DialogDeleteRoleProps {
   show: boolean
@@ -31,7 +36,11 @@ const Transition = forwardRef(function Transition(
 })
 
 const DialogDeleteRole = (props: DialogDeleteRoleProps) => {
+  // ** Props
   const { show, setShow, roleId, handleDelete, setSelectedRole } = props
+
+  // ** Hooks
+  const { t } = useTranslation()
 
   const handleClose = () => {
     setShow(false)
@@ -53,9 +62,9 @@ const DialogDeleteRole = (props: DialogDeleteRoleProps) => {
         </IconButton>
         <Box sx={{ mb: 8, textAlign: 'center' }}>
           <Typography variant='h5' sx={{ mb: 3 }}>
-            Delete Role Confirmation
+            {t('role_page.role.delete_role_dialog_title')}
           </Typography>
-          <Typography variant='body2'>Delete this role will unassign it from every users.</Typography>
+          <Typography variant='body2'>{t('role_page.role.delete_role_dialog_subtitle')}</Typography>
         </Box>
       </DialogContent>
       <DialogActions
@@ -66,10 +75,10 @@ const DialogDeleteRole = (props: DialogDeleteRoleProps) => {
         }}
       >
         <Button variant='contained' color='error' sx={{ mr: 1 }} onClick={() => handleDelete(roleId)}>
-          Delete
+          {t('button.delete')}
         </Button>
         <Button variant='outlined' color='secondary' onClick={handleClose}>
-          Discard
+          {t('button.cancel')}
         </Button>
       </DialogActions>
     </Dialog>
