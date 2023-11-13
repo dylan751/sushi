@@ -18,6 +18,16 @@
         "delete": "Delete",
         "cancel": "Cancel"
     },
+    "toast_message": {
+        "login_success": "Login succeed",
+        "register_success": "Register succeed",
+        "add_role_success": "Add role succeed",
+        "update_role_success": "Update role succeed",
+        "delete_role_success": "Delete role succeed",
+        "add_user_success": "Invite users succeed",
+        "update_user_success": "Update user role succeed",
+        "delete_user_success": "Remove user from this organization succeed"
+    },
     "new": {
         "create_organization": "Create Organization",
         "organization_name": "Organization Name",

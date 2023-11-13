@@ -76,6 +76,7 @@ export const updateRole = createAsyncThunk(
       }).internal.updateARoleForAnOrganization(organizationId, data.roleId, data)
 
       dispatch(fetchRole())
+      toast.success('Update role succeed')
 
       return response.data
     } catch (error: any) {

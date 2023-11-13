@@ -18,6 +18,16 @@
         "delete": "削除",
         "cancel": "キャンセル"
     },
+    "toast_message": {
+        "login_success": "ログインが成功しました",
+        "register_success": "登録が成功しました",
+        "add_role_success": "ロールの追加が成功しました",
+        "update_role_success": "ロールの編集が成功しました",
+        "delete_role_success": "ロールの削除が成功しました",
+        "add_user_success": "ユーザーの招待が成功しました",
+        "update_user_success": "ユーザーロールの編集が成功しました",
+        "delete_user_success": "この組織からのユーザーの削除は成功しました"
+    },
     "new": {
         "create_organization": "新規登録",
         "organization_name": "会社名",
