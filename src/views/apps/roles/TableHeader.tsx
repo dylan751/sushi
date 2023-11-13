@@ -22,20 +22,37 @@ interface TableHeaderProps {
   allRoles: RoleResponseDto[]
   handleFilter: (val: string) => void
   handleRoleChange: (e: SelectChangeEvent) => void
+  toggleInviteUserDrawer: () => void
 }
 
 const TableHeader = (props: TableHeaderProps) => {
   // ** Props
-  const { role, handleRoleChange, allRoles, handleFilter, value } = props
+  const { role, handleRoleChange, allRoles, handleFilter, value, toggleInviteUserDrawer } = props
 
   // ** Hooks
   const { t } = useTranslation()
 
   return (
     <Box sx={{ p: 5, pb: 3, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-      <Button sx={{ mr: 4, mb: 2 }} color='secondary' variant='outlined' startIcon={<Icon icon='mdi:export-variant' />}>
-        {t('role_page.user.export')}
-      </Button>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+        <Button
+          sx={{ mr: 4, mb: 2 }}
+          color='secondary'
+          variant='outlined'
+          startIcon={<Icon icon='mdi:export-variant' />}
+        >
+          {t('role_page.user.export')}
+        </Button>
+        <Button
+          sx={{ mr: 4, mb: 2 }}
+          color='primary'
+          variant='contained'
+          startIcon={<Icon icon='mdi:invite' />}
+          onClick={() => toggleInviteUserDrawer()}
+        >
+          {t('role_page.user.invite_users')}
+        </Button>
+      </Box>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
         <TextField
           size='small'

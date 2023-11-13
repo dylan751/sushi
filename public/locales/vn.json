@@ -75,7 +75,10 @@
             "cannot_delete_last_admin": "Vì người dùng này là quản trị viên duy nhất, nên tài khoản này không thể bị xóa",
             "edit_user_role_dialog_title": "Chỉnh sửa vai trò người dùng",
             "remove_user_dialog_title": "Xác nhận xóa người dùng",
-            "remove_user_dialog_subtitle": "Nếu người dùng này không thuộc tổ chức khác thì tài khoản sẽ bị xóa."
+            "remove_user_dialog_subtitle": "Nếu người dùng này không thuộc tổ chức khác thì tài khoản sẽ bị xóa.",
+            "invite_users": "Mời người dùng",
+            "default_role": "Vai trò mặc định",
+            "custom_role_optional": "Vai trò tùy chỉnh (Tùy chọn)"
         },
         "role_errors": {
             "no_roles_selected": "Bạn chưa chọn vai trò nào",
