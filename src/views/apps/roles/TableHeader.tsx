@@ -1,3 +1,6 @@
+// React Imports
+import { useContext } from 'react'
+
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -16,6 +19,9 @@ import { useTranslation } from 'react-i18next'
 // ** Type Imports
 import { RoleResponseDto } from 'src/__generated__/AccountifyAPI'
 
+// ** Context Imports
+import { AbilityContext } from 'src/layouts/components/acl/Can'
+
 interface TableHeaderProps {
   role: string
   value: string
@@ -31,6 +37,7 @@ const TableHeader = (props: TableHeaderProps) => {
 
   // ** Hooks
   const { t } = useTranslation()
+  const ability = useContext(AbilityContext)
 
   return (
     <Box sx={{ p: 5, pb: 3, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -43,15 +50,17 @@ const TableHeader = (props: TableHeaderProps) => {
         >
           {t('role_page.user.export')}
         </Button>
-        <Button
-          sx={{ mr: 4, mb: 2 }}
-          color='primary'
-          variant='contained'
-          startIcon={<Icon icon='mdi:invite' />}
-          onClick={() => toggleInviteUserDrawer()}
-        >
-          {t('role_page.user.invite_users')}
-        </Button>
+        {ability?.can('create', 'user') && (
+          <Button
+            sx={{ mr: 4, mb: 2 }}
+            color='primary'
+            variant='contained'
+            startIcon={<Icon icon='mdi:invite' />}
+            onClick={() => toggleInviteUserDrawer()}
+          >
+            {t('role_page.user.invite_users')}
+          </Button>
+        )}
       </Box>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
         <TextField

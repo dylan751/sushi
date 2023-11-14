@@ -87,7 +87,7 @@ export const updateUser = createAsyncThunk(
 
       dispatch(fetchUser({ role: '', query: '' }))
       dispatch(fetchAdminCount())
-      toast.success('Update user role succedd')
+      toast.success('Update user role succeed')
 
       return response.data
     } catch (error: any) {
