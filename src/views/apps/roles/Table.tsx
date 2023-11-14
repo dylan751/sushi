@@ -40,6 +40,7 @@ import { OrganizationProfileResponseDto, OrganizationUserResponseDto } from 'src
 import TableHeader from 'src/views/apps/roles/TableHeader'
 import DialogEditUserRole from './dialogs/DialogEditUserRole'
 import DialogDeleteUser from './dialogs/DialogDeleteUser'
+import InviteUserDrawer from './drawers/InviteUserDrawer'
 
 // ** Hook Imports
 import { useAuth } from 'src/hooks/useAuth'
@@ -47,9 +48,6 @@ import { useTranslation } from 'react-i18next'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
-
-// ** Third Party Imports
-import toast from 'react-hot-toast'
 
 interface CellType {
   row: OrganizationUserResponseDto
@@ -68,6 +66,8 @@ const UserList = () => {
   // ** State
   const [showDialogEditUserRole, setShowDialogEditUserRole] = useState<boolean>(false)
   const [showDialogDeleteUser, setShowDialogDeleteUser] = useState<boolean>(false)
+  const [inviteUserOpen, setInviteUserOpen] = useState<boolean>(false)
+  const [isSelectAdmin, setIsSelectAdmin] = useState(false)
   const [role, setRole] = useState<string>('')
   const [value, setValue] = useState<string>('')
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
@@ -154,9 +154,13 @@ const UserList = () => {
   const handleDeleteUser = (userId: number) => {
     dispatch(deleteUser(userId))
 
-    toast.success('Remove user from this organization succeed')
     setShowDialogDeleteUser(false)
     setSelectedOrganizationUser(null)
+  }
+
+  const toggleInviteUserDrawer = () => {
+    setInviteUserOpen(!inviteUserOpen)
+    setIsSelectAdmin(false)
   }
 
   const columns: GridColDef[] = [
@@ -281,6 +285,7 @@ const UserList = () => {
             allRoles={roleStore.data}
             handleFilter={handleFilter}
             handleRoleChange={handleRoleChange}
+            toggleInviteUserDrawer={toggleInviteUserDrawer}
           />
           <DataGrid
             autoHeight
@@ -310,6 +315,13 @@ const UserList = () => {
         userId={selectedOrganizationUser?.id || 0}
         handleDelete={handleDeleteUser}
         setSelectedOrganizationUser={setSelectedOrganizationUser}
+      />
+      <InviteUserDrawer
+        open={inviteUserOpen}
+        toggle={toggleInviteUserDrawer}
+        allRoles={roleStore.data}
+        isSelectAdmin={isSelectAdmin}
+        setIsSelectAdmin={setIsSelectAdmin}
       />
     </Grid>
   )

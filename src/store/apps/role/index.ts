@@ -8,6 +8,9 @@ import { Api, CreateRoleRequestDto, RoleResponseDto, UpdateRoleRequestDto } from
 import { getAccessToken, getOrgId } from 'src/utils/localStorage'
 import { fetchUser } from '../user'
 
+// ** Third Party Imports
+import toast from 'react-hot-toast'
+
 interface Redux {
   getState: any
   dispatch: Dispatch<any>
@@ -18,15 +21,19 @@ export const fetchRole = createAsyncThunk('appRoles/fetchRole', async () => {
   const organizationId = getOrgId()
   const storedToken = getAccessToken()
 
-  const response = await new Api({
-    baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
-    timeout: 30 * 1000, // 30 seconds
-    headers: {
-      Authorization: `Bearer ${storedToken}`
-    }
-  }).internal.getRoleListForOrganization(organizationId)
+  try {
+    const response = await new Api({
+      baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+      timeout: 30 * 1000, // 30 seconds
+      headers: {
+        Authorization: `Bearer ${storedToken}`
+      }
+    }).internal.getRoleListForOrganization(organizationId)
 
-  return response.data
+    return response.data
+  } catch (error: any) {
+    toast.error(error.message)
+  }
 })
 
 // ** Add Role
@@ -34,17 +41,22 @@ export const addRole = createAsyncThunk('appRoles/addRole', async (data: CreateR
   const organizationId = getOrgId()
   const storedToken = getAccessToken()
 
-  const response = await new Api({
-    baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
-    timeout: 30 * 1000, // 30 seconds
-    headers: {
-      Authorization: `Bearer ${storedToken}`
-    }
-  }).internal.createRolesForAnOrganization(organizationId, data)
+  try {
+    const response = await new Api({
+      baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+      timeout: 30 * 1000, // 30 seconds
+      headers: {
+        Authorization: `Bearer ${storedToken}`
+      }
+    }).internal.createRolesForAnOrganization(organizationId, data)
 
-  dispatch(fetchRole())
+    dispatch(fetchRole())
+    toast.success('Add role succeed')
 
-  return response.data
+    return response.data
+  } catch (error: any) {
+    toast.error(error.message)
+  }
 })
 
 // ** Update Role
@@ -54,17 +66,22 @@ export const updateRole = createAsyncThunk(
     const organizationId = getOrgId()
     const storedToken = getAccessToken()
 
-    const response = await new Api({
-      baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
-      timeout: 30 * 1000, // 30 seconds
-      headers: {
-        Authorization: `Bearer ${storedToken}`
-      }
-    }).internal.updateARoleForAnOrganization(organizationId, data.roleId, data)
+    try {
+      const response = await new Api({
+        baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+        timeout: 30 * 1000, // 30 seconds
+        headers: {
+          Authorization: `Bearer ${storedToken}`
+        }
+      }).internal.updateARoleForAnOrganization(organizationId, data.roleId, data)
 
-    dispatch(fetchRole())
+      dispatch(fetchRole())
+      toast.success('Update role succeed')
 
-    return response.data
+      return response.data
+    } catch (error: any) {
+      toast.error(error.message)
+    }
   }
 )
 
@@ -73,18 +90,23 @@ export const deleteRole = createAsyncThunk('appRoles/deleteRole', async (roleId:
   const organizationId = getOrgId()
   const storedToken = getAccessToken()
 
-  const response = await new Api({
-    baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
-    timeout: 30 * 1000, // 30 seconds
-    headers: {
-      Authorization: `Bearer ${storedToken}`
-    }
-  }).internal.deleteARoleForAnOrganization(organizationId, roleId)
+  try {
+    const response = await new Api({
+      baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+      timeout: 30 * 1000, // 30 seconds
+      headers: {
+        Authorization: `Bearer ${storedToken}`
+      }
+    }).internal.deleteARoleForAnOrganization(organizationId, roleId)
 
-  dispatch(fetchRole())
-  dispatch(fetchUser({ role: '', query: '' }))
+    dispatch(fetchRole())
+    dispatch(fetchUser({ role: '', query: '' }))
+    toast.success('Delete role succeed')
 
-  return response.data
+    return response.data
+  } catch (error: any) {
+    toast.error(error.message)
+  }
 })
 
 export const appRolesSlice = createSlice({
@@ -95,7 +117,7 @@ export const appRolesSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchRole.fulfilled, (state, action) => {
-      state.data = action.payload.roles
+      state.data = action.payload?.roles || []
     })
   }
 })

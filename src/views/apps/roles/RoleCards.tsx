@@ -57,7 +57,6 @@ import { useTranslation } from 'react-i18next'
 
 // ** Third parties Imports
 import { Controller, FieldValues, useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
 import DialogDeleteRole from './dialogs/DialogDeleteRole'
 
 // ** Util Imports
@@ -111,7 +110,6 @@ const RolesCards = () => {
   const handleDelete = (roleId: number) => {
     dispatch(deleteRole(roleId))
 
-    toast.success('Delete role succeed')
     setShowDialogDeleteRole(false)
     setSelectedRole(null)
   }
@@ -144,7 +142,6 @@ const RolesCards = () => {
       dispatch(updateRole({ ...createOrUpdateRoleRequest, roleId: selectedRole.id }))
     }
 
-    toast.success(`${dialogTitle} role succeed`)
     setOpen(false)
     setSelectedCheckbox([])
     setIsIndeterminateCheckbox(false)
