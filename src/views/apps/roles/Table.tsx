@@ -67,6 +67,7 @@ const UserList = () => {
   const [showDialogEditUserRole, setShowDialogEditUserRole] = useState<boolean>(false)
   const [showDialogDeleteUser, setShowDialogDeleteUser] = useState<boolean>(false)
   const [inviteUserOpen, setInviteUserOpen] = useState<boolean>(false)
+  const [isSelectAdmin, setIsSelectAdmin] = useState(false)
   const [role, setRole] = useState<string>('')
   const [value, setValue] = useState<string>('')
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
@@ -157,7 +158,10 @@ const UserList = () => {
     setSelectedOrganizationUser(null)
   }
 
-  const toggleInviteUserDrawer = () => setInviteUserOpen(!inviteUserOpen)
+  const toggleInviteUserDrawer = () => {
+    setInviteUserOpen(!inviteUserOpen)
+    setIsSelectAdmin(false)
+  }
 
   const columns: GridColDef[] = [
     {
@@ -312,7 +316,13 @@ const UserList = () => {
         handleDelete={handleDeleteUser}
         setSelectedOrganizationUser={setSelectedOrganizationUser}
       />
-      <InviteUserDrawer open={inviteUserOpen} toggle={toggleInviteUserDrawer} allRoles={roleStore.data} />
+      <InviteUserDrawer
+        open={inviteUserOpen}
+        toggle={toggleInviteUserDrawer}
+        allRoles={roleStore.data}
+        isSelectAdmin={isSelectAdmin}
+        setIsSelectAdmin={setIsSelectAdmin}
+      />
     </Grid>
   )
 }

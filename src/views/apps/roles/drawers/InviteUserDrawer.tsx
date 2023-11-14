@@ -32,11 +32,14 @@ import { BulkInviteRequestDto, RoleResponseDto } from 'src/__generated__/Account
 
 // ** Hook Imports
 import { useTranslation } from 'react-i18next'
+import { ADMIN_ROLE_ID } from 'src/utils/role'
 
 interface SidebarAddUserType {
   open: boolean
   toggle: () => void
   allRoles: RoleResponseDto[]
+  isSelectAdmin: boolean
+  setIsSelectAdmin: (val: boolean) => void
 }
 
 const Header = styled(Box)<BoxProps>(({ theme }) => ({
@@ -67,7 +70,7 @@ export interface InviteUserData {
 
 const SidebarAddUser = (props: SidebarAddUserType) => {
   // ** Props
-  const { open, toggle, allRoles } = props
+  const { open, toggle, allRoles, isSelectAdmin, setIsSelectAdmin } = props
 
   // ** Hooks
   const { t } = useTranslation()
@@ -84,7 +87,7 @@ const SidebarAddUser = (props: SidebarAddUserType) => {
   })
   const onSubmit = (data: InviteUserData) => {
     const roleIds = [parseInt(data.defaultRole)]
-    if (data.customRole) {
+    if (data.customRole && !isSelectAdmin) {
       roleIds.push(parseInt(data.customRole))
     }
     const inviteUsersRequest: BulkInviteRequestDto = {
@@ -151,7 +154,14 @@ const SidebarAddUser = (props: SidebarAddUserType) => {
                     id='default-role'
                     label={t('role_page.user.default_role')}
                     labelId='default-role'
-                    onChange={onChange}
+                    onChange={e => {
+                      onChange(e.target.value)
+                      if (parseInt(e.target.value) === ADMIN_ROLE_ID) {
+                        setIsSelectAdmin(true)
+                      } else {
+                        setIsSelectAdmin(false)
+                      }
+                    }}
                     inputProps={{ placeholder: t('role_page.user.default_role').toString() }}
                   >
                     {allRoles.map(
@@ -170,39 +180,41 @@ const SidebarAddUser = (props: SidebarAddUserType) => {
               <FormHelperText sx={{ color: 'error.main' }}>{errors.defaultRole.message}</FormHelperText>
             )}
           </FormControl>
-          <FormControl fullWidth sx={{ mb: 6 }}>
-            <Controller
-              name='customRole'
-              control={control}
-              rules={{ required: false }}
-              render={({ field: { value, onChange } }) => (
-                <>
-                  <InputLabel id='custom-role'>{t('role_page.user.custom_role_optional')}</InputLabel>
-                  <Select
-                    fullWidth
-                    value={value}
-                    id='custom-role'
-                    label={t('role_page.user.custom_role')}
-                    labelId='custom-role'
-                    onChange={onChange}
-                    inputProps={{ placeholder: t('role_page.user.custom_role_optional').toString() }}
-                  >
-                    {allRoles.map(
-                      role =>
-                        role.isCustom && (
-                          <MenuItem key={role.id} value={role.id}>
-                            {role.name}
-                          </MenuItem>
-                        )
-                    )}
-                  </Select>
-                </>
+          {!isSelectAdmin && (
+            <FormControl fullWidth sx={{ mb: 6 }}>
+              <Controller
+                name='customRole'
+                control={control}
+                rules={{ required: false }}
+                render={({ field: { value, onChange } }) => (
+                  <>
+                    <InputLabel id='custom-role'>{t('role_page.user.custom_role_optional')}</InputLabel>
+                    <Select
+                      fullWidth
+                      value={value}
+                      id='custom-role'
+                      label={t('role_page.user.custom_role')}
+                      labelId='custom-role'
+                      onChange={onChange}
+                      inputProps={{ placeholder: t('role_page.user.custom_role_optional').toString() }}
+                    >
+                      {allRoles.map(
+                        role =>
+                          role.isCustom && (
+                            <MenuItem key={role.id} value={role.id}>
+                              {role.name}
+                            </MenuItem>
+                          )
+                      )}
+                    </Select>
+                  </>
+                )}
+              />
+              {errors.customRole && (
+                <FormHelperText sx={{ color: 'error.main' }}>{errors.customRole.message}</FormHelperText>
               )}
-            />
-            {errors.customRole && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.customRole.message}</FormHelperText>
-            )}
-          </FormControl>
+            </FormControl>
+          )}
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Button size='large' type='submit' variant='contained' sx={{ mr: 3 }}>
