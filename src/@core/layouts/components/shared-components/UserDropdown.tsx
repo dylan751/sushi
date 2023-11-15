@@ -24,6 +24,10 @@ import { useTranslation } from 'react-i18next'
 // ** Type Imports
 import { Settings } from 'src/@core/context/settingsContext'
 
+// ** Util Imports
+import { getOrganization } from 'src/utils/localStorage'
+import { getOrgUniqueName } from 'src/utils/organization'
+
 interface Props {
   settings: Settings
 }
@@ -47,7 +51,10 @@ const UserDropdown = (props: Props) => {
   // ** Hooks
   const { t } = useTranslation()
   const router = useRouter()
-  const { logout } = useAuth()
+  const { user, logout } = useAuth()
+
+  // ** Utils
+  const organization = getOrganization()
 
   // ** Vars
   const { direction } = settings
@@ -78,8 +85,14 @@ const UserDropdown = (props: Props) => {
     }
   }
 
+  const handleAccountSettings = () => {
+    router.replace(`/${getOrgUniqueName()}/account-settings/account`)
+    handleDropdownClose()
+  }
+
   const handleOrganization = () => {
     router.replace('/organization')
+    handleDropdownClose()
   }
 
   const handleLogout = () => {
@@ -100,7 +113,7 @@ const UserDropdown = (props: Props) => {
         }}
       >
         <Avatar
-          alt='John Doe'
+          alt={user?.name}
           onClick={handleDropdownOpen}
           sx={{ width: 40, height: 40 }}
           src='/images/avatars/1.png'
@@ -124,21 +137,21 @@ const UserDropdown = (props: Props) => {
                 horizontal: 'right'
               }}
             >
-              <Avatar alt='John Doe' src='/images/avatars/1.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
+              <Avatar alt={user?.name} src='/images/avatars/1.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
             </Badge>
             <Box sx={{ display: 'flex', ml: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 600 }}>John Doe</Typography>
+              <Typography sx={{ fontWeight: 600 }}>{user?.name}</Typography>
               <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                Admin
+                {organization.roles.length > 1 ? `${organization.roles[0].name} ...` : organization.roles[0].name}
               </Typography>
             </Box>
           </Box>
         </Box>
         <Divider sx={{ mt: '0 !important' }} />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        <MenuItem sx={{ p: 0 }} onClick={handleAccountSettings}>
           <Box sx={styles}>
-            <Icon icon='mdi:account-outline' />
-            {t('user_dropdown.profile')}
+            <Icon icon='mdi:account-cog-outline' />
+            {t('user_dropdown.account_settings')}
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={handleOrganization}>
@@ -147,19 +160,7 @@ const UserDropdown = (props: Props) => {
             {t('user_dropdown.organization')}
           </Box>
         </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='mdi:message-outline' />
-            {t('user_dropdown.chat')}
-          </Box>
-        </MenuItem>
         <Divider />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='mdi:cog-outline' />
-            {t('user_dropdown.settings')}
-          </Box>
-        </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:currency-usd' />

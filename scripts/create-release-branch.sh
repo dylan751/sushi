@@ -9,7 +9,7 @@ if [[ "$CURRENT_BRANCH" != "develop" ]]; then
 fi
 
 # Make sure we are up-to-date in local
-git pull origin
+git pull origin develop
 
 # Create the release branch
 echo "Creating and pushing new release branch: $RELEASE_BRANCH"
