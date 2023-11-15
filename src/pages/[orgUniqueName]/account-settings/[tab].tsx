@@ -1,4 +1,4 @@
-// ** Demo Components Imports
+// ** Components Imports
 import Error404 from 'src/pages/404'
 import AccountSettings from 'src/views/pages/account-settings/AccountSettings'
 

@@ -42,6 +42,12 @@ export interface ProfileResponseDto {
   email: string
   /** @example "robin" */
   name: string
+  /** @example "0339089172" */
+  phone: string
+  /** @example "19A Bach Khoa, Ha Noi" */
+  address: string
+  /** @example "https://image.com/avatar-1" */
+  avatar: string
   /** @example [{"id":1,"name":"First Organization Name","uniqueName":"first_organization_unique_name","roles":[{"id":1,"name":"Admin"}]}] */
   organizations: OrganizationProfileResponseDto[]
 }
@@ -68,6 +74,15 @@ export interface RegisterResponse {
   name: string
   /** @example "password" */
   password: string
+}
+
+export interface UpdateProfileRequestDto {
+  /** @example "Foo" */
+  name?: string
+  /** @example "0339089172" */
+  phone?: string
+  /** @example "19A Bach Khoa, Ha Noi" */
+  address?: string
 }
 
 export interface OrganizationUserResponseDto {
@@ -444,6 +459,26 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/internal/api/v1/auth/profile`,
         method: 'GET',
         secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Update user profile
+     *
+     * @tags Auth
+     * @name UpdateUserProfile
+     * @summary Update user profile
+     * @request PATCH:/internal/api/v1/auth/profile
+     * @secure
+     */
+    updateUserProfile: (data: UpdateProfileRequestDto, params: RequestParams = {}) =>
+      this.request<ProfileResponseDto, any>({
+        path: `/internal/api/v1/auth/profile`,
+        method: 'PATCH',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         format: 'json',
         ...params
       }),
