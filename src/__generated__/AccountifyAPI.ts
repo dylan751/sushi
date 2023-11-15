@@ -83,6 +83,8 @@ export interface UpdateProfileRequestDto {
   phone?: string
   /** @example "19A Bach Khoa, Ha Noi" */
   address?: string
+  /** @example "password" */
+  password?: string
 }
 
 export interface OrganizationUserResponseDto {

@@ -21,24 +21,33 @@ import Icon from 'src/@core/components/icon'
 
 // ** Third Party Imports
 import * as yup from 'yup'
-import toast from 'react-hot-toast'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
+// ** Store Imports
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from 'src/store'
+import { updateProfile } from 'src/store/auth/profile'
+
+// ** Type Imports
+import { UpdateProfileRequestDto } from 'src/__generated__/AccountifyAPI'
+
 interface State {
   showNewPassword: boolean
-  showCurrentPassword: boolean
   showConfirmNewPassword: boolean
 }
 
-const defaultValues = {
+interface FormData {
+  newPassword: string
+  confirmNewPassword: string
+}
+
+const defaultValues: FormData = {
   newPassword: '',
-  currentPassword: '',
   confirmNewPassword: ''
 }
 
 const schema = yup.object().shape({
-  currentPassword: yup.string().min(8).required(),
   newPassword: yup
     .string()
     .min(8)
@@ -57,7 +66,6 @@ const ChangePasswordCard = () => {
   // ** States
   const [values, setValues] = useState<State>({
     showNewPassword: false,
-    showCurrentPassword: false,
     showConfirmNewPassword: false
   })
 
@@ -68,10 +76,7 @@ const ChangePasswordCard = () => {
     handleSubmit,
     formState: { errors }
   } = useForm({ defaultValues, resolver: yupResolver(schema) })
-
-  const handleClickShowCurrentPassword = () => {
-    setValues({ ...values, showCurrentPassword: !values.showCurrentPassword })
-  }
+  const dispatch = useDispatch<AppDispatch>()
 
   const handleClickShowNewPassword = () => {
     setValues({ ...values, showNewPassword: !values.showNewPassword })
@@ -81,8 +86,11 @@ const ChangePasswordCard = () => {
     setValues({ ...values, showConfirmNewPassword: !values.showConfirmNewPassword })
   }
 
-  const onPasswordFormSubmit = () => {
-    toast.success('Password Changed Successfully')
+  const onPasswordFormSubmit = (data: FormData) => {
+    const requestParams: UpdateProfileRequestDto = {
+      password: data.newPassword
+    }
+    dispatch(updateProfile(requestParams))
     reset(defaultValues)
   }
 
@@ -91,44 +99,6 @@ const ChangePasswordCard = () => {
       <CardHeader title='Change Password' />
       <CardContent>
         <form onSubmit={handleSubmit(onPasswordFormSubmit)}>
-          <Grid container spacing={5}>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel htmlFor='input-current-password' error={Boolean(errors.currentPassword)}>
-                  Current Password
-                </InputLabel>
-                <Controller
-                  name='currentPassword'
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field: { value, onChange } }) => (
-                    <OutlinedInput
-                      value={value}
-                      label='Current Password'
-                      onChange={onChange}
-                      id='input-current-password'
-                      error={Boolean(errors.currentPassword)}
-                      type={values.showCurrentPassword ? 'text' : 'password'}
-                      endAdornment={
-                        <InputAdornment position='end'>
-                          <IconButton
-                            edge='end'
-                            onMouseDown={e => e.preventDefault()}
-                            onClick={handleClickShowCurrentPassword}
-                          >
-                            <Icon icon={values.showCurrentPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} />
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                    />
-                  )}
-                />
-                {errors.currentPassword && (
-                  <FormHelperText sx={{ color: 'error.main' }}>{errors.currentPassword.message}</FormHelperText>
-                )}
-              </FormControl>
-            </Grid>
-          </Grid>
           <Grid container spacing={5} sx={{ mt: 0 }}>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth>
