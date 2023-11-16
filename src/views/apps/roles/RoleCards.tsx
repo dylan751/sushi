@@ -53,10 +53,12 @@ import { addRole, deleteRole, fetchRole, updateRole } from 'src/store/apps/role'
 
 // ** Hooks
 import { useApi } from 'src/hooks/useApi'
+
+// ** Third Party Imports
+import { Controller, FieldValues, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
-// ** Third parties Imports
-import { Controller, FieldValues, useForm } from 'react-hook-form'
+// ** Custom Component Imports
 import DialogDeleteRole from './dialogs/DialogDeleteRole'
 
 // ** Util Imports

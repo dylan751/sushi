@@ -1,10 +1,15 @@
 {
     "navbar": {
         "home": "ホームページ",
-        "role_page": "役割ページ"
+        "role_page": "役割ページ",
+        "account_settings_page": {
+            "account_settings": "アカウント設定",
+            "account": "アカウント",
+            "security": "セキュリティ"
+        }
     },
     "user_dropdown": {
-        "profile": "プロフィール",
+        "account_settings": "アカウント設定",
         "organization": "組織選択",
         "chat": "チャット",
         "settings": "設定",
@@ -16,7 +21,11 @@
         "submit": "提出する",
         "edit": "編集",
         "delete": "削除",
-        "cancel": "キャンセル"
+        "cancel": "キャンセル",
+        "save_changes": "保存",
+        "reset": "リセット",
+        "yes": "はい",
+        "ok": "OK"
     },
     "toast_message": {
         "login_success": "ログインが成功しました",
@@ -95,6 +104,37 @@
             "admin": "Adminは他のロールと一緒に使用することはできません",
             "no_admin_nor_member": "Memberを選択する必要があります",
             "max_of_roles_can_be_selected": "最大ロール個のみ選択できます"
+        }
+    },
+    "account_settings_page": {
+        "title": "アカウント設定",
+        "account": {
+            "title": "アカウント",
+            "full_name": "フルネーム",
+            "email": "Eメール",
+            "phone_number": "電話番号",
+            "address": "住所",
+            "delete_account": "アカウントの削除",
+            "deactivate_account": "アカウントの無効化",
+            "account_deactivation_checkbox": "アカウントの無効化を確認します",
+            "account_deactivation_warning": "アカウントを削除することを確認してください",
+            "account_deactivation_confirm": "サブスクリプションをキャンセルしてもよろしいですか?",
+            "account_deactivation_success": "サブスクリプションは成功にキャンセルされました。",
+            "account_deactivation_fail": "サブスクリプションがキャンセルされました!!",
+            "deleted": "削除されました",
+            "cancelled": "キャンセルされました"
+        },
+        "security": {
+            "title": "セキュリティ",
+            "change_password": "パスワードの変更",
+            "new_password": "新しいパスワード",
+            "new_password_error": "8文字、大文字1文字、小文字1文字、数字1文字、特殊文字1文字を含める必要があります",
+            "confirm_new_password": "新しいパスワードの確認",
+            "confirm_new_password_error": "パスワードが一致する必要があります",
+            "password_requirements": "パスワード要件",
+            "password_requirements_1": "最低 8 文字 - 多ければ多いほど良い",
+            "password_requirements_2": "少なくとも 1 つの小文字と 1 つの大文字",
+            "password_requirements_3": "少なくとも 1 つの数字、記号、または空白文字"
         }
     }
 }

@@ -12,6 +12,8 @@ import { CaslPermission, OrganizationProfileResponseDto } from 'src/__generated_
 
 // ** Hooks
 import { useApi } from 'src/hooks/useApi'
+
+// ** Third Party Imports
 import { useTranslation } from 'react-i18next'
 
 const OrganizationPage = () => {

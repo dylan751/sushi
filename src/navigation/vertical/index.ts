@@ -29,6 +29,20 @@ const navigation = (): VerticalNavItemsType => {
       subject: 'role',
       title: 'navbar.role_page',
       icon: 'mdi:shield-outline'
+    },
+    {
+      title: 'navbar.account_settings_page.account_settings',
+      icon: 'mdi:account-cog-outline',
+      children: [
+        {
+          title: 'navbar.account_settings_page.account',
+          path: `${uniqueName}/account-settings/account`
+        },
+        {
+          title: 'navbar.account_settings_page.security',
+          path: `${uniqueName}/account-settings/security`
+        }
+      ]
     }
   ]
 }

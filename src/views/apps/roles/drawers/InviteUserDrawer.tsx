@@ -24,15 +24,15 @@ import Icon from 'src/@core/components/icon'
 import { useDispatch } from 'react-redux'
 import { addUser } from 'src/store/apps/user'
 
-// ** Actions Imports
-
 // ** Types Imports
 import { AppDispatch } from 'src/store'
 import { BulkInviteRequestDto, RoleResponseDto } from 'src/__generated__/AccountifyAPI'
 
-// ** Hook Imports
-import { useTranslation } from 'react-i18next'
+// ** Utils Imports
 import { ADMIN_ROLE_ID } from 'src/utils/role'
+
+// ** Third Party Imports
+import { useTranslation } from 'react-i18next'
 
 interface SidebarAddUserType {
   open: boolean

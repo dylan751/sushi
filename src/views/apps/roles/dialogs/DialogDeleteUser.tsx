@@ -17,7 +17,7 @@ import Icon from 'src/@core/components/icon'
 // ** Type Imports
 import { OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
 
-// ** Hook Imports
+// ** Third Party Imports
 import { useTranslation } from 'react-i18next'
 
 interface DialogDeleteUserProps {

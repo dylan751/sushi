@@ -13,7 +13,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-// ** Hook Imports
+// ** Third Party Imports
 import { useTranslation } from 'react-i18next'
 
 // ** Type Imports

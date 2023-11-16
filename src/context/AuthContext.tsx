@@ -30,6 +30,12 @@ import {
 import { getAccessToken } from 'src/utils/localStorage'
 import { getOrgUniqueName } from 'src/utils/organization'
 
+// ** Store Imports
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from 'src/store'
+import { fetchProfile } from 'src/store/auth/profile'
+import { fetchPermissions } from 'src/store/auth/permission'
+
 // ** Defaults
 const defaultProvider: AuthValuesType = {
   user: null,
@@ -60,6 +66,12 @@ const AuthProvider = ({ children }: Props) => {
 
   // ** Hooks
   const router = useRouter()
+  const dispatch = useDispatch<AppDispatch>()
+
+  useEffect(() => {
+    dispatch(fetchProfile())
+    dispatch(fetchPermissions())
+  }, [dispatch])
 
   const { $api, set$Api } = useApi()
 
