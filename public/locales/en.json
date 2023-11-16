@@ -1,7 +1,12 @@
 {
     "navbar": {
         "home": "Home",
-        "role_page": "Role Page"
+        "role_page": "Role Page",
+        "account_settings_page": {
+            "account_settings": "Account Settings",
+            "account": "Account",
+            "security": "Security"
+        }
     },
     "user_dropdown": {
         "account_settings": "Account Settings",
@@ -16,7 +21,11 @@
         "submit": "Submit",
         "edit": "Edit",
         "delete": "Delete",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "save_changes": "Save Changes",
+        "reset": "Reset",
+        "yes": "Yes",
+        "ok": "OK"
     },
     "toast_message": {
         "login_success": "Login succeed",
@@ -95,6 +104,37 @@
             "admin": "Admin cannot be used with other roles",
             "no_admin_nor_member": "Member has to be selected",
             "max_of_roles_can_be_selected": "Only a maximum of roles can be selected"
+        }
+    },
+    "account_settings_page": {
+        "title": "Account Settings",
+        "account": {
+            "title": "Account",
+            "full_name": "Full Name",
+            "email": "Email",
+            "phone_number": "Phone Number",
+            "address": "Address",
+            "delete_account": "Delete Account",
+            "deactivate_account": "Deactivate Account",
+            "account_deactivation_checkbox": "I confirm my account deactivation",
+            "account_deactivation_warning": "Please confirm you want to delete account",
+            "account_deactivation_confirm": "Are you sure you would like to cancel your subscription?",
+            "account_deactivation_success": "Your subscription cancelled successfully.",
+            "account_deactivation_fail": "Unsubscription Cancelled!!",
+            "deleted": "Deleted",
+            "cancelled": "Cancelled"
+        },
+        "security": {
+            "title": "Security",
+            "change_password": "Change Password",
+            "new_password": "New Password",
+            "new_password_error": "Must contain 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special case character",
+            "confirm_new_password": "Confirm New Password",
+            "confirm_new_password_error": "Passwords must match",
+            "password_requirements": "Password Requirements",
+            "password_requirements_1": "Minimum 8 characters long - the more, the better",
+            "password_requirements_2": "At least one lowercase & one uppercase character",
+            "password_requirements_3": "At least one number, symbol, or whitespace character"
         }
     }
 }

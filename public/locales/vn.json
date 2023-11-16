@@ -1,7 +1,12 @@
 {
     "navbar": {
         "home": "Trang chủ",
-        "role_page": "Trang phân quyền"
+        "role_page": "Trang phân quyền",
+        "account_settings_page": {
+            "account_settings": "Cài đặt tài khoản",
+            "account": "Tài khoản",
+            "security": "Bảo mật"
+        }
     },
     "user_dropdown": {
         "account_settings": "Cài đặt tài khoản",
@@ -16,7 +21,11 @@
         "submit": "Gửi",
         "edit": "Sửa",
         "delete": "Xoá",
-        "cancel": "Hủy bỏ"
+        "cancel": "Hủy bỏ",
+        "save_changes": "Lưu thay đổi",
+        "reset": "Cài đặt lại",
+        "yes": "Đúng",
+        "ok": "OK"
     },
     "toast_message": {
         "login_success": "Đăng nhập thành công",
@@ -95,6 +104,37 @@
             "admin": "Admin không thể được sử dụng cùng với vai trò khác",
             "no_admin_nor_member": "Member phải được chọn",
             "max_of_roles_can_be_selected": "Chỉ được chọn một số lượng vai trò giới hạn"
+        }
+    },
+    "account_settings_page": {
+        "title": "Cài đặt tài khoản",
+        "account": {
+            "title": "Tài khoản",
+            "full_name": "Họ và tên",
+            "email": "Email",
+            "phone_number": "Số điện thoại",
+            "address": "Địa chỉ",
+            "delete_account": "Xóa tài khoản",
+            "deactivate_account": "Vô hiệu hóa tài khoản",
+            "account_deactivation_checkbox": "Xác nhận vô hiệu hóa tài khoản",
+            "account_deactivation_warning": "Vui lòng xác nhận rằng bạn muốn xóa tài khoản của mình",
+            "account_deactivation_confirm": "Bạn có chắc chắn muốn hủy đăng ký của mình không?",
+            "account_deactivation_success": "Đăng ký đã được hủy thành công.",
+            "account_deactivation_fail": "Đăng ký của bạn đã bị hủy!!",
+            "deleted": "Đã bị xóa",
+            "cancelled": "Đã bị hủy"
+        },
+        "security": {
+            "title": "Bảo mật",
+            "change_password": "Đổi mật khẩu",
+            "new_password": "Mật khẩu mới",
+            "new_password_error": "Phải có 8 ký tự, bao gồm 1 chữ hoa, 1 chữ thường, 1 chữ số và 1 ký tự đặc biệt",
+            "confirm_new_password": "Xác nhận mật khẩu mới",
+            "confirm_new_password_error": "Mật khẩu phải trùng khớp",
+            "password_requirements": "Yêu cầu về mật khẩu",
+            "password_requirements_1": "Có tối thiểu 8 ký tự - càng nhiều ký tự càng an toàn",
+            "password_requirements_2": "Có ít nhất một chữ cái viết thường và một chữ cái viết hoa",
+            "password_requirements_3": "Có ít nhất một chữ số, ký hiệu hoặc ký tự khoảng trắng"
         }
     }
 }

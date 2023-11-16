@@ -26,6 +26,9 @@ import TabSecurity from 'src/views/pages/account-settings/TabSecurity'
 // ** Util Imports
 import { getOrgUniqueName } from 'src/utils/organization'
 
+// ** Third Party Imports
+import { useTranslation } from 'react-i18next'
+
 const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
   '& .MuiTabs-indicator': {
     display: 'none'
@@ -52,6 +55,7 @@ const AccountSettings = ({ tab }: { tab: string }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   // ** Hooks
+  const { t } = useTranslation()
   const router = useRouter()
   const hideText = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
 
@@ -89,7 +93,7 @@ const AccountSettings = ({ tab }: { tab: string }) => {
                   label={
                     <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
                       <Icon icon='mdi:account-outline' />
-                      {!hideText && 'Account'}
+                      {!hideText && t('account_settings_page.account.title')}
                     </Box>
                   }
                 />
@@ -98,7 +102,7 @@ const AccountSettings = ({ tab }: { tab: string }) => {
                   label={
                     <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
                       <Icon icon='mdi:lock-open-outline' />
-                      {!hideText && 'Security'}
+                      {!hideText && t('account_settings_page.security.title')}
                     </Box>
                   }
                 />

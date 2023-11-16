@@ -23,6 +23,7 @@ import Icon from 'src/@core/components/icon'
 import * as yup from 'yup'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useTranslation } from 'react-i18next'
 
 // ** Store Imports
 import { useDispatch } from 'react-redux'
@@ -77,6 +78,7 @@ const ChangePasswordCard = () => {
     formState: { errors }
   } = useForm({ defaultValues, resolver: yupResolver(schema) })
   const dispatch = useDispatch<AppDispatch>()
+  const { t } = useTranslation()
 
   const handleClickShowNewPassword = () => {
     setValues({ ...values, showNewPassword: !values.showNewPassword })
@@ -96,14 +98,14 @@ const ChangePasswordCard = () => {
 
   return (
     <Card>
-      <CardHeader title='Change Password' />
+      <CardHeader title={t('account_settings_page.security.change_password')} />
       <CardContent>
         <form onSubmit={handleSubmit(onPasswordFormSubmit)}>
           <Grid container spacing={5} sx={{ mt: 0 }}>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel htmlFor='input-new-password' error={Boolean(errors.newPassword)}>
-                  New Password
+                  {t('account_settings_page.security.new_password')}
                 </InputLabel>
                 <Controller
                   name='newPassword'
@@ -112,7 +114,7 @@ const ChangePasswordCard = () => {
                   render={({ field: { value, onChange } }) => (
                     <OutlinedInput
                       value={value}
-                      label='New Password'
+                      label={t('account_settings_page.security.new_password')}
                       onChange={onChange}
                       id='input-new-password'
                       error={Boolean(errors.newPassword)}
@@ -139,7 +141,7 @@ const ChangePasswordCard = () => {
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel htmlFor='input-confirm-new-password' error={Boolean(errors.confirmNewPassword)}>
-                  Confirm New Password
+                  {t('account_settings_page.security.confirm_new_password')}
                 </InputLabel>
                 <Controller
                   name='confirmNewPassword'
@@ -148,7 +150,7 @@ const ChangePasswordCard = () => {
                   render={({ field: { value, onChange } }) => (
                     <OutlinedInput
                       value={value}
-                      label='Confirm New Password'
+                      label={t('account_settings_page.security.confirm_new_password')}
                       onChange={onChange}
                       id='input-confirm-new-password'
                       error={Boolean(errors.confirmNewPassword)}
@@ -173,22 +175,24 @@ const ChangePasswordCard = () => {
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-              <Typography sx={{ mt: 1, color: 'text.secondary' }}>Password Requirements:</Typography>
+              <Typography sx={{ mt: 1, color: 'text.secondary' }}>
+                {t('account_settings_page.security.password_requirements')}
+              </Typography>
               <Box
                 component='ul'
                 sx={{ pl: 4, mb: 0, '& li': { mb: 4, color: 'text.secondary', '&::marker': { fontSize: '1.25rem' } } }}
               >
-                <li>Minimum 8 characters long - the more, the better</li>
-                <li>At least one lowercase & one uppercase character</li>
-                <li>At least one number, symbol, or whitespace character</li>
+                <li>{t('account_settings_page.security.password_requirements_1')}</li>
+                <li>{t('account_settings_page.security.password_requirements_2')}</li>
+                <li>{t('account_settings_page.security.password_requirements_3')}</li>
               </Box>
             </Grid>
             <Grid item xs={12}>
               <Button variant='contained' type='submit' sx={{ mr: 3 }}>
-                Save Changes
+                {t('button.save_changes')}
               </Button>
               <Button type='reset' variant='outlined' color='secondary' onClick={() => reset()}>
-                Reset
+                {t('button.reset')}
               </Button>
             </Grid>
           </Grid>

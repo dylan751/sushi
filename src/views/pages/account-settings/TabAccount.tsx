@@ -34,6 +34,9 @@ import { AppDispatch, RootState } from 'src/store'
 // ** Type Imports
 import { UpdateProfileRequestDto } from 'src/__generated__/AccountifyAPI'
 
+// ** Third Party Imports
+import { useTranslation } from 'react-i18next'
+
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
   height: 120,
@@ -62,6 +65,7 @@ const TabAccount = () => {
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
   const store = useSelector((state: RootState) => state.profile)
+  const { t } = useTranslation()
 
   const initialData: UpdateProfileRequestDto = {
     phone: store.data.phone,
@@ -146,7 +150,7 @@ const TabAccount = () => {
                     />
                   </ButtonStyled>
                   <ResetButtonStyled color='secondary' variant='outlined' onClick={handleInputImageReset}>
-                    Reset
+                    {t('button.reset')}
                   </ResetButtonStyled>
                   <Typography variant='caption' sx={{ mt: 4, display: 'block', color: 'text.disabled' }}>
                     Allowed PNG or JPEG. Max size of 800K.
@@ -159,7 +163,7 @@ const TabAccount = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     fullWidth
-                    label='Full Name'
+                    label={t('account_settings_page.account.full_name')}
                     placeholder='John'
                     value={formData.name}
                     onChange={e => handleFormChange('name', e.target.value)}
@@ -169,7 +173,7 @@ const TabAccount = () => {
                   <TextField
                     fullWidth
                     type='email'
-                    label='Email'
+                    label={t('account_settings_page.account.email')}
                     value={store.data.email}
                     placeholder='john.doe@example.com'
                     disabled
@@ -179,7 +183,7 @@ const TabAccount = () => {
                   <TextField
                     fullWidth
                     type='phone'
-                    label='Phone Number'
+                    label={t('account_settings_page.account.phone_number')}
                     value={formData.phone}
                     placeholder='202 555 0111'
                     onChange={e => handleFormChange('phone', e.target.value)}
@@ -189,7 +193,7 @@ const TabAccount = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     fullWidth
-                    label='Address'
+                    label={t('account_settings_page.account.address')}
                     placeholder='Address'
                     value={formData.address}
                     onChange={e => handleFormChange('address', e.target.value)}
@@ -198,10 +202,10 @@ const TabAccount = () => {
 
                 <Grid item xs={12}>
                   <Button variant='contained' sx={{ mr: 4 }} onClick={onUpdateAccount}>
-                    Save Changes
+                    {t('button.save_changes')}
                   </Button>
                   <Button type='reset' variant='outlined' color='secondary' onClick={() => setFormData(initialData)}>
-                    Reset
+                    {t('button.reset')}
                   </Button>
                 </Grid>
               </Grid>
@@ -213,7 +217,7 @@ const TabAccount = () => {
       {/* Delete Account Card */}
       <Grid item xs={12}>
         <Card>
-          <CardHeader title='Delete Account' />
+          <CardHeader title={t('account_settings_page.account.delete_account')} />
           <CardContent>
             <form onSubmit={handleSubmit(onDeleteAccount)}>
               <Box sx={{ mb: 4 }}>
@@ -224,7 +228,7 @@ const TabAccount = () => {
                     rules={{ required: true }}
                     render={({ field }) => (
                       <FormControlLabel
-                        label='I confirm my account deactivation'
+                        label={t('account_settings_page.account.account_deactivation_checkbox')}
                         sx={errors.checkbox ? { '& .MuiTypography-root': { color: 'error.main' } } : null}
                         control={
                           <Checkbox
@@ -239,13 +243,13 @@ const TabAccount = () => {
                   />
                   {errors.checkbox && (
                     <FormHelperText sx={{ color: 'error.main' }} id='validation-basic-checkbox'>
-                      Please confirm you want to delete account
+                      {t('account_settings_page.account.account_deactivation_warning')}
                     </FormHelperText>
                   )}
                 </FormControl>
               </Box>
               <Button variant='contained' color='error' type='submit' disabled={errors.checkbox !== undefined}>
-                Deactivate Account
+                {t('account_settings_page.account.deactivate_account')}
               </Button>
             </form>
           </CardContent>
@@ -272,7 +276,7 @@ const TabAccount = () => {
             }}
           >
             <Icon icon='mdi:alert-circle-outline' fontSize='5.5rem' />
-            <Typography>Are you sure you would like to cancel your subscription?</Typography>
+            <Typography>{t('account_settings_page.account.account_deactivation_confirm')}</Typography>
           </Box>
         </DialogContent>
         <DialogActions
@@ -283,10 +287,10 @@ const TabAccount = () => {
           }}
         >
           <Button variant='contained' sx={{ mr: 2 }} onClick={() => handleConfirmation('yes')}>
-            Yes
+            {t('button.yes')}
           </Button>
           <Button variant='outlined' color='secondary' onClick={() => handleConfirmation('cancel')}>
-            Cancel
+            {t('button.cancel')}
           </Button>
         </DialogActions>
       </Dialog>
@@ -314,10 +318,14 @@ const TabAccount = () => {
               icon={userInput === 'yes' ? 'mdi:check-circle-outline' : 'mdi:close-circle-outline'}
             />
             <Typography variant='h4' sx={{ mb: 5 }}>
-              {userInput === 'yes' ? 'Deleted!' : 'Cancelled'}
+              {userInput === 'yes'
+                ? t('account_settings_page.account.deleted')
+                : t('account_settings_page.account.cancelled')}
             </Typography>
             <Typography>
-              {userInput === 'yes' ? 'Your subscription cancelled successfully.' : 'Unsubscription Cancelled!!'}
+              {userInput === 'yes'
+                ? t('account_settings_page.account.account_deactivation_success')
+                : t('account_settings_page.account.account_deactivation_fail')}
             </Typography>
           </Box>
         </DialogContent>
@@ -329,7 +337,7 @@ const TabAccount = () => {
           }}
         >
           <Button variant='contained' color='success' onClick={handleSecondDialogClose}>
-            OK
+            {t('button.ok')}
           </Button>
         </DialogActions>
       </Dialog>

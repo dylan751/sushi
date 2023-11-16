@@ -31,15 +31,15 @@ const navigation = (): VerticalNavItemsType => {
       icon: 'mdi:shield-outline'
     },
     {
-      title: 'Account Settings',
+      title: 'navbar.account_settings_page.account_settings',
       icon: 'mdi:account-cog-outline',
       children: [
         {
-          title: 'Account',
+          title: 'navbar.account_settings_page.account',
           path: `${uniqueName}/account-settings/account`
         },
         {
-          title: 'Security',
+          title: 'navbar.account_settings_page.security',
           path: `${uniqueName}/account-settings/security`
         }
       ]
