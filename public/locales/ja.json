@@ -107,6 +107,20 @@
             "max_of_roles_can_be_selected": "最大ロール個のみ選択できます"
         }
     },
+    "user_page": {
+        "export": "エクスポート",
+        "search_filters": "フィルターでの検索",
+        "search_user": "ユーザーの検索",
+        "select_role": "役割の選択",
+        "user": "ユーザー",
+        "email": "Eメール",
+        "role": "ロール",
+        "actions": "行動",
+        "cannot_delete_last_admin": "このユーザーは唯一の管理者であるため、このアカウントは削除できません",
+        "add_user": "ユーザーの追加",
+        "default_role": "デフォルトのロール",
+        "custom_role_optional": "カスタムロール (オプション)"
+    },
     "account_settings_page": {
         "title": "アカウント設定",
         "account": {

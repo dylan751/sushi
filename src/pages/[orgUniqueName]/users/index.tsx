@@ -77,6 +77,7 @@ const RowOptions = ({ id }: { id: number }) => {
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
   const ability = useContext(AbilityContext)
+  const { t } = useTranslation()
 
   // ** State
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -121,82 +122,12 @@ const RowOptions = ({ id }: { id: number }) => {
           disabled={!ability?.can('delete', 'user')}
         >
           <Icon icon='mdi:delete-outline' fontSize={20} />
-          Delete
+          {t('user_page.delete')}
         </MenuItem>
       </Menu>
     </>
   )
 }
-
-const columns: GridColDef[] = [
-  {
-    flex: 0.2,
-    minWidth: 230,
-    field: 'name',
-    headerName: 'User',
-    renderCell: ({ row }: CellType) => {
-      const { name, email } = row
-
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {renderClient(row)}
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-            <LinkStyled href='/apps/user/view/overview/'>{name}</LinkStyled>
-            <Typography noWrap variant='caption'>
-              {`@${email}`}
-            </Typography>
-          </Box>
-        </Box>
-      )
-    }
-  },
-  {
-    flex: 0.2,
-    minWidth: 250,
-    field: 'email',
-    headerName: 'Email',
-    renderCell: ({ row }: CellType) => {
-      return (
-        <Typography noWrap variant='body2'>
-          {row.email}
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.15,
-    field: 'role',
-    minWidth: 150,
-    headerName: 'Role',
-    renderCell: ({ row }: CellType) => {
-      return (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            justifyContent: 'center',
-            '& svg': { mr: 3, color: 'primary' }
-          }}
-        >
-          {row.roles.map(role => (
-            <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }} key={role.id}>
-              {role.name}
-            </Typography>
-          ))}
-        </Box>
-      )
-    }
-  },
-  {
-    flex: 0.1,
-    minWidth: 90,
-    sortable: false,
-    field: 'actions',
-    headerName: 'Actions',
-    renderCell: ({ row }: CellType) => <RowOptions id={row.id} />
-  }
-]
 
 const UserList = () => {
   // ** State
@@ -236,26 +167,96 @@ const UserList = () => {
     setIsSelectAdmin(false)
   }
 
+  const columns: GridColDef[] = [
+    {
+      flex: 0.2,
+      minWidth: 230,
+      field: 'name',
+      headerName: `${t('user_page.user')}`,
+      renderCell: ({ row }: CellType) => {
+        const { name, email } = row
+
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {renderClient(row)}
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+              <LinkStyled href='/apps/user/view/overview/'>{name}</LinkStyled>
+              <Typography noWrap variant='caption'>
+                {`@${email}`}
+              </Typography>
+            </Box>
+          </Box>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 250,
+      field: 'email',
+      headerName: `${t('user_page.email')}`,
+      renderCell: ({ row }: CellType) => {
+        return (
+          <Typography noWrap variant='body2'>
+            {row.email}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.15,
+      field: 'role',
+      minWidth: 150,
+      headerName: `${t('user_page.role')}`,
+      renderCell: ({ row }: CellType) => {
+        return (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              justifyContent: 'center',
+              '& svg': { mr: 3, color: 'primary' }
+            }}
+          >
+            {row.roles.map(role => (
+              <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }} key={role.id}>
+                {role.name}
+              </Typography>
+            ))}
+          </Box>
+        )
+      }
+    },
+    {
+      flex: 0.1,
+      minWidth: 90,
+      sortable: false,
+      field: 'actions',
+      headerName: `${t('user_page.actions')}`,
+      renderCell: ({ row }: CellType) => <RowOptions id={row.id} />
+    }
+  ]
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <Card>
-          <CardHeader title='Search Filters' />
+          <CardHeader title={t('user_page.search_filters')} />
           <CardContent>
             <Grid container spacing={6}>
               <Grid item sm={4} xs={12}>
                 <FormControl fullWidth>
-                  <InputLabel id='role-select'>{t('role_page.user.select_role')}</InputLabel>
+                  <InputLabel id='role-select'>{t('user_page.select_role')}</InputLabel>
                   <Select
                     fullWidth
                     value={role}
                     id='select-role'
-                    label={t('role_page.user.select_role')}
+                    label={t('user_page.select_role')}
                     labelId='role-select'
                     onChange={handleRoleChange}
-                    inputProps={{ placeholder: `${t('role_page.user.select_role')}` }}
+                    inputProps={{ placeholder: `${t('user_page.select_role')}` }}
                   >
-                    <MenuItem value=''>{t('role_page.user.select_role')}</MenuItem>
+                    <MenuItem value=''>{t('user_page.select_role')}</MenuItem>
                     {roleStore.data.map(role => (
                       <MenuItem value={role.slug} key={role.id}>
                         {role.name}
