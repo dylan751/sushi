@@ -34,7 +34,7 @@
         "add_role_success": "ロールの追加が成功しました",
         "update_role_success": "ロールの編集が成功しました",
         "delete_role_success": "ロールの削除が成功しました",
-        "add_user_success": "ユーザーの招待が成功しました",
+        "add_user_success": "ユーザーの追加が成功しました",
         "update_user_success": "ユーザーロールの編集が成功しました",
         "delete_user_success": "この組織からのユーザーの削除は成功しました"
     },
