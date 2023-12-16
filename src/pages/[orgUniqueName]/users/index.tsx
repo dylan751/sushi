@@ -9,6 +9,8 @@ import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import Menu from '@mui/material/Menu'
 import Grid from '@mui/material/Grid'
+import Button from '@mui/material/Button'
+import Tooltip from '@mui/material/Tooltip'
 import Divider from '@mui/material/Divider'
 import { styled } from '@mui/material/styles'
 import MenuItem from '@mui/material/MenuItem'
@@ -32,6 +34,7 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
+import { isAdmin } from 'src/utils/role'
 
 // ** Actions Imports
 import { fetchUser, deleteUser, fetchAdminCount } from 'src/store/apps/user'
@@ -73,10 +76,17 @@ const renderClient = (row: OrganizationUserResponseDto) => {
   )
 }
 
-const RowOptions = ({ id }: { id: number }) => {
+const RowOptions = ({
+  row,
+  isUserLastAdmin
+}: {
+  row: OrganizationUserResponseDto
+  isUserLastAdmin: (user: OrganizationUserResponseDto) => boolean
+}) => {
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
   const ability = useContext(AbilityContext)
+  const { t } = useTranslation()
 
   // ** State
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -115,88 +125,32 @@ const RowOptions = ({ id }: { id: number }) => {
         }}
         PaperProps={{ style: { minWidth: '8rem' } }}
       >
-        <MenuItem
-          onClick={() => handleDelete(id)}
-          sx={{ '& svg': { mr: 2 } }}
-          disabled={!ability?.can('delete', 'user')}
-        >
-          <Icon icon='mdi:delete-outline' fontSize={20} />
-          Delete
-        </MenuItem>
+        {ability?.can('delete', 'user') && (
+          <>
+            <MenuItem sx={{ '& svg': { mr: 2 } }}>
+              <Button
+                color='error'
+                disabled={isUserLastAdmin(row)}
+                onClick={() => handleDelete(row.id)}
+                sx={{ p: 0, m: 0, mr: 2 }}
+              >
+                <Icon icon='mdi:delete-outline' fontSize={20} />
+                {t('button.delete')}
+              </Button>
+              {isUserLastAdmin(row) && (
+                <Tooltip placement='top' title={t('role_page.user.cannot_delete_last_admin')}>
+                  <Box sx={{ display: 'flex' }}>
+                    <Icon icon='mdi:information-outline' fontSize='1rem' />
+                  </Box>
+                </Tooltip>
+              )}
+            </MenuItem>
+          </>
+        )}
       </Menu>
     </>
   )
 }
-
-const columns: GridColDef[] = [
-  {
-    flex: 0.2,
-    minWidth: 230,
-    field: 'name',
-    headerName: 'User',
-    renderCell: ({ row }: CellType) => {
-      const { name, email } = row
-
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {renderClient(row)}
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-            <LinkStyled href='/apps/user/view/overview/'>{name}</LinkStyled>
-            <Typography noWrap variant='caption'>
-              {`@${email}`}
-            </Typography>
-          </Box>
-        </Box>
-      )
-    }
-  },
-  {
-    flex: 0.2,
-    minWidth: 250,
-    field: 'email',
-    headerName: 'Email',
-    renderCell: ({ row }: CellType) => {
-      return (
-        <Typography noWrap variant='body2'>
-          {row.email}
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.15,
-    field: 'role',
-    minWidth: 150,
-    headerName: 'Role',
-    renderCell: ({ row }: CellType) => {
-      return (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            justifyContent: 'center',
-            '& svg': { mr: 3, color: 'primary' }
-          }}
-        >
-          {row.roles.map(role => (
-            <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }} key={role.id}>
-              {role.name}
-            </Typography>
-          ))}
-        </Box>
-      )
-    }
-  },
-  {
-    flex: 0.1,
-    minWidth: 90,
-    sortable: false,
-    field: 'actions',
-    headerName: 'Actions',
-    renderCell: ({ row }: CellType) => <RowOptions id={row.id} />
-  }
-]
 
 const UserList = () => {
   // ** State
@@ -223,6 +177,14 @@ const UserList = () => {
     dispatch(fetchRole())
   }, [dispatch, role, value])
 
+  const hasOnlyOneAdmin = (): boolean => {
+    return userStore.totalAdmins <= 1
+  }
+
+  const isUserLastAdmin = (user: OrganizationUserResponseDto): boolean => {
+    return hasOnlyOneAdmin() && isAdmin(user.roles)
+  }
+
   const handleFilter = useCallback((val: string) => {
     setValue(val)
   }, [])
@@ -236,26 +198,96 @@ const UserList = () => {
     setIsSelectAdmin(false)
   }
 
+  const columns: GridColDef[] = [
+    {
+      flex: 0.2,
+      minWidth: 230,
+      field: 'name',
+      headerName: `${t('user_page.user')}`,
+      renderCell: ({ row }: CellType) => {
+        const { name, email } = row
+
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {renderClient(row)}
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+              <LinkStyled href='/apps/user/view/overview/'>{name}</LinkStyled>
+              <Typography noWrap variant='caption'>
+                {`@${email}`}
+              </Typography>
+            </Box>
+          </Box>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 250,
+      field: 'email',
+      headerName: `${t('user_page.email')}`,
+      renderCell: ({ row }: CellType) => {
+        return (
+          <Typography noWrap variant='body2'>
+            {row.email}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.15,
+      field: 'role',
+      minWidth: 150,
+      headerName: `${t('user_page.role')}`,
+      renderCell: ({ row }: CellType) => {
+        return (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              justifyContent: 'center',
+              '& svg': { mr: 3, color: 'primary' }
+            }}
+          >
+            {row.roles.map(role => (
+              <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }} key={role.id}>
+                {role.name}
+              </Typography>
+            ))}
+          </Box>
+        )
+      }
+    },
+    {
+      flex: 0.1,
+      minWidth: 90,
+      sortable: false,
+      field: 'actions',
+      headerName: `${t('user_page.actions')}`,
+      renderCell: ({ row }: CellType) => <RowOptions row={row} isUserLastAdmin={isUserLastAdmin} />
+    }
+  ]
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <Card>
-          <CardHeader title='Search Filters' />
+          <CardHeader title={t('user_page.search_filters')} />
           <CardContent>
             <Grid container spacing={6}>
               <Grid item sm={4} xs={12}>
                 <FormControl fullWidth>
-                  <InputLabel id='role-select'>{t('role_page.user.select_role')}</InputLabel>
+                  <InputLabel id='role-select'>{t('user_page.select_role')}</InputLabel>
                   <Select
                     fullWidth
                     value={role}
                     id='select-role'
-                    label={t('role_page.user.select_role')}
+                    label={t('user_page.select_role')}
                     labelId='role-select'
                     onChange={handleRoleChange}
-                    inputProps={{ placeholder: `${t('role_page.user.select_role')}` }}
+                    inputProps={{ placeholder: `${t('user_page.select_role')}` }}
                   >
-                    <MenuItem value=''>{t('role_page.user.select_role')}</MenuItem>
+                    <MenuItem value=''>{t('user_page.select_role')}</MenuItem>
                     {roleStore.data.map(role => (
                       <MenuItem value={role.slug} key={role.id}>
                         {role.name}

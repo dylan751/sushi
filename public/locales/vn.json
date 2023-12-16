@@ -107,6 +107,20 @@
             "max_of_roles_can_be_selected": "Chỉ được chọn một số lượng vai trò giới hạn"
         }
     },
+    "user_page": {
+        "export": "Export",
+        "search_filters": "Bộ lọc tìm kiếm",
+        "search_user": "Tìm người dùng",
+        "select_role": "Chọn vai trò",
+        "user": "Người dùng",
+        "email": "Email",
+        "role": "Vai trò",
+        "actions": "Hành động",
+        "cannot_delete_last_admin": "Vì người dùng này là quản trị viên duy nhất, nên tài khoản này không thể bị xóa",
+        "add_user": "Thêm người dùng",
+        "default_role": "Vai trò mặc định",
+        "custom_role_optional": "Vai trò tùy chỉnh (Tùy chọn)"
+    },
     "account_settings_page": {
         "title": "Cài đặt tài khoản",
         "account": {
