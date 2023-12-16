@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useEffect, MouseEvent, useCallback } from 'react'
+import { useState, useEffect, MouseEvent, useCallback, useContext } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -47,6 +47,7 @@ import AddUserDrawer from 'src/views/apps/user/list/AddUserDrawer'
 
 // ** Hooks
 import { useTranslation } from 'react-i18next'
+import { AbilityContext } from 'src/layouts/components/acl/Can'
 
 interface CellType {
   row: OrganizationUserResponseDto
@@ -75,6 +76,7 @@ const renderClient = (row: OrganizationUserResponseDto) => {
 const RowOptions = ({ id }: { id: number }) => {
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
+  const ability = useContext(AbilityContext)
 
   // ** State
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -113,7 +115,11 @@ const RowOptions = ({ id }: { id: number }) => {
         }}
         PaperProps={{ style: { minWidth: '8rem' } }}
       >
-        <MenuItem onClick={() => handleDelete(id)} sx={{ '& svg': { mr: 2 } }}>
+        <MenuItem
+          onClick={() => handleDelete(id)}
+          sx={{ '& svg': { mr: 2 } }}
+          disabled={!ability?.can('delete', 'user')}
+        >
           <Icon icon='mdi:delete-outline' fontSize={20} />
           Delete
         </MenuItem>
@@ -275,7 +281,6 @@ const UserList = () => {
         </Card>
       </Grid>
 
-      {/* <AddUserDrawer open={addUserOpen} toggle={toggleAddUserDrawer} /> */}
       <AddUserDrawer
         open={addUserOpen}
         toggle={toggleAddUserDrawer}
