@@ -2,6 +2,7 @@
     "navbar": {
         "home": "Trang chủ",
         "role_page": "Trang phân quyền",
+        "user_page": "Trang người dùng",
         "account_settings_page": {
             "account_settings": "Cài đặt tài khoản",
             "account": "Tài khoản",
@@ -33,7 +34,7 @@
         "add_role_success": "Thêm vai trò thành công",
         "update_role_success": "Cập nhật vai trò thành công",
         "delete_role_success": "Xoá vai trò thành công",
-        "add_user_success": "Mời người dùng thành công",
+        "add_user_success": "Thêm người dùng thành công",
         "update_user_success": "Cập nhật vai trò người dùng thành công",
         "delete_user_success": "Xóa người dùng khỏi tổ chức này thành công"
     },
@@ -95,7 +96,7 @@
             "edit_user_role_dialog_title": "Chỉnh sửa vai trò người dùng",
             "remove_user_dialog_title": "Xác nhận xóa người dùng",
             "remove_user_dialog_subtitle": "Nếu người dùng này không thuộc tổ chức khác thì tài khoản sẽ bị xóa.",
-            "invite_users": "Mời người dùng",
+            "add_user": "Thêm người dùng",
             "default_role": "Vai trò mặc định",
             "custom_role_optional": "Vai trò tùy chỉnh (Tùy chọn)"
         },
