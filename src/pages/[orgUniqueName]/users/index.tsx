@@ -9,6 +9,8 @@ import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import Menu from '@mui/material/Menu'
 import Grid from '@mui/material/Grid'
+import Button from '@mui/material/Button'
+import Tooltip from '@mui/material/Tooltip'
 import Divider from '@mui/material/Divider'
 import { styled } from '@mui/material/styles'
 import MenuItem from '@mui/material/MenuItem'
@@ -32,6 +34,7 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
+import { isAdmin } from 'src/utils/role'
 
 // ** Actions Imports
 import { fetchUser, deleteUser, fetchAdminCount } from 'src/store/apps/user'
@@ -73,7 +76,13 @@ const renderClient = (row: OrganizationUserResponseDto) => {
   )
 }
 
-const RowOptions = ({ id }: { id: number }) => {
+const RowOptions = ({
+  row,
+  isUserLastAdmin
+}: {
+  row: OrganizationUserResponseDto
+  isUserLastAdmin: (user: OrganizationUserResponseDto) => boolean
+}) => {
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
   const ability = useContext(AbilityContext)
@@ -116,14 +125,28 @@ const RowOptions = ({ id }: { id: number }) => {
         }}
         PaperProps={{ style: { minWidth: '8rem' } }}
       >
-        <MenuItem
-          onClick={() => handleDelete(id)}
-          sx={{ '& svg': { mr: 2 } }}
-          disabled={!ability?.can('delete', 'user')}
-        >
-          <Icon icon='mdi:delete-outline' fontSize={20} />
-          {t('button.delete')}
-        </MenuItem>
+        {ability?.can('delete', 'user') && (
+          <>
+            <MenuItem sx={{ '& svg': { mr: 2 } }}>
+              <Button
+                color='error'
+                disabled={isUserLastAdmin(row)}
+                onClick={() => handleDelete(row.id)}
+                sx={{ p: 0, m: 0, mr: 2 }}
+              >
+                <Icon icon='mdi:delete-outline' fontSize={20} />
+                {t('button.delete')}
+              </Button>
+              {isUserLastAdmin(row) && (
+                <Tooltip placement='top' title={t('role_page.user.cannot_delete_last_admin')}>
+                  <Box sx={{ display: 'flex' }}>
+                    <Icon icon='mdi:information-outline' fontSize='1rem' />
+                  </Box>
+                </Tooltip>
+              )}
+            </MenuItem>
+          </>
+        )}
       </Menu>
     </>
   )
@@ -153,6 +176,14 @@ const UserList = () => {
     dispatch(fetchAdminCount())
     dispatch(fetchRole())
   }, [dispatch, role, value])
+
+  const hasOnlyOneAdmin = (): boolean => {
+    return userStore.totalAdmins <= 1
+  }
+
+  const isUserLastAdmin = (user: OrganizationUserResponseDto): boolean => {
+    return hasOnlyOneAdmin() && isAdmin(user.roles)
+  }
 
   const handleFilter = useCallback((val: string) => {
     setValue(val)
@@ -233,7 +264,7 @@ const UserList = () => {
       sortable: false,
       field: 'actions',
       headerName: `${t('user_page.actions')}`,
-      renderCell: ({ row }: CellType) => <RowOptions id={row.id} />
+      renderCell: ({ row }: CellType) => <RowOptions row={row} isUserLastAdmin={isUserLastAdmin} />
     }
   ]
 
