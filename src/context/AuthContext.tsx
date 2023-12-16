@@ -27,7 +27,7 @@ import {
 } from 'src/__generated__/AccountifyAPI'
 
 // ** Utils
-import { getAccessToken } from 'src/utils/localStorage'
+import { getAccessToken, getOrganization } from 'src/utils/localStorage'
 import { getOrgUniqueName } from 'src/utils/organization'
 
 // ** Store Imports
@@ -69,8 +69,14 @@ const AuthProvider = ({ children }: Props) => {
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
-    dispatch(fetchProfile())
-    dispatch(fetchPermissions())
+    const storedToken = getAccessToken()
+    const organization = getOrganization()
+    if (storedToken) {
+      dispatch(fetchProfile())
+      if (organization) {
+        dispatch(fetchPermissions())
+      }
+    }
   }, [dispatch])
 
   const { $api, set$Api } = useApi()

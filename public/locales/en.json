@@ -2,6 +2,7 @@
     "navbar": {
         "home": "Home",
         "role_page": "Role Page",
+        "user_page": "User Page",
         "account_settings_page": {
             "account_settings": "Account Settings",
             "account": "Account",
@@ -33,7 +34,7 @@
         "add_role_success": "Add role succeed",
         "update_role_success": "Update role succeed",
         "delete_role_success": "Delete role succeed",
-        "add_user_success": "Invite users succeed",
+        "add_user_success": "Add user succeed",
         "update_user_success": "Update user role succeed",
         "delete_user_success": "Remove user from this organization succeed"
     },
@@ -95,7 +96,7 @@
             "edit_user_role_dialog_title": "Edit User Role",
             "remove_user_dialog_title": "Remove User Confirmation",
             "remove_user_dialog_subtitle": "If this user does not belong to other organizations, it will be deleted.",
-            "invite_users": "Invite Users",
+            "add_user": "Add User",
             "default_role": "Default Role",
             "custom_role_optional": "Custom Role (Optional)"
         },
@@ -105,6 +106,20 @@
             "no_admin_nor_member": "Member has to be selected",
             "max_of_roles_can_be_selected": "Only a maximum of roles can be selected"
         }
+    },
+    "user_page": {
+        "export": "Export",
+        "search_filters": "Search Filters",
+        "search_user": "Search User",
+        "select_role": "Select Role",
+        "user": "User",
+        "email": "Email",
+        "role": "Role",
+        "actions": "Actions",
+        "cannot_delete_last_admin": "Since this user is the only admin, this account cannot be deleted",
+        "add_user": "Add User",
+        "default_role": "Default Role",
+        "custom_role_optional": "Custom Role (Optional)"
     },
     "account_settings_page": {
         "title": "Account Settings",

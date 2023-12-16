@@ -31,6 +31,13 @@ const navigation = (): HorizontalNavItemsType => {
       icon: 'mdi:shield-outline'
     },
     {
+      path: `${uniqueName}/users`,
+      action: 'read',
+      subject: 'user',
+      title: 'navbar.user_page',
+      icon: 'mdi:account-outline'
+    },
+    {
       title: 'Account Settings',
       icon: 'mdi:account-cog-outline',
       children: [

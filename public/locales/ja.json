@@ -2,6 +2,7 @@
     "navbar": {
         "home": "ホームページ",
         "role_page": "役割ページ",
+        "user_page": "ユーザーページ",
         "account_settings_page": {
             "account_settings": "アカウント設定",
             "account": "アカウント",
@@ -33,7 +34,7 @@
         "add_role_success": "ロールの追加が成功しました",
         "update_role_success": "ロールの編集が成功しました",
         "delete_role_success": "ロールの削除が成功しました",
-        "add_user_success": "ユーザーの招待が成功しました",
+        "add_user_success": "ユーザーの追加が成功しました",
         "update_user_success": "ユーザーロールの編集が成功しました",
         "delete_user_success": "この組織からのユーザーの削除は成功しました"
     },
@@ -95,7 +96,7 @@
             "edit_user_role_dialog_title": "ユーザーロールの編集",
             "remove_user_dialog_title": "ユーザー削除の確​​認",
             "remove_user_dialog_subtitle": "このユーザーが他の組織に属していない場合は削除されます。",
-            "invite_users": "ユーザーの招待",
+            "add_user": "ユーザーの追加",
             "default_role": "デフォルトのロール",
             "custom_role_optional": "カスタムロール (オプション)"
         },
@@ -105,6 +106,20 @@
             "no_admin_nor_member": "Memberを選択する必要があります",
             "max_of_roles_can_be_selected": "最大ロール個のみ選択できます"
         }
+    },
+    "user_page": {
+        "export": "エクスポート",
+        "search_filters": "フィルターでの検索",
+        "search_user": "ユーザーの検索",
+        "select_role": "役割の選択",
+        "user": "ユーザー",
+        "email": "Eメール",
+        "role": "ロール",
+        "actions": "行動",
+        "cannot_delete_last_admin": "このユーザーは唯一の管理者であるため、このアカウントは削除できません",
+        "add_user": "ユーザーの追加",
+        "default_role": "デフォルトのロール",
+        "custom_role_optional": "カスタムロール (オプション)"
     },
     "account_settings_page": {
         "title": "アカウント設定",
