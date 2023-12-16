@@ -122,7 +122,7 @@ const RowOptions = ({ id }: { id: number }) => {
           disabled={!ability?.can('delete', 'user')}
         >
           <Icon icon='mdi:delete-outline' fontSize={20} />
-          {t('user_page.delete')}
+          {t('button.delete')}
         </MenuItem>
       </Menu>
     </>
