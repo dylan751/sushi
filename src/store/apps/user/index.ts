@@ -61,7 +61,7 @@ export const addUser = createAsyncThunk('appUsers/addUser', async (data: BulkInv
 
     dispatch(fetchUser({ role: '', query: '' }))
     dispatch(fetchAdminCount())
-    toast.success('Invite users succeed')
+    toast.success('Add user succeed')
 
     return response.data
   } catch (error: any) {

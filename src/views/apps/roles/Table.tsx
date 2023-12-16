@@ -40,7 +40,7 @@ import { OrganizationProfileResponseDto, OrganizationUserResponseDto } from 'src
 import TableHeader from 'src/views/apps/roles/TableHeader'
 import DialogEditUserRole from './dialogs/DialogEditUserRole'
 import DialogDeleteUser from './dialogs/DialogDeleteUser'
-import InviteUserDrawer from './drawers/InviteUserDrawer'
+import AddUserDrawer from '../user/list/AddUserDrawer'
 
 // ** Hook Imports
 import { useAuth } from 'src/hooks/useAuth'
@@ -66,7 +66,7 @@ const UserList = () => {
   // ** State
   const [showDialogEditUserRole, setShowDialogEditUserRole] = useState<boolean>(false)
   const [showDialogDeleteUser, setShowDialogDeleteUser] = useState<boolean>(false)
-  const [inviteUserOpen, setInviteUserOpen] = useState<boolean>(false)
+  const [addUserOpen, setAddUserOpen] = useState<boolean>(false)
   const [isSelectAdmin, setIsSelectAdmin] = useState(false)
   const [role, setRole] = useState<string>('')
   const [value, setValue] = useState<string>('')
@@ -158,8 +158,8 @@ const UserList = () => {
     setSelectedOrganizationUser(null)
   }
 
-  const toggleInviteUserDrawer = () => {
-    setInviteUserOpen(!inviteUserOpen)
+  const toggleAddUserDrawer = () => {
+    setAddUserOpen(!addUserOpen)
     setIsSelectAdmin(false)
   }
 
@@ -285,7 +285,7 @@ const UserList = () => {
             allRoles={roleStore.data}
             handleFilter={handleFilter}
             handleRoleChange={handleRoleChange}
-            toggleInviteUserDrawer={toggleInviteUserDrawer}
+            toggleAddUserDrawer={toggleAddUserDrawer}
           />
           <DataGrid
             autoHeight
@@ -316,9 +316,9 @@ const UserList = () => {
         handleDelete={handleDeleteUser}
         setSelectedOrganizationUser={setSelectedOrganizationUser}
       />
-      <InviteUserDrawer
-        open={inviteUserOpen}
-        toggle={toggleInviteUserDrawer}
+      <AddUserDrawer
+        open={addUserOpen}
+        toggle={toggleAddUserDrawer}
         allRoles={roleStore.data}
         isSelectAdmin={isSelectAdmin}
         setIsSelectAdmin={setIsSelectAdmin}

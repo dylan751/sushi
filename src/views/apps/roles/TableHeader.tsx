@@ -28,12 +28,12 @@ interface TableHeaderProps {
   allRoles: RoleResponseDto[]
   handleFilter: (val: string) => void
   handleRoleChange: (e: SelectChangeEvent) => void
-  toggleInviteUserDrawer: () => void
+  toggleAddUserDrawer: () => void
 }
 
 const TableHeader = (props: TableHeaderProps) => {
   // ** Props
-  const { role, handleRoleChange, allRoles, handleFilter, value, toggleInviteUserDrawer } = props
+  const { role, handleRoleChange, allRoles, handleFilter, value, toggleAddUserDrawer } = props
 
   // ** Hooks
   const { t } = useTranslation()
@@ -56,9 +56,9 @@ const TableHeader = (props: TableHeaderProps) => {
             color='primary'
             variant='contained'
             startIcon={<Icon icon='mdi:invite' />}
-            onClick={() => toggleInviteUserDrawer()}
+            onClick={() => toggleAddUserDrawer()}
           >
-            {t('role_page.user.invite_users')}
+            {t('role_page.user.add_user')}
           </Button>
         )}
       </Box>

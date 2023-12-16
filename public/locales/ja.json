@@ -2,6 +2,7 @@
     "navbar": {
         "home": "ホームページ",
         "role_page": "役割ページ",
+        "user_page": "ユーザーページ",
         "account_settings_page": {
             "account_settings": "アカウント設定",
             "account": "アカウント",
@@ -95,7 +96,7 @@
             "edit_user_role_dialog_title": "ユーザーロールの編集",
             "remove_user_dialog_title": "ユーザー削除の確​​認",
             "remove_user_dialog_subtitle": "このユーザーが他の組織に属していない場合は削除されます。",
-            "invite_users": "ユーザーの招待",
+            "add_user": "ユーザーの追加",
             "default_role": "デフォルトのロール",
             "custom_role_optional": "カスタムロール (オプション)"
         },

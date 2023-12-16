@@ -2,6 +2,7 @@
     "navbar": {
         "home": "Trang chủ",
         "role_page": "Trang phân quyền",
+        "user_page": "Trang người dùng",
         "account_settings_page": {
             "account_settings": "Cài đặt tài khoản",
             "account": "Tài khoản",
@@ -95,7 +96,7 @@
             "edit_user_role_dialog_title": "Chỉnh sửa vai trò người dùng",
             "remove_user_dialog_title": "Xác nhận xóa người dùng",
             "remove_user_dialog_subtitle": "Nếu người dùng này không thuộc tổ chức khác thì tài khoản sẽ bị xóa.",
-            "invite_users": "Mời người dùng",
+            "add_user": "Thêm người dùng",
             "default_role": "Vai trò mặc định",
             "custom_role_optional": "Vai trò tùy chỉnh (Tùy chọn)"
         },
