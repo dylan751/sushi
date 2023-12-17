@@ -16,6 +16,9 @@ import { useApi } from 'src/hooks/useApi'
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
 
+// ** Util Imports
+import { defaultHomeRoute } from 'src/layouts/components/acl/getUserHomeRoute'
+
 const OrganizationPage = () => {
   // ** Hooks
   const { user, setPermissions, setOrganization } = useUserAuth()
@@ -33,7 +36,7 @@ const OrganizationPage = () => {
     setOrganization(organization)
     setPermissions(userPermissions)
 
-    router.replace(`/${organization.uniqueName}/home`)
+    router.replace(`/${organization.uniqueName}/${defaultHomeRoute}`)
   }
 
   const navigateToCreateOrganizationPage = () => {
