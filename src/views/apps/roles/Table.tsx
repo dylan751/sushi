@@ -27,6 +27,7 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 import { getInitials } from 'src/@core/utils/get-initials'
 import { getOrgId } from 'src/utils/localStorage'
 import { isAdmin } from 'src/utils/role'
+import { defaultHomeRoute } from 'src/layouts/components/acl/getUserHomeRoute'
 
 // ** Actions Imports
 import { deleteUser, fetchAdminCount, fetchUser, updateUser } from 'src/store/apps/user'
@@ -43,7 +44,7 @@ import DialogDeleteUser from './dialogs/DialogDeleteUser'
 import AddUserDrawer from '../user/list/AddUserDrawer'
 
 // ** Hook Imports
-import { useAuth } from 'src/hooks/useAuth'
+import { useUserAuth } from 'src/hooks/useUserAuth'
 import { useTranslation } from 'react-i18next'
 
 // ** Context Imports
@@ -79,7 +80,7 @@ const UserList = () => {
   const userStore = useSelector((state: RootState) => state.user)
   const roleStore = useSelector((state: RootState) => state.role)
   const ability = useContext(AbilityContext)
-  const { user } = useAuth()
+  const { user } = useUserAuth()
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -148,7 +149,7 @@ const UserList = () => {
       return
     }
     const organization = user!.organizations.find((org: OrganizationProfileResponseDto) => org.id === orgId)!
-    window.location.assign(`/${organization.uniqueName}/home`)
+    window.location.assign(`/${organization.uniqueName}/${defaultHomeRoute}`)
   }
 
   const handleDeleteUser = (userId: number) => {

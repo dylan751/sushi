@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import UserBlankLayoutWithAppBar from 'src/layouts/UserBlankLayoutWithAppBar'
 
 // ** MUI Imports
-import { useAuth } from 'src/hooks/useAuth'
+import { useUserAuth } from 'src/hooks/useUserAuth'
 import Button from '@mui/material/Button'
 import { useRouter } from 'next/router'
 import { Avatar, Box, Card, CardContent, CardHeader, Typography } from '@mui/material'
@@ -16,9 +16,12 @@ import { useApi } from 'src/hooks/useApi'
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
 
+// ** Util Imports
+import { defaultHomeRoute } from 'src/layouts/components/acl/getUserHomeRoute'
+
 const OrganizationPage = () => {
   // ** Hooks
-  const { user, setPermissions, setOrganization } = useAuth()
+  const { user, setPermissions, setOrganization } = useUserAuth()
   const { $api } = useApi()
   const { t } = useTranslation()
   const router = useRouter()
@@ -33,7 +36,7 @@ const OrganizationPage = () => {
     setOrganization(organization)
     setPermissions(userPermissions)
 
-    router.replace(`/${organization.uniqueName}/home`)
+    router.replace(`/${organization.uniqueName}/${defaultHomeRoute}`)
   }
 
   const navigateToCreateOrganizationPage = () => {

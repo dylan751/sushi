@@ -1,5 +1,9 @@
 {
     "navbar": {
+        "dashboards_page": {
+            "dashboards": "ダッシュボード",
+            "analytics": "分析"
+        },
         "home": "ホームページ",
         "role_page": "役割ページ",
         "user_page": "ユーザーページ",

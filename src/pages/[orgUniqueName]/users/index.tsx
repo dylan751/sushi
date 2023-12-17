@@ -126,33 +126,31 @@ const RowOptions = ({
         PaperProps={{ style: { minWidth: '8rem' } }}
       >
         {ability?.can('delete', 'user') && (
-          <>
-            <MenuItem sx={{ '& svg': { mr: 2 } }}>
-              <Button
-                color='error'
-                disabled={isUserLastAdmin(row)}
-                onClick={() => handleDelete(row.id)}
-                sx={{ p: 0, m: 0, mr: 2 }}
-              >
-                <Icon icon='mdi:delete-outline' fontSize={20} />
-                {t('button.delete')}
-              </Button>
-              {isUserLastAdmin(row) && (
-                <Tooltip placement='top' title={t('role_page.user.cannot_delete_last_admin')}>
-                  <Box sx={{ display: 'flex' }}>
-                    <Icon icon='mdi:information-outline' fontSize='1rem' />
-                  </Box>
-                </Tooltip>
-              )}
-            </MenuItem>
-          </>
+          <MenuItem sx={{ '& svg': { mr: 2 } }}>
+            <Button
+              color='error'
+              disabled={isUserLastAdmin(row)}
+              onClick={() => handleDelete(row.id)}
+              sx={{ p: 0, m: 0, mr: 2 }}
+            >
+              <Icon icon='mdi:delete-outline' fontSize={20} />
+              {t('button.delete')}
+            </Button>
+            {isUserLastAdmin(row) && (
+              <Tooltip placement='top' title={t('role_page.user.cannot_delete_last_admin')}>
+                <Box sx={{ display: 'flex' }}>
+                  <Icon icon='mdi:information-outline' fontSize='1rem' />
+                </Box>
+              </Tooltip>
+            )}
+          </MenuItem>
         )}
       </Menu>
     </>
   )
 }
 
-const UserList = () => {
+const UserPage = () => {
   // ** State
   const [role, setRole] = useState<string>('')
   const [value, setValue] = useState<string>('')
@@ -324,4 +322,9 @@ const UserList = () => {
   )
 }
 
-export default UserList
+UserPage.acl = {
+  action: 'read',
+  subject: 'user'
+}
+
+export default UserPage
