@@ -1,5 +1,9 @@
 {
     "navbar": {
+        "dashboards_page": {
+            "dashboards": "Bảng thống kê",
+            "analytics": "Phân tích"
+        },
         "home": "Trang chủ",
         "role_page": "Trang phân quyền",
         "user_page": "Trang người dùng",

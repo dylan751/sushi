@@ -10,18 +10,18 @@ const navigation = (): HorizontalNavItemsType => {
 
   return [
     {
-      path: `${uniqueName}/home`,
-      action: 'read',
-      subject: 'user',
-      title: 'navbar.home',
-      icon: 'mdi:home-outline'
-    },
-    {
-      path: `${uniqueName}/second-page`,
-      action: 'read',
-      subject: 'user',
-      title: 'Second Page',
-      icon: 'mdi:email-outline'
+      title: 'navbar.dashboards_page.dashboards',
+      icon: 'mdi:home-outline',
+      badgeContent: 'new',
+      badgeColor: 'error',
+      children: [
+        {
+          action: 'read',
+          subject: 'user',
+          title: 'navbar.dashboards_page.analytics',
+          path: `${uniqueName}/dashboards/analytics`
+        }
+      ]
     },
     {
       path: `${uniqueName}/roles`,
@@ -38,15 +38,21 @@ const navigation = (): HorizontalNavItemsType => {
       icon: 'mdi:account-outline'
     },
     {
-      title: 'Account Settings',
+      action: 'read',
+      subject: 'user',
+      title: 'navbar.account_settings_page.account_settings',
       icon: 'mdi:account-cog-outline',
       children: [
         {
-          title: 'Account',
+          action: 'read',
+          subject: 'user',
+          title: 'navbar.account_settings_page.account',
           path: `${uniqueName}/account-settings/account`
         },
         {
-          title: 'Security',
+          action: 'read',
+          subject: 'user',
+          title: 'navbar.account_settings_page.security',
           path: `${uniqueName}/account-settings/security`
         }
       ]

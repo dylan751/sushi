@@ -4,6 +4,8 @@ import { ProfileResponseDto } from 'src/__generated__/AccountifyAPI'
 // ** Utils
 import { getOrgUniqueName } from 'src/utils/organization'
 
+export const defaultHomeRoute = 'dashboards/analytics'
+
 /**
  *  Set Home URL based on User Roles
  */
@@ -19,7 +21,7 @@ const getUserHomeRoute = (user: ProfileResponseDto) => {
   }
 
   if (!role) return '/organization'
-  else return `${orgUniqueName}/home`
+  else return `${orgUniqueName}/${defaultHomeRoute}`
 }
 
 export default getUserHomeRoute
