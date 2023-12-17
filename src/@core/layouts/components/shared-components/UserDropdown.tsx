@@ -18,7 +18,7 @@ import Typography from '@mui/material/Typography'
 import Icon from 'src/@core/components/icon'
 
 // ** Context
-import { useAuth } from 'src/hooks/useAuth'
+import { useUserAuth } from 'src/hooks/useUserAuth'
 
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
@@ -53,7 +53,7 @@ const UserDropdown = (props: Props) => {
   // ** Hooks
   const { t } = useTranslation()
   const router = useRouter()
-  const { user, logout } = useAuth()
+  const { user, logout } = useUserAuth()
 
   // ** Utils
   const organization = getOrganization()
