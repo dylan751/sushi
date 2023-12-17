@@ -27,6 +27,7 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 import { getInitials } from 'src/@core/utils/get-initials'
 import { getOrgId } from 'src/utils/localStorage'
 import { isAdmin } from 'src/utils/role'
+import { defaultHomeRoute } from 'src/layouts/components/acl/getUserHomeRoute'
 
 // ** Actions Imports
 import { deleteUser, fetchAdminCount, fetchUser, updateUser } from 'src/store/apps/user'
@@ -148,7 +149,7 @@ const UserList = () => {
       return
     }
     const organization = user!.organizations.find((org: OrganizationProfileResponseDto) => org.id === orgId)!
-    window.location.assign(`/${organization.uniqueName}/home`)
+    window.location.assign(`/${organization.uniqueName}/${defaultHomeRoute}`)
   }
 
   const handleDeleteUser = (userId: number) => {

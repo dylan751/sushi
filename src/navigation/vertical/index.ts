@@ -10,18 +10,18 @@ const navigation = (): VerticalNavItemsType => {
 
   return [
     {
-      path: `${uniqueName}/home`,
-      action: 'read',
-      subject: 'user',
-      title: 'navbar.home',
-      icon: 'mdi:home-outline'
-    },
-    {
-      path: `${uniqueName}/second-page`,
-      action: 'read',
-      subject: 'user',
-      title: 'Second Page',
-      icon: 'mdi:email-outline'
+      title: 'navbar.dashboards_page.dashboards',
+      icon: 'mdi:home-outline',
+      badgeContent: 'new',
+      badgeColor: 'error',
+      children: [
+        {
+          action: 'read',
+          subject: 'user',
+          title: 'navbar.dashboards_page.analytics',
+          path: `${uniqueName}/dashboards/analytics`
+        }
+      ]
     },
     {
       path: `${uniqueName}/roles`,

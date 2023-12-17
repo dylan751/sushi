@@ -150,7 +150,7 @@ const RowOptions = ({
   )
 }
 
-const UserList = () => {
+const UserPage = () => {
   // ** State
   const [role, setRole] = useState<string>('')
   const [value, setValue] = useState<string>('')
@@ -322,4 +322,9 @@ const UserList = () => {
   )
 }
 
-export default UserList
+UserPage.acl = {
+  action: 'read',
+  subject: 'user'
+}
+
+export default UserPage

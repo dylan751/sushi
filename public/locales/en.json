@@ -1,5 +1,9 @@
 {
     "navbar": {
+        "dashboards_page": {
+            "dashboards": "Dashboards",
+            "analytics": "Analytics"
+        },
         "home": "Home",
         "role_page": "Role Page",
         "user_page": "User Page",
