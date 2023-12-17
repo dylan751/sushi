@@ -43,7 +43,7 @@ import DialogDeleteUser from './dialogs/DialogDeleteUser'
 import AddUserDrawer from '../user/list/AddUserDrawer'
 
 // ** Hook Imports
-import { useAuth } from 'src/hooks/useAuth'
+import { useUserAuth } from 'src/hooks/useUserAuth'
 import { useTranslation } from 'react-i18next'
 
 // ** Context Imports
@@ -79,7 +79,7 @@ const UserList = () => {
   const userStore = useSelector((state: RootState) => state.user)
   const roleStore = useSelector((state: RootState) => state.role)
   const ability = useContext(AbilityContext)
-  const { user } = useAuth()
+  const { user } = useUserAuth()
   const { t } = useTranslation()
 
   useEffect(() => {

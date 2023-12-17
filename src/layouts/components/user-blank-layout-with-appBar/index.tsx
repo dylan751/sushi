@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next'
 
 // ** Hook
 import { useSettings } from 'src/@core/hooks/useSettings'
-import { useAuth } from 'src/hooks/useAuth'
+import { useUserAuth } from 'src/hooks/useUserAuth'
 
 // ** Custom Component Imports
 import UserLanguageDropdown from '../UserLanguageDropdown'
@@ -34,7 +34,7 @@ const BlankLayoutAppBar = () => {
   // ** Hooks & Vars
   const theme = useTheme()
   const { t } = useTranslation()
-  const { logout } = useAuth()
+  const { logout } = useUserAuth()
   const { settings, saveSettings } = useSettings()
   const { skin } = settings
 
