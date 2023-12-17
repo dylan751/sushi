@@ -5,13 +5,13 @@ import { ReactNode, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 // ** Types
-import type { ACLObj, AppAbility } from 'src/configs/acl'
+import type { ACLObj, AppAbility } from 'src/configs/userAcl'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
 
 // ** Config Import
-import { buildAbilityFor } from 'src/configs/acl'
+import { buildAbilityFor } from 'src/configs/userAcl'
 
 // ** Component Import
 import NotAuthorized from 'src/pages/401'
@@ -19,10 +19,10 @@ import Spinner from 'src/@core/components/spinner'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Hooks
-import { useAuth } from 'src/hooks/useAuth'
+import { useUserAuth } from 'src/hooks/useUserAuth'
 
 // ** Util Import
-import getHomeRoute from 'src/layouts/components/acl/getHomeRoute'
+import getUserHomeRoute from 'src/layouts/components/acl/getUserHomeRoute'
 
 interface AclGuardProps {
   children: ReactNode
@@ -36,7 +36,7 @@ const AclGuard = (props: AclGuardProps) => {
   const { aclAbilities, children, guestGuard = false, authGuard = true } = props
 
   // ** Hooks
-  const auth = useAuth()
+  const auth = useUserAuth()
   const router = useRouter()
 
   // ** Vars
@@ -44,7 +44,7 @@ const AclGuard = (props: AclGuardProps) => {
 
   useEffect(() => {
     if (auth.user && !guestGuard && router.route === '/') {
-      const homeRoute = getHomeRoute(auth.user)
+      const homeRoute = getUserHomeRoute(auth.user)
       router.replace(homeRoute)
     }
   }, [auth.user, guestGuard, router])

@@ -20,7 +20,7 @@ import type { EmotionCache } from '@emotion/cache'
 
 // ** Config Imports
 
-import { defaultACLObj } from 'src/configs/acl'
+import { defaultACLObj } from 'src/configs/userAcl'
 import themeConfig from 'src/configs/themeConfig'
 import 'src/configs/i18n'
 
@@ -30,15 +30,15 @@ import { Toaster } from 'react-hot-toast'
 // ** Component Imports
 import UserLayout from 'src/layouts/UserLayout'
 import UserAclGuard from 'src/layouts/components/auth/UserAclGuard'
+import UserAuthGuard from 'src/layouts/components/auth/UserAuthGuard'
+import UserGuestGuard from 'src/layouts/components/auth/UserGuestGuard'
 import ThemeComponent from 'src/@core/theme/ThemeComponent'
-import AuthGuard from 'src/@core/components/auth/AuthGuard'
-import GuestGuard from 'src/@core/components/auth/GuestGuard'
 
 // ** Spinner Import
 import Spinner from 'src/@core/components/spinner'
 
 // ** Contexts
-import { AuthProvider } from 'src/context/AuthContext'
+import { UserAuthProvider } from 'src/context/UserAuthContext'
 import { ApiProvider } from 'src/context/ApiContext'
 import { SettingsConsumer, SettingsProvider } from 'src/@core/context/settingsContext'
 
@@ -91,11 +91,11 @@ if (themeConfig.routingLoader) {
 
 const Guard = ({ children, authGuard, guestGuard }: GuardProps) => {
   if (guestGuard) {
-    return <GuestGuard fallback={<Spinner />}>{children}</GuestGuard>
+    return <UserGuestGuard fallback={<Spinner />}>{children}</UserGuestGuard>
   } else if (!guestGuard && !authGuard) {
     return <>{children}</>
   } else {
-    return <AuthGuard fallback={<Spinner />}>{children}</AuthGuard>
+    return <UserAuthGuard fallback={<Spinner />}>{children}</UserAuthGuard>
   }
 }
 
@@ -130,7 +130,7 @@ const App = (props: ExtendedAppProps) => {
         </Head>
 
         <ApiProvider>
-          <AuthProvider>
+          <UserAuthProvider>
             <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
               <SettingsConsumer>
                 {({ settings }) => {
@@ -149,7 +149,7 @@ const App = (props: ExtendedAppProps) => {
                 }}
               </SettingsConsumer>
             </SettingsProvider>
-          </AuthProvider>
+          </UserAuthProvider>
         </ApiProvider>
       </CacheProvider>
     </Provider>
