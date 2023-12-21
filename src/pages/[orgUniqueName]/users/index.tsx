@@ -219,7 +219,7 @@ const UserPage = () => {
             <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
               <LinkStyled href='/apps/user/view/overview/'>{name}</LinkStyled>
               <Typography noWrap variant='caption'>
-                {`@${email}`}
+                {`@${email.split('@')[0]}`}
               </Typography>
             </Box>
           </Box>
@@ -234,7 +234,7 @@ const UserPage = () => {
       renderCell: ({ row }: CellType) => {
         return (
           <Typography noWrap variant='body2'>
-            {row.email}
+            {row.email || '-'}
           </Typography>
         )
       }
@@ -257,10 +257,36 @@ const UserPage = () => {
           >
             {row.roles.map(role => (
               <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }} key={role.id}>
-                {role.name}
+                {role.name || '-'}
               </Typography>
             ))}
           </Box>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 250,
+      field: 'phone',
+      headerName: `${t('user_page.phone')}`,
+      renderCell: ({ row }: CellType) => {
+        return (
+          <Typography noWrap variant='body2'>
+            {row.phone || '-'}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 250,
+      field: 'address',
+      headerName: `${t('user_page.address')}`,
+      renderCell: ({ row }: CellType) => {
+        return (
+          <Typography noWrap variant='body2'>
+            {row.address || '-'}
+          </Typography>
         )
       }
     },

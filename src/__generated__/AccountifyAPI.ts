@@ -94,6 +94,12 @@ export interface OrganizationUserResponseDto {
   email: string
   /** @example "robin" */
   name: string
+  /** @example "0339089172" */
+  phone: string
+  /** @example "19A Bach Khoa, Ha Noi" */
+  address: string
+  /** @example "https://image.com/avatar-1" */
+  avatar: string
   roles: UserRole[]
 }
 
