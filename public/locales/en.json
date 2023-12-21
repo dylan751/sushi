@@ -112,6 +112,7 @@
         }
     },
     "user_page": {
+        "total_users": "Total Users",
         "export": "Export",
         "search_filters": "Search Filters",
         "search_user": "Search User",
