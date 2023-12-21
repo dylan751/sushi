@@ -46,7 +46,13 @@ const TableHeader = (props: TableHeaderProps) => {
           onChange={e => handleFilter(e.target.value)}
         />
 
-        <Button sx={{ mb: 2 }} onClick={toggle} variant='contained' disabled={!ability?.can('create', 'user')}>
+        <Button
+          sx={{ mb: 2 }}
+          onClick={toggle}
+          variant='contained'
+          disabled={!ability?.can('create', 'user')}
+          startIcon={<Icon icon='mdi:invite' />}
+        >
           {t('user_page.add_user')}
         </Button>
       </Box>
