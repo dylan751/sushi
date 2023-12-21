@@ -192,7 +192,7 @@ const UserList = () => {
                 {name}
               </Typography>
               <Typography noWrap variant='caption'>
-                {`@${email}`}
+                {`@${email.split('@')[0]}`}
               </Typography>
             </Box>
           </Box>
@@ -207,7 +207,7 @@ const UserList = () => {
       renderCell: ({ row }: CellType) => {
         return (
           <Typography variant='body2' noWrap>
-            {row.email}
+            {row.email || '-'}
           </Typography>
         )
       }
@@ -230,10 +230,36 @@ const UserList = () => {
           >
             {row.roles.map(role => (
               <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }} key={role.id}>
-                {role.name}
+                {role.name || '-'}
               </Typography>
             ))}
           </Box>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 250,
+      field: 'phone',
+      headerName: `${t('role_page.user.phone')}`,
+      renderCell: ({ row }: CellType) => {
+        return (
+          <Typography variant='body2' noWrap>
+            {row.phone || '-'}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 250,
+      field: 'address',
+      headerName: `${t('role_page.user.address')}`,
+      renderCell: ({ row }: CellType) => {
+        return (
+          <Typography variant='body2' noWrap>
+            {row.address || '-'}
+          </Typography>
         )
       }
     },
