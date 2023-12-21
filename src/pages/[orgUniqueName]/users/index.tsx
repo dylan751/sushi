@@ -31,6 +31,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // ** Custom Components Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
+import UserCardStatsHorizontal from 'src/layouts/components/card-statistics/user-card-stats-horizontal'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
@@ -42,6 +43,7 @@ import { fetchRole } from 'src/store/apps/role'
 
 // ** Types Imports
 import { RootState, AppDispatch } from 'src/store'
+import { UserCardStatsHorizontalProps } from 'src/layouts/components/card-statistics/types'
 import { OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Custom Table Components Imports
@@ -175,6 +177,12 @@ const UserPage = () => {
     dispatch(fetchRole())
   }, [dispatch, role, value])
 
+  const totalUserItem: UserCardStatsHorizontalProps = {
+    stats: userStore.total.toString(),
+    title: 'user_page.total_users',
+    icon: 'mdi:account-outline'
+  }
+
   const hasOnlyOneAdmin = (): boolean => {
     return userStore.totalAdmins <= 1
   }
@@ -211,7 +219,7 @@ const UserPage = () => {
             <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
               <LinkStyled href='/apps/user/view/overview/'>{name}</LinkStyled>
               <Typography noWrap variant='caption'>
-                {`@${email}`}
+                {`@${email.split('@')[0]}`}
               </Typography>
             </Box>
           </Box>
@@ -226,7 +234,7 @@ const UserPage = () => {
       renderCell: ({ row }: CellType) => {
         return (
           <Typography noWrap variant='body2'>
-            {row.email}
+            {row.email || '-'}
           </Typography>
         )
       }
@@ -249,10 +257,36 @@ const UserPage = () => {
           >
             {row.roles.map(role => (
               <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }} key={role.id}>
-                {role.name}
+                {role.name || '-'}
               </Typography>
             ))}
           </Box>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 250,
+      field: 'phone',
+      headerName: `${t('user_page.phone')}`,
+      renderCell: ({ row }: CellType) => {
+        return (
+          <Typography noWrap variant='body2'>
+            {row.phone || '-'}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 250,
+      field: 'address',
+      headerName: `${t('user_page.address')}`,
+      renderCell: ({ row }: CellType) => {
+        return (
+          <Typography noWrap variant='body2'>
+            {row.address || '-'}
+          </Typography>
         )
       }
     },
@@ -268,6 +302,13 @@ const UserPage = () => {
 
   return (
     <Grid container spacing={6}>
+      <Grid item xs={12}>
+        <Grid container spacing={6}>
+          <Grid item xs={12} md={3} sm={6}>
+            <UserCardStatsHorizontal {...totalUserItem} icon={<Icon icon={totalUserItem.icon as string} />} />
+          </Grid>
+        </Grid>
+      </Grid>
       <Grid item xs={12}>
         <Card>
           <CardHeader title={t('user_page.search_filters')} />
