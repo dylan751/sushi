@@ -28,7 +28,7 @@ const OrganizationPage = () => {
 
   const loginToOrganization = async (organization: OrganizationProfileResponseDto) => {
     // Fetch user's permissions for that organization
-    const response = await $api.internal.getUserPermissions(organization.id)
+    const response = await $api.internal.getOrganizationUsersPermissions(organization.id)
     const userPermissions: CaslPermission[] = response.data.permissions
 
     // Set organization and permissions data into AuthContext

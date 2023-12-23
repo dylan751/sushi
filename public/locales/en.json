@@ -115,6 +115,7 @@
     },
     "user_page": {
         "total_users": "Total Users",
+        "total_roles": "Total Roles",
         "export": "Export",
         "search_filters": "Search Filters",
         "search_user": "Search User",

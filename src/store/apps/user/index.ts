@@ -37,7 +37,7 @@ export const fetchUser = createAsyncThunk('appUsers/fetchUser', async (params: D
       headers: {
         Authorization: `Bearer ${storedToken}`
       }
-    }).internal.usersControllerFindAll(organizationId, params)
+    }).internal.getUserListForOrganization(organizationId, params)
 
     return response.data
   } catch (error: any) {
@@ -57,7 +57,7 @@ export const addUser = createAsyncThunk('appUsers/addUser', async (data: BulkInv
       headers: {
         Authorization: `Bearer ${storedToken}`
       }
-    }).internal.usersControllerBulkInvite(organizationId, data)
+    }).internal.inviteUsersToOrganization(organizationId, data)
 
     dispatch(fetchUser({ role: '', query: '' }))
     dispatch(fetchAdminCount())
@@ -83,7 +83,7 @@ export const updateUser = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${storedToken}`
         }
-      }).internal.usersControllerUpdate(organizationId, data.userId, data)
+      }).internal.updateOrganizationUserInformation(organizationId, data.userId, data)
 
       dispatch(fetchUser({ role: '', query: '' }))
       dispatch(fetchAdminCount())
@@ -108,7 +108,7 @@ export const deleteUser = createAsyncThunk('appRoles/deleteUser', async (userId:
       headers: {
         Authorization: `Bearer ${storedToken}`
       }
-    }).internal.usersControllerDelete(organizationId, userId)
+    }).internal.deleteAnOrganizationUser(organizationId, userId)
 
     dispatch(fetchUser({ role: '', query: '' }))
     dispatch(fetchAdminCount())
@@ -132,7 +132,7 @@ export const fetchAdminCount = createAsyncThunk('appUsers/fetchAdminCount', asyn
       headers: {
         Authorization: `Bearer ${storedToken}`
       }
-    }).internal.usersControllerCountAdmin(organizationId)
+    }).internal.countTotalAdminsOfOrganization(organizationId)
 
     return response.data
   } catch (error: any) {
@@ -144,9 +144,8 @@ export const appUsersSlice = createSlice({
   name: 'appUsers',
   initialState: {
     data: [] as OrganizationUserResponseDto[],
-    total: 1,
+    total: 0,
     params: {},
-    allData: [] as OrganizationUserResponseDto[],
 
     totalAdmins: 0
   },
@@ -156,7 +155,6 @@ export const appUsersSlice = createSlice({
       state.data = action.payload?.users || []
       state.total = action.payload?.metadata.total || 0
       state.params = action.payload?.metadata.params || {}
-      state.allData = action.payload?.metadata.allData || []
     }),
       builder.addCase(fetchAdminCount.fulfilled, (state, action) => {
         state.totalAdmins = action.payload?.totalAdmins || 0
