@@ -174,13 +174,20 @@ const UserPage = () => {
       })
     )
     dispatch(fetchAdminCount())
-    dispatch(fetchRole())
+    dispatch(fetchRole({ query: '' }))
   }, [dispatch, role, value])
 
   const totalUserItem: UserCardStatsHorizontalProps = {
     stats: userStore.total.toString(),
     title: 'user_page.total_users',
     icon: 'mdi:account-outline'
+  }
+
+  const totalRoleItem: UserCardStatsHorizontalProps = {
+    stats: roleStore.total.toString(),
+    title: 'user_page.total_roles',
+    icon: 'mdi:shield-outline',
+    color: 'success'
   }
 
   const hasOnlyOneAdmin = (): boolean => {
@@ -306,6 +313,9 @@ const UserPage = () => {
         <Grid container spacing={6}>
           <Grid item xs={12} md={3} sm={6}>
             <UserCardStatsHorizontal {...totalUserItem} icon={<Icon icon={totalUserItem.icon as string} />} />
+          </Grid>
+          <Grid item xs={12} md={3} sm={6}>
+            <UserCardStatsHorizontal {...totalRoleItem} icon={<Icon icon={totalRoleItem.icon as string} />} />
           </Grid>
         </Grid>
       </Grid>

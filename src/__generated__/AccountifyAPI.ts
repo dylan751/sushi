@@ -111,7 +111,6 @@ export interface UserSearchRequestDto {
 export interface MetaData {
   total: number
   params: UserSearchRequestDto
-  allData: OrganizationUserResponseDto[]
 }
 
 export interface OrganizationUserListResponseDto {
@@ -237,6 +236,7 @@ export interface RoleResponseDto {
 
 export interface RoleResponseListDto {
   roles: RoleResponseDto[]
+  metadata: MetaData
 }
 
 export interface UpdateRoleRequestDto {
@@ -495,12 +495,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @description Get all organization users
      *
      * @tags Organization User
-     * @name UsersControllerFindAll
+     * @name GetUserListForOrganization
      * @summary Get all organization users
      * @request GET:/internal/api/v1/organizations/{organizationId}/users
      * @secure
      */
-    usersControllerFindAll: (
+    getUserListForOrganization: (
       organizationId: number,
       query?: {
         query?: string
@@ -521,12 +521,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @description Count total admins
      *
      * @tags Organization User
-     * @name UsersControllerCountAdmin
+     * @name CountTotalAdminsOfOrganization
      * @summary Count total admins
      * @request GET:/internal/api/v1/organizations/{organizationId}/users/admin-count
      * @secure
      */
-    usersControllerCountAdmin: (organizationId: number, params: RequestParams = {}) =>
+    countTotalAdminsOfOrganization: (organizationId: number, params: RequestParams = {}) =>
       this.request<TotalAdminResponseDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/users/admin-count`,
         method: 'GET',
@@ -539,12 +539,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @description Bulk invite users
      *
      * @tags Organization User
-     * @name UsersControllerBulkInvite
+     * @name InviteUsersToOrganization
      * @summary Bulk invite users
      * @request POST:/internal/api/v1/organizations/{organizationId}/users/bulk-invitations
      * @secure
      */
-    usersControllerBulkInvite: (organizationId: number, data: BulkInviteRequestDto, params: RequestParams = {}) =>
+    inviteUsersToOrganization: (organizationId: number, data: BulkInviteRequestDto, params: RequestParams = {}) =>
       this.request<BulkInviteResponseDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/users/bulk-invitations`,
         method: 'POST',
@@ -556,15 +556,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Edit organization users information
+     * @description Update organization users information
      *
      * @tags Organization User
-     * @name UsersControllerUpdate
-     * @summary Edit organization users information
+     * @name UpdateOrganizationUserInformation
+     * @summary Update organization users information
      * @request PATCH:/internal/api/v1/organizations/{organizationId}/users/{id}
      * @secure
      */
-    usersControllerUpdate: (
+    updateOrganizationUserInformation: (
       organizationId: number,
       id: number,
       data: UpdateOrganizationUserRequestDto,
@@ -584,12 +584,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @description Delete an organization user
      *
      * @tags Organization User
-     * @name UsersControllerDelete
+     * @name DeleteAnOrganizationUser
      * @summary Delete an organization user
      * @request DELETE:/internal/api/v1/organizations/{organizationId}/users/{id}
      * @secure
      */
-    usersControllerDelete: (organizationId: number, id: number, params: RequestParams = {}) =>
+    deleteAnOrganizationUser: (organizationId: number, id: number, params: RequestParams = {}) =>
       this.request<EmptyResponseDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/users/${id}`,
         method: 'DELETE',
@@ -602,12 +602,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @description Get organization user's permissions
      *
      * @tags Organization User
-     * @name GetUserPermissions
+     * @name GetOrganizationUsersPermissions
      * @summary Get organization user's permissions
      * @request GET:/internal/api/v1/organizations/{organizationId}/users/permissions
      * @secure
      */
-    getUserPermissions: (organizationId: number, params: RequestParams = {}) =>
+    getOrganizationUsersPermissions: (organizationId: number, params: RequestParams = {}) =>
       this.request<GetUserPermissionsResponseDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/users/permissions`,
         method: 'GET',
@@ -739,10 +739,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/internal/api/v1/organizations/{organizationId}/roles
      * @secure
      */
-    getRoleListForOrganization: (organizationId: number, params: RequestParams = {}) =>
+    getRoleListForOrganization: (
+      organizationId: number,
+      query?: {
+        query?: string
+      },
+      params: RequestParams = {}
+    ) =>
       this.request<RoleResponseListDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/roles`,
         method: 'GET',
+        query: query,
         secure: true,
         format: 'json',
         ...params

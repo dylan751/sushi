@@ -119,7 +119,7 @@ const UserAuthProvider = ({ children }: Props) => {
             if (organization) {
               window.localStorage.setItem('organization', JSON.stringify(organization))
               setOrganization(organization)
-              const response = await api.internal.getUserPermissions(organization.id)
+              const response = await api.internal.getOrganizationUsersPermissions(organization.id)
               setPermissions(response.data.permissions)
             } else {
               router.replace('/organization')

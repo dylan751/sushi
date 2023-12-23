@@ -115,6 +115,7 @@
     },
     "user_page": {
         "total_users": "ユーザー数",
+        "total_roles": "ロール数",
         "export": "エクスポート",
         "search_filters": "フィルターでの検索",
         "search_user": "ユーザーの検索",
