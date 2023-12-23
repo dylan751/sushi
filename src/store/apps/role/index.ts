@@ -11,13 +11,17 @@ import { fetchUser } from '../user'
 // ** Third Party Imports
 import toast from 'react-hot-toast'
 
+interface DataParams {
+  query: string
+}
+
 interface Redux {
   getState: any
   dispatch: Dispatch<any>
 }
 
 // ** Fetch Roles
-export const fetchRole = createAsyncThunk('appRoles/fetchRole', async () => {
+export const fetchRole = createAsyncThunk('appRoles/fetchRole', async (params: DataParams) => {
   const organizationId = getOrgId()
   const storedToken = getAccessToken()
 
@@ -28,7 +32,7 @@ export const fetchRole = createAsyncThunk('appRoles/fetchRole', async () => {
       headers: {
         Authorization: `Bearer ${storedToken}`
       }
-    }).internal.getRoleListForOrganization(organizationId)
+    }).internal.getRoleListForOrganization(organizationId, params)
 
     return response.data
   } catch (error: any) {
@@ -50,7 +54,7 @@ export const addRole = createAsyncThunk('appRoles/addRole', async (data: CreateR
       }
     }).internal.createRolesForAnOrganization(organizationId, data)
 
-    dispatch(fetchRole())
+    dispatch(fetchRole({ query: '' }))
     toast.success('Add role succeed')
 
     return response.data
@@ -75,7 +79,7 @@ export const updateRole = createAsyncThunk(
         }
       }).internal.updateARoleForAnOrganization(organizationId, data.roleId, data)
 
-      dispatch(fetchRole())
+      dispatch(fetchRole({ query: '' }))
       toast.success('Update role succeed')
 
       return response.data
@@ -99,7 +103,7 @@ export const deleteRole = createAsyncThunk('appRoles/deleteRole', async (roleId:
       }
     }).internal.deleteARoleForAnOrganization(organizationId, roleId)
 
-    dispatch(fetchRole())
+    dispatch(fetchRole({ query: '' }))
     dispatch(fetchUser({ role: '', query: '' }))
     toast.success('Delete role succeed')
 
@@ -112,12 +116,16 @@ export const deleteRole = createAsyncThunk('appRoles/deleteRole', async (roleId:
 export const appRolesSlice = createSlice({
   name: 'appRoles',
   initialState: {
-    data: [] as RoleResponseDto[]
+    data: [] as RoleResponseDto[],
+    total: 0,
+    params: {}
   },
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchRole.fulfilled, (state, action) => {
       state.data = action.payload?.roles || []
+      state.total = action.payload?.metadata.total || 0
+      state.params = action.payload?.metadata.params || {}
     })
   }
 })

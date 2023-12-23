@@ -91,7 +91,7 @@ const UserList = () => {
       })
     )
     dispatch(fetchAdminCount())
-    dispatch(fetchRole())
+    dispatch(fetchRole({ query: '' }))
   }, [dispatch, role, value])
 
   const hasOnlyOneAdmin = (): boolean => {
