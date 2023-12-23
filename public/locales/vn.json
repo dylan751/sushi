@@ -115,6 +115,7 @@
     },
     "user_page": {
         "total_users": "Tổng số người dùng",
+        "total_roles": "Tổng số vai trò",
         "export": "Export",
         "search_filters": "Bộ lọc tìm kiếm",
         "search_user": "Tìm người dùng",

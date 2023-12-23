@@ -192,7 +192,7 @@ const RolesCards = () => {
     }
 
     // Fetch organization's roles
-    dispatch(fetchRole())
+    dispatch(fetchRole({ query: '' }))
 
     // Fetch all permission subjects
     fetchPermissionSubjects()

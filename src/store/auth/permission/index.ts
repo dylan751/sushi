@@ -18,7 +18,7 @@ export const fetchPermissions = createAsyncThunk('authPermissions/fetchPermissio
     headers: {
       Authorization: `Bearer ${storedToken}`
     }
-  }).internal.getUserPermissions(organizationId)
+  }).internal.getOrganizationUsersPermissions(organizationId)
 
   return response.data
 })
