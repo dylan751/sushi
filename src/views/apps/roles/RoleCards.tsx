@@ -474,11 +474,6 @@ const RolesCards = () => {
                 {t('button.cancel')}
               </Button>
             </Box>
-            {/* {selectedRole && !selectedRole.isCustom && (
-              <Typography variant='body2' color='error'>
-                {t('role_page.role.should_not_edit')}
-              </Typography>
-            )} */}
           </DialogActions>
         </form>
       </Dialog>
