@@ -110,6 +110,7 @@
             "no_roles_selected": "No roles have been selected",
             "admin": "Admin cannot be used with other roles",
             "no_admin_nor_member": "Member has to be selected",
+            "last_admin": "This is the last admin",
             "max_of_roles_can_be_selected": "Only a maximum of roles can be selected"
         }
     },

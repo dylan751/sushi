@@ -110,6 +110,7 @@
             "no_roles_selected": "ロールが設定されていません",
             "admin": "Adminは他のロールと一緒に使用することはできません",
             "no_admin_nor_member": "Memberを選択する必要があります",
+            "last_admin": "これが最後の管理者です",
             "max_of_roles_can_be_selected": "最大ロール個のみ選択できます"
         }
     },
