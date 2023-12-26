@@ -40,6 +40,34 @@ export const areSelectedRolesValid = (roleIds: number[]) => {
   return true
 }
 
+export const isRoleDisabled = (role: UserRole, selectedRoleIds: number[], isUserOnlyAdmin: boolean): boolean => {
+  if (selectedRoleIds.length > MAX_ROLES_PER_USER) {
+    return !selectedRoleIds.includes(role.id)
+  }
+
+  if (isAdmin(role)) {
+    if (isUserOnlyAdmin) {
+      return true
+    }
+
+    if (!selectedRoleIds.length) {
+      return false
+    }
+
+    if (selectedRoleIds.length === 1 && selectedRoleIds[0] === ADMIN_ROLE_ID) {
+      return false
+    }
+
+    return true
+  }
+
+  if (selectedRoleIds.length === 1 && selectedRoleIds[0] === ADMIN_ROLE_ID) {
+    return true
+  }
+
+  return false
+}
+
 export function getRoleErrorMessageArgs(roleIds: number[]): string {
   if (roleIds.length === 0) {
     return 'role_page.role_errors.no_roles_selected'
@@ -59,6 +87,23 @@ export function getRoleErrorMessageArgs(roleIds: number[]): string {
 
   if (!hasMember && !hasAdmin) {
     return 'role_page.role_errors.no_admin_nor_member'
+  }
+
+  // If nothing above wrong, then only this error case lef
+  return 'role_page.role_errors.admin'
+}
+
+export function getDisabledTooltipTextArgs(
+  role: UserRole,
+  selectedRoleIds: number[],
+  isUserOnlyAdmin: boolean
+): string {
+  if (selectedRoleIds.length > MAX_ROLES_PER_USER) {
+    return 'role_page.role_errors.max_of_roles_can_be_selected'
+  }
+
+  if (isAdmin(role) && isUserOnlyAdmin) {
+    return 'role_page.role_errors.last_admin'
   }
 
   // If nothing above wrong, then only this error case lef
