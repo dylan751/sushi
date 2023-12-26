@@ -459,19 +459,26 @@ const RolesCards = () => {
               pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
             }}
           >
-            <Box className='demo-space-x'>
-              <Button size='large' type='submit' variant='contained' disabled={isSubmitDisabled()}>
-                {t('button.submit')}
-              </Button>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <Tooltip
+                title={selectedRole && !selectedRole.isCustom && t('role_page.role.should_not_edit')}
+                placement='top-start'
+              >
+                <span>
+                  <Button size='large' type='submit' variant='contained' disabled={isSubmitDisabled()}>
+                    {t('button.submit')}
+                  </Button>
+                </span>
+              </Tooltip>
               <Button size='large' color='secondary' variant='outlined' onClick={handleClose}>
                 {t('button.cancel')}
               </Button>
             </Box>
-            {selectedRole && !selectedRole.isCustom && (
+            {/* {selectedRole && !selectedRole.isCustom && (
               <Typography variant='body2' color='error'>
                 {t('role_page.role.should_not_edit')}
               </Typography>
-            )}
+            )} */}
           </DialogActions>
         </form>
       </Dialog>
