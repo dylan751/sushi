@@ -38,17 +38,19 @@ export const authOptions: NextAuthOptions = {
             timeout: 30 * 1000 // 30 seconds
           }).internal.login({ email, password })
 
-          const userData = await response.data.userData
-          const accessToken = await response.data.accessToken
+          const user = {
+            userData: response.data.userData,
+            accessToken: response.data.accessToken
+          }
 
-          if (userData) {
+          if (user) {
             /*
              * Please unset all the sensitive information of the user either from API response or before returning
              * user data below. Below return statement will set the user object in the token and the same is set in
              * the session which will be accessible all over the app.
              */
 
-            return { userData, accessToken }
+            return user
           }
 
           return null

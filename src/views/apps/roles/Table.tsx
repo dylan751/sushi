@@ -35,11 +35,7 @@ import { fetchRole } from 'src/store/apps/role'
 
 // ** Types Imports
 import { RootState, AppDispatch } from 'src/store'
-import {
-  OrganizationProfileResponseDto,
-  OrganizationUserResponseDto,
-  ProfileResponseDto
-} from 'src/__generated__/AccountifyAPI'
+import { OrganizationProfileResponseDto, OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Custom Components Imports
 import TableHeader from 'src/views/apps/roles/TableHeader'
@@ -148,16 +144,15 @@ const UserList = () => {
       roleIds: selectedCheckbox.map(roleId => parseInt(roleId))
     }
     dispatch(updateUser(data))
-    if (session.data && selectedOrganizationUser.id !== (session.data.user as ProfileResponseDto).id) {
+    if (session.data && selectedOrganizationUser.id !== session.data.user.id) {
       setShowDialogEditUserRole(false)
       setSelectedCheckbox([])
 
       return
     }
-    const organization = (session.data as any).organizations.find(
-      (org: OrganizationProfileResponseDto) => org.id === orgId
-    )!
-    window.location.assign(`/${organization.uniqueName}/${defaultHomeRoute}`)
+    const organization =
+      session.data && session.data.user.organizations.find((org: OrganizationProfileResponseDto) => org.id === orgId)!
+    window.location.assign(`/${organization?.uniqueName}/${defaultHomeRoute}`)
   }
 
   const handleDeleteUser = (userId: number) => {
