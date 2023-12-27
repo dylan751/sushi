@@ -23,7 +23,12 @@ const UserGuestGuard = (props: UserGuestGuardProps) => {
     }
 
     if (session.status === 'authenticated' && !router.query.returnUrl) {
-      router.replace('/')
+      // TODO: Investigate more
+      /**
+       * Comment this for now as it causes `Abort fetching component for route: '/'` error
+       * Check: https://stackoverflow.com/questions/73343986/next-js-abort-fetching-component-for-route-login
+       */
+      // router.replace('/')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.route, session.status])
