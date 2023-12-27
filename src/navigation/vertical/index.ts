@@ -2,11 +2,10 @@
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
 
 // ** Utils
-import { getOrganization } from 'src/utils/localStorage'
+import { getOrgUniqueName } from 'src/utils/organization'
 
 const navigation = (): VerticalNavItemsType => {
-  const organization = getOrganization()
-  const uniqueName = organization ? `/${organization.uniqueName}` : ''
+  const uniqueName = getOrgUniqueName()
 
   return [
     {
@@ -19,19 +18,19 @@ const navigation = (): VerticalNavItemsType => {
           action: 'read',
           subject: 'user',
           title: 'navbar.dashboards_page.analytics',
-          path: `${uniqueName}/dashboards/analytics`
+          path: `/${uniqueName}/dashboards/analytics`
         }
       ]
     },
     {
-      path: `${uniqueName}/roles`,
+      path: `/${uniqueName}/roles`,
       action: 'read',
       subject: 'role',
       title: 'navbar.role_page',
       icon: 'mdi:shield-outline'
     },
     {
-      path: `${uniqueName}/users`,
+      path: `/${uniqueName}/users`,
       action: 'read',
       subject: 'user',
       title: 'navbar.user_page',
@@ -47,13 +46,13 @@ const navigation = (): VerticalNavItemsType => {
           action: 'read',
           subject: 'user',
           title: 'navbar.account_settings_page.account',
-          path: `${uniqueName}/account-settings/account`
+          path: `/${uniqueName}/account-settings/account`
         },
         {
           action: 'read',
           subject: 'user',
           title: 'navbar.account_settings_page.security',
-          path: `${uniqueName}/account-settings/security`
+          path: `/${uniqueName}/account-settings/security`
         }
       ]
     }

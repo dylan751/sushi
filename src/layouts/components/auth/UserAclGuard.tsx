@@ -22,7 +22,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 import { useSession } from 'next-auth/react'
 
 // ** Util Imports
-import getUserHomeRoute from 'src/layouts/components/acl/getUserHomeRoute'
+import getUserHomeRoute, { defaultHomeRoute } from 'src/layouts/components/acl/getUserHomeRoute'
 import { getOrgUniqueName } from 'src/utils/organization'
 import { getAccessToken, getOrganization } from 'src/utils/localStorage'
 
@@ -64,11 +64,14 @@ const AclGuard = (props: AclGuardProps) => {
         const orgUniqueName = getOrgUniqueName()
         const organization = session.data.user.organizations.find(org => org.uniqueName === orgUniqueName)
         if (organization) {
-          window.localStorage.setItem('organization', JSON.stringify(organization))
           const response = await $api(session.data.accessToken).internal.getOrganizationUsersPermissions(
             organization.id
           )
+          window.localStorage.setItem('organization', JSON.stringify(organization))
           window.localStorage.setItem('permissions', JSON.stringify(response.data.permissions))
+
+          // If user manually change the url, then redirect them to that organization's defaultHomeRoute
+          router.replace(`/${organization.uniqueName}/${defaultHomeRoute}`)
         } else {
           router.replace('/organization')
         }
