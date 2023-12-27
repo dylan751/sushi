@@ -13,7 +13,6 @@ import { AbilityContext } from 'src/layouts/components/acl/Can'
 
 // ** Config Imports
 import { buildAbilityFor } from 'src/configs/userAcl'
-import authConfig from 'src/configs/auth'
 
 // ** Component Imports
 import NotAuthorized from 'src/pages/401'
@@ -70,7 +69,7 @@ const AclGuard = (props: AclGuardProps) => {
   useEffect(() => {
     const initAuth = async (): Promise<void> => {
       if (session.data && session.data.accessToken) {
-        window.localStorage.setItem(authConfig.storageTokenKeyName, session.data.accessToken)
+        window.localStorage.setItem('accessToken', session.data.accessToken)
       }
 
       if (session.data && session.data.user) {

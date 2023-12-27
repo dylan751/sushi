@@ -1,8 +1,7 @@
 import { OrganizationProfileResponseDto, ProfileResponseDto } from 'src/__generated__/AccountifyAPI'
-import authConfig from 'src/configs/auth'
 
 export const getAccessToken = (): string => {
-  return window.localStorage.getItem(authConfig.storageTokenKeyName) || ''
+  return window.localStorage.getItem('accessToken') || ''
 }
 
 export const getUserData = (): ProfileResponseDto | null => {

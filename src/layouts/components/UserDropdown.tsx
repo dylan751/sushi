@@ -30,9 +30,6 @@ import { Settings } from 'src/@core/context/settingsContext'
 import { getOrganization } from 'src/utils/localStorage'
 import { getOrgUniqueName } from 'src/utils/organization'
 
-// ** Config Imports
-import authConfig from 'src/configs/auth'
-
 interface Props {
   settings: Settings
 }
@@ -101,7 +98,7 @@ const UserDropdown = (props: Props) => {
   }
 
   const handleLogout = () => {
-    localStorage.removeItem(authConfig.storageTokenKeyName)
+    localStorage.removeItem('accessToken')
     localStorage.removeItem('organization')
     localStorage.removeItem('permissions')
     signOut({ callbackUrl: '/', redirect: false }).then(() => {

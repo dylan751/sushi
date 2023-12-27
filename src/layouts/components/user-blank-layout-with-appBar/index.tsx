@@ -11,7 +11,6 @@ import { styled, useTheme } from '@mui/material/styles'
 
 // ** Configs
 import themeConfig from 'src/configs/themeConfig'
-import authConfig from 'src/configs/auth'
 
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
@@ -43,7 +42,7 @@ const BlankLayoutAppBar = () => {
   const { skin } = settings
 
   const handleLogout = () => {
-    localStorage.removeItem(authConfig.storageTokenKeyName)
+    localStorage.removeItem('accessToken')
     localStorage.removeItem('organization')
     localStorage.removeItem('permissions')
     signOut({ callbackUrl: '/', redirect: false }).then(() => {
