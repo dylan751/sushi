@@ -12,15 +12,17 @@ export const fetchPermissions = createAsyncThunk('authPermissions/fetchPermissio
   const organizationId = getOrgId()
   const storedToken = getAccessToken()
 
-  const response = await new Api({
-    baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
-    timeout: 30 * 1000, // 30 seconds
-    headers: {
-      Authorization: `Bearer ${storedToken}`
-    }
-  }).internal.getOrganizationUsersPermissions(organizationId)
+  if (organizationId) {
+    const response = await new Api({
+      baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+      timeout: 30 * 1000, // 30 seconds
+      headers: {
+        Authorization: `Bearer ${storedToken}`
+      }
+    }).internal.getOrganizationUsersPermissions(organizationId)
 
-  return response.data
+    return response.data
+  }
 })
 
 export const authPermissionsSlice = createSlice({
@@ -31,7 +33,7 @@ export const authPermissionsSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchPermissions.fulfilled, (state, action) => {
-      state.data = action.payload.permissions
+      state.data = action.payload?.permissions || []
     })
   }
 })

@@ -35,7 +35,11 @@ import { fetchRole } from 'src/store/apps/role'
 
 // ** Types Imports
 import { RootState, AppDispatch } from 'src/store'
-import { OrganizationProfileResponseDto, OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
+import {
+  OrganizationProfileResponseDto,
+  OrganizationUserResponseDto,
+  ProfileResponseDto
+} from 'src/__generated__/AccountifyAPI'
 
 // ** Custom Components Imports
 import TableHeader from 'src/views/apps/roles/TableHeader'
@@ -44,8 +48,10 @@ import DialogDeleteUser from './dialogs/DialogDeleteUser'
 import AddUserDrawer from '../user/list/AddUserDrawer'
 
 // ** Hook Imports
-import { useUserAuth } from 'src/hooks/useUserAuth'
 import { useTranslation } from 'react-i18next'
+
+// ** Next Auth Imports
+import { useSession } from 'next-auth/react'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
@@ -76,11 +82,11 @@ const UserList = () => {
   const [selectedCheckbox, setSelectedCheckbox] = useState<string[]>([])
 
   // ** Hooks
+  const session = useSession()
   const dispatch = useDispatch<AppDispatch>()
   const userStore = useSelector((state: RootState) => state.user)
   const roleStore = useSelector((state: RootState) => state.role)
   const ability = useContext(AbilityContext)
-  const { user } = useUserAuth()
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -142,13 +148,15 @@ const UserList = () => {
       roleIds: selectedCheckbox.map(roleId => parseInt(roleId))
     }
     dispatch(updateUser(data))
-    if (selectedOrganizationUser.id !== user!.id) {
+    if (session.data && selectedOrganizationUser.id !== (session.data.user as ProfileResponseDto).id) {
       setShowDialogEditUserRole(false)
       setSelectedCheckbox([])
 
       return
     }
-    const organization = user!.organizations.find((org: OrganizationProfileResponseDto) => org.id === orgId)!
+    const organization = (session.data as any).organizations.find(
+      (org: OrganizationProfileResponseDto) => org.id === orgId
+    )!
     window.location.assign(`/${organization.uniqueName}/${defaultHomeRoute}`)
   }
 

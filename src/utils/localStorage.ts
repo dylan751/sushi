@@ -2,17 +2,30 @@ import { OrganizationProfileResponseDto, ProfileResponseDto } from 'src/__genera
 import authConfig from 'src/configs/auth'
 
 export const getAccessToken = (): string => {
-  return window.localStorage.getItem(authConfig.storageTokenKeyName)!
+  return window.localStorage.getItem(authConfig.storageTokenKeyName) || ''
 }
 
-export const getUserData = (): ProfileResponseDto => {
-  return JSON.parse(window.localStorage.getItem('userData')!)
+export const getUserData = (): ProfileResponseDto | null => {
+  const userData = window.localStorage.getItem('userData')
+
+  if (userData) {
+    return JSON.parse(userData)
+  }
+
+  return null
 }
 
-export const getOrganization = (): OrganizationProfileResponseDto => {
-  return JSON.parse(window.localStorage.getItem('organization')!)
+export const getOrganization = (): OrganizationProfileResponseDto | null => {
+  const organization = window.localStorage.getItem('organization')
+  if (organization) {
+    return JSON.parse(organization)
+  }
+
+  return null
 }
 
 export const getOrgId = (): number => {
-  return JSON.parse(window.localStorage.getItem('organization')!).id
+  const organization = JSON.parse(window.localStorage.getItem('organization') || '')
+
+  return organization.id
 }

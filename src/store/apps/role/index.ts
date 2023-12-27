@@ -32,7 +32,7 @@ export const fetchRole = createAsyncThunk('appRoles/fetchRole', async (params: D
       headers: {
         Authorization: `Bearer ${storedToken}`
       }
-    }).internal.getRoleListForOrganization(organizationId, params)
+    }).internal.getRoleListForOrganization(organizationId!, params)
 
     return response.data
   } catch (error: any) {

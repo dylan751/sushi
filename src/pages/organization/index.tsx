@@ -2,7 +2,6 @@ import { ReactNode } from 'react'
 import UserBlankLayoutWithAppBar from 'src/layouts/UserBlankLayoutWithAppBar'
 
 // ** MUI Imports
-import { useUserAuth } from 'src/hooks/useUserAuth'
 import Button from '@mui/material/Button'
 import { useRouter } from 'next/router'
 import { Avatar, Box, Card, CardContent, CardHeader, Typography } from '@mui/material'
@@ -10,31 +9,32 @@ import { Avatar, Box, Card, CardContent, CardHeader, Typography } from '@mui/mat
 // ** Types
 import { CaslPermission, OrganizationProfileResponseDto } from 'src/__generated__/AccountifyAPI'
 
-// ** Hooks
-import { useApi } from 'src/hooks/useApi'
-
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
 
 // ** Util Imports
 import { defaultHomeRoute } from 'src/layouts/components/acl/getUserHomeRoute'
 
+// ** Next Auth Imports
+import { useSession } from 'next-auth/react'
+
+// ** Axios Imports
+import { $api } from 'src/utils/api'
+
 const OrganizationPage = () => {
   // ** Hooks
-  const { user, setPermissions, setOrganization } = useUserAuth()
-  const { $api } = useApi()
+  const session = useSession()
   const { t } = useTranslation()
   const router = useRouter()
 
   const loginToOrganization = async (organization: OrganizationProfileResponseDto) => {
     // Fetch user's permissions for that organization
-    const response = await $api.internal.getOrganizationUsersPermissions(organization.id)
+    const response = await $api(session.data?.accessToken).internal.getOrganizationUsersPermissions(organization.id)
     const userPermissions: CaslPermission[] = response.data.permissions
 
     // Set organization and permissions data into AuthContext
     window.localStorage.setItem('organization', JSON.stringify(organization))
-    setOrganization(organization)
-    setPermissions(userPermissions)
+    window.localStorage.setItem('permissions', JSON.stringify(userPermissions))
 
     router.replace(`/${organization.uniqueName}/${defaultHomeRoute}`)
   }
@@ -48,7 +48,10 @@ const OrganizationPage = () => {
       <Card sx={{ width: 1 / 2 }}>
         <CardHeader
           title={
-            user && user.organizations && user.organizations.length > 0
+            session.data &&
+            session.data.user &&
+            session.data.user.organizations &&
+            session.data.user.organizations.length > 0
               ? t('home.choose_an_organization')
               : t('home.create_organization_header')
           }
@@ -60,8 +63,11 @@ const OrganizationPage = () => {
             gap: '10px'
           }}
         >
-          {user && user.organizations && user.organizations.length > 0 ? (
-            user.organizations.map((organization: OrganizationProfileResponseDto) => {
+          {session.data &&
+          session.data.user &&
+          session.data.user.organizations &&
+          session.data.user.organizations.length > 0 ? (
+            session.data.user.organizations.map((organization: OrganizationProfileResponseDto) => {
               return (
                 <Box
                   key={organization.id}
