@@ -106,9 +106,11 @@ export const authOptions: NextAuthOptions = {
         token.accessToken = user.accessToken
       }
 
-      if (trigger === 'update' && session?.organizations) {
+      if (trigger === 'update' && session) {
         // Note, that `session` can be any arbitrary object, remember to validate it!
-        token.organizations = session.organizations
+        if (session.organizations) {
+          token.organizations = session.organizations
+        }
       }
 
       return token
@@ -125,14 +127,16 @@ export const authOptions: NextAuthOptions = {
         session.accessToken = token.accessToken
       }
 
-      if (trigger === 'update' && newSession?.organizations) {
+      if (trigger === 'update' && newSession) {
         // newSession is reflected from the above `jwt()` function
 
         // You can update the session in the database if it's not already updated.
         // await adapter.updateUser(session.user.id, { name: newSession.name })
 
         // Make sure the updated value is reflected on the client (Front-end)
-        session.user.organizations = newSession.organizations
+        if (newSession.organizations) {
+          session.user.organizations = newSession.organizations
+        }
       }
 
       return session

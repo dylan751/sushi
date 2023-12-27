@@ -6,7 +6,6 @@ import { useRouter } from 'next/router'
 
 // ** Types
 import type { ACLObj, AppAbility } from 'src/configs/userAcl'
-import { ProfileResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
@@ -56,17 +55,6 @@ const AclGuard = (props: AclGuardProps) => {
   let ability: AppAbility
 
   useEffect(() => {
-    const storedToken = getAccessToken()
-    const organization = getOrganization()
-    if (session.data && session.data.user && storedToken) {
-      dispatch(fetchProfile())
-      if (organization) {
-        dispatch(fetchPermissions())
-      }
-    }
-  }, [dispatch, session.data])
-
-  useEffect(() => {
     const initAuth = async (): Promise<void> => {
       if (session.data && session.data.accessToken) {
         window.localStorage.setItem('accessToken', session.data.accessToken)
@@ -92,8 +80,19 @@ const AclGuard = (props: AclGuardProps) => {
   }, [])
 
   useEffect(() => {
+    const storedToken = getAccessToken()
+    const organization = getOrganization()
+    if (session.data && session.data.user && storedToken) {
+      dispatch(fetchProfile())
+      if (organization) {
+        dispatch(fetchPermissions())
+      }
+    }
+  }, [dispatch, session.data])
+
+  useEffect(() => {
     if (session.data && session.data.user && !guestGuard && router.route === '/') {
-      const homeRoute = getUserHomeRoute(session.data.user as ProfileResponseDto)
+      const homeRoute = getUserHomeRoute(session.data.user)
       router.replace(homeRoute)
     }
   }, [session.data, guestGuard, router])

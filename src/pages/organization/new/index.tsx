@@ -65,7 +65,6 @@ const CreateOrganizationPage = () => {
       .then(async () => {
         const response = await $api(session.data?.accessToken).internal.getUserProfile()
         session.update({ organizations: response.data.organizations })
-        location.replace('/organization')
       })
       .catch(res => {
         setError('name', {

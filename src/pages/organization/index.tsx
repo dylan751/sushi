@@ -125,7 +125,7 @@ const OrganizationPage = () => {
                   </Typography>
                 </Box>
               </Box>
-              <Button variant='contained' sx={{ width: 1 / 5 }} onClick={navigateToCreateOrganizationPage}>
+              <Button variant='contained' sx={{ width: 1 / 5 }} onClick={() => navigateToCreateOrganizationPage()}>
                 {t('home.create')}
               </Button>
             </Box>

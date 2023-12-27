@@ -161,13 +161,13 @@ const UserDropdown = (props: Props) => {
           </Box>
         </Box>
         <Divider sx={{ mt: '0 !important' }} />
-        <MenuItem sx={{ p: 0 }} onClick={handleAccountSettings}>
+        <MenuItem sx={{ p: 0 }} onClick={() => handleAccountSettings()}>
           <Box sx={styles}>
             <Icon icon='mdi:account-cog-outline' />
             {t('user_dropdown.account_settings')}
           </Box>
         </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={handleOrganization}>
+        <MenuItem sx={{ p: 0 }} onClick={() => handleOrganization()}>
           <Box sx={styles}>
             <Icon icon='mdi:office-building-outline' />
             {t('user_dropdown.organization')}
