@@ -21,6 +21,9 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
+      "next-auth": [
+        "./node_modules/next-auth"
+      ],
       "apexcharts": [
         "./node_modules/apexcharts-clevision"
       ],
@@ -31,7 +34,8 @@
   },
   "include": [
     "src",
-    "declaration.d.ts"
+    "declaration.d.ts",
+    "types/next-auth.d.ts",
   ],
   "exclude": [
     "node_modules"

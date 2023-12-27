@@ -34,14 +34,18 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 import * as yup from 'yup'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import toast from 'react-hot-toast'
 
 // ** Hooks
-import { useUserAuth } from 'src/hooks/useUserAuth'
 import { useSettings } from 'src/@core/hooks/useSettings'
+import { useRouter } from 'next/router'
 
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import { RegisterRequestDto } from 'src/__generated__/AccountifyAPI'
+
+// ** Axios Imports
+import { $api } from 'src/utils/api'
 
 // ** Styled Components
 const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -111,7 +115,7 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
   // ** Hooks
-  const auth = useUserAuth()
+  const router = useRouter()
   const theme = useTheme()
   const { settings } = useSettings()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -130,15 +134,19 @@ const Register = () => {
     resolver: yupResolver(schema)
   })
 
-  const onSubmit = (data: RegisterRequestDto) => {
-    const { email, name, password } = data
-
-    auth.register({ email, name, password }, () => {
-      setError('email', {
-        type: 'manual',
-        message: 'This email has been used'
+  const onSubmit = async (data: RegisterRequestDto) => {
+    $api()
+      .internal.register(data)
+      .then(() => {
+        toast.success('Register succeed')
+        router.replace('/login')
       })
-    })
+      .catch(() => {
+        setError('email', {
+          type: 'manual',
+          message: 'This email has been used'
+        })
+      })
   }
 
   const imageSource = skin === 'bordered' ? 'auth-v2-register-illustration-bordered' : 'auth-v2-register-illustration'

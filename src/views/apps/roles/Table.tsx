@@ -44,8 +44,10 @@ import DialogDeleteUser from './dialogs/DialogDeleteUser'
 import AddUserDrawer from '../user/list/AddUserDrawer'
 
 // ** Hook Imports
-import { useUserAuth } from 'src/hooks/useUserAuth'
 import { useTranslation } from 'react-i18next'
+
+// ** Next Auth Imports
+import { useSession } from 'next-auth/react'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
@@ -76,11 +78,11 @@ const UserList = () => {
   const [selectedCheckbox, setSelectedCheckbox] = useState<string[]>([])
 
   // ** Hooks
+  const session = useSession()
   const dispatch = useDispatch<AppDispatch>()
   const userStore = useSelector((state: RootState) => state.user)
   const roleStore = useSelector((state: RootState) => state.role)
   const ability = useContext(AbilityContext)
-  const { user } = useUserAuth()
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -142,14 +144,15 @@ const UserList = () => {
       roleIds: selectedCheckbox.map(roleId => parseInt(roleId))
     }
     dispatch(updateUser(data))
-    if (selectedOrganizationUser.id !== user!.id) {
+    if (session.data && selectedOrganizationUser.id !== session.data.user.id) {
       setShowDialogEditUserRole(false)
       setSelectedCheckbox([])
 
       return
     }
-    const organization = user!.organizations.find((org: OrganizationProfileResponseDto) => org.id === orgId)!
-    window.location.assign(`/${organization.uniqueName}/${defaultHomeRoute}`)
+    const organization =
+      session.data && session.data.user.organizations.find((org: OrganizationProfileResponseDto) => org.id === orgId)!
+    window.location.assign(`/${organization?.uniqueName}/${defaultHomeRoute}`)
   }
 
   const handleDeleteUser = (userId: number) => {

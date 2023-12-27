@@ -18,9 +18,6 @@ import {
 // ** Types
 import { CreateOrganizationRequestDto } from 'src/__generated__/AccountifyAPI'
 
-// ** Hooks
-import { useApi } from 'src/hooks/useApi'
-
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
@@ -29,6 +26,12 @@ import * as yup from 'yup'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useTranslation } from 'react-i18next'
+
+// ** Axios Imports
+import { $api } from 'src/utils/api'
+
+// ** Next Auth Imports
+import { useSession } from 'next-auth/react'
 
 const schema = yup.object().shape({
   name: yup.string().max(256).required(),
@@ -42,7 +45,7 @@ const defaultValues = {
 
 const CreateOrganizationPage = () => {
   // ** Hooks
-  const { $api } = useApi()
+  const session = useSession()
   const { t } = useTranslation()
 
   const {
@@ -57,10 +60,11 @@ const CreateOrganizationPage = () => {
   })
 
   const onSubmit = (data: CreateOrganizationRequestDto) => {
-    $api.internal
-      .organizationsControllerCreate(data)
-      .then(() => {
-        location.replace('/organization')
+    $api(session.data?.accessToken)
+      .internal.organizationsControllerCreate(data)
+      .then(async () => {
+        const response = await $api(session.data?.accessToken).internal.getUserProfile()
+        session.update({ organizations: response.data.organizations })
       })
       .catch(res => {
         setError('name', {

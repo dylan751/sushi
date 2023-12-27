@@ -33,12 +33,12 @@ import UserAclGuard from 'src/layouts/components/auth/UserAclGuard'
 import UserAuthGuard from 'src/layouts/components/auth/UserAuthGuard'
 import UserGuestGuard from 'src/layouts/components/auth/UserGuestGuard'
 import ThemeComponent from 'src/@core/theme/ThemeComponent'
+import { SessionProvider } from 'next-auth/react'
 
 // ** Spinner Import
 import Spinner from 'src/@core/components/spinner'
 
 // ** Contexts
-import { UserAuthProvider } from 'src/context/UserAuthContext'
 import { ApiProvider } from 'src/context/ApiContext'
 import { SettingsConsumer, SettingsProvider } from 'src/@core/context/settingsContext'
 
@@ -130,7 +130,7 @@ const App = (props: ExtendedAppProps) => {
         </Head>
 
         <ApiProvider>
-          <UserAuthProvider>
+          <SessionProvider session={pageProps.session}>
             <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
               <SettingsConsumer>
                 {({ settings }) => {
@@ -149,7 +149,7 @@ const App = (props: ExtendedAppProps) => {
                 }}
               </SettingsConsumer>
             </SettingsProvider>
-          </UserAuthProvider>
+          </SessionProvider>
         </ApiProvider>
       </CacheProvider>
     </Provider>
