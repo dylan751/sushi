@@ -37,6 +37,8 @@ import { UpdateProfileRequestDto } from 'src/__generated__/AccountifyAPI'
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
 
+type FormDataType = UpdateProfileRequestDto & { email: string }
+
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
   height: 120,
@@ -67,18 +69,19 @@ const TabAccount = () => {
   const store = useSelector((state: RootState) => state.profile)
   const { t } = useTranslation()
 
-  const initialData: UpdateProfileRequestDto = {
-    phone: store.data.phone,
-    address: store.data.address,
-    name: store.data.name
+  const initialData: FormDataType = {
+    email: store.data.email || '',
+    phone: store.data.phone || '',
+    address: store.data.address || '',
+    name: store.data.name || ''
   }
 
   // ** State
   const [open, setOpen] = useState<boolean>(false)
   const [inputValue, setInputValue] = useState<string>('')
   const [userInput, setUserInput] = useState<string>('yes')
-  const [formData, setFormData] = useState<UpdateProfileRequestDto>(initialData)
-  const [imgSrc, setImgSrc] = useState<string>('/images/avatars/1.png')
+  const [formData, setFormData] = useState<FormDataType>(initialData)
+  const [imgSrc, setImgSrc] = useState<string>(store.data.avatar || '/images/avatars/1.png')
   const [secondDialogOpen, setSecondDialogOpen] = useState<boolean>(false)
 
   // ** Hooks
@@ -118,7 +121,7 @@ const TabAccount = () => {
   }
   const handleInputImageReset = () => {
     setInputValue('')
-    setImgSrc('/images/avatars/1.png')
+    setImgSrc(store.data.avatar || '/images/avatars/1.png')
   }
 
   const handleFormChange = (
@@ -174,7 +177,7 @@ const TabAccount = () => {
                     fullWidth
                     type='email'
                     label={t('account_settings_page.account.email')}
-                    value={store.data.email}
+                    value={formData.email}
                     placeholder='john.doe@example.com'
                     disabled
                   />

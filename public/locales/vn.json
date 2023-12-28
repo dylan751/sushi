@@ -110,6 +110,7 @@
             "no_roles_selected": "Bạn chưa chọn vai trò nào",
             "admin": "Admin không thể được sử dụng cùng với vai trò khác",
             "no_admin_nor_member": "Member phải được chọn",
+            "last_admin": "đây là quản trị viên cuối cùng",
             "max_of_roles_can_be_selected": "Chỉ được chọn một số lượng vai trò giới hạn"
         }
     },

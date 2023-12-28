@@ -58,6 +58,15 @@ export interface LoginResponse {
   userData: ProfileResponseDto
 }
 
+export interface LoginWithGoogleRequestDto {
+  /** @example "foo@gmail.com" */
+  email: string
+  /** @example "foo" */
+  name: string
+  /** @example "https://avatar.png" */
+  avatar: string
+}
+
 export interface RegisterRequestDto {
   /** @example "foo@gmail.com" */
   email: string
@@ -428,6 +437,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     login: (data: LoginRequestDto, params: RequestParams = {}) =>
       this.request<LoginResponse, any>({
         path: `/internal/api/v1/auth/login`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Login with Google
+     *
+     * @tags Auth
+     * @name LoginWithGoogle
+     * @summary Login with Google endpoint for users
+     * @request POST:/internal/api/v1/auth/login-google
+     */
+    loginWithGoogle: (data: LoginWithGoogleRequestDto, params: RequestParams = {}) =>
+      this.request<LoginResponse, any>({
+        path: `/internal/api/v1/auth/login-google`,
         method: 'POST',
         body: data,
         type: ContentType.Json,

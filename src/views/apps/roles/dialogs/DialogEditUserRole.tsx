@@ -10,14 +10,19 @@ import Typography from '@mui/material/Typography'
 import Fade, { FadeProps } from '@mui/material/Fade'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'
+import { Checkbox, FormControlLabel, FormGroup, Tooltip, tooltipClasses } from '@mui/material'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
 // ** Types Imports
 import { RoleResponseDto } from 'src/__generated__/AccountifyAPI'
-import { areSelectedRolesValid, getRoleErrorMessageArgs, isAdmin } from 'src/utils/role'
+import {
+  areSelectedRolesValid,
+  isRoleDisabled,
+  getDisabledTooltipTextArgs,
+  getRoleErrorMessageArgs
+} from 'src/utils/role'
 
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
@@ -46,14 +51,26 @@ const DialogEditUserRole = (props: DialogEditUserRoleProps) => {
   // ** Hooks
   const { t } = useTranslation()
 
-  const isRoleDisabled = (role: RoleResponseDto): boolean => {
-    return isUserOnlyAdmin() && isAdmin(role)
+  const roleDisabled = (role: RoleResponseDto): boolean => {
+    return isRoleDisabled(
+      role,
+      selectedCheckbox.map(roleId => parseInt(roleId)),
+      isUserOnlyAdmin()
+    )
   }
 
-  const maybeRoleError = (): string => {
+  const getDisabledButtonTooltipText = (): string => {
     if (areSelectedRolesValid(selectedCheckbox.map(checkbox => parseInt(checkbox)))) return ''
 
     return t(getRoleErrorMessageArgs(selectedCheckbox.map(checkbox => parseInt(checkbox))))
+  }
+
+  const getDisabledTooltipText = (role: RoleResponseDto): string => {
+    return getDisabledTooltipTextArgs(
+      role,
+      selectedCheckbox.map(roleId => parseInt(roleId)),
+      isUserOnlyAdmin()
+    )
   }
 
   const toggleRole = (id: string) => {
@@ -96,18 +113,32 @@ const DialogEditUserRole = (props: DialogEditUserRoleProps) => {
         </Box>
         <FormGroup row sx={{ display: 'flex', flexDirection: 'column' }}>
           {allRoles.map((item, index) => (
-            <FormControlLabel
+            <Tooltip
               key={index}
-              label={item.name}
-              control={
-                <Checkbox
-                  id={item.id.toString()}
-                  onChange={() => toggleRole(item.id.toString())}
-                  checked={selectedCheckbox.includes(item.id.toString())}
-                  disabled={isRoleDisabled(item)}
-                />
-              }
-            />
+              title={roleDisabled(item) && `${t(getDisabledTooltipText(item))}`}
+              placement='top-start'
+              slotProps={{
+                popper: {
+                  sx: {
+                    [`&.${tooltipClasses.popper}[data-popper-placement*="top"] .${tooltipClasses.tooltip}`]: {
+                      marginBottom: '0px'
+                    }
+                  }
+                }
+              }}
+            >
+              <FormControlLabel
+                label={item.name}
+                control={
+                  <Checkbox
+                    id={item.id.toString()}
+                    onChange={() => toggleRole(item.id.toString())}
+                    checked={selectedCheckbox.includes(item.id.toString())}
+                    disabled={roleDisabled(item)}
+                  />
+                }
+              />
+            </Tooltip>
           ))}
         </FormGroup>
       </DialogContent>
@@ -121,21 +152,20 @@ const DialogEditUserRole = (props: DialogEditUserRoleProps) => {
           pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
         }}
       >
-        {maybeRoleError() && (
-          <Typography variant='body2' color='error'>
-            {maybeRoleError()}
-          </Typography>
-        )}
-        <Box className='demo-space-x'>
-          <Button
-            variant='contained'
-            color='primary'
-            sx={{ mr: 1 }}
-            onClick={handleEditUserRole}
-            disabled={!areSelectedRolesValid(selectedCheckbox.map(checkbox => parseInt(checkbox)))}
-          >
-            {t('button.edit')}
-          </Button>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Tooltip title={getDisabledButtonTooltipText()} placement='top-start'>
+            <span>
+              <Button
+                variant='contained'
+                color='primary'
+                sx={{ mr: 1 }}
+                onClick={handleEditUserRole}
+                disabled={!areSelectedRolesValid(selectedCheckbox.map(checkbox => parseInt(checkbox)))}
+              >
+                {t('button.edit')}
+              </Button>
+            </span>
+          </Tooltip>
           <Button variant='outlined' color='secondary' onClick={handleClose}>
             {t('button.cancel')}
           </Button>

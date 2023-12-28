@@ -17,7 +17,10 @@ import { useTranslation } from 'react-i18next'
 
 // ** Hook
 import { useSettings } from 'src/@core/hooks/useSettings'
-import { useUserAuth } from 'src/hooks/useUserAuth'
+import { useRouter } from 'next/router'
+
+// ** Next Auth Imports
+import { signOut } from 'next-auth/react'
 
 // ** Custom Component Imports
 import UserLanguageDropdown from '../UserLanguageDropdown'
@@ -33,13 +36,18 @@ const LinkStyled = styled(Link)(({ theme }) => ({
 const BlankLayoutAppBar = () => {
   // ** Hooks & Vars
   const theme = useTheme()
+  const router = useRouter()
   const { t } = useTranslation()
-  const { logout } = useUserAuth()
   const { settings, saveSettings } = useSettings()
   const { skin } = settings
 
   const handleLogout = () => {
-    logout()
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('organization')
+    localStorage.removeItem('permissions')
+    signOut({ callbackUrl: '/', redirect: false }).then(() => {
+      router.asPath = '/'
+    })
   }
 
   return (

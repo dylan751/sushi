@@ -11,12 +11,12 @@ export const defaultHomeRoute = 'dashboards/analytics'
  */
 const getUserHomeRoute = (user: ProfileResponseDto) => {
   const orgUniqueName = getOrgUniqueName()
-  const organization = user.organizations.find(org => org.uniqueName === orgUniqueName)
+  const organization = user.organizations && user.organizations.find(org => org.uniqueName === orgUniqueName)
 
   // Get user's organization's role
   let role = ''
   if (organization) {
-    const userOrganization = user.organizations.find(org => org.id === organization.id)!
+    const userOrganization = user.organizations && user.organizations.find(org => org.id === organization.id)!
     role = userOrganization.roles[0].slug // Just to check if an user has logged in an organization or not
   }
 

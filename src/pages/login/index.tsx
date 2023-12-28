@@ -28,8 +28,11 @@ import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 // ** Hooks
-import { useUserAuth } from 'src/hooks/useUserAuth'
 import { useSettings } from 'src/@core/hooks/useSettings'
+import { useRouter } from 'next/router'
+
+// ** Next Auth Imports
+import { signIn } from 'next-auth/react'
 
 // ** Types
 import { LoginRequestDto } from 'src/__generated__/AccountifyAPI'
@@ -101,7 +104,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
   // ** Hooks
-  const auth = useUserAuth()
+  const router = useRouter()
   const theme = useTheme()
   const { settings } = useSettings()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -123,12 +126,26 @@ const LoginPage = () => {
   const onSubmit = (data: LoginRequestDto) => {
     const { email, password } = data
 
-    auth.login({ email, password }, () => {
-      setError('email', {
-        type: 'manual',
-        message: 'Email or Password is invalid'
-      })
+    signIn('credentials', { email, password, redirect: false }).then(res => {
+      if (res && res.ok) {
+        const returnUrl = router.query.returnUrl
+        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
+
+        router.replace(redirectURL as string)
+      } else {
+        setError('email', {
+          type: 'manual',
+          message: 'Email or Password is invalid'
+        })
+      }
     })
+  }
+
+  const loginWithGoogle = (e: MouseEvent<HTMLElement>) => {
+    e.preventDefault()
+    const returnUrl = router.query.returnUrl
+    const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
+    signIn('google', { callbackUrl: redirectURL as string })
   }
 
   const imageSource = skin === 'bordered' ? 'auth-v2-login-illustration-bordered' : 'auth-v2-login-illustration'
@@ -345,7 +362,7 @@ const LoginPage = () => {
                   href='/'
                   component={Link}
                   sx={{ color: '#db4437' }}
-                  onClick={(e: MouseEvent<HTMLElement>) => e.preventDefault()}
+                  onClick={(e: MouseEvent<HTMLElement>) => loginWithGoogle(e)}
                 >
                   <Icon icon='mdi:google' />
                 </IconButton>

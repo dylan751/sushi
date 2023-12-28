@@ -4,8 +4,8 @@ import { ReactNode, ReactElement, useEffect } from 'react'
 // ** Next Import
 import { useRouter } from 'next/router'
 
-// ** Hooks Import
-import { useUserAuth } from 'src/hooks/useUserAuth'
+// ** Next Auth Imports
+import { useSession } from 'next-auth/react'
 
 interface UserGuestGuardProps {
   children: ReactNode
@@ -14,7 +14,7 @@ interface UserGuestGuardProps {
 
 const UserGuestGuard = (props: UserGuestGuardProps) => {
   const { children, fallback } = props
-  const auth = useUserAuth()
+  const session = useSession()
   const router = useRouter()
 
   useEffect(() => {
@@ -22,17 +22,22 @@ const UserGuestGuard = (props: UserGuestGuardProps) => {
       return
     }
 
-    if (window.localStorage.getItem('userData')) {
-      router.replace('/')
+    if (session.status === 'authenticated' && !router.query.returnUrl) {
+      // TODO: Investigate more
+      /**
+       * Comment this for now as it causes `Abort fetching component for route: '/'` error
+       * Check: https://stackoverflow.com/questions/73343986/next-js-abort-fetching-component-for-route-login
+       */
+      // router.replace('/')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.route])
+  }, [router.route, session.status])
 
-  if (auth.loading || (!auth.loading && auth.user !== null)) {
+  if (session.status === 'unauthenticated') {
+    return <>{children}</>
+  } else {
     return fallback
   }
-
-  return <>{children}</>
 }
 
 export default UserGuestGuard

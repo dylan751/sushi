@@ -51,9 +51,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'src/store'
 import { addRole, deleteRole, fetchRole, updateRole } from 'src/store/apps/role'
 
-// ** Hooks
-import { useApi } from 'src/hooks/useApi'
-
 // ** Third Party Imports
 import { Controller, FieldValues, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -64,6 +61,12 @@ import DialogDeleteRole from './dialogs/DialogDeleteRole'
 // ** Util Imports
 import { MAX_ROLES_PER_ORGANIZATION } from 'src/utils/role'
 
+// ** Axios Imports
+import { $api } from 'src/utils/api'
+
+// ** Next Auth
+import { useSession } from 'next-auth/react'
+
 const cardDummyData = {
   totalUsers: 5,
   avatars: ['4.png', '5.png', '6.png', '7.png', '8.png']
@@ -71,8 +74,8 @@ const cardDummyData = {
 
 const RolesCards = () => {
   // ** Hooks
+  const session = useSession()
   const ability = useContext(AbilityContext)
-  const { $api } = useApi()
   const { t } = useTranslation()
 
   // ** Hooks
@@ -185,7 +188,7 @@ const RolesCards = () => {
 
   useEffect(() => {
     const fetchPermissionSubjects = async () => {
-      const response = await $api.internal.getPermissionSubjectList()
+      const response = await $api(session.data?.accessToken).internal.getPermissionSubjectList()
       const subjects = response.data.filter(item => item.subject !== 'all') // Exclude 'all' from permission subjects response list
       const filteredSubjects = subjects.map(item => item.subject.charAt(0).toUpperCase() + item.subject.slice(1)) // Uppercase the first letter
       setPermissionSubjects(filteredSubjects)
@@ -196,7 +199,7 @@ const RolesCards = () => {
 
     // Fetch all permission subjects
     fetchPermissionSubjects()
-  }, [dispatch, $api.internal])
+  }, [dispatch, session.data])
 
   useEffect(() => {
     if (selectedCheckbox.length > 0 && selectedCheckbox.length < permissionSubjects.length * 3) {
@@ -459,19 +462,21 @@ const RolesCards = () => {
               pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
             }}
           >
-            <Box className='demo-space-x'>
-              <Button size='large' type='submit' variant='contained' disabled={isSubmitDisabled()}>
-                {t('button.submit')}
-              </Button>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <Tooltip
+                title={selectedRole && !selectedRole.isCustom && t('role_page.role.should_not_edit')}
+                placement='top-start'
+              >
+                <span>
+                  <Button size='large' type='submit' variant='contained' disabled={isSubmitDisabled()}>
+                    {t('button.submit')}
+                  </Button>
+                </span>
+              </Tooltip>
               <Button size='large' color='secondary' variant='outlined' onClick={handleClose}>
                 {t('button.cancel')}
               </Button>
             </Box>
-            {selectedRole && !selectedRole.isCustom && (
-              <Typography variant='body2' color='error'>
-                {t('role_page.role.should_not_edit')}
-              </Typography>
-            )}
           </DialogActions>
         </form>
       </Dialog>

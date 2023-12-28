@@ -17,8 +17,8 @@ import Typography from '@mui/material/Typography'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-// ** Context
-import { useUserAuth } from 'src/hooks/useUserAuth'
+// ** Next Auth Imports
+import { useSession, signOut } from 'next-auth/react'
 
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
@@ -53,7 +53,7 @@ const UserDropdown = (props: Props) => {
   // ** Hooks
   const { t } = useTranslation()
   const router = useRouter()
-  const { user, logout } = useUserAuth()
+  const session = useSession()
 
   // ** Utils
   const organization = getOrganization()
@@ -98,7 +98,12 @@ const UserDropdown = (props: Props) => {
   }
 
   const handleLogout = () => {
-    logout()
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('organization')
+    localStorage.removeItem('permissions')
+    signOut({ callbackUrl: '/', redirect: false }).then(() => {
+      router.asPath = '/'
+    })
     handleDropdownClose()
   }
 
@@ -115,10 +120,10 @@ const UserDropdown = (props: Props) => {
         }}
       >
         <Avatar
-          alt={user?.name}
+          alt={session.data?.user.name || ''}
           onClick={handleDropdownOpen}
           sx={{ width: 40, height: 40 }}
-          src='/images/avatars/1.png'
+          src={session.data?.user.avatar || '/images/avatars/1.png'}
         />
       </Badge>
       <Menu
@@ -139,24 +144,30 @@ const UserDropdown = (props: Props) => {
                 horizontal: 'right'
               }}
             >
-              <Avatar alt={user?.name} src='/images/avatars/1.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
+              <Avatar
+                alt={session.data?.user.name || ''}
+                src={session.data?.user.avatar || '/images/avatars/1.png'}
+                sx={{ width: '2.5rem', height: '2.5rem' }}
+              />
             </Badge>
             <Box sx={{ display: 'flex', ml: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 600 }}>{user?.name}</Typography>
+              <Typography sx={{ fontWeight: 600 }}>{session.data?.user?.name || ''}</Typography>
               <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                {organization.roles.length > 1 ? `${organization.roles[0].name} ...` : organization.roles[0].name}
+                {organization && organization.roles.length > 1
+                  ? `${organization?.roles[0].name} ...`
+                  : organization?.roles[0].name}
               </Typography>
             </Box>
           </Box>
         </Box>
         <Divider sx={{ mt: '0 !important' }} />
-        <MenuItem sx={{ p: 0 }} onClick={handleAccountSettings}>
+        <MenuItem sx={{ p: 0 }} onClick={() => handleAccountSettings()}>
           <Box sx={styles}>
             <Icon icon='mdi:account-cog-outline' />
             {t('user_dropdown.account_settings')}
           </Box>
         </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={handleOrganization}>
+        <MenuItem sx={{ p: 0 }} onClick={() => handleOrganization()}>
           <Box sx={styles}>
             <Icon icon='mdi:office-building-outline' />
             {t('user_dropdown.organization')}

@@ -18,7 +18,6 @@ interface Redux {
 // ** Fetch Profile
 export const fetchProfile = createAsyncThunk('authProfile/fetchProfile', async () => {
   const storedToken = getAccessToken()
-
   try {
     const response = await new Api({
       baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
