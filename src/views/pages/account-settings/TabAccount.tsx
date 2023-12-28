@@ -121,7 +121,7 @@ const TabAccount = () => {
   }
   const handleInputImageReset = () => {
     setInputValue('')
-    setImgSrc('/images/avatars/1.png')
+    setImgSrc(store.data.avatar || '/images/avatars/1.png')
   }
 
   const handleFormChange = (
