@@ -24,6 +24,9 @@ import { defaultACLObj } from 'src/configs/userAcl'
 import themeConfig from 'src/configs/themeConfig'
 import 'src/configs/i18n'
 
+// ** Fake-DB Import
+import 'src/@fake-db'
+
 // ** Third Party Import
 import { Toaster } from 'react-hot-toast'
 
