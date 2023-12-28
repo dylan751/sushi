@@ -1,6 +1,7 @@
 // ** Third Party Imports
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import GoogleProvider from 'next-auth/providers/google'
 import { Api } from 'src/__generated__/AccountifyAPI'
 
 /*
@@ -58,9 +59,13 @@ export const authOptions: NextAuthOptions = {
           throw new Error('Email or Password is invalid')
         }
       }
-    })
+    }),
 
     // ** ...add more providers here
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
+    })
   ],
 
   // ** Please refer to https://next-auth.js.org/configuration/options#session for more `session` options
@@ -93,19 +98,47 @@ export const authOptions: NextAuthOptions = {
      * the `session()` callback. So we have to add custom parameters in `token`
      * via `jwt()` callback to make them accessible in the `session()` callback
      */
-    async jwt({ token, user, trigger, session }: any) {
+    async jwt({ user, account, token, session, trigger }: any) {
+      /*
+       * For adding custom parameters to user in session, we first need to add those parameters
+       * in token which then will be available in the `session()` callback
+       */
       if (user) {
-        /*
-         * For adding custom parameters to user in session, we first need to add those parameters
-         * in token which then will be available in the `session()` callback
+        /**
+         * Logic for Credentials login
          */
-        token.name = user.userData.name
-        token.email = user.userData.email
-        token.phone = user.userData.phone
-        token.address = user.userData.address
-        token.avatar = user.userData.avatar
-        token.organizations = user.userData.organizations
-        token.accessToken = user.accessToken
+        if (account.provider === 'credentials') {
+          token.name = user.userData.name
+          token.email = user.userData.email
+          token.phone = user.userData.phone
+          token.address = user.userData.address
+          token.avatar = user.userData.avatar
+          token.organizations = user.userData.organizations
+          token.accessToken = user.accessToken
+        }
+
+        /**
+         * Logic for Google login
+         */
+        if (account.provider === 'google') {
+          try {
+            // Get user profile from database based on token.email
+            const response = await new Api({
+              baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+              timeout: 30 * 1000 // 30 seconds
+            }).internal.loginWithGoogle({ email: user.email, name: user.name, avatar: user.image })
+
+            token.name = response.data.userData.name
+            token.email = response.data.userData.email
+            token.phone = response.data.userData.phone
+            token.address = response.data.userData.address
+            token.avatar = response.data.userData.avatar
+            token.organizations = response.data.userData.organizations
+            token.accessToken = response.data.accessToken
+          } catch {
+            throw new Error('There is something wrong with Google login')
+          }
+        }
       }
 
       if (trigger === 'update' && session) {
@@ -117,6 +150,7 @@ export const authOptions: NextAuthOptions = {
 
       return token
     },
+
     async session({ session, token, trigger, newSession }: any) {
       if (session.user) {
         // ** Add custom params to user in session which are added in `jwt()` callback via `token` parameter

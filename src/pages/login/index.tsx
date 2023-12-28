@@ -141,6 +141,13 @@ const LoginPage = () => {
     })
   }
 
+  const loginWithGoogle = (e: MouseEvent<HTMLElement>) => {
+    e.preventDefault()
+    const returnUrl = router.query.returnUrl
+    const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
+    signIn('google', { callbackUrl: redirectURL as string })
+  }
+
   const imageSource = skin === 'bordered' ? 'auth-v2-login-illustration-bordered' : 'auth-v2-login-illustration'
 
   return (
@@ -355,7 +362,7 @@ const LoginPage = () => {
                   href='/'
                   component={Link}
                   sx={{ color: '#db4437' }}
-                  onClick={(e: MouseEvent<HTMLElement>) => e.preventDefault()}
+                  onClick={(e: MouseEvent<HTMLElement>) => loginWithGoogle(e)}
                 >
                   <Icon icon='mdi:google' />
                 </IconButton>
