@@ -81,7 +81,7 @@ const TabAccount = () => {
   const [inputValue, setInputValue] = useState<string>('')
   const [userInput, setUserInput] = useState<string>('yes')
   const [formData, setFormData] = useState<FormDataType>(initialData)
-  const [imgSrc, setImgSrc] = useState<string>('/images/avatars/1.png')
+  const [imgSrc, setImgSrc] = useState<string>(store.data.avatar || '/images/avatars/1.png')
   const [secondDialogOpen, setSecondDialogOpen] = useState<boolean>(false)
 
   // ** Hooks
