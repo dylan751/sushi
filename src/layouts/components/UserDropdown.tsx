@@ -120,10 +120,10 @@ const UserDropdown = (props: Props) => {
         }}
       >
         <Avatar
-          alt={session.data?.user?.name || ''}
+          alt={session.data?.user.name || ''}
           onClick={handleDropdownOpen}
           sx={{ width: 40, height: 40 }}
-          src='/images/avatars/1.png'
+          src={session.data?.user.avatar || '/images/avatars/1.png'}
         />
       </Badge>
       <Menu
@@ -145,8 +145,8 @@ const UserDropdown = (props: Props) => {
               }}
             >
               <Avatar
-                alt={session.data?.user?.name || ''}
-                src='/images/avatars/1.png'
+                alt={session.data?.user.name || ''}
+                src={session.data?.user.avatar || '/images/avatars/1.png'}
                 sx={{ width: '2.5rem', height: '2.5rem' }}
               />
             </Badge>

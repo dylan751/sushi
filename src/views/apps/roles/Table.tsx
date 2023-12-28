@@ -58,11 +58,15 @@ interface CellType {
 
 // ** renders client column
 const renderClient = (row: OrganizationUserResponseDto) => {
-  return (
-    <CustomAvatar skin='light' color='primary' sx={{ mr: 3, width: 30, height: 30, fontSize: '.875rem' }}>
-      {getInitials(row.name ? row.name : 'John Doe')}
-    </CustomAvatar>
-  )
+  if (row.avatar) {
+    return <CustomAvatar src={row.avatar} sx={{ mr: 3, width: 30, height: 30 }} />
+  } else {
+    return (
+      <CustomAvatar skin='light' color='primary' sx={{ mr: 3, width: 30, height: 30, fontSize: '.875rem' }}>
+        {getInitials(row.name ? row.name : 'John Doe')}
+      </CustomAvatar>
+    )
+  }
 }
 
 const UserList = () => {
