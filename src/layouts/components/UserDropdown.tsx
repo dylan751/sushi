@@ -29,6 +29,7 @@ import { Settings } from 'src/@core/context/settingsContext'
 // ** Util Imports
 import { getOrganization } from 'src/utils/localStorage'
 import { getOrgUniqueName } from 'src/utils/organization'
+import { selectOrganizationRoute } from './acl/getUserHomeRoute'
 
 interface Props {
   settings: Settings
@@ -93,7 +94,7 @@ const UserDropdown = (props: Props) => {
   }
 
   const handleOrganization = () => {
-    router.replace('/organization')
+    router.replace(`/${selectOrganizationRoute}`)
     handleDropdownClose()
   }
 

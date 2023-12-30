@@ -22,7 +22,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 import { useSession } from 'next-auth/react'
 
 // ** Util Imports
-import getUserHomeRoute, { defaultHomeRoute } from 'src/layouts/components/acl/getUserHomeRoute'
+import getUserHomeRoute from 'src/layouts/components/acl/getUserHomeRoute'
 import { getOrgUniqueName } from 'src/utils/organization'
 import { getAccessToken, getOrganization } from 'src/utils/localStorage'
 
@@ -55,6 +55,7 @@ const UserAclGuard = (props: AclGuardProps) => {
   let ability: AppAbility
 
   useEffect(() => {
+    // This code runs on page reload
     const initAuth = async (): Promise<void> => {
       if (session.data && session.data.accessToken) {
         localStorage.setItem('accessToken', session.data.accessToken)
@@ -69,12 +70,11 @@ const UserAclGuard = (props: AclGuardProps) => {
           )
           localStorage.setItem('organization', JSON.stringify(organization))
           localStorage.setItem('permissions', JSON.stringify(response.data.permissions))
-
-          // If user manually change the url, then redirect them to that organization's defaultHomeRoute
-          router.replace(`/${organization.uniqueName}/${defaultHomeRoute}`)
-        } else {
-          router.replace('/organization')
         }
+
+        // If user manually change the url, then redirect them to that organization's defaultHomeRoute
+        const homeRoute = getUserHomeRoute(organization, router.asPath)
+        router.replace(homeRoute)
       }
     }
 
@@ -92,13 +92,6 @@ const UserAclGuard = (props: AclGuardProps) => {
       }
     }
   }, [dispatch, session.data])
-
-  useEffect(() => {
-    if (session.data && session.data.user && !guestGuard && router.route === '/') {
-      const homeRoute = getUserHomeRoute(session.data.user)
-      router.replace(homeRoute)
-    }
-  }, [session.data, guestGuard, router])
 
   // User is logged in, build ability for the user based on his role
   if (session.data && session.data.user && !ability) {
