@@ -189,7 +189,7 @@ const RolesCards = () => {
   useEffect(() => {
     const fetchPermissionSubjects = async () => {
       const response = await $api(session.data?.accessToken).internal.getPermissionSubjectList()
-      const subjects = response.data.filter(item => item.subject !== 'all' && item.subject !== 'account-settings') // Exclude 'all' from permission subjects response list
+      const subjects = response.data.filter(item => item.subject !== 'all' && item.subject !== 'account-settings') // Exclude 'all' and 'account-settings' from permission subjects response list
       const filteredSubjects = subjects.map(item => item.subject.charAt(0).toUpperCase() + item.subject.slice(1)) // Uppercase the first letter
       setPermissionSubjects(filteredSubjects)
     }
