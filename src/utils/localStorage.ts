@@ -1,11 +1,11 @@
 import { OrganizationProfileResponseDto, ProfileResponseDto } from 'src/__generated__/AccountifyAPI'
 
 export const getAccessToken = (): string => {
-  return window.localStorage.getItem('accessToken') || ''
+  return localStorage.getItem('accessToken') || ''
 }
 
 export const getUserData = (): ProfileResponseDto | null => {
-  const userData = window.localStorage.getItem('userData')
+  const userData = localStorage.getItem('userData')
 
   if (userData) {
     return JSON.parse(userData)
@@ -15,7 +15,7 @@ export const getUserData = (): ProfileResponseDto | null => {
 }
 
 export const getOrganization = (): OrganizationProfileResponseDto | null => {
-  const organization = window.localStorage.getItem('organization')
+  const organization = localStorage.getItem('organization')
   if (organization) {
     return JSON.parse(organization)
   }
@@ -24,7 +24,7 @@ export const getOrganization = (): OrganizationProfileResponseDto | null => {
 }
 
 export const getOrgId = (): number => {
-  const organization = JSON.parse(window.localStorage.getItem('organization') || '')
+  const organization = JSON.parse(localStorage.getItem('organization') || '')
 
   return organization.id
 }

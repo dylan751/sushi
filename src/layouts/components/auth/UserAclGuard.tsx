@@ -42,7 +42,7 @@ interface AclGuardProps {
   aclAbilities: ACLObj
 }
 
-const AclGuard = (props: AclGuardProps) => {
+const UserAclGuard = (props: AclGuardProps) => {
   // ** Props
   const { aclAbilities, children, guestGuard = false, authGuard = true } = props
 
@@ -57,7 +57,7 @@ const AclGuard = (props: AclGuardProps) => {
   useEffect(() => {
     const initAuth = async (): Promise<void> => {
       if (session.data && session.data.accessToken) {
-        window.localStorage.setItem('accessToken', session.data.accessToken)
+        localStorage.setItem('accessToken', session.data.accessToken)
       }
 
       if (session.data && session.data.user) {
@@ -67,8 +67,8 @@ const AclGuard = (props: AclGuardProps) => {
           const response = await $api(session.data.accessToken).internal.getOrganizationUsersPermissions(
             organization.id
           )
-          window.localStorage.setItem('organization', JSON.stringify(organization))
-          window.localStorage.setItem('permissions', JSON.stringify(response.data.permissions))
+          localStorage.setItem('organization', JSON.stringify(organization))
+          localStorage.setItem('permissions', JSON.stringify(response.data.permissions))
 
           // If user manually change the url, then redirect them to that organization's defaultHomeRoute
           router.replace(`/${organization.uniqueName}/${defaultHomeRoute}`)
@@ -139,4 +139,4 @@ const AclGuard = (props: AclGuardProps) => {
   )
 }
 
-export default AclGuard
+export default UserAclGuard
