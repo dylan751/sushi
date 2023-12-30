@@ -53,7 +53,7 @@ const schema = yup.object().shape({
     .string()
     .min(8)
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*.])(?=.{8,})/,
       'Must contain 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special case character'
     )
     .required(),
