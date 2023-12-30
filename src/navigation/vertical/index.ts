@@ -16,7 +16,7 @@ const navigation = (): VerticalNavItemsType => {
       children: [
         {
           action: 'read',
-          subject: 'user',
+          subject: 'dashboard',
           title: 'navbar.dashboards_page.analytics',
           path: `/${uniqueName}/dashboards/analytics`
         }
@@ -38,19 +38,19 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       action: 'read',
-      subject: 'user',
+      subject: 'account-settings',
       title: 'navbar.account_settings_page.account_settings',
       icon: 'mdi:account-cog-outline',
       children: [
         {
           action: 'read',
-          subject: 'user',
+          subject: 'account-settings',
           title: 'navbar.account_settings_page.account',
           path: `/${uniqueName}/account-settings/account`
         },
         {
           action: 'read',
-          subject: 'user',
+          subject: 'account-settings',
           title: 'navbar.account_settings_page.security',
           path: `/${uniqueName}/account-settings/security`
         }
