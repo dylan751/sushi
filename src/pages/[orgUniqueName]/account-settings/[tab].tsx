@@ -13,4 +13,9 @@ const AccountSettingsTab = () => {
   return <AccountSettings tab={currentTab} />
 }
 
+AccountSettingsTab.acl = {
+  action: 'read',
+  subject: 'account-settings'
+}
+
 export default AccountSettingsTab

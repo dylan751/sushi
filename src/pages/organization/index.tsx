@@ -33,8 +33,8 @@ const OrganizationPage = () => {
     const userPermissions: CaslPermission[] = response.data.permissions
 
     // Set organization and permissions data into AuthContext
-    window.localStorage.setItem('organization', JSON.stringify(organization))
-    window.localStorage.setItem('permissions', JSON.stringify(userPermissions))
+    localStorage.setItem('organization', JSON.stringify(organization))
+    localStorage.setItem('permissions', JSON.stringify(userPermissions))
 
     router.replace(`/${organization.uniqueName}/${defaultHomeRoute}`)
   }

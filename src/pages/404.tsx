@@ -16,6 +16,12 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Demo Imports
 import FooterIllustrations from 'src/views/pages/misc/FooterIllustrations'
 
+// ** Util Imports
+import { loginRoute, selectOrganizationRoute } from 'src/layouts/components/acl/getUserHomeRoute'
+
+// ** Next Auth Imports
+import { useSession } from 'next-auth/react'
+
 // ** Styled Components
 const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
@@ -47,6 +53,9 @@ const TreeIllustration = styled('img')(({ theme }) => ({
 }))
 
 const Error404 = () => {
+  const session = useSession()
+  const getBackToHomeRoute = session.data && session.data.user ? `/${selectOrganizationRoute}` : `/${loginRoute}`
+
   return (
     <Box className='content-center'>
       <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
@@ -58,7 +67,7 @@ const Error404 = () => {
           <Typography variant='body2'>We couldn&prime;t find the page you are looking for.</Typography>
         </BoxWrapper>
         <Img height='487' alt='error-illustration' src='/images/pages/404.png' />
-        <Button href='/' component={Link} variant='contained' sx={{ px: 5.5 }}>
+        <Button href={getBackToHomeRoute} component={Link} variant='contained' sx={{ px: 5.5 }}>
           Back to Home
         </Button>
       </Box>

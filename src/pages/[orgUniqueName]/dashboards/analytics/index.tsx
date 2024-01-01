@@ -110,4 +110,9 @@ const EcommerceDashboard = () => {
   )
 }
 
+EcommerceDashboard.acl = {
+  action: 'read',
+  subject: 'dashboard'
+}
+
 export default EcommerceDashboard
