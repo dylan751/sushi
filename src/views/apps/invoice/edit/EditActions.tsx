@@ -20,10 +20,10 @@ import Icon from 'src/@core/components/icon'
 // ** Utils Imports
 import { getOrgUniqueName } from 'src/utils/organization'
 
-interface Props {
+interface EditActionsProps {
   id: string | undefined
+  onSubmit: () => void
   toggleAddPaymentDrawer: () => void
-  toggleSendInvoiceDrawer: () => void
 }
 
 const OptionsWrapper = styled(Box)<BoxProps>(() => ({
@@ -32,7 +32,7 @@ const OptionsWrapper = styled(Box)<BoxProps>(() => ({
   justifyContent: 'space-between'
 }))
 
-const EditActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }: Props) => {
+const EditActions = ({ id, onSubmit, toggleAddPaymentDrawer }: EditActionsProps) => {
   // ** Utils
   const uniqueName = getOrgUniqueName()
 
@@ -45,10 +45,10 @@ const EditActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }: Pr
               fullWidth
               sx={{ mb: 3.5 }}
               variant='contained'
-              onClick={toggleSendInvoiceDrawer}
               startIcon={<Icon icon='mdi:send-outline' />}
+              onClick={() => onSubmit()}
             >
-              Send Invoice
+              Update Invoice
             </Button>
             <Button
               fullWidth

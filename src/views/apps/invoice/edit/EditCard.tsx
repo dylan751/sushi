@@ -5,13 +5,11 @@ import { useState, forwardRef, SyntheticEvent, ForwardedRef, useEffect } from 'r
 import Card from '@mui/material/Card'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
-import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import Collapse from '@mui/material/Collapse'
 import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import InputLabel from '@mui/material/InputLabel'
 import Box, { BoxProps } from '@mui/material/Box'
 import Grid, { GridProps } from '@mui/material/Grid'
 import { styled, useTheme } from '@mui/material/styles'
@@ -28,16 +26,11 @@ import DatePicker from 'react-datepicker'
 // ** Configs
 import themeConfig from 'src/configs/themeConfig'
 
-// ** Types
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
+// ** Types Imports
+import { InvoiceResponseDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
 
 // ** Custom Component Imports
 import Repeater from 'src/@core/components/repeater'
-import { InvoiceResponseDto } from 'src/__generated__/AccountifyAPI'
-
-interface Props {
-  data: InvoiceResponseDto
-}
 
 interface PickerProps {
   label?: string
@@ -46,15 +39,6 @@ interface PickerProps {
 const CustomInput = forwardRef(({ ...props }: PickerProps, ref: ForwardedRef<HTMLElement>) => {
   return <TextField size='small' inputRef={ref} {...props} sx={{ width: { sm: '250px', xs: '170px' } }} />
 })
-
-const CalcWrapper = styled(Box)<BoxProps>(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  '&:not(:last-of-type)': {
-    marginBottom: theme.spacing(2)
-  }
-}))
 
 const RepeatingContent = styled(Grid)<GridProps>(({ theme }) => ({
   paddingRight: 0,
@@ -90,16 +74,45 @@ const InvoiceAction = styled(Box)<BoxProps>(({ theme }) => ({
   borderLeft: `1px solid ${theme.palette.divider}`
 }))
 
-const EditCard = ({ data }: Props) => {
+export interface EditCardProps {
+  data: InvoiceResponseDto
+  name: string
+  setName: (value: string) => void
+  note: string
+  setNote: (value: string) => void
+  type: InvoiceType
+  setType: (value: InvoiceType) => void
+  amount: string
+  setAmount: (value: string) => void
+  date: Date
+  setDate: (value: Date) => void
+}
+
+const EditCard = ({
+  data,
+  name,
+  setName,
+  note,
+  setNote,
+  type,
+  setType,
+  amount,
+  setAmount,
+  date,
+  setDate
+}: EditCardProps) => {
   // ** States
   const [count, setCount] = useState<number>(1)
-  const [date, setDate] = useState<DateType>(data?.date ? new Date(data.date) : new Date())
 
   useEffect(() => {
-    if (data && data.date) {
+    if (data) {
+      setName(data.name)
+      setNote(data.note)
+      setType(data.type)
+      setAmount(data.amount.toString())
       setDate(new Date(data.date))
     }
-  }, [data])
+  }, [data, setName, setNote, setType, setAmount, setDate])
 
   // ** Hook
   const theme = useTheme()
@@ -186,15 +199,6 @@ const EditCard = ({ data }: Props) => {
                     {themeConfig.templateName}
                   </Typography>
                 </Box>
-                <div>
-                  <Typography variant='body2' sx={{ mb: 1 }}>
-                    Office 149, 450 South Brand Brooklyn
-                  </Typography>
-                  <Typography variant='body2' sx={{ mb: 1 }}>
-                    San Diego County, CA 91905, USA
-                  </Typography>
-                  <Typography variant='body2'>+1 (123) 456 7891, +44 (876) 543 2198</Typography>
-                </div>
               </Box>
             </Grid>
             <Grid item xl={6} xs={12}>
@@ -232,25 +236,6 @@ const EditCard = ({ data }: Props) => {
 
         <Divider />
 
-        <CardContent>
-          <Grid container>
-            <Grid item xs={12} sm={6} sx={{ mb: { lg: 0, xs: 4 } }}>
-              <Typography variant='body2' sx={{ mb: 3.5, color: 'text.primary', fontWeight: 600 }}>
-                Invoice To:
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: ['flex-start', 'flex-end'] }}>
-              <div>
-                <Typography variant='body2' sx={{ mb: 3.5, color: 'text.primary', fontWeight: 600 }}>
-                  Bill To:
-                </Typography>
-              </div>
-            </Grid>
-          </Grid>
-        </CardContent>
-
-        <Divider />
-
         <RepeaterWrapper>
           <Repeater count={count}>
             {(i: number) => {
@@ -269,72 +254,47 @@ const EditCard = ({ data }: Props) => {
                           >
                             Item
                           </Typography>
-                          <Select fullWidth size='small' defaultValue='App Design'>
-                            <MenuItem value='App Design'>App Design</MenuItem>
-                            <MenuItem value='App Customization'>App Customization</MenuItem>
-                            <MenuItem value='ABC Template'>ABC Template</MenuItem>
-                            <MenuItem value='App Development'>App Development</MenuItem>
-                          </Select>
+                          <TextField
+                            rows={1}
+                            fullWidth
+                            placeholder='Name'
+                            size='small'
+                            value={name}
+                            onChange={e => setName(e.target.value)}
+                          />
                           <TextField
                             rows={2}
                             fullWidth
                             multiline
+                            placeholder='Note ...'
                             size='small'
                             sx={{ mt: 3.5 }}
-                            defaultValue='Customization & Bug Fixes'
+                            value={note}
+                            onChange={e => setNote(e.target.value)}
                           />
                         </Grid>
-                        <Grid item lg={2} md={3} xs={12} sx={{ px: 4, my: { lg: 0, xs: 2 } }}>
+                        <Grid item lg={3} md={3} xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
                           <Typography
                             variant='body2'
                             className='col-title'
                             sx={{ fontWeight: '600', mb: { md: 2, xs: 0 } }}
                           >
-                            Cost
+                            Type
                           </Typography>
-                          <TextField
+                          <Select
+                            fullWidth
                             size='small'
-                            type='number'
-                            placeholder='24'
-                            defaultValue='24'
-                            InputProps={{ inputProps: { min: 0 } }}
-                          />
-                          <Box sx={{ mt: 3.5 }}>
-                            <Typography component='span' variant='body2'>
-                              Discount:
-                            </Typography>{' '}
-                            <Typography component='span' variant='body2'>
-                              0%
-                            </Typography>
-                            <Tooltip title='Tax 1' placement='top'>
-                              <Typography component='span' variant='body2' sx={{ mx: 2 }}>
-                                0%
-                              </Typography>
-                            </Tooltip>
-                            <Tooltip title='Tax 2' placement='top'>
-                              <Typography component='span' variant='body2'>
-                                0%
-                              </Typography>
-                            </Tooltip>
-                          </Box>
-                        </Grid>
-                        <Grid item lg={2} md={2} xs={12} sx={{ px: 4, my: { lg: 0, xs: 2 } }}>
-                          <Typography
-                            variant='body2'
-                            className='col-title'
-                            sx={{ fontWeight: '600', mb: { md: 2, xs: 0 } }}
+                            defaultValue='expense'
+                            value={type}
+                            onChange={e => {
+                              setType(e.target.value as InvoiceType)
+                            }}
                           >
-                            Hours
-                          </Typography>
-                          <TextField
-                            size='small'
-                            type='number'
-                            placeholder='1'
-                            defaultValue='1'
-                            InputProps={{ inputProps: { min: 0 } }}
-                          />
+                            <MenuItem value='expense'>Expense</MenuItem>
+                            <MenuItem value='income'>Income</MenuItem>
+                          </Select>
                         </Grid>
-                        <Grid item lg={2} md={1} xs={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
+                        <Grid item lg={3} md={3} xs={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
                           <Typography
                             variant='body2'
                             className='col-title'
@@ -342,7 +302,14 @@ const EditCard = ({ data }: Props) => {
                           >
                             Price
                           </Typography>
-                          <Typography>$24.00</Typography>
+                          <TextField
+                            size='small'
+                            type='number'
+                            placeholder='1000'
+                            InputProps={{ inputProps: { min: 0 } }}
+                            value={amount}
+                            onChange={e => setAmount(e.target.value)}
+                          />
                         </Grid>
                       </Grid>
                       <InvoiceAction>
@@ -370,58 +337,6 @@ const EditCard = ({ data }: Props) => {
             </Grid>
           </Grid>
         </RepeaterWrapper>
-
-        <Divider />
-
-        <CardContent>
-          <Grid container>
-            <Grid item xs={12} sm={9} sx={{ order: { sm: 1, xs: 2 } }}>
-              <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-                <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
-                  Salesperson:
-                </Typography>
-                <TextField size='small' sx={{ maxWidth: '150px' }} defaultValue='Tommy Shelby' />
-              </Box>
-              <TextField size='small' sx={{ maxWidth: '300px' }} defaultValue='Thanks for your business' />
-            </Grid>
-            <Grid item xs={12} sm={3} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>
-              <CalcWrapper>
-                <Typography variant='body2'>Subtotal:</Typography>
-                <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                  $1800
-                </Typography>
-              </CalcWrapper>
-              <CalcWrapper>
-                <Typography variant='body2'>Discount:</Typography>
-                <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                  $28
-                </Typography>
-              </CalcWrapper>
-              <CalcWrapper>
-                <Typography variant='body2'>Tax:</Typography>
-                <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                  21%
-                </Typography>
-              </CalcWrapper>
-              <Divider />
-              <CalcWrapper>
-                <Typography variant='body2'>Total:</Typography>
-                <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                  $1690
-                </Typography>
-              </CalcWrapper>
-            </Grid>
-          </Grid>
-        </CardContent>
-
-        <Divider />
-
-        <CardContent>
-          <InputLabel htmlFor='invoice-note' sx={{ mb: 2 }}>
-            Note:
-          </InputLabel>
-          <TextField rows={2} fullWidth multiline id='invoice-note' defaultValue={data.note} />
-        </CardContent>
       </Card>
     )
   } else {

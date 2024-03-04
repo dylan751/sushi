@@ -96,7 +96,7 @@ export const addInvoice = createAsyncThunk(
 // ** Update Invoice
 export const updateInvoice = createAsyncThunk(
   'appInvoices/updateInvoice',
-  async (data: UpdateInvoiceRequestDto & { roleId: number }, { dispatch }: Redux) => {
+  async (data: UpdateInvoiceRequestDto & { invoiceId: number }, { dispatch }: Redux) => {
     const organizationId = getOrgId()
     const storedToken = getAccessToken()
 
@@ -107,7 +107,7 @@ export const updateInvoice = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${storedToken}`
         }
-      }).internal.updateAnInvoiceForAnOrganization(organizationId, data.roleId, data)
+      }).internal.updateAnInvoiceForAnOrganization(organizationId, data.invoiceId, data)
 
       dispatch(fetchInvoice({ query: '' }))
       toast.success('Update invoice succeed')
@@ -122,7 +122,7 @@ export const updateInvoice = createAsyncThunk(
 // ** Delete Invoice
 export const deleteInvoice = createAsyncThunk(
   'appInvoices/deleteInvoice',
-  async (roleId: number, { dispatch }: Redux) => {
+  async (invoiceId: number, { dispatch }: Redux) => {
     const organizationId = getOrgId()
     const storedToken = getAccessToken()
 
@@ -133,7 +133,7 @@ export const deleteInvoice = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${storedToken}`
         }
-      }).internal.deleteAnInvoiceForAnOrganization(organizationId, roleId)
+      }).internal.deleteAnInvoiceForAnOrganization(organizationId, invoiceId)
 
       dispatch(fetchInvoice({ query: '' }))
       toast.success('Delete invoice succeed')
