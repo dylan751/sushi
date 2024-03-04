@@ -12,4 +12,9 @@ const InvoicePreview = () => {
   return <Preview id={id} />
 }
 
+InvoicePreview.acl = {
+  action: 'read',
+  subject: 'invoice'
+}
+
 export default InvoicePreview

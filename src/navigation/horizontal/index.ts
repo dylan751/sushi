@@ -34,10 +34,14 @@ const navigation = (): HorizontalNavItemsType => {
       icon: 'mdi:file-document-outline',
       children: [
         {
+          action: 'read',
+          subject: 'invoice',
           title: 'List',
           path: `/${uniqueName}/invoice/list`
         },
         {
+          action: 'create',
+          subject: 'invoice',
           title: 'Add',
           path: `/${uniqueName}/invoice/add`
         }

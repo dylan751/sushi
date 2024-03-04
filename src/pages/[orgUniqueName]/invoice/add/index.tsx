@@ -79,4 +79,9 @@ const InvoiceAdd = () => {
   )
 }
 
+InvoiceAdd.acl = {
+  action: 'create',
+  subject: 'invoice'
+}
+
 export default InvoiceAdd

@@ -25,4 +25,9 @@ InvoicePrint.setConfig = () => {
   }
 }
 
+InvoicePrint.acl = {
+  action: 'read',
+  subject: 'invoice'
+}
+
 export default InvoicePrint

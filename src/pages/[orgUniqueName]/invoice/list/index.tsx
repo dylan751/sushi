@@ -185,7 +185,9 @@ const InvoiceList = () => {
       minWidth: 125,
       field: 'date',
       headerName: 'Date',
-      renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.date}</Typography>
+      renderCell: ({ row }: CellType) => (
+        <Typography variant='body2'>{format(new Date(row.date), 'dd MMM yyyy')}</Typography>
+      )
     },
     {
       flex: 0.15,
@@ -310,6 +312,11 @@ const InvoiceList = () => {
       </Grid>
     </DatePickerWrapper>
   )
+}
+
+InvoiceList.acl = {
+  action: 'read',
+  subject: 'invoice'
 }
 
 export default InvoiceList

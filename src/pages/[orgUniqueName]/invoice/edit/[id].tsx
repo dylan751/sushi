@@ -18,4 +18,9 @@ const InvoiceEdit = () => {
   )
 }
 
+InvoiceEdit.acl = {
+  action: 'update',
+  subject: 'invoice'
+}
+
 export default InvoiceEdit
