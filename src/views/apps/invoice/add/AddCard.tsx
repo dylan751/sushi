@@ -23,8 +23,9 @@ import DatePicker from 'react-datepicker'
 // ** Configs
 import themeConfig from 'src/configs/themeConfig'
 
-// ** Types
+// ** Types Imports
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
+import { InvoiceType } from 'src/__generated__/AccountifyAPI'
 
 // ** Custom Component Imports
 import Repeater from 'src/@core/components/repeater'
@@ -73,10 +74,22 @@ const InvoiceAction = styled(Box)<BoxProps>(({ theme }) => ({
   borderLeft: `1px solid ${theme.palette.divider}`
 }))
 
-const AddCard = () => {
+export interface AddCardProps {
+  name: string
+  setName: (value: string) => void
+  note: string
+  setNote: (value: string) => void
+  type: InvoiceType
+  setType: (value: InvoiceType) => void
+  amount: string
+  setAmount: (value: string) => void
+  date: DateType
+  setDate: (value: DateType) => void
+}
+
+const AddCard = ({ date, setDate, name, setName, note, setNote, type, setType, amount, setAmount }: AddCardProps) => {
   // ** States
   const [count, setCount] = useState<number>(1)
-  const [date, setDate] = useState<DateType>(new Date())
 
   // ** Hook
   const theme = useTheme()
@@ -207,8 +220,24 @@ const AddCard = () => {
                         >
                           Item
                         </Typography>
-                        <TextField rows={1} fullWidth placeholder='Name' size='small' />
-                        <TextField rows={2} fullWidth multiline placeholder='Note ...' size='small' sx={{ mt: 3.5 }} />
+                        <TextField
+                          rows={1}
+                          fullWidth
+                          placeholder='Name'
+                          size='small'
+                          value={name}
+                          onChange={e => setName(e.target.value)}
+                        />
+                        <TextField
+                          rows={2}
+                          fullWidth
+                          multiline
+                          placeholder='Note ...'
+                          size='small'
+                          sx={{ mt: 3.5 }}
+                          value={note}
+                          onChange={e => setNote(e.target.value)}
+                        />
                       </Grid>
                       <Grid item lg={3} md={3} xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
                         <Typography
@@ -218,7 +247,15 @@ const AddCard = () => {
                         >
                           Type
                         </Typography>
-                        <Select fullWidth size='small' defaultValue='expense'>
+                        <Select
+                          fullWidth
+                          size='small'
+                          defaultValue='expense'
+                          value={type}
+                          onChange={e => {
+                            setType(e.target.value as InvoiceType)
+                          }}
+                        >
                           <MenuItem value='expense'>Expense</MenuItem>
                           <MenuItem value='income'>Income</MenuItem>
                         </Select>
@@ -236,6 +273,8 @@ const AddCard = () => {
                           type='number'
                           placeholder='1000'
                           InputProps={{ inputProps: { min: 0 } }}
+                          value={amount}
+                          onChange={e => setAmount(e.target.value)}
                         />
                       </Grid>
                     </Grid>

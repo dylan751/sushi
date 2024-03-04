@@ -20,13 +20,23 @@ const OptionsWrapper = styled(Box)<BoxProps>(() => ({
   justifyContent: 'space-between'
 }))
 
-const AddActions = () => {
+export interface AddActionsProps {
+  onSubmit: () => void
+}
+
+const AddActions = ({ onSubmit }: AddActionsProps) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <Card>
           <CardContent>
-            <Button fullWidth sx={{ mb: 3.5 }} variant='contained' startIcon={<Icon icon='mdi:send-outline' />}>
+            <Button
+              fullWidth
+              sx={{ mb: 3.5 }}
+              variant='contained'
+              startIcon={<Icon icon='mdi:send-outline' />}
+              onClick={() => onSubmit()}
+            >
               Create Invoice
             </Button>
           </CardContent>
