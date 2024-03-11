@@ -135,6 +135,8 @@
             "date": "日付",
             "amount": "価格",
             "type": "タイプ",
+            "delete_invoice": "インヴォイスの削除",
+            "view": "ビュー",
             "download": "ダウンロード",
             "edit": "編集",
             "duplicate": "重複"

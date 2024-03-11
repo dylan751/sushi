@@ -1,6 +1,9 @@
 // ** Next Import
 import Link from 'next/link'
 
+// ** React Import
+import { useContext } from 'react'
+
 // ** MUI Imports
 import Card from '@mui/material/Card'
 import Button from '@mui/material/Button'
@@ -12,6 +15,9 @@ import Icon from 'src/@core/components/icon'
 // ** Utils Imports
 import { getOrgUniqueName } from 'src/utils/organization'
 
+// ** Context Imports
+import { AbilityContext } from 'src/layouts/components/acl/Can'
+
 interface Props {
   id: string | undefined
   toggleAddPaymentDrawer: () => void
@@ -21,6 +27,9 @@ interface Props {
 const PreviewActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }: Props) => {
   // ** Utils
   const uniqueName = getOrgUniqueName()
+
+  // ** Hooks
+  const ability = useContext(AbilityContext)
 
   return (
     <Card>
@@ -55,6 +64,7 @@ const PreviewActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }:
           color='secondary'
           variant='outlined'
           href={`/${uniqueName}/invoice/edit/${id}`}
+          disabled={!ability?.can('update', 'invoice')}
         >
           Edit Invoice
         </Button>

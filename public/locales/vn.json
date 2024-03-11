@@ -132,6 +132,8 @@
             "date": "Thời gian",
             "amount": "Giá",
             "type": "Loại",
+            "delete_invoice": "Xoá hoá đơn",
+            "view": "Xem",
             "download": "Tải xuống",
             "edit": "Cập nhật",
             "duplicate": "Sao chép"
