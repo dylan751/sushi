@@ -165,7 +165,8 @@ export enum PermissionSubject {
   ALL = 'all',
   ORGANIZATION = 'organization',
   USER = 'user',
-  ROLE = 'role'
+  ROLE = 'role',
+  INVOICE = 'invoice'
 }
 
 export interface CaslPermission {
@@ -193,7 +194,7 @@ export interface OrganizationResponseDto {
   uniqueName: string
   /**
    * @format date-time
-   * @example "2020/01/01 15:00:00"
+   * @example "2024-02-26T07:31:35.000Z"
    */
   createdAt: string
 }
@@ -238,7 +239,7 @@ export interface RoleResponseDto {
   isCustom: boolean
   /**
    * @format date-time
-   * @example "2020/01/01 15:00:00"
+   * @example "2024-02-26T07:31:35.000Z"
    */
   createdAt: string
 }
@@ -256,6 +257,71 @@ export interface UpdateRoleRequestDto {
   permissionConfigs: PermissionConfigDto[]
 }
 
+export interface CreateInvoiceRequestDto {
+  /** @example "Monthly bill" */
+  name: string
+  /** @example "Pay monthly internet bill" */
+  note?: string
+  /** @example 100000 */
+  amount: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  date: string
+  /** @example "expense" */
+  type: string
+}
+
+export enum InvoiceType {
+  EXPENSE = 'expense',
+  INCOME = 'income'
+}
+
+export interface InvoiceResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "Monthly bill" */
+  name: string
+  /** @example "Pay monthly internet bill" */
+  note: string
+  /** @example 10000 */
+  amount: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  date: string
+  type: InvoiceType
+  creator: OrganizationUserResponseDto
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
+export interface InvoiceResponseListDto {
+  invoices: InvoiceResponseDto[]
+  metadata: MetaData
+}
+
+export interface UpdateInvoiceRequestDto {
+  /** @example "Monthly bill" */
+  name?: string
+  /** @example "Pay monthly internet bill" */
+  note?: string
+  /** @example 100000 */
+  amount?: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  date?: string
+  /** @example "expense" */
+  type?: string
+}
+
 /** @example "create" */
 export enum PermissionConfigDtoActionEnum {
   MANAGE = 'manage',
@@ -270,7 +336,8 @@ export enum PermissionConfigDtoSubjectEnum {
   ALL = 'all',
   ORGANIZATION = 'organization',
   USER = 'user',
-  ROLE = 'role'
+  ROLE = 'role',
+  INVOICE = 'invoice'
 }
 
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType } from 'axios'
@@ -837,6 +904,121 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     deleteARoleForAnOrganization: (organizationId: number, id: number, params: RequestParams = {}) =>
       this.request<EmptyResponseDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/roles/${id}`,
+        method: 'DELETE',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Create invoices for an organization
+     *
+     * @tags Organization Invoice
+     * @name CreateInvoicesForAnOrganization
+     * @summary Create invoices for an organization
+     * @request POST:/internal/api/v1/organizations/{organizationId}/invoices
+     * @secure
+     */
+    createInvoicesForAnOrganization: (
+      organizationId: number,
+      data: CreateInvoiceRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<InvoiceResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/invoices`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get invoice list for organization
+     *
+     * @tags Organization Invoice
+     * @name GetInvoiceListForOrganization
+     * @summary Get invoice list for organization
+     * @request GET:/internal/api/v1/organizations/{organizationId}/invoices
+     * @secure
+     */
+    getInvoiceListForOrganization: (
+      organizationId: number,
+      query?: {
+        query?: string
+        /** @format date-time */
+        fromDate?: string
+        /** @format date-time */
+        toDate?: string
+        type?: string
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<InvoiceResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/invoices`,
+        method: 'GET',
+        query: query,
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get invoice by ID for an org
+     *
+     * @tags Organization Invoice
+     * @name GetInvoiceByIdForAnOrg
+     * @summary Get invoice by ID for an org
+     * @request GET:/internal/api/v1/organizations/{organizationId}/invoices/{id}
+     * @secure
+     */
+    getInvoiceByIdForAnOrg: (organizationId: number, id: number, params: RequestParams = {}) =>
+      this.request<InvoiceResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/invoices/${id}`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Update an invoice for an organization
+     *
+     * @tags Organization Invoice
+     * @name UpdateAnInvoiceForAnOrganization
+     * @summary Update an invoice for an organization
+     * @request PATCH:/internal/api/v1/organizations/{organizationId}/invoices/{id}
+     * @secure
+     */
+    updateAnInvoiceForAnOrganization: (
+      organizationId: number,
+      id: number,
+      data: UpdateInvoiceRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<InvoiceResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/invoices/${id}`,
+        method: 'PATCH',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Delete an invoice for an organization
+     *
+     * @tags Organization Invoice
+     * @name DeleteAnInvoiceForAnOrganization
+     * @summary Delete an invoice for an organization
+     * @request DELETE:/internal/api/v1/organizations/{organizationId}/invoices/{id}
+     * @secure
+     */
+    deleteAnInvoiceForAnOrganization: (organizationId: number, id: number, params: RequestParams = {}) =>
+      this.request<EmptyResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/invoices/${id}`,
         method: 'DELETE',
         secure: true,
         format: 'json',

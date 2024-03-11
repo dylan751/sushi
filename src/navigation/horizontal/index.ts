@@ -30,6 +30,24 @@ const navigation = (): HorizontalNavItemsType => {
       icon: 'mdi:shield-outline'
     },
     {
+      title: 'navbar.invoice_page.invoice',
+      icon: 'mdi:file-document-outline',
+      children: [
+        {
+          action: 'read',
+          subject: 'invoice',
+          title: 'navbar.invoice_page.list',
+          path: `/${uniqueName}/invoice/list`
+        },
+        {
+          action: 'create',
+          subject: 'invoice',
+          title: 'navbar.invoice_page.add',
+          path: `/${uniqueName}/invoice/add`
+        }
+      ]
+    },
+    {
       path: `/${uniqueName}/users`,
       action: 'read',
       subject: 'user',

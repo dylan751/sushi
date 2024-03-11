@@ -6,6 +6,11 @@
         },
         "home": "Trang chủ",
         "role_page": "Trang phân quyền",
+        "invoice_page": {
+            "invoice": "Hoá đơn",
+            "list": "Danh sách",
+            "add": "Thêm"
+        },
         "user_page": "Trang người dùng",
         "account_settings_page": {
             "account_settings": "Cài đặt tài khoản",
@@ -113,6 +118,50 @@
             "last_admin": "đây là quản trị viên cuối cùng",
             "max_of_roles_can_be_selected": "Chỉ được chọn một số lượng vai trò giới hạn"
         }
+    },
+    "invoice_page": {
+        "list": {
+            "filters": "Bộ lọc",
+            "invoice_date": "Ngày tháng",
+            "actions": "Hành động",
+            "search_invoice": "Tìm hoá đơn",
+            "create_invoice": "Tạo hoá đơn",
+            "creator": "Người tạo",
+            "name": "Tên",
+            "note": "Ghi chú",
+            "date": "Thời gian",
+            "amount": "Giá",
+            "type": "Loại",
+            "download": "Tải xuống",
+            "edit": "Cập nhật",
+            "duplicate": "Sao chép"
+        },
+        "add": {
+            "invoice": "Hoá đơn",
+            "date": "Thời gian",
+            "item": "Hoá đơn",
+            "type": "Loại",
+            "name": "Tên",
+            "note": "Ghi chú ...",
+            "price": "Giá",
+            "add_item": "Thêm hoá đơn",
+            "create_invoice": "Tạo hoá đơn"
+        },
+        "edit": {
+            "invoice": "Hoá đơn",
+            "date": "Thời gian",
+            "item": "Hoá đơn",
+            "type": "Loại",
+            "name": "Tên",
+            "note": "Ghi chú ...",
+            "price": "Giá",
+            "add_item": "Thêm hoá đơn",
+            "update_invoice": "Cập nhật hoá đơn",
+            "preview": "Xem trước"
+        }
+    },
+    "autocomplete": {
+        "search": "Tìm kiếm (Ctrl+/)"
     },
     "user_page": {
         "total_users": "Tổng số người dùng",

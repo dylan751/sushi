@@ -6,12 +6,20 @@
         },
         "home": "Home",
         "role_page": "Role Page",
+        "invoice_page": {
+            "invoice": "Invoice",
+            "list": "List",
+            "add": "Add"
+        },
         "user_page": "User Page",
         "account_settings_page": {
             "account_settings": "Account Settings",
             "account": "Account",
             "security": "Security"
         }
+    },
+    "autocomplete": {
+        "search": "Search (Ctrl+/)"
     },
     "user_dropdown": {
         "account_settings": "Account Settings",
@@ -112,6 +120,47 @@
             "no_admin_nor_member": "Member has to be selected",
             "last_admin": "This is the last admin",
             "max_of_roles_can_be_selected": "Only a maximum of roles can be selected"
+        }
+    },
+    "invoice_page": {
+        "list": {
+            "filters": "Filters",
+            "invoice_date": "Invoice Date",
+            "actions": "Actions",
+            "search_invoice": "Search Invoice",
+            "create_invoice": "Create Invoice",
+            "creator": "Creator",
+            "name": "Name",
+            "note": "Note",
+            "date": "Date",
+            "amount": "Amount",
+            "type": "Type",
+            "download": "Download",
+            "edit": "Edit",
+            "duplicate": "Duplicate"
+        },
+        "add": {
+            "invoice": "Invoice",
+            "date": "Date",
+            "item": "Item",
+            "type": "Type",
+            "name": "Name",
+            "note": "Note ...",
+            "price": "Price",
+            "add_item": "Add Item",
+            "create_invoice": "Create Invoice"
+        },
+        "edit": {
+            "invoice": "Invoice",
+            "date": "Date",
+            "item": "Item",
+            "type": "Type",
+            "name": "Name",
+            "note": "Note ...",
+            "price": "Price",
+            "add_item": "Add Item",
+            "update_invoice": "Update Invoice",
+            "preview": "Preview"
         }
     },
     "user_page": {

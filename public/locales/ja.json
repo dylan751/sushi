@@ -6,12 +6,20 @@
         },
         "home": "ホームページ",
         "role_page": "役割ページ",
+        "invoice_page": {
+            "invoice": "インヴォイス",
+            "list": "リスト",
+            "add": "追加"
+        },
         "user_page": "ユーザーページ",
         "account_settings_page": {
             "account_settings": "アカウント設定",
             "account": "アカウント",
             "security": "セキュリティ"
         }
+    },
+    "autocomplete": {
+        "search": "検索 (Ctrl+/)"
     },
     "user_dropdown": {
         "account_settings": "アカウント設定",
@@ -112,6 +120,47 @@
             "no_admin_nor_member": "Memberを選択する必要があります",
             "last_admin": "これが最後の管理者です",
             "max_of_roles_can_be_selected": "最大ロール個のみ選択できます"
+        }
+    },
+    "invoice_page": {
+        "list": {
+            "filters": "フィルター",
+            "invoice_date": "インヴォイスの日付",
+            "actions": "行動",
+            "search_invoice": "インヴォイスの検索",
+            "create_invoice": "インヴォイスの作成",
+            "creator": "創造者",
+            "name": "名前",
+            "note": "メモ",
+            "date": "日付",
+            "amount": "価格",
+            "type": "タイプ",
+            "download": "ダウンロード",
+            "edit": "編集",
+            "duplicate": "重複"
+        },
+        "add": {
+            "invoice": "インヴォイス",
+            "date": "日付",
+            "item": "アイテム",
+            "type": "タイプ",
+            "name": "名前",
+            "note": "メモ。。。",
+            "price": "価格",
+            "add_item": "アイテムの追加",
+            "create_invoice": "インヴォイスの作成"
+        },
+        "edit": {
+            "invoice": "インヴォイス",
+            "date": "日付",
+            "item": "アイテム",
+            "type": "タイプ",
+            "name": "名前",
+            "note": "メモ。。。",
+            "price": "価格",
+            "add_item": "アイテムの追加",
+            "update_invoice": "インヴォイスの編集",
+            "preview": "プレビュー"
         }
     },
     "user_page": {
