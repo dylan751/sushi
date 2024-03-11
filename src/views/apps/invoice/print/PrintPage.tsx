@@ -27,7 +27,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchAnInvoice } from 'src/store/apps/invoice'
 
 // ** Types Imports
-import { InvoiceLayoutProps } from 'src/types/apps/invoiceTypes'
 import { AppDispatch, RootState } from 'src/store'
 import { InvoiceResponseDto } from 'src/__generated__/AccountifyAPI'
 
@@ -46,7 +45,11 @@ const CalcWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   }
 }))
 
-const InvoicePrint = ({ id }: InvoiceLayoutProps) => {
+export interface InvoicePrintProps {
+  id: string
+}
+
+const InvoicePrint = ({ id }: InvoicePrintProps) => {
   // ** Hooks
   const theme = useTheme()
 
