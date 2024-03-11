@@ -22,6 +22,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** Third Party Imports
 import DatePicker from 'react-datepicker'
+import { useTranslation } from 'react-i18next'
 
 // ** Configs
 import themeConfig from 'src/configs/themeConfig'
@@ -104,12 +105,15 @@ const EditCard = ({
   // ** States
   const [count, setCount] = useState<number>(1)
 
+  // ** Hook
+  const { t } = useTranslation()
+
   useEffect(() => {
     if (data) {
       setName(data.name)
       setNote(data.note)
       setType(data.type)
-      setAmount(data.amount.toString())
+      setAmount(data.amount?.toString())
       setDate(new Date(data.date))
     }
   }, [data, setName, setNote, setType, setAmount, setDate])
@@ -204,8 +208,8 @@ const EditCard = ({
             <Grid item xl={6} xs={12}>
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xl: 'flex-end', xs: 'flex-start' } }}>
                 <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-                  <Typography variant='h6' sx={{ mr: 2, width: '105px' }}>
-                    Invoice
+                  <Typography variant='h6' sx={{ mr: 2, width: '125px' }}>
+                    {t('invoice_page.edit.invoice')}
                   </Typography>
                   <TextField
                     size='small'
@@ -218,8 +222,8 @@ const EditCard = ({
                   />
                 </Box>
                 <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-                  <Typography variant='body2' sx={{ mr: 3, width: '100px' }}>
-                    Date:
+                  <Typography variant='body2' sx={{ mr: 3, width: '120px' }}>
+                    {t('invoice_page.edit.date')}:
                   </Typography>
                   <DatePicker
                     id='date'
@@ -252,12 +256,12 @@ const EditCard = ({
                             className='col-title'
                             sx={{ fontWeight: '600', mb: { md: 2, xs: 0 } }}
                           >
-                            Item
+                            {t('invoice_page.edit.item')}
                           </Typography>
                           <TextField
                             rows={1}
                             fullWidth
-                            placeholder='Name'
+                            placeholder={t('invoice_page.edit.name') as string}
                             size='small'
                             value={name}
                             onChange={e => setName(e.target.value)}
@@ -266,7 +270,7 @@ const EditCard = ({
                             rows={2}
                             fullWidth
                             multiline
-                            placeholder='Note ...'
+                            placeholder={t('invoice_page.edit.note') as string}
                             size='small'
                             sx={{ mt: 3.5 }}
                             value={note}
@@ -279,7 +283,7 @@ const EditCard = ({
                             className='col-title'
                             sx={{ fontWeight: '600', mb: { md: 2, xs: 0 } }}
                           >
-                            Type
+                            {t('invoice_page.edit.type')}
                           </Typography>
                           <Select
                             fullWidth
@@ -300,7 +304,7 @@ const EditCard = ({
                             className='col-title'
                             sx={{ fontWeight: '600', mb: { md: 2, xs: 0 } }}
                           >
-                            Price
+                            {t('invoice_page.edit.price')}
                           </Typography>
                           <TextField
                             size='small'
@@ -332,7 +336,7 @@ const EditCard = ({
                 onClick={() => setCount(count + 1)}
                 startIcon={<Icon icon='mdi:plus' fontSize={20} />}
               >
-                Add Item
+                {t('invoice_page.edit.add_item')}
               </Button>
             </Grid>
           </Grid>

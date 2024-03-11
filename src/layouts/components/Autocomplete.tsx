@@ -22,6 +22,7 @@ import MuiAutocomplete, { AutocompleteRenderInputParams } from '@mui/material/Au
 
 // ** Third Party Imports
 import axios from 'axios'
+import { useTranslation } from 'react-i18next'
 
 // ** Types Imports
 import { AppBarSearchType } from 'src/@fake-db/types'
@@ -335,6 +336,7 @@ const AutocompleteComponent = ({ hidden, settings }: Props) => {
 
   // ** Hooks & Vars
   const theme = useTheme()
+  const { t } = useTranslation()
   const router = useRouter()
   const { layout } = settings
   const wrapper = useRef<HTMLDivElement>(null)
@@ -421,7 +423,7 @@ const AutocompleteComponent = ({ hidden, settings }: Props) => {
           <Icon icon='mdi:magnify' />
         </IconButton>
         {!hidden && layout === 'vertical' ? (
-          <Typography sx={{ userSelect: 'none', color: 'text.disabled' }}>Search (Ctrl+/)</Typography>
+          <Typography sx={{ userSelect: 'none', color: 'text.disabled' }}>{t('autocomplete.search')}</Typography>
         ) : null}
         {openDialog && (
           <Dialog fullWidth open={openDialog} fullScreen={fullScreenDialog} onClose={() => setOpenDialog(false)}>

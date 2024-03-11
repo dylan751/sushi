@@ -14,6 +14,9 @@ import CardContent from '@mui/material/CardContent'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
+// ** Third Party Imports
+import { useTranslation } from 'react-i18next'
+
 const OptionsWrapper = styled(Box)<BoxProps>(() => ({
   display: 'flex',
   alignItems: 'center',
@@ -25,6 +28,8 @@ export interface AddActionsProps {
 }
 
 const AddActions = ({ onSubmit }: AddActionsProps) => {
+  const { t } = useTranslation()
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -37,7 +42,7 @@ const AddActions = ({ onSubmit }: AddActionsProps) => {
               startIcon={<Icon icon='mdi:send-outline' />}
               onClick={() => onSubmit()}
             >
-              Create Invoice
+              {t('invoice_page.add.create_invoice')}
             </Button>
           </CardContent>
         </Card>

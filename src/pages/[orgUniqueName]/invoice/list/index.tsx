@@ -23,6 +23,7 @@ import Icon from 'src/@core/components/icon'
 // ** Third Party Imports
 import format from 'date-fns/format'
 import DatePicker from 'react-datepicker'
+import { useTranslation } from 'react-i18next'
 
 // ** Store & Actions Imports
 import { useDispatch, useSelector } from 'react-redux'
@@ -108,6 +109,7 @@ const InvoiceList = () => {
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
   const store = useSelector((state: RootState) => state.invoice)
+  const { t } = useTranslation()
 
   // ** Utils
   const uniqueName = getOrgUniqueName()
@@ -149,7 +151,7 @@ const InvoiceList = () => {
       flex: 0.2,
       field: 'creator',
       minWidth: 150,
-      headerName: 'Creator',
+      headerName: t('invoice_page.list.creator') as string,
       renderCell: ({ row }: CellType) => {
         const { creator } = row
 
@@ -170,21 +172,21 @@ const InvoiceList = () => {
       flex: 0.2,
       minWidth: 125,
       field: 'name',
-      headerName: 'Name',
+      headerName: t('invoice_page.list.name') as string,
       renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.name}</Typography>
     },
     {
       flex: 0.2,
       minWidth: 200,
       field: 'note',
-      headerName: 'Note',
+      headerName: t('invoice_page.list.note') as string,
       renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.note || ''}</Typography>
     },
     {
       flex: 0.2,
       minWidth: 125,
       field: 'date',
-      headerName: 'Date',
+      headerName: t('invoice_page.list.date') as string,
       renderCell: ({ row }: CellType) => (
         <Typography variant='body2'>{format(new Date(row.date), 'dd MMM yyyy')}</Typography>
       )
@@ -193,7 +195,7 @@ const InvoiceList = () => {
       flex: 0.15,
       minWidth: 90,
       field: 'amount',
-      headerName: 'Amount',
+      headerName: t('invoice_page.list.amount') as string,
       renderCell: ({ row }: CellType) => {
         return row.amount !== 0 ? (
           <Typography variant='body2' sx={{ color: 'text.primary' }}>
@@ -208,7 +210,7 @@ const InvoiceList = () => {
       flex: 0.15,
       minWidth: 90,
       field: 'type',
-      headerName: 'Type',
+      headerName: t('invoice_page.list.type') as string,
       renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.type}</Typography>
     }
   ]
@@ -220,7 +222,7 @@ const InvoiceList = () => {
       minWidth: 130,
       sortable: false,
       field: 'actions',
-      headerName: 'Actions',
+      headerName: t('invoice_page.list.actions') as string,
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Tooltip title='Delete Invoice'>
@@ -239,16 +241,16 @@ const InvoiceList = () => {
             menuProps={{ sx: { '& .MuiMenuItem-root svg': { mr: 2 } } }}
             options={[
               {
-                text: 'Download',
+                text: t('invoice_page.list.download'),
                 icon: <Icon icon='mdi:download' fontSize={20} />
               },
               {
-                text: 'Edit',
+                text: t('invoice_page.list.edit'),
                 href: `/${uniqueName}/invoice/edit/${row.id}`,
                 icon: <Icon icon='mdi:pencil-outline' fontSize={20} />
               },
               {
-                text: 'Duplicate',
+                text: t('invoice_page.list.duplicate'),
                 icon: <Icon icon='mdi:content-copy' fontSize={20} />
               }
             ]}
@@ -263,7 +265,7 @@ const InvoiceList = () => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <Card>
-            <CardHeader title='Filters' />
+            <CardHeader title={t('invoice_page.list.filters')} />
             <CardContent>
               <Grid container spacing={6}>
                 <Grid item xs={12} sm={6}>
@@ -281,7 +283,7 @@ const InvoiceList = () => {
                       <CustomInput
                         dates={dates}
                         setDates={setDates}
-                        label='Invoice Date'
+                        label={t('invoice_page.list.invoice_date')}
                         end={endDateRange as number | Date}
                         start={startDateRange as number | Date}
                       />

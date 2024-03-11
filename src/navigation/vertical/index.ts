@@ -30,19 +30,19 @@ const navigation = (): VerticalNavItemsType => {
       icon: 'mdi:shield-outline'
     },
     {
-      title: 'Invoice',
+      title: 'navbar.invoice_page.invoice',
       icon: 'mdi:file-document-outline',
       children: [
         {
           action: 'read',
           subject: 'invoice',
-          title: 'List',
+          title: 'navbar.invoice_page.list',
           path: `/${uniqueName}/invoice/list`
         },
         {
           action: 'create',
           subject: 'invoice',
-          title: 'Add',
+          title: 'navbar.invoice_page.add',
           path: `/${uniqueName}/invoice/add`
         }
       ]

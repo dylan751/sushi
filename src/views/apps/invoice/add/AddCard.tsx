@@ -19,6 +19,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** Third Party Imports
 import DatePicker from 'react-datepicker'
+import { useTranslation } from 'react-i18next'
 
 // ** Configs
 import themeConfig from 'src/configs/themeConfig'
@@ -93,6 +94,7 @@ const AddCard = ({ date, setDate, name, setName, note, setNote, type, setType, a
 
   // ** Hook
   const theme = useTheme()
+  const { t } = useTranslation()
 
   // ** Deletes form
   const deleteForm = (e: SyntheticEvent) => {
@@ -180,13 +182,13 @@ const AddCard = ({ date, setDate, name, setName, note, setNote, type, setType, a
           <Grid item xl={6} xs={12}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xl: 'flex-end', xs: 'flex-start' } }}>
               <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-                <Typography variant='h6' sx={{ mr: 2, width: '105px' }}>
-                  Invoice
+                <Typography variant='h6' sx={{ mr: 2, width: '125px' }}>
+                  {t('invoice_page.add.invoice')}
                 </Typography>
               </Box>
               <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-                <Typography variant='body2' sx={{ mr: 3, width: '100px' }}>
-                  Date:
+                <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
+                  {t('invoice_page.add.date')}:
                 </Typography>
                 <DatePicker
                   id='issue-date'
@@ -218,12 +220,12 @@ const AddCard = ({ date, setDate, name, setName, note, setNote, type, setType, a
                           className='col-title'
                           sx={{ fontWeight: '600', mb: { md: 2, xs: 0 } }}
                         >
-                          Item
+                          {t('invoice_page.add.item')}
                         </Typography>
                         <TextField
                           rows={1}
                           fullWidth
-                          placeholder='Name'
+                          placeholder={t('invoice_page.add.name') as string}
                           size='small'
                           value={name}
                           onChange={e => setName(e.target.value)}
@@ -232,7 +234,7 @@ const AddCard = ({ date, setDate, name, setName, note, setNote, type, setType, a
                           rows={2}
                           fullWidth
                           multiline
-                          placeholder='Note ...'
+                          placeholder={t('invoice_page.add.note') as string}
                           size='small'
                           sx={{ mt: 3.5 }}
                           value={note}
@@ -245,7 +247,7 @@ const AddCard = ({ date, setDate, name, setName, note, setNote, type, setType, a
                           className='col-title'
                           sx={{ fontWeight: '600', mb: { md: 2, xs: 0 } }}
                         >
-                          Type
+                          {t('invoice_page.add.type')}
                         </Typography>
                         <Select
                           fullWidth
@@ -266,7 +268,7 @@ const AddCard = ({ date, setDate, name, setName, note, setNote, type, setType, a
                           className='col-title'
                           sx={{ fontWeight: '600', mb: { md: 2, xs: 0 } }}
                         >
-                          Price
+                          {t('invoice_page.add.price')}
                         </Typography>
                         <TextField
                           size='small'
@@ -298,7 +300,7 @@ const AddCard = ({ date, setDate, name, setName, note, setNote, type, setType, a
               startIcon={<Icon icon='mdi:plus' fontSize={20} />}
               onClick={() => setCount(count + 1)}
             >
-              Add Item
+              {t('invoice_page.add.add_item')}
             </Button>
           </Grid>
         </Grid>

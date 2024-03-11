@@ -20,6 +20,9 @@ import Icon from 'src/@core/components/icon'
 // ** Utils Imports
 import { getOrgUniqueName } from 'src/utils/organization'
 
+// ** Third Party Imports
+import { useTranslation } from 'react-i18next'
+
 interface EditActionsProps {
   id: string | undefined
   onSubmit: () => void
@@ -36,6 +39,9 @@ const EditActions = ({ id, onSubmit, toggleAddPaymentDrawer }: EditActionsProps)
   // ** Utils
   const uniqueName = getOrgUniqueName()
 
+  // ** Hook
+  const { t } = useTranslation()
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -48,7 +54,7 @@ const EditActions = ({ id, onSubmit, toggleAddPaymentDrawer }: EditActionsProps)
               startIcon={<Icon icon='mdi:send-outline' />}
               onClick={() => onSubmit()}
             >
-              Update Invoice
+              {t('invoice_page.edit.update_invoice')}
             </Button>
             <Button
               fullWidth
@@ -58,7 +64,7 @@ const EditActions = ({ id, onSubmit, toggleAddPaymentDrawer }: EditActionsProps)
               variant='outlined'
               href={`/${uniqueName}/invoice/preview/${id}`}
             >
-              Preview
+              {t('invoice_page.edit.preview')}
             </Button>
             <Button fullWidth color='secondary' variant='outlined' sx={{ mb: 3.5 }}>
               Save
