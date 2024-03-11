@@ -15,7 +15,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchAnInvoice, updateInvoice } from 'src/store/apps/invoice'
 
 // ** Types Imports
-import { InvoiceLayoutProps } from 'src/types/apps/invoiceTypes'
 import { AppDispatch, RootState } from 'src/store'
 import { InvoiceResponseDto, InvoiceType, UpdateInvoiceRequestDto } from 'src/__generated__/AccountifyAPI'
 
@@ -31,7 +30,11 @@ import { getOrgUniqueName } from 'src/utils/organization'
 // ** Third Party Imports
 import { format } from 'date-fns'
 
-const InvoiceEdit = ({ id }: InvoiceLayoutProps) => {
+export interface InvoiceEditProps {
+  id: string
+}
+
+const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   // ** Store
   const dispatch = useDispatch<AppDispatch>()
   const invoiceStore = useSelector((state: RootState) => state.invoice)

@@ -16,7 +16,6 @@ import { fetchAnInvoice } from 'src/store/apps/invoice'
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
-import { InvoiceLayoutProps } from 'src/types/apps/invoiceTypes'
 import { InvoiceResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Components Imports
@@ -28,7 +27,11 @@ import SendInvoiceDrawer from 'src/views/apps/invoice/shared-drawer/SendInvoiceD
 // ** Utils Imports
 import { getOrgUniqueName } from 'src/utils/organization'
 
-const InvoicePreview = ({ id }: InvoiceLayoutProps) => {
+export interface InvoicePreviewProps {
+  id: string
+}
+
+const InvoicePreview = ({ id }: InvoicePreviewProps) => {
   // ** Store
   const dispatch = useDispatch<AppDispatch>()
   const invoiceStore = useSelector((state: RootState) => state.invoice)
