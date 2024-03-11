@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useEffect, forwardRef } from 'react'
+import { useState, useEffect, forwardRef, useContext } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
@@ -47,6 +47,9 @@ import TableHeader from 'src/views/apps/invoice/list/TableHeader'
 // ** Styled Components
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import { InvoiceResponseDto, OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
+
+// ** Context Imports
+import { AbilityContext } from 'src/layouts/components/acl/Can'
 
 interface CustomInputProps {
   dates: Date[]
@@ -109,6 +112,7 @@ const InvoiceList = () => {
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
   const store = useSelector((state: RootState) => state.invoice)
+  const ability = useContext(AbilityContext)
   const { t } = useTranslation()
 
   // ** Utils
@@ -225,36 +229,42 @@ const InvoiceList = () => {
       headerName: t('invoice_page.list.actions') as string,
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Tooltip title='Delete Invoice'>
-            <IconButton size='small' onClick={() => dispatch(deleteInvoice(row.id))}>
+          <Tooltip title={t('invoice_page.list.delete_invoice')}>
+            <IconButton
+              size='small'
+              onClick={() => dispatch(deleteInvoice(row.id))}
+              disabled={!ability?.can('delete', 'invoice')}
+            >
               <Icon icon='mdi:delete-outline' fontSize={20} />
             </IconButton>
           </Tooltip>
-          <Tooltip title='View'>
+          <Tooltip title={t('invoice_page.list.view')}>
             <IconButton size='small' component={Link} href={`/${uniqueName}/invoice/preview/${row.id}`}>
               <Icon icon='mdi:eye-outline' fontSize={20} />
             </IconButton>
           </Tooltip>
-          <OptionsMenu
-            iconProps={{ fontSize: 20 }}
-            iconButtonProps={{ size: 'small' }}
-            menuProps={{ sx: { '& .MuiMenuItem-root svg': { mr: 2 } } }}
-            options={[
-              {
-                text: t('invoice_page.list.download'),
-                icon: <Icon icon='mdi:download' fontSize={20} />
-              },
-              {
-                text: t('invoice_page.list.edit'),
-                href: `/${uniqueName}/invoice/edit/${row.id}`,
-                icon: <Icon icon='mdi:pencil-outline' fontSize={20} />
-              },
-              {
-                text: t('invoice_page.list.duplicate'),
-                icon: <Icon icon='mdi:content-copy' fontSize={20} />
-              }
-            ]}
-          />
+          {ability?.can('update', 'invoice') && (
+            <OptionsMenu
+              iconProps={{ fontSize: 20 }}
+              iconButtonProps={{ size: 'small' }}
+              menuProps={{ sx: { '& .MuiMenuItem-root svg': { mr: 2 } } }}
+              options={[
+                {
+                  text: t('invoice_page.list.download'),
+                  icon: <Icon icon='mdi:download' fontSize={20} />
+                },
+                {
+                  text: t('invoice_page.list.edit'),
+                  href: `/${uniqueName}/invoice/edit/${row.id}`,
+                  icon: <Icon icon='mdi:pencil-outline' fontSize={20} />
+                },
+                {
+                  text: t('invoice_page.list.duplicate'),
+                  icon: <Icon icon='mdi:content-copy' fontSize={20} />
+                }
+              ]}
+            />
+          )}
         </Box>
       )
     }

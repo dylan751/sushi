@@ -135,6 +135,8 @@
             "date": "Date",
             "amount": "Amount",
             "type": "Type",
+            "delete_invoice": "Delete Invoice",
+            "view": "View",
             "download": "Download",
             "edit": "Edit",
             "duplicate": "Duplicate"

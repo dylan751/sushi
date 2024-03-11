@@ -1,6 +1,9 @@
 // ** Next Import
 import Link from 'next/link'
 
+// ** React Import
+import { useContext } from 'react'
+
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -14,6 +17,9 @@ import { getOrgUniqueName } from 'src/utils/organization'
 
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
+
+// ** Context Imports
+import { AbilityContext } from 'src/layouts/components/acl/Can'
 
 interface TableHeaderProps {
   value: string
@@ -30,6 +36,7 @@ const TableHeader = (props: TableHeaderProps) => {
 
   // ** Hooks
   const { t } = useTranslation()
+  const ability = useContext(AbilityContext)
 
   return (
     <Box
@@ -64,7 +71,13 @@ const TableHeader = (props: TableHeaderProps) => {
           placeholder={t('invoice_page.list.search_invoice') as string}
           onChange={e => handleFilter(e.target.value)}
         />
-        <Button sx={{ mb: 2 }} component={Link} variant='contained' href={`/${uniqueName}/invoice/add`}>
+        <Button
+          sx={{ mb: 2 }}
+          component={Link}
+          variant='contained'
+          href={`/${uniqueName}/invoice/add`}
+          disabled={!ability?.can('create', 'invoice')}
+        >
           {t('invoice_page.list.create_invoice')}
         </Button>
       </Box>
