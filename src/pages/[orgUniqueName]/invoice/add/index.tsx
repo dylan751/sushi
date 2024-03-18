@@ -24,7 +24,7 @@ import { CreateInvoiceRequestDto, InvoiceType } from 'src/__generated__/Accounti
 import toast from 'react-hot-toast'
 import { format } from 'date-fns'
 
-export const initialFormData = { index: 0, name: '', note: '', type: InvoiceType.EXPENSE, amount: '' }
+export const initialFormData = { index: 0, name: '', note: '', type: InvoiceType.EXPENSE, price: '' }
 
 const InvoiceAdd = () => {
   // ** States
@@ -34,40 +34,46 @@ const InvoiceAdd = () => {
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
 
+  const isSubmitDisabled = (): boolean => {
+    let isDisabled = false
+    formData.map(data => {
+      if (!data.name || !data.type || !data.price) {
+        isDisabled = true
+      }
+    })
+
+    return isDisabled
+  }
+
   const onSubmit = () => {
     // Validation
-    formData.forEach(data => {
-      if (!data.name || !data.type || !data.amount) {
+    let isError = false
+    formData.map(data => {
+      if (!data.name || !data.type || !data.price) {
         toast.error('Please fill out all the fields of all items')
+        isError = true
 
         return
       }
     })
+    if (isError) {
+      return
+    }
 
     // Create invoice api call
-    const createInvoiceRequest = {
+    const createInvoiceRequest: CreateInvoiceRequestDto = {
       items: formData.map(data => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { index, amount, ...resData } = data
+        const { index, price, ...resData } = data
 
-        return { amount: parseInt(amount), ...resData }
+        return { price: parseInt(price), ...resData }
       }),
       date: format(date as Date, 'yyyy-MM-dd')
     }
-    console.log('createInvoiceRequest', createInvoiceRequest)
 
-    // const createInvoiceRequest: CreateInvoiceRequestDto = {
-    //   items: formData.map(data => {
-    //     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    //     const { index, amount, ...resData } = data
-
-    //     return { amount: parseInt(amount), ...resData }
-    //   }),
-    //   date: format(date, 'yyyy-MM-dd')
-    // }
-
-    // // Call api
-    // dispatch(addInvoice(createInvoiceRequest))
+    // Call api
+    setFormData([initialFormData])
+    dispatch(addInvoice(createInvoiceRequest))
   }
 
   return (
@@ -77,7 +83,7 @@ const InvoiceAdd = () => {
           <AddCard formData={formData} setFormData={setFormData} date={date} setDate={setDate} />
         </Grid>
         <Grid item xl={3} md={4} xs={12}>
-          <AddActions onSubmit={onSubmit} />
+          <AddActions onSubmit={onSubmit} isSubmitDisabled={isSubmitDisabled} />
         </Grid>
       </Grid>
     </DatePickerWrapper>

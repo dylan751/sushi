@@ -299,7 +299,7 @@ const AddCard = ({ formData, setFormData, date, setDate }: AddCardProps) => {
                           type='number'
                           placeholder='1000'
                           InputProps={{ inputProps: { min: 0 } }}
-                          onChange={e => handleChangeForm(i, 'amount', e.target.value)}
+                          onChange={e => handleChangeForm(i, 'price', e.target.value)}
                         />
                       </Grid>
                     </Grid>

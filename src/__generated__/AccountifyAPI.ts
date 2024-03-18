@@ -257,28 +257,32 @@ export interface UpdateRoleRequestDto {
   permissionConfigs: PermissionConfigDto[]
 }
 
-export interface CreateInvoiceRequestDto {
-  /** @example "Monthly bill" */
-  name: string
-  /** @example "Pay monthly internet bill" */
-  note?: string
-  /** @example 100000 */
-  amount: number
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  date: string
-  /** @example "expense" */
-  type: string
-}
-
 export enum InvoiceType {
   EXPENSE = 'expense',
   INCOME = 'income'
 }
 
-export interface InvoiceResponseDto {
+export interface CreateInvoiceItemRequest {
+  /** @example "Monthly bill" */
+  name: string
+  /** @example "Pay monthly internet bill" */
+  note?: string
+  /** @example 100000 */
+  price: number
+  /** @example "expense" */
+  type: InvoiceType
+}
+
+export interface CreateInvoiceRequestDto {
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  date: string
+  items: CreateInvoiceItemRequest[]
+}
+
+export interface InvoiceItemResponseDto {
   /** @example 1 */
   id: number
   /** @example "Monthly bill" */
@@ -286,13 +290,20 @@ export interface InvoiceResponseDto {
   /** @example "Pay monthly internet bill" */
   note: string
   /** @example 10000 */
-  amount: number
+  price: number
+  /** @example "expense" */
+  type: InvoiceType
+}
+
+export interface InvoiceResponseDto {
+  /** @example 1 */
+  id: number
   /**
    * @format date-time
    * @example "2024-02-26T07:31:35.000Z"
    */
   date: string
-  type: InvoiceType
+  items: InvoiceItemResponseDto[]
   creator: OrganizationUserResponseDto
   /**
    * @format date-time
@@ -306,20 +317,24 @@ export interface InvoiceResponseListDto {
   metadata: MetaData
 }
 
-export interface UpdateInvoiceRequestDto {
+export interface UpdateInvoiceItemRequest {
   /** @example "Monthly bill" */
   name?: string
   /** @example "Pay monthly internet bill" */
   note?: string
   /** @example 100000 */
-  amount?: number
+  price?: number
+  /** @example "expense" */
+  type?: InvoiceType
+}
+
+export interface UpdateInvoiceRequestDto {
   /**
    * @format date-time
    * @example "2024-02-26T07:31:35.000Z"
    */
   date?: string
-  /** @example "expense" */
-  type?: string
+  items: UpdateInvoiceItemRequest[]
 }
 
 /** @example "create" */

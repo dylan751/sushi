@@ -39,7 +39,6 @@ import { getInitials } from 'src/@core/utils/get-initials'
 import { getOrgUniqueName } from 'src/utils/organization'
 
 // ** Custom Components Imports
-import CustomChip from 'src/@core/components/mui/chip'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import OptionsMenu from 'src/@core/components/option-menu'
 import TableHeader from 'src/views/apps/invoice/list/TableHeader'
@@ -175,47 +174,11 @@ const InvoiceList = () => {
     {
       flex: 0.2,
       minWidth: 125,
-      field: 'name',
-      headerName: t('invoice_page.list.name') as string,
-      renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.name}</Typography>
-    },
-    {
-      flex: 0.2,
-      minWidth: 200,
-      field: 'note',
-      headerName: t('invoice_page.list.note') as string,
-      renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.note || ''}</Typography>
-    },
-    {
-      flex: 0.2,
-      minWidth: 125,
       field: 'date',
       headerName: t('invoice_page.list.date') as string,
       renderCell: ({ row }: CellType) => (
         <Typography variant='body2'>{format(new Date(row.date), 'dd MMM yyyy')}</Typography>
       )
-    },
-    {
-      flex: 0.15,
-      minWidth: 90,
-      field: 'amount',
-      headerName: t('invoice_page.list.amount') as string,
-      renderCell: ({ row }: CellType) => {
-        return row.amount !== 0 ? (
-          <Typography variant='body2' sx={{ color: 'text.primary' }}>
-            {row.amount}
-          </Typography>
-        ) : (
-          <CustomChip size='small' skin='light' color='success' label='Paid' />
-        )
-      }
-    },
-    {
-      flex: 0.15,
-      minWidth: 90,
-      field: 'type',
-      headerName: t('invoice_page.list.type') as string,
-      renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.type}</Typography>
     }
   ]
 
