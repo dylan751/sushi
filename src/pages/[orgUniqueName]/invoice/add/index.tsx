@@ -35,19 +35,34 @@ const InvoiceAdd = () => {
   const dispatch = useDispatch<AppDispatch>()
 
   const onSubmit = () => {
-    console.log('formData', formData)
+    // Validation
+    formData.forEach(data => {
+      if (!data.name || !data.type || !data.amount) {
+        toast.error('Please fill out all the fields of all items')
 
-    // if (!name || !type || !amount || !date) {
-    //   toast.error('Please fill out all the fields')
+        return
+      }
+    })
 
-    //   return
-    // }
+    // Create invoice api call
+    const createInvoiceRequest = {
+      items: formData.map(data => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { index, amount, ...resData } = data
+
+        return { amount: parseInt(amount), ...resData }
+      }),
+      date: format(date as Date, 'yyyy-MM-dd')
+    }
+    console.log('createInvoiceRequest', createInvoiceRequest)
 
     // const createInvoiceRequest: CreateInvoiceRequestDto = {
-    //   name,
-    //   note,
-    //   type,
-    //   amount: parseInt(amount),
+    //   items: formData.map(data => {
+    //     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    //     const { index, amount, ...resData } = data
+
+    //     return { amount: parseInt(amount), ...resData }
+    //   }),
     //   date: format(date, 'yyyy-MM-dd')
     // }
 
