@@ -92,14 +92,17 @@ const AddCard = ({ formData, setFormData, date, setDate }: AddCardProps) => {
   const { t } = useTranslation()
 
   const handleChangeForm = (index: number, key: string, value: any): void => {
-    console.log(index, key, value, formData.length)
+    const item = formData.find(data => data.index === index)
 
-    console.log(`formData[${index}]`, formData[index])
-
-    if (formData[index]) {
+    // If found existing item -> update that item, otherwise push a new item into formData array
+    if (item) {
       setFormData((prevFormData: any[]) => {
         const newFormData = [...prevFormData]
-        newFormData[index][key] = value
+        newFormData.forEach(formData => {
+          if (formData.index === index) {
+            formData[key] = value
+          }
+        })
 
         return newFormData
       })
@@ -107,15 +110,9 @@ const AddCard = ({ formData, setFormData, date, setDate }: AddCardProps) => {
       setFormData((prevFormData: any[]) => {
         const newFormData = [...prevFormData]
 
-        // newFormData.push(initialFormData)
-        // newFormData[index][key] = value
-
-        newFormData.push({
-          name: key === 'name' ? value : '',
-          note: key === 'note' ? value : '',
-          type: key === 'type' ? value : InvoiceType.EXPENSE,
-          amount: key === 'amount' ? value : ''
-        })
+        const data: any = { ...initialFormData, index }
+        data[key] = value
+        newFormData.push(data)
 
         return newFormData
       })
@@ -124,18 +121,15 @@ const AddCard = ({ formData, setFormData, date, setDate }: AddCardProps) => {
 
   // ** Deletes form
   const deleteForm = (e: SyntheticEvent, i: number) => {
-    console.log('delete index', i)
     e.preventDefault()
 
     // @ts-ignore
-    // e.target.closest('.repeater-wrapper').remove()
-
-    setCount(count - 1)
+    e.target.closest('.repeater-wrapper').remove()
 
     setFormData((prevFormData: any[]) => {
       const newFormData = [...prevFormData]
 
-      return newFormData.filter((item, index) => index !== i)
+      return newFormData.filter(item => item.index !== i)
     })
   }
 

@@ -24,7 +24,7 @@ import { CreateInvoiceRequestDto, InvoiceType } from 'src/__generated__/Accounti
 import toast from 'react-hot-toast'
 import { format } from 'date-fns'
 
-export const initialFormData = { name: '', note: '', type: InvoiceType.EXPENSE, amount: '' }
+export const initialFormData = { index: 0, name: '', note: '', type: InvoiceType.EXPENSE, amount: '' }
 
 const InvoiceAdd = () => {
   // ** States
