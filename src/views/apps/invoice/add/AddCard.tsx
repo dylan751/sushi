@@ -32,6 +32,7 @@ import { InvoiceType } from 'src/__generated__/AccountifyAPI'
 import Repeater from 'src/@core/components/repeater'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
+import { initialFormData } from 'src/pages/[orgUniqueName]/invoice/add'
 
 interface PickerProps {
   label?: string
@@ -76,19 +77,13 @@ const InvoiceAction = styled(Box)<BoxProps>(({ theme }) => ({
 }))
 
 export interface AddCardProps {
-  name: string
-  setName: (value: string) => void
-  note: string
-  setNote: (value: string) => void
-  type: InvoiceType
-  setType: (value: InvoiceType) => void
-  amount: string
-  setAmount: (value: string) => void
+  formData: any[]
+  setFormData: (value: any) => void
   date: DateType
   setDate: (value: DateType) => void
 }
 
-const AddCard = ({ date, setDate, name, setName, note, setNote, type, setType, amount, setAmount }: AddCardProps) => {
+const AddCard = ({ formData, setFormData, date, setDate }: AddCardProps) => {
   // ** States
   const [count, setCount] = useState<number>(1)
 
@@ -96,12 +91,52 @@ const AddCard = ({ date, setDate, name, setName, note, setNote, type, setType, a
   const theme = useTheme()
   const { t } = useTranslation()
 
+  const handleChangeForm = (index: number, key: string, value: any): void => {
+    console.log(index, key, value, formData.length)
+
+    console.log(`formData[${index}]`, formData[index])
+
+    if (formData[index]) {
+      setFormData((prevFormData: any[]) => {
+        const newFormData = [...prevFormData]
+        newFormData[index][key] = value
+
+        return newFormData
+      })
+    } else {
+      setFormData((prevFormData: any[]) => {
+        const newFormData = [...prevFormData]
+
+        // newFormData.push(initialFormData)
+        // newFormData[index][key] = value
+
+        newFormData.push({
+          name: key === 'name' ? value : '',
+          note: key === 'note' ? value : '',
+          type: key === 'type' ? value : InvoiceType.EXPENSE,
+          amount: key === 'amount' ? value : ''
+        })
+
+        return newFormData
+      })
+    }
+  }
+
   // ** Deletes form
-  const deleteForm = (e: SyntheticEvent) => {
+  const deleteForm = (e: SyntheticEvent, i: number) => {
+    console.log('delete index', i)
     e.preventDefault()
 
     // @ts-ignore
-    e.target.closest('.repeater-wrapper').remove()
+    // e.target.closest('.repeater-wrapper').remove()
+
+    setCount(count - 1)
+
+    setFormData((prevFormData: any[]) => {
+      const newFormData = [...prevFormData]
+
+      return newFormData.filter((item, index) => index !== i)
+    })
   }
 
   return (
@@ -227,8 +262,7 @@ const AddCard = ({ date, setDate, name, setName, note, setNote, type, setType, a
                           fullWidth
                           placeholder={t('invoice_page.add.name') as string}
                           size='small'
-                          value={name}
-                          onChange={e => setName(e.target.value)}
+                          onChange={e => handleChangeForm(i, 'name', e.target.value)}
                         />
                         <TextField
                           rows={2}
@@ -237,8 +271,7 @@ const AddCard = ({ date, setDate, name, setName, note, setNote, type, setType, a
                           placeholder={t('invoice_page.add.note') as string}
                           size='small'
                           sx={{ mt: 3.5 }}
-                          value={note}
-                          onChange={e => setNote(e.target.value)}
+                          onChange={e => handleChangeForm(i, 'note', e.target.value)}
                         />
                       </Grid>
                       <Grid item lg={3} md={3} xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
@@ -252,14 +285,11 @@ const AddCard = ({ date, setDate, name, setName, note, setNote, type, setType, a
                         <Select
                           fullWidth
                           size='small'
-                          defaultValue='expense'
-                          value={type}
-                          onChange={e => {
-                            setType(e.target.value as InvoiceType)
-                          }}
+                          defaultValue={InvoiceType.EXPENSE}
+                          onChange={e => handleChangeForm(i, 'type', e.target.value)}
                         >
-                          <MenuItem value='expense'>Expense</MenuItem>
-                          <MenuItem value='income'>Income</MenuItem>
+                          <MenuItem value={InvoiceType.EXPENSE}>Expense</MenuItem>
+                          <MenuItem value={InvoiceType.INCOME}>Income</MenuItem>
                         </Select>
                       </Grid>
                       <Grid item lg={3} md={3} xs={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
@@ -275,13 +305,12 @@ const AddCard = ({ date, setDate, name, setName, note, setNote, type, setType, a
                           type='number'
                           placeholder='1000'
                           InputProps={{ inputProps: { min: 0 } }}
-                          value={amount}
-                          onChange={e => setAmount(e.target.value)}
+                          onChange={e => handleChangeForm(i, 'amount', e.target.value)}
                         />
                       </Grid>
                     </Grid>
                     <InvoiceAction>
-                      <IconButton size='small' onClick={deleteForm}>
+                      <IconButton size='small' onClick={(e: SyntheticEvent) => deleteForm(e, i)}>
                         <Icon icon='mdi:close' fontSize={20} />
                       </IconButton>
                     </InvoiceAction>

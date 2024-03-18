@@ -24,52 +24,42 @@ import { CreateInvoiceRequestDto, InvoiceType } from 'src/__generated__/Accounti
 import toast from 'react-hot-toast'
 import { format } from 'date-fns'
 
+export const initialFormData = { name: '', note: '', type: InvoiceType.EXPENSE, amount: '' }
+
 const InvoiceAdd = () => {
   // ** States
-  const [name, setName] = useState<string>('')
-  const [note, setNote] = useState<string>('')
-  const [type, setType] = useState<InvoiceType>(InvoiceType.EXPENSE)
-  const [amount, setAmount] = useState<string>('')
   const [date, setDate] = useState<DateType>(new Date())
+  const [formData, setFormData] = useState<any[]>([initialFormData])
 
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
 
   const onSubmit = () => {
-    if (!name || !type || !amount || !date) {
-      toast.error('Please fill out all the fields')
+    console.log('formData', formData)
 
-      return
-    }
+    // if (!name || !type || !amount || !date) {
+    //   toast.error('Please fill out all the fields')
 
-    const createInvoiceRequest: CreateInvoiceRequestDto = {
-      name,
-      note,
-      type,
-      amount: parseInt(amount),
-      date: format(date, 'yyyy-MM-dd')
-    }
+    //   return
+    // }
 
-    // Call api
-    dispatch(addInvoice(createInvoiceRequest))
+    // const createInvoiceRequest: CreateInvoiceRequestDto = {
+    //   name,
+    //   note,
+    //   type,
+    //   amount: parseInt(amount),
+    //   date: format(date, 'yyyy-MM-dd')
+    // }
+
+    // // Call api
+    // dispatch(addInvoice(createInvoiceRequest))
   }
 
   return (
     <DatePickerWrapper sx={{ '& .react-datepicker-wrapper': { width: 'auto' } }}>
       <Grid container spacing={6}>
         <Grid item xl={9} md={8} xs={12}>
-          <AddCard
-            name={name}
-            setName={setName}
-            note={note}
-            setNote={setNote}
-            type={type}
-            setType={setType}
-            amount={amount}
-            setAmount={setAmount}
-            date={date}
-            setDate={setDate}
-          />
+          <AddCard formData={formData} setFormData={setFormData} date={date} setDate={setDate} />
         </Grid>
         <Grid item xl={3} md={4} xs={12}>
           <AddActions onSubmit={onSubmit} />
