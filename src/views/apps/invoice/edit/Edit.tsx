@@ -89,8 +89,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
 
     console.log('updateInvoiceRequest', updateInvoiceRequest)
 
-    // // Call api
-    // dispatch(updateInvoice({ ...updateInvoiceRequest, invoiceId: parseInt(id!) }))
+    // Call api
+    dispatch(updateInvoice({ ...updateInvoiceRequest, invoiceId: parseInt(id!) }))
   }
 
   if (invoiceStore.invoice) {
