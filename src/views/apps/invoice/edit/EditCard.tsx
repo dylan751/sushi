@@ -284,7 +284,7 @@ const EditCard = ({ data, formData, setFormData, date, setDate }: EditCardProps)
                             fullWidth
                             placeholder={t('invoice_page.edit.name') as string}
                             size='small'
-                            defaultValue={formData?.find(data => data.index === i)?.name || ''}
+                            value={formData?.find(data => data.index === i)?.name || ''}
                             onChange={e => handleChangeForm(i, 'name', e.target.value)}
                           />
                           <TextField
@@ -294,7 +294,7 @@ const EditCard = ({ data, formData, setFormData, date, setDate }: EditCardProps)
                             placeholder={t('invoice_page.edit.note') as string}
                             size='small'
                             sx={{ mt: 3.5 }}
-                            defaultValue={formData?.find(data => data.index === i)?.note || ''}
+                            value={formData?.find(data => data.index === i)?.note || ''}
                             onChange={e => handleChangeForm(i, 'note', e.target.value)}
                           />
                         </Grid>
@@ -309,7 +309,7 @@ const EditCard = ({ data, formData, setFormData, date, setDate }: EditCardProps)
                           <Select
                             fullWidth
                             size='small'
-                            defaultValue={formData?.find(data => data.index === i)?.type || InvoiceType.EXPENSE}
+                            value={formData?.find(data => data.index === i)?.type || InvoiceType.EXPENSE}
                             onChange={e => handleChangeForm(i, 'type', e.target.value)}
                           >
                             <MenuItem value={InvoiceType.EXPENSE}>Expense</MenuItem>
@@ -329,7 +329,7 @@ const EditCard = ({ data, formData, setFormData, date, setDate }: EditCardProps)
                             type='number'
                             placeholder='1000'
                             InputProps={{ inputProps: { min: 0 } }}
-                            defaultValue={formData?.find(data => data.index === i)?.price || ''}
+                            value={formData?.find(data => data.index === i)?.price || ''}
                             onChange={e => handleChangeForm(i, 'price', e.target.value)}
                           />
                         </Grid>
