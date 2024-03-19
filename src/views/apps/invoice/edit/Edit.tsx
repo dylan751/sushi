@@ -16,7 +16,7 @@ import { fetchAnInvoice, updateInvoice } from 'src/store/apps/invoice'
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
-import { InvoiceResponseDto, InvoiceType, UpdateInvoiceRequestDto } from 'src/__generated__/AccountifyAPI'
+import { InvoiceResponseDto, UpdateInvoiceRequestDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Components Imports
 import EditCard from './EditCard'
@@ -29,6 +29,7 @@ import { getOrgUniqueName } from 'src/utils/organization'
 
 // ** Third Party Imports
 import { format } from 'date-fns'
+import toast from 'react-hot-toast'
 
 export interface InvoiceEditProps {
   id: string
@@ -47,19 +48,12 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   }, [dispatch, id])
 
   // ** States
-  const [name, setName] = useState<string>((invoiceStore.invoice as InvoiceResponseDto).name)
-  const [note, setNote] = useState<string>((invoiceStore.invoice as InvoiceResponseDto).note)
-  const [type, setType] = useState<InvoiceType>((invoiceStore.invoice as InvoiceResponseDto).type)
-  const [amount, setAmount] = useState<string>(
-    (invoiceStore.invoice as InvoiceResponseDto).amount
-      ? (invoiceStore.invoice as InvoiceResponseDto).amount.toString()
-      : ''
-  )
   const [date, setDate] = useState<Date>(
     (invoiceStore.invoice as InvoiceResponseDto).date
       ? new Date((invoiceStore.invoice as InvoiceResponseDto).date)
       : new Date()
   )
+  const [formData, setFormData] = useState<any[]>([])
 
   const [addPaymentOpen, setAddPaymentOpen] = useState<boolean>(false)
   const [sendInvoiceOpen, setSendInvoiceOpen] = useState<boolean>(false)
@@ -68,16 +62,35 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   const toggleAddPaymentDrawer = () => setAddPaymentOpen(!addPaymentOpen)
 
   const onSubmit = () => {
-    const updateInvoiceRequest: UpdateInvoiceRequestDto = {
-      name,
-      note,
-      type,
-      amount: parseInt(amount),
-      date: format(date, 'yyyy-MM-dd')
+    // Validation
+    let isError = false
+    formData.map(data => {
+      if (!data.name || !data.type || !data.price) {
+        toast.error('Please fill out all the fields of all items')
+        isError = true
+
+        return
+      }
+    })
+    if (isError) {
+      return
     }
 
-    // Call api
-    dispatch(updateInvoice({ ...updateInvoiceRequest, invoiceId: parseInt(id!) }))
+    // Create invoice api call
+    const updateInvoiceRequest: UpdateInvoiceRequestDto = {
+      items: formData.map(data => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { index, id, price, ...resData } = data
+
+        return { price: parseInt(price), ...resData }
+      }),
+      date: format(date as Date, 'yyyy-MM-dd')
+    }
+
+    console.log('updateInvoiceRequest', updateInvoiceRequest)
+
+    // // Call api
+    // dispatch(updateInvoice({ ...updateInvoiceRequest, invoiceId: parseInt(id!) }))
   }
 
   if (invoiceStore.invoice) {
@@ -87,14 +100,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
           <Grid item xl={9} md={8} xs={12}>
             <EditCard
               data={invoiceStore.invoice as InvoiceResponseDto}
-              name={name}
-              setName={setName}
-              note={note}
-              setNote={setNote}
-              type={type}
-              setType={setType}
-              amount={amount}
-              setAmount={setAmount}
+              formData={formData}
+              setFormData={setFormData}
               date={date}
               setDate={setDate}
             />
