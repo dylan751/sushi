@@ -34,7 +34,7 @@ import { InvoiceResponseDto } from 'src/__generated__/AccountifyAPI'
 import themeConfig from 'src/configs/themeConfig'
 
 // ** Utils Imports
-import { getOrgUniqueName } from 'src/utils/organization'
+import { getInvoiceListUrl } from 'src/utils/router/invoice'
 
 const CalcWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   display: 'flex',
@@ -56,9 +56,6 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
   // ** Store
   const dispatch = useDispatch<AppDispatch>()
   const invoiceStore = useSelector((state: RootState) => state.invoice)
-
-  // ** Utils
-  const uniqueName = getOrgUniqueName()
 
   useEffect(() => {
     setTimeout(() => {
@@ -181,7 +178,7 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
               Invoice To:
             </Typography>
             <Typography variant='body2' sx={{ mb: 2 }}>
-              {invoice.name}
+              Invoice #{invoice.id}
             </Typography>
           </Grid>
         </Grid>
@@ -193,40 +190,23 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
             <TableRow>
               <TableCell>Item</TableCell>
               <TableCell>Description</TableCell>
-              <TableCell>hours</TableCell>
-              <TableCell>qty</TableCell>
+              <TableCell>Type</TableCell>
+              <TableCell>Price</TableCell>
+              <TableCell>Qty</TableCell>
               <TableCell>Total</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell>Premium Branding Package</TableCell>
-              <TableCell>Branding & Promotion</TableCell>
-              <TableCell>48</TableCell>
-              <TableCell>1</TableCell>
-              <TableCell>$32</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Social Media</TableCell>
-              <TableCell>Social media templates</TableCell>
-              <TableCell>42</TableCell>
-              <TableCell>1</TableCell>
-              <TableCell>$28</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Web Design</TableCell>
-              <TableCell>Web designing package</TableCell>
-              <TableCell>46</TableCell>
-              <TableCell>1</TableCell>
-              <TableCell>$24</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>SEO</TableCell>
-              <TableCell>Search engine optimization</TableCell>
-              <TableCell>40</TableCell>
-              <TableCell>1</TableCell>
-              <TableCell>$22</TableCell>
-            </TableRow>
+            {invoice.items?.map(item => (
+              <TableRow key={item.id}>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.note}</TableCell>
+                <TableCell>{item.type}</TableCell>
+                <TableCell>{item.price}</TableCell>
+                <TableCell>1</TableCell>
+                <TableCell>$32</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
 
@@ -284,7 +264,7 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
           <Grid item xs={12}>
             <Alert severity='error'>
               Invoice with the id: {id} does not exist. Please check the list of invoices:{' '}
-              <Link href={`/${uniqueName}/invoice/list`}>Invoice List</Link>
+              <Link href={getInvoiceListUrl()}>Invoice List</Link>
             </Alert>
           </Grid>
         </Grid>

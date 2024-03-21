@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
@@ -16,7 +17,7 @@ import { fetchAnInvoice, updateInvoice } from 'src/store/apps/invoice'
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
-import { InvoiceResponseDto, InvoiceType, UpdateInvoiceRequestDto } from 'src/__generated__/AccountifyAPI'
+import { InvoiceResponseDto, UpdateInvoiceItemRequest, UpdateInvoiceRequestDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Components Imports
 import EditCard from './EditCard'
@@ -25,41 +26,35 @@ import AddPaymentDrawer from 'src/views/apps/invoice/shared-drawer/AddPaymentDra
 import SendInvoiceDrawer from 'src/views/apps/invoice/shared-drawer/SendInvoiceDrawer'
 
 // ** Utils Imports
-import { getOrgUniqueName } from 'src/utils/organization'
+import { getInvoiceListUrl, getInvoicePreviewUrl } from 'src/utils/router/invoice'
 
 // ** Third Party Imports
 import { format } from 'date-fns'
+import toast from 'react-hot-toast'
 
 export interface InvoiceEditProps {
   id: string
 }
 
+export type UpdateInvoiceFormData = UpdateInvoiceItemRequest & { id: number; index: number }
+
 const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   // ** Store
   const dispatch = useDispatch<AppDispatch>()
   const invoiceStore = useSelector((state: RootState) => state.invoice)
-
-  // ** Utils
-  const uniqueName = getOrgUniqueName()
+  const router = useRouter()
 
   useEffect(() => {
     dispatch(fetchAnInvoice(parseInt(id!)))
   }, [dispatch, id])
 
   // ** States
-  const [name, setName] = useState<string>((invoiceStore.invoice as InvoiceResponseDto).name)
-  const [note, setNote] = useState<string>((invoiceStore.invoice as InvoiceResponseDto).note)
-  const [type, setType] = useState<InvoiceType>((invoiceStore.invoice as InvoiceResponseDto).type)
-  const [amount, setAmount] = useState<string>(
-    (invoiceStore.invoice as InvoiceResponseDto).amount
-      ? (invoiceStore.invoice as InvoiceResponseDto).amount.toString()
-      : ''
-  )
   const [date, setDate] = useState<Date>(
     (invoiceStore.invoice as InvoiceResponseDto).date
       ? new Date((invoiceStore.invoice as InvoiceResponseDto).date)
       : new Date()
   )
+  const [formData, setFormData] = useState<UpdateInvoiceFormData[]>([])
 
   const [addPaymentOpen, setAddPaymentOpen] = useState<boolean>(false)
   const [sendInvoiceOpen, setSendInvoiceOpen] = useState<boolean>(false)
@@ -67,17 +62,47 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   const toggleSendInvoiceDrawer = () => setSendInvoiceOpen(!sendInvoiceOpen)
   const toggleAddPaymentDrawer = () => setAddPaymentOpen(!addPaymentOpen)
 
+  const isSubmitDisabled = (): boolean => {
+    let isDisabled = false
+    formData.map(data => {
+      if (!data.name || !data.type || !data.price) {
+        isDisabled = true
+      }
+    })
+
+    return isDisabled
+  }
+
   const onSubmit = () => {
+    // Validation
+    let isError = false
+    formData.map(data => {
+      if (!data.name || !data.type || !data.price) {
+        toast.error('Please fill out all the fields of all items')
+        isError = true
+
+        return
+      }
+    })
+    if (isError) {
+      return
+    }
+
+    // Update invoice api call
     const updateInvoiceRequest: UpdateInvoiceRequestDto = {
-      name,
-      note,
-      type,
-      amount: parseInt(amount),
-      date: format(date, 'yyyy-MM-dd')
+      items: formData.map(data => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { index, id, ...resData } = data
+
+        return { ...resData }
+      }),
+      date: format(date as Date, 'yyyy-MM-dd')
     }
 
     // Call api
+    setFormData([])
     dispatch(updateInvoice({ ...updateInvoiceRequest, invoiceId: parseInt(id!) }))
+    router.replace(getInvoicePreviewUrl(id))
   }
 
   if (invoiceStore.invoice) {
@@ -87,20 +112,19 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
           <Grid item xl={9} md={8} xs={12}>
             <EditCard
               data={invoiceStore.invoice as InvoiceResponseDto}
-              name={name}
-              setName={setName}
-              note={note}
-              setNote={setNote}
-              type={type}
-              setType={setType}
-              amount={amount}
-              setAmount={setAmount}
+              formData={formData}
+              setFormData={setFormData}
               date={date}
               setDate={setDate}
             />
           </Grid>
           <Grid item xl={3} md={4} xs={12}>
-            <EditActions id={id} onSubmit={onSubmit} toggleAddPaymentDrawer={toggleAddPaymentDrawer} />
+            <EditActions
+              id={id}
+              onSubmit={onSubmit}
+              isSubmitDisabled={isSubmitDisabled}
+              toggleAddPaymentDrawer={toggleAddPaymentDrawer}
+            />
           </Grid>
         </Grid>
         <SendInvoiceDrawer open={sendInvoiceOpen} toggle={toggleSendInvoiceDrawer} />
@@ -113,7 +137,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
         <Grid item xs={12}>
           <Alert severity='error'>
             Invoice with the id: {id} does not exist. Please check the list of invoices:{' '}
-            <Link href={`/${uniqueName}/invoice/list`}>Invoice List</Link>
+            <Link href={getInvoiceListUrl()}>Invoice List</Link>
           </Alert>
         </Grid>
       </Grid>

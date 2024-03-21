@@ -29,9 +29,12 @@ import themeConfig from 'src/configs/themeConfig'
 
 // ** Types Imports
 import { InvoiceResponseDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
+import { UpdateInvoiceFormData } from './Edit'
 
 // ** Custom Component Imports
 import Repeater from 'src/@core/components/repeater'
+
+const initialFormData = { index: 0, name: '', note: '', type: InvoiceType.EXPENSE, price: 0 }
 
 interface PickerProps {
   label?: string
@@ -77,56 +80,71 @@ const InvoiceAction = styled(Box)<BoxProps>(({ theme }) => ({
 
 export interface EditCardProps {
   data: InvoiceResponseDto
-  name: string
-  setName: (value: string) => void
-  note: string
-  setNote: (value: string) => void
-  type: InvoiceType
-  setType: (value: InvoiceType) => void
-  amount: string
-  setAmount: (value: string) => void
+  formData: UpdateInvoiceFormData[]
+  setFormData: (value: any) => void
   date: Date
   setDate: (value: Date) => void
 }
 
-const EditCard = ({
-  data,
-  name,
-  setName,
-  note,
-  setNote,
-  type,
-  setType,
-  amount,
-  setAmount,
-  date,
-  setDate
-}: EditCardProps) => {
+const EditCard = ({ data, formData, setFormData, date, setDate }: EditCardProps) => {
   // ** States
-  const [count, setCount] = useState<number>(1)
+  const [count, setCount] = useState<number>(data.items?.length || 1)
 
   // ** Hook
   const { t } = useTranslation()
 
   useEffect(() => {
     if (data) {
-      setName(data.name)
-      setNote(data.note)
-      setType(data.type)
-      setAmount(data.amount?.toString())
-      setDate(new Date(data.date))
+      setCount(data.items?.length)
+      setDate(new Date(data.date ? data.date : new Date()))
+      setFormData(
+        data.items?.map((item, index) => {
+          return { ...item, index }
+        })
+      )
     }
-  }, [data, setName, setNote, setType, setAmount, setDate])
+  }, [data, setCount, setDate, setFormData])
 
   // ** Hook
   const theme = useTheme()
 
+  const handleChangeForm = (index: number, key: string, value: any): void => {
+    setFormData((prevFormData: any[]) => {
+      const newFormData = [...prevFormData]
+      newFormData.forEach(formData => {
+        if (formData.index === index) {
+          formData[key] = value
+        }
+      })
+
+      return newFormData
+    })
+  }
+
+  const addItem = () => {
+    setCount(count + 1)
+    setFormData((prevFormData: any[]) => {
+      const newFormData = [...prevFormData]
+
+      const data: any = { ...initialFormData, index: count }
+      newFormData.push(data)
+
+      return newFormData
+    })
+  }
+
   // ** Deletes form
-  const deleteForm = (e: SyntheticEvent) => {
+  const deleteForm = (e: SyntheticEvent, i: number) => {
     e.preventDefault()
 
     // @ts-ignore
     e.target.closest('.repeater-wrapper').remove()
+
+    setFormData((prevFormData: any[]) => {
+      const newFormData = [...prevFormData]
+
+      return newFormData.filter(item => item.index !== i)
+    })
   }
 
   if (data) {
@@ -213,7 +231,7 @@ const EditCard = ({
                   </Typography>
                   <TextField
                     size='small'
-                    value={data.id}
+                    value={data.id || ''}
                     sx={{ width: { sm: '250px', xs: '170px' } }}
                     InputProps={{
                       disabled: true,
@@ -227,10 +245,10 @@ const EditCard = ({
                   </Typography>
                   <DatePicker
                     id='date'
-                    selected={date}
+                    selected={date ?? new Date()}
                     showDisabledMonthNavigation
                     customInput={<CustomInput />}
-                    onChange={(date: Date) => setDate(date)}
+                    onChange={(date: Date) => setDate(date ? date : new Date())}
                   />
                 </Box>
               </Box>
@@ -263,8 +281,8 @@ const EditCard = ({
                             fullWidth
                             placeholder={t('invoice_page.edit.name') as string}
                             size='small'
-                            value={name}
-                            onChange={e => setName(e.target.value)}
+                            value={formData?.find(data => data.index === i)?.name || ''}
+                            onChange={e => handleChangeForm(i, 'name', e.target.value)}
                           />
                           <TextField
                             rows={2}
@@ -273,8 +291,8 @@ const EditCard = ({
                             placeholder={t('invoice_page.edit.note') as string}
                             size='small'
                             sx={{ mt: 3.5 }}
-                            value={note}
-                            onChange={e => setNote(e.target.value)}
+                            value={formData?.find(data => data.index === i)?.note || ''}
+                            onChange={e => handleChangeForm(i, 'note', e.target.value)}
                           />
                         </Grid>
                         <Grid item lg={3} md={3} xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
@@ -288,14 +306,11 @@ const EditCard = ({
                           <Select
                             fullWidth
                             size='small'
-                            defaultValue='expense'
-                            value={type}
-                            onChange={e => {
-                              setType(e.target.value as InvoiceType)
-                            }}
+                            value={formData?.find(data => data.index === i)?.type || InvoiceType.EXPENSE}
+                            onChange={e => handleChangeForm(i, 'type', e.target.value)}
                           >
-                            <MenuItem value='expense'>Expense</MenuItem>
-                            <MenuItem value='income'>Income</MenuItem>
+                            <MenuItem value={InvoiceType.EXPENSE}>Expense</MenuItem>
+                            <MenuItem value={InvoiceType.INCOME}>Income</MenuItem>
                           </Select>
                         </Grid>
                         <Grid item lg={3} md={3} xs={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
@@ -311,13 +326,13 @@ const EditCard = ({
                             type='number'
                             placeholder='1000'
                             InputProps={{ inputProps: { min: 0 } }}
-                            value={amount}
-                            onChange={e => setAmount(e.target.value)}
+                            value={formData?.find(data => data.index === i)?.price || ''}
+                            onChange={e => handleChangeForm(i, 'price', e.target.value)}
                           />
                         </Grid>
                       </Grid>
                       <InvoiceAction>
-                        <IconButton size='small' onClick={deleteForm}>
+                        <IconButton size='small' onClick={(e: SyntheticEvent) => deleteForm(e, i)}>
                           <Icon icon='mdi:close' fontSize={20} />
                         </IconButton>
                       </InvoiceAction>
@@ -333,7 +348,7 @@ const EditCard = ({
               <Button
                 size='small'
                 variant='contained'
-                onClick={() => setCount(count + 1)}
+                onClick={() => addItem()}
                 startIcon={<Icon icon='mdi:plus' fontSize={20} />}
               >
                 {t('invoice_page.edit.add_item')}

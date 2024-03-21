@@ -25,9 +25,10 @@ const OptionsWrapper = styled(Box)<BoxProps>(() => ({
 
 export interface AddActionsProps {
   onSubmit: () => void
+  isSubmitDisabled: () => boolean
 }
 
-const AddActions = ({ onSubmit }: AddActionsProps) => {
+const AddActions = ({ onSubmit, isSubmitDisabled }: AddActionsProps) => {
   const { t } = useTranslation()
 
   return (
@@ -40,6 +41,7 @@ const AddActions = ({ onSubmit }: AddActionsProps) => {
               sx={{ mb: 3.5 }}
               variant='contained'
               startIcon={<Icon icon='mdi:send-outline' />}
+              disabled={isSubmitDisabled()}
               onClick={() => onSubmit()}
             >
               {t('invoice_page.add.create_invoice')}

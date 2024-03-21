@@ -1,6 +1,9 @@
 // ** React Imports
 import { useState } from 'react'
 
+// ** Next Imports
+import { useRouter } from 'next/router'
+
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 
@@ -18,61 +21,79 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from 'src/store'
 import { addInvoice } from 'src/store/apps/invoice'
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
-import { CreateInvoiceRequestDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
+import { CreateInvoiceItemRequest, CreateInvoiceRequestDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
 
 // ** Third Party Imports
 import toast from 'react-hot-toast'
 import { format } from 'date-fns'
 
+// ** Utils Imports
+import { getInvoiceListUrl } from 'src/utils/router/invoice'
+
+export type CreateInvoiceFormData = CreateInvoiceItemRequest & { index: number }
+
+const initialFormData = { index: 0, name: '', note: '', type: InvoiceType.EXPENSE, price: 0 }
+
 const InvoiceAdd = () => {
   // ** States
-  const [name, setName] = useState<string>('')
-  const [note, setNote] = useState<string>('')
-  const [type, setType] = useState<InvoiceType>(InvoiceType.EXPENSE)
-  const [amount, setAmount] = useState<string>('')
   const [date, setDate] = useState<DateType>(new Date())
+  const [formData, setFormData] = useState<CreateInvoiceFormData[]>([initialFormData])
 
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
+  const router = useRouter()
+
+  const isSubmitDisabled = (): boolean => {
+    let isDisabled = false
+    formData.map(data => {
+      if (!data.name || !data.type || !data.price) {
+        isDisabled = true
+      }
+    })
+
+    return isDisabled
+  }
 
   const onSubmit = () => {
-    if (!name || !type || !amount || !date) {
-      toast.error('Please fill out all the fields')
+    // Validation
+    let isError = false
+    formData.map(data => {
+      if (!data.name || !data.type || !data.price) {
+        toast.error('Please fill out all the fields of all items')
+        isError = true
 
+        return
+      }
+    })
+    if (isError) {
       return
     }
 
+    // Create invoice api call
     const createInvoiceRequest: CreateInvoiceRequestDto = {
-      name,
-      note,
-      type,
-      amount: parseInt(amount),
-      date: format(date, 'yyyy-MM-dd')
+      items: formData.map(data => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { index, ...resData } = data
+
+        return { ...resData }
+      }),
+      date: format(date as Date, 'yyyy-MM-dd')
     }
 
     // Call api
+    setFormData([initialFormData])
     dispatch(addInvoice(createInvoiceRequest))
+    router.replace(getInvoiceListUrl())
   }
 
   return (
     <DatePickerWrapper sx={{ '& .react-datepicker-wrapper': { width: 'auto' } }}>
       <Grid container spacing={6}>
         <Grid item xl={9} md={8} xs={12}>
-          <AddCard
-            name={name}
-            setName={setName}
-            note={note}
-            setNote={setNote}
-            type={type}
-            setType={setType}
-            amount={amount}
-            setAmount={setAmount}
-            date={date}
-            setDate={setDate}
-          />
+          <AddCard setFormData={setFormData} date={date} setDate={setDate} />
         </Grid>
         <Grid item xl={3} md={4} xs={12}>
-          <AddActions onSubmit={onSubmit} />
+          <AddActions onSubmit={onSubmit} isSubmitDisabled={isSubmitDisabled} />
         </Grid>
       </Grid>
     </DatePickerWrapper>

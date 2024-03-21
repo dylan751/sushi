@@ -161,7 +161,7 @@ const PreviewCard = ({ data }: Props) => {
                 Name:
               </Typography>
               <Typography variant='body2' sx={{ mb: 2 }}>
-                {data.name}
+                Invoice #{data.id}
               </Typography>
             </Grid>
           </Grid>
@@ -175,40 +175,23 @@ const PreviewCard = ({ data }: Props) => {
               <TableRow>
                 <TableCell>Item</TableCell>
                 <TableCell>Description</TableCell>
-                <TableCell>hours</TableCell>
-                <TableCell>qty</TableCell>
+                <TableCell>Type</TableCell>
+                <TableCell>Price</TableCell>
+                <TableCell>Qty</TableCell>
                 <TableCell>Total</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow>
-                <TableCell>Premium Branding Package</TableCell>
-                <TableCell>Branding & Promotion</TableCell>
-                <TableCell>48</TableCell>
-                <TableCell>1</TableCell>
-                <TableCell>$32</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Social Media</TableCell>
-                <TableCell>Social media templates</TableCell>
-                <TableCell>42</TableCell>
-                <TableCell>1</TableCell>
-                <TableCell>$28</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Web Design</TableCell>
-                <TableCell>Web designing package</TableCell>
-                <TableCell>46</TableCell>
-                <TableCell>1</TableCell>
-                <TableCell>$24</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>SEO</TableCell>
-                <TableCell>Search engine optimization</TableCell>
-                <TableCell>40</TableCell>
-                <TableCell>1</TableCell>
-                <TableCell>$22</TableCell>
-              </TableRow>
+              {data.items?.map(item => (
+                <TableRow key={item.id}>
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{item.note}</TableCell>
+                  <TableCell>{item.type}</TableCell>
+                  <TableCell>{item.price}</TableCell>
+                  <TableCell>1</TableCell>
+                  <TableCell>$32</TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
@@ -259,7 +242,7 @@ const PreviewCard = ({ data }: Props) => {
 
         <CardContent>
           <Typography variant='body2'>
-            <strong>Note:</strong> {data.note}
+            <strong>Note:</strong> Note #{data.id}
           </Typography>
         </CardContent>
       </Card>

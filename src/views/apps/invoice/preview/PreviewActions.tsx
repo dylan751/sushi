@@ -13,7 +13,7 @@ import CardContent from '@mui/material/CardContent'
 import Icon from 'src/@core/components/icon'
 
 // ** Utils Imports
-import { getOrgUniqueName } from 'src/utils/organization'
+import { getInvoiceEditUrl, getInvoicePrintUrl } from 'src/utils/router/invoice'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
@@ -25,9 +25,6 @@ interface Props {
 }
 
 const PreviewActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }: Props) => {
-  // ** Utils
-  const uniqueName = getOrgUniqueName()
-
   // ** Hooks
   const ability = useContext(AbilityContext)
 
@@ -53,7 +50,7 @@ const PreviewActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }:
           component={Link}
           color='secondary'
           variant='outlined'
-          href={`/${uniqueName}/invoice/print/${id}`}
+          href={getInvoicePrintUrl(id)}
         >
           Print
         </Button>
@@ -63,7 +60,7 @@ const PreviewActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }:
           component={Link}
           color='secondary'
           variant='outlined'
-          href={`/${uniqueName}/invoice/edit/${id}`}
+          href={getInvoiceEditUrl(id)}
           disabled={!ability?.can('update', 'invoice')}
         >
           Edit Invoice

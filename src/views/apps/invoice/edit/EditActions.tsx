@@ -18,7 +18,7 @@ import FormControl from '@mui/material/FormControl'
 import Icon from 'src/@core/components/icon'
 
 // ** Utils Imports
-import { getOrgUniqueName } from 'src/utils/organization'
+import { getInvoicePreviewUrl } from 'src/utils/router/invoice'
 
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
@@ -26,6 +26,7 @@ import { useTranslation } from 'react-i18next'
 interface EditActionsProps {
   id: string | undefined
   onSubmit: () => void
+  isSubmitDisabled: () => boolean
   toggleAddPaymentDrawer: () => void
 }
 
@@ -35,10 +36,7 @@ const OptionsWrapper = styled(Box)<BoxProps>(() => ({
   justifyContent: 'space-between'
 }))
 
-const EditActions = ({ id, onSubmit, toggleAddPaymentDrawer }: EditActionsProps) => {
-  // ** Utils
-  const uniqueName = getOrgUniqueName()
-
+const EditActions = ({ id, onSubmit, isSubmitDisabled, toggleAddPaymentDrawer }: EditActionsProps) => {
   // ** Hook
   const { t } = useTranslation()
 
@@ -52,6 +50,7 @@ const EditActions = ({ id, onSubmit, toggleAddPaymentDrawer }: EditActionsProps)
               sx={{ mb: 3.5 }}
               variant='contained'
               startIcon={<Icon icon='mdi:send-outline' />}
+              disabled={isSubmitDisabled()}
               onClick={() => onSubmit()}
             >
               {t('invoice_page.edit.update_invoice')}
@@ -62,7 +61,7 @@ const EditActions = ({ id, onSubmit, toggleAddPaymentDrawer }: EditActionsProps)
               component={Link}
               color='secondary'
               variant='outlined'
-              href={`/${uniqueName}/invoice/preview/${id}`}
+              href={getInvoicePreviewUrl(id)}
             >
               {t('invoice_page.edit.preview')}
             </Button>
