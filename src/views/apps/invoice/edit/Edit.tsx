@@ -36,6 +36,8 @@ export interface InvoiceEditProps {
   id: string
 }
 
+export type UpdateInvoiceFormData = UpdateInvoiceItemRequest & { id: number; index: number }
+
 const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   // ** Store
   const dispatch = useDispatch<AppDispatch>()
@@ -52,7 +54,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
       ? new Date((invoiceStore.invoice as InvoiceResponseDto).date)
       : new Date()
   )
-  const [formData, setFormData] = useState<(UpdateInvoiceItemRequest & { id: number; index: number })[]>([])
+  const [formData, setFormData] = useState<UpdateInvoiceFormData[]>([])
 
   const [addPaymentOpen, setAddPaymentOpen] = useState<boolean>(false)
   const [sendInvoiceOpen, setSendInvoiceOpen] = useState<boolean>(false)

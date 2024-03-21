@@ -32,10 +32,12 @@ import { getInvoiceListUrl } from 'src/utils/router/invoice'
 
 export const initialFormData = { index: 0, name: '', note: '', type: InvoiceType.EXPENSE, price: 0 }
 
+export type CreateInvoiceFormData = CreateInvoiceItemRequest & { index: number }
+
 const InvoiceAdd = () => {
   // ** States
   const [date, setDate] = useState<DateType>(new Date())
-  const [formData, setFormData] = useState<(CreateInvoiceItemRequest & { index: number })[]>([initialFormData])
+  const [formData, setFormData] = useState<CreateInvoiceFormData[]>([initialFormData])
 
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()

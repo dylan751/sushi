@@ -27,12 +27,12 @@ import themeConfig from 'src/configs/themeConfig'
 // ** Types Imports
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
 import { InvoiceType } from 'src/__generated__/AccountifyAPI'
+import { CreateInvoiceFormData, initialFormData } from 'src/pages/[orgUniqueName]/invoice/add'
 
 // ** Custom Component Imports
 import Repeater from 'src/@core/components/repeater'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
-import { initialFormData } from 'src/pages/[orgUniqueName]/invoice/add'
 
 interface PickerProps {
   label?: string
@@ -77,7 +77,7 @@ const InvoiceAction = styled(Box)<BoxProps>(({ theme }) => ({
 }))
 
 export interface AddCardProps {
-  formData: any[]
+  formData: CreateInvoiceFormData[]
   setFormData: (value: any) => void
   date: DateType
   setDate: (value: DateType) => void

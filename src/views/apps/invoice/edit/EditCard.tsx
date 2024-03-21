@@ -29,6 +29,7 @@ import themeConfig from 'src/configs/themeConfig'
 
 // ** Types Imports
 import { InvoiceResponseDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
+import { UpdateInvoiceFormData } from './Edit'
 
 // ** Custom Component Imports
 import Repeater from 'src/@core/components/repeater'
@@ -78,7 +79,7 @@ const InvoiceAction = styled(Box)<BoxProps>(({ theme }) => ({
 
 export interface EditCardProps {
   data: InvoiceResponseDto
-  formData: any[]
+  formData: UpdateInvoiceFormData[]
   setFormData: (value: any) => void
   date: Date
   setDate: (value: Date) => void
