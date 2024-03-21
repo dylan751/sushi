@@ -26,6 +26,7 @@ import { useTranslation } from 'react-i18next'
 interface EditActionsProps {
   id: string | undefined
   onSubmit: () => void
+  isSubmitDisabled: () => boolean
   toggleAddPaymentDrawer: () => void
 }
 
@@ -35,7 +36,7 @@ const OptionsWrapper = styled(Box)<BoxProps>(() => ({
   justifyContent: 'space-between'
 }))
 
-const EditActions = ({ id, onSubmit, toggleAddPaymentDrawer }: EditActionsProps) => {
+const EditActions = ({ id, onSubmit, isSubmitDisabled, toggleAddPaymentDrawer }: EditActionsProps) => {
   // ** Hook
   const { t } = useTranslation()
 
@@ -49,6 +50,7 @@ const EditActions = ({ id, onSubmit, toggleAddPaymentDrawer }: EditActionsProps)
               sx={{ mb: 3.5 }}
               variant='contained'
               startIcon={<Icon icon='mdi:send-outline' />}
+              disabled={isSubmitDisabled()}
               onClick={() => onSubmit()}
             >
               {t('invoice_page.edit.update_invoice')}

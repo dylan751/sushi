@@ -62,6 +62,17 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   const toggleSendInvoiceDrawer = () => setSendInvoiceOpen(!sendInvoiceOpen)
   const toggleAddPaymentDrawer = () => setAddPaymentOpen(!addPaymentOpen)
 
+  const isSubmitDisabled = (): boolean => {
+    let isDisabled = false
+    formData.map(data => {
+      if (!data.name || !data.type || !data.price) {
+        isDisabled = true
+      }
+    })
+
+    return isDisabled
+  }
+
   const onSubmit = () => {
     // Validation
     let isError = false
@@ -89,6 +100,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
     }
 
     // Call api
+    setFormData([])
     dispatch(updateInvoice({ ...updateInvoiceRequest, invoiceId: parseInt(id!) }))
     router.replace(getInvoicePreviewUrl(id))
   }
@@ -107,7 +119,12 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
             />
           </Grid>
           <Grid item xl={3} md={4} xs={12}>
-            <EditActions id={id} onSubmit={onSubmit} toggleAddPaymentDrawer={toggleAddPaymentDrawer} />
+            <EditActions
+              id={id}
+              onSubmit={onSubmit}
+              isSubmitDisabled={isSubmitDisabled}
+              toggleAddPaymentDrawer={toggleAddPaymentDrawer}
+            />
           </Grid>
         </Grid>
         <SendInvoiceDrawer open={sendInvoiceOpen} toggle={toggleSendInvoiceDrawer} />

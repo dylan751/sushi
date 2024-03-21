@@ -27,12 +27,13 @@ import themeConfig from 'src/configs/themeConfig'
 // ** Types Imports
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
 import { InvoiceType } from 'src/__generated__/AccountifyAPI'
-import { CreateInvoiceFormData, initialFormData } from 'src/pages/[orgUniqueName]/invoice/add'
 
 // ** Custom Component Imports
 import Repeater from 'src/@core/components/repeater'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
+
+const initialFormData = { index: 0, name: '', note: '', type: InvoiceType.EXPENSE, price: 0 }
 
 interface PickerProps {
   label?: string
@@ -77,13 +78,12 @@ const InvoiceAction = styled(Box)<BoxProps>(({ theme }) => ({
 }))
 
 export interface AddCardProps {
-  formData: CreateInvoiceFormData[]
   setFormData: (value: any) => void
   date: DateType
   setDate: (value: DateType) => void
 }
 
-const AddCard = ({ formData, setFormData, date, setDate }: AddCardProps) => {
+const AddCard = ({ setFormData, date, setDate }: AddCardProps) => {
   // ** States
   const [count, setCount] = useState<number>(1)
 
@@ -92,31 +92,28 @@ const AddCard = ({ formData, setFormData, date, setDate }: AddCardProps) => {
   const { t } = useTranslation()
 
   const handleChangeForm = (index: number, key: string, value: any): void => {
-    const item = formData.find(data => data.index === index)
-
-    // If found existing item -> update that item, otherwise push a new item into formData array
-    if (item) {
-      setFormData((prevFormData: any[]) => {
-        const newFormData = [...prevFormData]
-        newFormData.forEach(formData => {
-          if (formData.index === index) {
-            formData[key] = value
-          }
-        })
-
-        return newFormData
+    setFormData((prevFormData: any[]) => {
+      const newFormData = [...prevFormData]
+      newFormData.forEach(formData => {
+        if (formData.index === index) {
+          formData[key] = value
+        }
       })
-    } else {
-      setFormData((prevFormData: any[]) => {
-        const newFormData = [...prevFormData]
 
-        const data: any = { ...initialFormData, index }
-        data[key] = value
-        newFormData.push(data)
+      return newFormData
+    })
+  }
 
-        return newFormData
-      })
-    }
+  const addItem = () => {
+    setCount(count + 1)
+    setFormData((prevFormData: any[]) => {
+      const newFormData = [...prevFormData]
+
+      const data: any = { ...initialFormData, index: count }
+      newFormData.push(data)
+
+      return newFormData
+    })
   }
 
   // ** Deletes form
@@ -321,7 +318,7 @@ const AddCard = ({ formData, setFormData, date, setDate }: AddCardProps) => {
               size='small'
               variant='contained'
               startIcon={<Icon icon='mdi:plus' fontSize={20} />}
-              onClick={() => setCount(count + 1)}
+              onClick={() => addItem()}
             >
               {t('invoice_page.add.add_item')}
             </Button>

@@ -33,7 +33,8 @@ import { UpdateInvoiceFormData } from './Edit'
 
 // ** Custom Component Imports
 import Repeater from 'src/@core/components/repeater'
-import { initialFormData } from 'src/pages/[orgUniqueName]/invoice/add'
+
+const initialFormData = { index: 0, name: '', note: '', type: InvoiceType.EXPENSE, price: 0 }
 
 interface PickerProps {
   label?: string
@@ -108,31 +109,28 @@ const EditCard = ({ data, formData, setFormData, date, setDate }: EditCardProps)
   const theme = useTheme()
 
   const handleChangeForm = (index: number, key: string, value: any): void => {
-    const item = formData.find(data => data.index === index)
-
-    // If found existing item -> update that item, otherwise push a new item into formData array
-    if (item) {
-      setFormData((prevFormData: any[]) => {
-        const newFormData = [...prevFormData]
-        newFormData.forEach(formData => {
-          if (formData.index === index) {
-            formData[key] = value
-          }
-        })
-
-        return newFormData
+    setFormData((prevFormData: any[]) => {
+      const newFormData = [...prevFormData]
+      newFormData.forEach(formData => {
+        if (formData.index === index) {
+          formData[key] = value
+        }
       })
-    } else {
-      setFormData((prevFormData: any[]) => {
-        const newFormData = [...prevFormData]
 
-        const data: any = { ...initialFormData, index }
-        data[key] = value
-        newFormData.push(data)
+      return newFormData
+    })
+  }
 
-        return newFormData
-      })
-    }
+  const addItem = () => {
+    setCount(count + 1)
+    setFormData((prevFormData: any[]) => {
+      const newFormData = [...prevFormData]
+
+      const data: any = { ...initialFormData, index: count }
+      newFormData.push(data)
+
+      return newFormData
+    })
   }
 
   // ** Deletes form
@@ -350,7 +348,7 @@ const EditCard = ({ data, formData, setFormData, date, setDate }: EditCardProps)
               <Button
                 size='small'
                 variant='contained'
-                onClick={() => setCount(count + 1)}
+                onClick={() => addItem()}
                 startIcon={<Icon icon='mdi:plus' fontSize={20} />}
               >
                 {t('invoice_page.edit.add_item')}

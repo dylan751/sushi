@@ -30,9 +30,9 @@ import { format } from 'date-fns'
 // ** Utils Imports
 import { getInvoiceListUrl } from 'src/utils/router/invoice'
 
-export const initialFormData = { index: 0, name: '', note: '', type: InvoiceType.EXPENSE, price: 0 }
-
 export type CreateInvoiceFormData = CreateInvoiceItemRequest & { index: number }
+
+const initialFormData = { index: 0, name: '', note: '', type: InvoiceType.EXPENSE, price: 0 }
 
 const InvoiceAdd = () => {
   // ** States
@@ -83,7 +83,6 @@ const InvoiceAdd = () => {
     // Call api
     setFormData([initialFormData])
     dispatch(addInvoice(createInvoiceRequest))
-
     router.replace(getInvoiceListUrl())
   }
 
@@ -91,7 +90,7 @@ const InvoiceAdd = () => {
     <DatePickerWrapper sx={{ '& .react-datepicker-wrapper': { width: 'auto' } }}>
       <Grid container spacing={6}>
         <Grid item xl={9} md={8} xs={12}>
-          <AddCard formData={formData} setFormData={setFormData} date={date} setDate={setDate} />
+          <AddCard setFormData={setFormData} date={date} setDate={setDate} />
         </Grid>
         <Grid item xl={3} md={4} xs={12}>
           <AddActions onSubmit={onSubmit} isSubmitDisabled={isSubmitDisabled} />
