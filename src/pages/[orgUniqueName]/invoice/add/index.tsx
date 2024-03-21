@@ -1,6 +1,9 @@
 // ** React Imports
 import { useState } from 'react'
 
+// ** Next Imports
+import { useRouter } from 'next/router'
+
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 
@@ -24,6 +27,9 @@ import { CreateInvoiceRequestDto, InvoiceType } from 'src/__generated__/Accounti
 import toast from 'react-hot-toast'
 import { format } from 'date-fns'
 
+// ** Utils Imports
+import { getInvoiceListUrl } from 'src/utils/router/invoice'
+
 export const initialFormData = { index: 0, name: '', note: '', type: InvoiceType.EXPENSE, price: '' }
 
 const InvoiceAdd = () => {
@@ -33,6 +39,7 @@ const InvoiceAdd = () => {
 
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
+  const router = useRouter()
 
   const isSubmitDisabled = (): boolean => {
     let isDisabled = false
@@ -74,6 +81,8 @@ const InvoiceAdd = () => {
     // Call api
     setFormData([initialFormData])
     dispatch(addInvoice(createInvoiceRequest))
+
+    router.replace(getInvoiceListUrl())
   }
 
   return (
