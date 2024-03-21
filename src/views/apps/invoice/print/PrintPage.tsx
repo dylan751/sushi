@@ -34,7 +34,7 @@ import { InvoiceResponseDto } from 'src/__generated__/AccountifyAPI'
 import themeConfig from 'src/configs/themeConfig'
 
 // ** Utils Imports
-import { getOrgUniqueName } from 'src/utils/organization'
+import { getInvoiceListUrl } from 'src/utils/router/invoice'
 
 const CalcWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   display: 'flex',
@@ -56,9 +56,6 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
   // ** Store
   const dispatch = useDispatch<AppDispatch>()
   const invoiceStore = useSelector((state: RootState) => state.invoice)
-
-  // ** Utils
-  const uniqueName = getOrgUniqueName()
 
   useEffect(() => {
     setTimeout(() => {
@@ -267,7 +264,7 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
           <Grid item xs={12}>
             <Alert severity='error'>
               Invoice with the id: {id} does not exist. Please check the list of invoices:{' '}
-              <Link href={`/${uniqueName}/invoice/list`}>Invoice List</Link>
+              <Link href={getInvoiceListUrl()}>Invoice List</Link>
             </Alert>
           </Grid>
         </Grid>

@@ -107,8 +107,6 @@ const EditCard = ({ data, formData, setFormData, date, setDate }: EditCardProps)
   const theme = useTheme()
 
   const handleChangeForm = (index: number, key: string, value: any): void => {
-    console.log('formData', formData)
-
     const item = formData.find(data => data.index === index)
 
     // If found existing item -> update that item, otherwise push a new item into formData array

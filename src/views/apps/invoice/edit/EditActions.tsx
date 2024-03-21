@@ -18,7 +18,7 @@ import FormControl from '@mui/material/FormControl'
 import Icon from 'src/@core/components/icon'
 
 // ** Utils Imports
-import { getOrgUniqueName } from 'src/utils/organization'
+import { getInvoicePreviewUrl } from 'src/utils/router/invoice'
 
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
@@ -36,9 +36,6 @@ const OptionsWrapper = styled(Box)<BoxProps>(() => ({
 }))
 
 const EditActions = ({ id, onSubmit, toggleAddPaymentDrawer }: EditActionsProps) => {
-  // ** Utils
-  const uniqueName = getOrgUniqueName()
-
   // ** Hook
   const { t } = useTranslation()
 
@@ -62,7 +59,7 @@ const EditActions = ({ id, onSubmit, toggleAddPaymentDrawer }: EditActionsProps)
               component={Link}
               color='secondary'
               variant='outlined'
-              href={`/${uniqueName}/invoice/preview/${id}`}
+              href={getInvoicePreviewUrl(id)}
             >
               {t('invoice_page.edit.preview')}
             </Button>

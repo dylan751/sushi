@@ -36,7 +36,7 @@ import { DateType } from 'src/types/forms/reactDatepickerTypes'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
-import { getOrgUniqueName } from 'src/utils/organization'
+import { getInvoiceEditUrl, getInvoicePreviewUrl } from 'src/utils/router/invoice'
 
 // ** Custom Components Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
@@ -114,9 +114,6 @@ const InvoiceList = () => {
   const ability = useContext(AbilityContext)
   const { t } = useTranslation()
 
-  // ** Utils
-  const uniqueName = getOrgUniqueName()
-
   useEffect(() => {
     dispatch(
       fetchInvoice({
@@ -146,9 +143,7 @@ const InvoiceList = () => {
       field: 'id',
       minWidth: 50,
       headerName: '#',
-      renderCell: ({ row }: CellType) => (
-        <LinkStyled href={`/${uniqueName}/invoice/preview/${row.id}`}>{`#${row.id}`}</LinkStyled>
-      )
+      renderCell: ({ row }: CellType) => <LinkStyled href={getInvoicePreviewUrl(row.id)}>{`#${row.id}`}</LinkStyled>
     },
     {
       flex: 0.2,
@@ -202,7 +197,7 @@ const InvoiceList = () => {
             </IconButton>
           </Tooltip>
           <Tooltip title={t('invoice_page.list.view')}>
-            <IconButton size='small' component={Link} href={`/${uniqueName}/invoice/preview/${row.id}`}>
+            <IconButton size='small' component={Link} href={getInvoicePreviewUrl(row.id)}>
               <Icon icon='mdi:eye-outline' fontSize={20} />
             </IconButton>
           </Tooltip>
@@ -218,7 +213,7 @@ const InvoiceList = () => {
                 },
                 {
                   text: t('invoice_page.list.edit'),
-                  href: `/${uniqueName}/invoice/edit/${row.id}`,
+                  href: getInvoiceEditUrl(row.id),
                   icon: <Icon icon='mdi:pencil-outline' fontSize={20} />
                 },
                 {

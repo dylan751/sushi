@@ -25,7 +25,7 @@ import AddPaymentDrawer from 'src/views/apps/invoice/shared-drawer/AddPaymentDra
 import SendInvoiceDrawer from 'src/views/apps/invoice/shared-drawer/SendInvoiceDrawer'
 
 // ** Utils Imports
-import { getOrgUniqueName } from 'src/utils/organization'
+import { getInvoiceListUrl } from 'src/utils/router/invoice'
 
 export interface InvoicePreviewProps {
   id: string
@@ -43,9 +43,6 @@ const InvoicePreview = ({ id }: InvoicePreviewProps) => {
   // ** State
   const [addPaymentOpen, setAddPaymentOpen] = useState<boolean>(false)
   const [sendInvoiceOpen, setSendInvoiceOpen] = useState<boolean>(false)
-
-  // ** Utils
-  const uniqueName = getOrgUniqueName()
 
   const toggleSendInvoiceDrawer = () => setSendInvoiceOpen(!sendInvoiceOpen)
   const toggleAddPaymentDrawer = () => setAddPaymentOpen(!addPaymentOpen)
@@ -75,7 +72,7 @@ const InvoicePreview = ({ id }: InvoicePreviewProps) => {
         <Grid item xs={12}>
           <Alert severity='error'>
             Invoice with the id: {id} does not exist. Please check the list of invoices:{' '}
-            <Link href={`/${uniqueName}/invoice/list`}>Invoice List</Link>
+            <Link href={getInvoiceListUrl()}>Invoice List</Link>
           </Alert>
         </Grid>
       </Grid>
