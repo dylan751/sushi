@@ -17,7 +17,7 @@ import { fetchAnInvoice, updateInvoice } from 'src/store/apps/invoice'
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
-import { InvoiceResponseDto, UpdateInvoiceRequestDto } from 'src/__generated__/AccountifyAPI'
+import { InvoiceResponseDto, UpdateInvoiceItemRequest, UpdateInvoiceRequestDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Components Imports
 import EditCard from './EditCard'
@@ -52,7 +52,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
       ? new Date((invoiceStore.invoice as InvoiceResponseDto).date)
       : new Date()
   )
-  const [formData, setFormData] = useState<any[]>([])
+  const [formData, setFormData] = useState<(UpdateInvoiceItemRequest & { id: number; index: number })[]>([])
 
   const [addPaymentOpen, setAddPaymentOpen] = useState<boolean>(false)
   const [sendInvoiceOpen, setSendInvoiceOpen] = useState<boolean>(false)
@@ -79,9 +79,9 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
     const updateInvoiceRequest: UpdateInvoiceRequestDto = {
       items: formData.map(data => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { index, id, price, ...resData } = data
+        const { index, id, ...resData } = data
 
-        return { price: parseInt(price), ...resData }
+        return { ...resData }
       }),
       date: format(date as Date, 'yyyy-MM-dd')
     }

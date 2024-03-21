@@ -21,7 +21,7 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from 'src/store'
 import { addInvoice } from 'src/store/apps/invoice'
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
-import { CreateInvoiceRequestDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
+import { CreateInvoiceItemRequest, CreateInvoiceRequestDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
 
 // ** Third Party Imports
 import toast from 'react-hot-toast'
@@ -30,12 +30,12 @@ import { format } from 'date-fns'
 // ** Utils Imports
 import { getInvoiceListUrl } from 'src/utils/router/invoice'
 
-export const initialFormData = { index: 0, name: '', note: '', type: InvoiceType.EXPENSE, price: '' }
+export const initialFormData = { index: 0, name: '', note: '', type: InvoiceType.EXPENSE, price: 0 }
 
 const InvoiceAdd = () => {
   // ** States
   const [date, setDate] = useState<DateType>(new Date())
-  const [formData, setFormData] = useState<any[]>([initialFormData])
+  const [formData, setFormData] = useState<(CreateInvoiceItemRequest & { index: number })[]>([initialFormData])
 
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
@@ -71,9 +71,9 @@ const InvoiceAdd = () => {
     const createInvoiceRequest: CreateInvoiceRequestDto = {
       items: formData.map(data => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { index, price, ...resData } = data
+        const { index, ...resData } = data
 
-        return { price: parseInt(price), ...resData }
+        return { ...resData }
       }),
       date: format(date as Date, 'yyyy-MM-dd')
     }
