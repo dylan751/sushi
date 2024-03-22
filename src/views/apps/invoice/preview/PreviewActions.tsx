@@ -18,6 +18,9 @@ import { getInvoiceEditUrl, getInvoicePrintUrl } from 'src/utils/router/invoice'
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
 
+// ** Hooks Imports
+import { useTranslation } from 'react-i18next'
+
 interface Props {
   id: string | undefined
   toggleAddPaymentDrawer: () => void
@@ -27,6 +30,7 @@ interface Props {
 const PreviewActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }: Props) => {
   // ** Hooks
   const ability = useContext(AbilityContext)
+  const { t } = useTranslation()
 
   return (
     <Card>
@@ -38,10 +42,10 @@ const PreviewActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }:
           onClick={toggleSendInvoiceDrawer}
           startIcon={<Icon icon='mdi:send-outline' />}
         >
-          Send Invoice
+          {t('invoice_page.preview.send_invoice')}
         </Button>
         <Button fullWidth sx={{ mb: 3.5 }} color='secondary' variant='outlined'>
-          Download
+          {t('invoice_page.preview.download')}
         </Button>
         <Button
           fullWidth
@@ -52,7 +56,7 @@ const PreviewActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }:
           variant='outlined'
           href={getInvoicePrintUrl(id)}
         >
-          Print
+          {t('invoice_page.preview.print')}
         </Button>
         <Button
           fullWidth
@@ -63,7 +67,7 @@ const PreviewActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }:
           href={getInvoiceEditUrl(id)}
           disabled={!ability?.can('update', 'invoice')}
         >
-          Edit Invoice
+          {t('invoice_page.preview.update_invoice')}
         </Button>
         <Button
           fullWidth

@@ -141,12 +141,12 @@
         "add": {
             "invoice": "Hoá đơn",
             "date": "Thời gian",
-            "item": "Hoá đơn",
+            "item": "Tên",
             "type": "Loại",
             "quantity": "Số lượng",
             "currency": "Tiền tệ",
             "name": "Tên",
-            "note": "Ghi chú ...",
+            "note": "Ghi chú",
             "price": "Giá",
             "add_item": "Thêm hoá đơn",
             "create_invoice": "Tạo hoá đơn"
@@ -154,16 +154,45 @@
         "edit": {
             "invoice": "Hoá đơn",
             "date": "Thời gian",
-            "item": "Hoá đơn",
+            "item": "Tên",
             "type": "Loại",
             "quantity": "Số lượng",
             "currency": "Tiền tệ",
             "name": "Tên",
-            "note": "Ghi chú ...",
+            "note": "Ghi chú",
             "price": "Giá",
             "add_item": "Thêm hoá đơn",
             "update_invoice": "Cập nhật hoá đơn",
             "preview": "Xem trước"
+        },
+        "preview": {
+            "invoice": "Hoá đơn",
+            "date": "Thời gian",
+            "item": "Tên",
+            "type": "Loại",
+            "quantity": "Số lượng",
+            "currency": "Tiền tệ",
+            "name": "Tên",
+            "note": "Ghi chú",
+            "price": "Đơn giá",
+            "send_invoice": "Gửi hoá đơn",
+            "download": "Tải xuống",
+            "print": "In",
+            "total": "Tổng cộng",
+            "update_invoice": "Cập nhật hoá đơn"
+        },
+        "print": {
+            "invoice_to": "Hoá đơn tới",
+            "invoice": "Hoá đơn",
+            "date": "Thời gian",
+            "item": "Tên",
+            "type": "Loại",
+            "quantity": "Số lượng",
+            "currency": "Tiền tệ",
+            "name": "Tên",
+            "note": "Ghi chú",
+            "price": "Đơn giá",
+            "total": "Tổng cộng"
         }
     },
     "autocomplete": {

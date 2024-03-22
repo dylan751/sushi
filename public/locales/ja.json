@@ -149,7 +149,7 @@
             "quantity": "量",
             "currency": "通貨",
             "name": "名前",
-            "note": "メモ。。。",
+            "note": "メモ",
             "price": "価格",
             "add_item": "アイテムの追加",
             "create_invoice": "インヴォイスの作成"
@@ -162,11 +162,40 @@
             "quantity": "量",
             "currency": "通貨",
             "name": "名前",
-            "note": "メモ。。。",
+            "note": "メモ",
             "price": "価格",
             "add_item": "アイテムの追加",
             "update_invoice": "インヴォイスの編集",
             "preview": "プレビュー"
+        },
+        "preview": {
+            "invoice": "インヴォイス",
+            "date": "日付",
+            "item": "アイテム",
+            "type": "タイプ",
+            "quantity": "量",
+            "currency": "通貨",
+            "name": "名前",
+            "note": "メモ",
+            "price": "価格",
+            "send_invoice": "インヴォイスの送信",
+            "download": "ダウンロード",
+            "print": "印刷",
+            "total": "合計",
+            "update_invoice": "インヴォイスの編集"
+        },
+        "print": {
+            "invoice_to": "インヴォイス先",
+            "invoice": "インヴォイス",
+            "date": "日付",
+            "item": "アイテム",
+            "type": "タイプ",
+            "quantity": "量",
+            "currency": "通貨",
+            "name": "名前",
+            "note": "メモ",
+            "price": "価格",
+            "total": "合計"
         }
     },
     "user_page": {

@@ -37,6 +37,9 @@ import themeConfig from 'src/configs/themeConfig'
 import { getInvoiceListUrl } from 'src/utils/router/invoice'
 import { calculateInvoiceItemTotal } from 'src/utils/invoice'
 
+// ** Hooks Imports
+import { useTranslation } from 'react-i18next'
+
 const CalcWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -53,6 +56,7 @@ export interface InvoicePrintProps {
 const InvoicePrint = ({ id }: InvoicePrintProps) => {
   // ** Hooks
   const theme = useTheme()
+  const { t } = useTranslation()
 
   // ** Store
   const dispatch = useDispatch<AppDispatch>()
@@ -157,11 +161,11 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
           <Grid item xs={4}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { sm: 'flex-end', xs: 'flex-start' } }}>
               <Typography variant='h6' sx={{ mb: 2 }}>
-                {`Invoice #${invoice.id}`}
+                {`${t('invoice_page.print.invoice')} #${invoice.id}`}
               </Typography>
               <Box sx={{ display: 'flex' }}>
                 <Typography variant='body2' sx={{ mr: 3 }}>
-                  Date:
+                  {t('invoice_page.print.date')}:
                 </Typography>
                 <Typography variant='body2' sx={{ fontWeight: 600 }}>
                   {format(new Date(invoice?.date ? new Date(invoice.date) : new Date()), 'dd MMM yyyy')}
@@ -176,10 +180,10 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
         <Grid container>
           <Grid item xs={7} md={8} sx={{ mb: { lg: 0, xs: 4 } }}>
             <Typography variant='body2' sx={{ mb: 3.5, fontWeight: 600 }}>
-              Invoice To:
+              {t('invoice_page.print.invoice_to')}:
             </Typography>
             <Typography variant='body2' sx={{ mb: 2 }}>
-              Invoice #{invoice.id}
+              {t('invoice_page.print.invoice')} #{invoice.id}
             </Typography>
           </Grid>
         </Grid>
@@ -189,13 +193,13 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
         <Table sx={{ mb: 6 }}>
           <TableHead>
             <TableRow>
-              <TableCell>Item</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Type</TableCell>
-              <TableCell>Price</TableCell>
-              <TableCell>Qty</TableCell>
-              <TableCell>Currency</TableCell>
-              <TableCell>Total</TableCell>
+              <TableCell>{t('invoice_page.print.item')}</TableCell>
+              <TableCell>{t('invoice_page.print.note')}</TableCell>
+              <TableCell>{t('invoice_page.print.type')}</TableCell>
+              <TableCell>{t('invoice_page.print.price')}</TableCell>
+              <TableCell>{t('invoice_page.print.quantity')}</TableCell>
+              <TableCell>{t('invoice_page.print.currency')}</TableCell>
+              <TableCell>{t('invoice_page.print.total')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -255,8 +259,8 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
 
         <Divider sx={{ my: `${theme.spacing(6)} !important` }} />
         <Typography variant='body2'>
-          <strong>Note:</strong> It was a pleasure working with you and your team. We hope you will keep us in mind for
-          future freelance projects. Thank You!
+          <strong>{t('invoice_page.print.note')}:</strong> It was a pleasure working with you and your team. We hope you
+          will keep us in mind for future freelance projects. Thank You!
         </Typography>
       </Box>
     )

@@ -21,7 +21,12 @@ import { InvoiceResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Third Parties Imports
 import { format } from 'date-fns'
+
+// ** Utils Imports
 import { calculateInvoiceItemTotal } from 'src/utils/invoice'
+
+// ** Hooks Imports
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   data: InvoiceResponseDto
@@ -47,6 +52,7 @@ const CalcWrapper = styled(Box)<BoxProps>(({ theme }) => ({
 const PreviewCard = ({ data }: Props) => {
   // ** Hook
   const theme = useTheme()
+  const { t } = useTranslation()
 
   if (data) {
     return (
@@ -126,11 +132,11 @@ const PreviewCard = ({ data }: Props) => {
             </Grid>
             <Grid item sm={6} xs={12}>
               <Box sx={{ display: 'flex', justifyContent: { xs: 'flex-start', sm: 'flex-end' } }}>
-                <Table sx={{ maxWidth: '200px' }}>
+                <Table sx={{ maxWidth: '250px' }}>
                   <TableBody>
                     <TableRow>
                       <MUITableCell>
-                        <Typography variant='h6'>Invoice</Typography>
+                        <Typography variant='h6'>{t('invoice_page.preview.invoice')}</Typography>
                       </MUITableCell>
                       <MUITableCell>
                         <Typography variant='h6'>{`#${data.id}`}</Typography>
@@ -138,7 +144,7 @@ const PreviewCard = ({ data }: Props) => {
                     </TableRow>
                     <TableRow>
                       <MUITableCell>
-                        <Typography variant='body2'>Date:</Typography>
+                        <Typography variant='body2'>{t('invoice_page.preview.date')}:</Typography>
                       </MUITableCell>
                       <MUITableCell>
                         <Typography variant='body2' sx={{ fontWeight: 600 }}>
@@ -159,10 +165,10 @@ const PreviewCard = ({ data }: Props) => {
           <Grid container>
             <Grid item xs={12} sm={6} sx={{ mb: { lg: 0, xs: 4 } }}>
               <Typography variant='body2' sx={{ mb: 3.5, fontWeight: 600 }}>
-                Name:
+                {t('invoice_page.preview.name')}:
               </Typography>
               <Typography variant='body2' sx={{ mb: 2 }}>
-                Invoice #{data.id}
+                {t('invoice_page.preview.invoice')} #{data.id}
               </Typography>
             </Grid>
           </Grid>
@@ -174,13 +180,13 @@ const PreviewCard = ({ data }: Props) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Item</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell>Price</TableCell>
-                <TableCell>Qty</TableCell>
-                <TableCell>Currency</TableCell>
-                <TableCell>Total</TableCell>
+                <TableCell>{t('invoice_page.preview.item')}</TableCell>
+                <TableCell>{t('invoice_page.preview.note')}</TableCell>
+                <TableCell>{t('invoice_page.preview.type')}</TableCell>
+                <TableCell>{t('invoice_page.preview.price')}</TableCell>
+                <TableCell>{t('invoice_page.preview.quantity')}</TableCell>
+                <TableCell>{t('invoice_page.preview.currency')}</TableCell>
+                <TableCell>{t('invoice_page.preview.total')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -245,7 +251,7 @@ const PreviewCard = ({ data }: Props) => {
 
         <CardContent>
           <Typography variant='body2'>
-            <strong>Note:</strong> Note #{data.id}
+            <strong>{t('invoice_page.preview.note')}:</strong> Note #{data.id}
           </Typography>
         </CardContent>
       </Card>
