@@ -21,6 +21,7 @@ import { InvoiceResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Third Parties Imports
 import { format } from 'date-fns'
+import { calculateInvoiceItemTotal } from 'src/utils/invoice'
 
 interface Props {
   data: InvoiceResponseDto
@@ -178,6 +179,7 @@ const PreviewCard = ({ data }: Props) => {
                 <TableCell>Type</TableCell>
                 <TableCell>Price</TableCell>
                 <TableCell>Qty</TableCell>
+                <TableCell>Currency</TableCell>
                 <TableCell>Total</TableCell>
               </TableRow>
             </TableHead>
@@ -188,8 +190,9 @@ const PreviewCard = ({ data }: Props) => {
                   <TableCell>{item.note}</TableCell>
                   <TableCell>{item.type}</TableCell>
                   <TableCell>{item.price}</TableCell>
-                  <TableCell>1</TableCell>
-                  <TableCell>$32</TableCell>
+                  <TableCell>{item.quantity}</TableCell>
+                  <TableCell>{item.currency}</TableCell>
+                  <TableCell>${calculateInvoiceItemTotal(item.price, item.quantity)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

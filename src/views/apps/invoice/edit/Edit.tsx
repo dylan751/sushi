@@ -64,8 +64,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
 
   const isSubmitDisabled = (): boolean => {
     let isDisabled = false
-    formData.map(data => {
-      if (!data.name || !data.type || !data.price) {
+    formData?.map(data => {
+      if (!data.name || !data.type || !data.price || !data.quantity || !data.currency) {
         isDisabled = true
       }
     })
@@ -77,7 +77,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
     // Validation
     let isError = false
     formData.map(data => {
-      if (!data.name || !data.type || !data.price) {
+      if (!data.name || !data.type || !data.price || !data.quantity || !data.currency) {
         toast.error('Please fill out all the fields of all items')
         isError = true
 
@@ -100,7 +100,6 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
     }
 
     // Call api
-    setFormData([])
     dispatch(updateInvoice({ ...updateInvoiceRequest, invoiceId: parseInt(id!) }))
     router.replace(getInvoicePreviewUrl(id))
   }

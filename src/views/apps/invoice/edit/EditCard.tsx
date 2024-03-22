@@ -28,13 +28,21 @@ import { useTranslation } from 'react-i18next'
 import themeConfig from 'src/configs/themeConfig'
 
 // ** Types Imports
-import { InvoiceResponseDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
+import { CurrencyType, InvoiceResponseDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
 import { UpdateInvoiceFormData } from './Edit'
 
 // ** Custom Component Imports
 import Repeater from 'src/@core/components/repeater'
 
-const initialFormData = { index: 0, name: '', note: '', type: InvoiceType.EXPENSE, price: 0 }
+const initialFormData = {
+  index: 0,
+  name: '',
+  note: '',
+  type: InvoiceType.EXPENSE,
+  price: 0,
+  quantity: 0,
+  currency: CurrencyType.VND
+}
 
 interface PickerProps {
   label?: string
@@ -268,7 +276,7 @@ const EditCard = ({ data, formData, setFormData, date, setDate }: EditCardProps)
                   <Grid container>
                     <RepeatingContent item xs={12}>
                       <Grid container sx={{ py: 4, width: '100%', pr: { lg: 0, xs: 4 } }}>
-                        <Grid item lg={6} md={5} xs={12} sx={{ px: 4, my: { lg: 0, xs: 2 } }}>
+                        <Grid item lg={3} md={3} xs={12} sx={{ px: 4, my: { lg: 0, xs: 2 } }}>
                           <Typography
                             variant='body2'
                             className='col-title'
@@ -313,7 +321,7 @@ const EditCard = ({ data, formData, setFormData, date, setDate }: EditCardProps)
                             <MenuItem value={InvoiceType.INCOME}>Income</MenuItem>
                           </Select>
                         </Grid>
-                        <Grid item lg={3} md={3} xs={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
+                        <Grid item lg={2} md={2} xs={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
                           <Typography
                             variant='body2'
                             className='col-title'
@@ -322,6 +330,7 @@ const EditCard = ({ data, formData, setFormData, date, setDate }: EditCardProps)
                             {t('invoice_page.edit.price')}
                           </Typography>
                           <TextField
+                            fullWidth
                             size='small'
                             type='number'
                             placeholder='1000'
@@ -329,6 +338,42 @@ const EditCard = ({ data, formData, setFormData, date, setDate }: EditCardProps)
                             value={formData?.find(data => data.index === i)?.price || ''}
                             onChange={e => handleChangeForm(i, 'price', e.target.value)}
                           />
+                        </Grid>
+                        <Grid item lg={2} md={2} xs={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
+                          <Typography
+                            variant='body2'
+                            className='col-title'
+                            sx={{ fontWeight: '600', mb: { md: 2, xs: 0 } }}
+                          >
+                            {t('invoice_page.add.quantity')}
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            size='small'
+                            type='number'
+                            placeholder='10'
+                            InputProps={{ inputProps: { min: 0 } }}
+                            value={formData?.find(data => data.index === i)?.quantity || ''}
+                            onChange={e => handleChangeForm(i, 'quantity', e.target.value)}
+                          />
+                        </Grid>
+                        <Grid item lg={2} md={2} xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
+                          <Typography
+                            variant='body2'
+                            className='col-title'
+                            sx={{ fontWeight: '600', mb: { md: 2, xs: 0 } }}
+                          >
+                            {t('invoice_page.add.currency')}
+                          </Typography>
+                          <Select
+                            fullWidth
+                            size='small'
+                            value={formData?.find(data => data.index === i)?.currency || CurrencyType.VND}
+                            onChange={e => handleChangeForm(i, 'currency', e.target.value)}
+                          >
+                            <MenuItem value={CurrencyType.VND}>VND</MenuItem>
+                            <MenuItem value={CurrencyType.USD}>USD</MenuItem>
+                          </Select>
                         </Grid>
                       </Grid>
                       <InvoiceAction>
