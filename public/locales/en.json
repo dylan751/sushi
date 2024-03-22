@@ -149,7 +149,7 @@
             "quantity": "Quantity",
             "currency": "Currency",
             "name": "Name",
-            "note": "Note ...",
+            "note": "Note",
             "price": "Price",
             "add_item": "Add Item",
             "create_invoice": "Create Invoice"
@@ -162,11 +162,40 @@
             "quantity": "Quantity",
             "currency": "Currency",
             "name": "Name",
-            "note": "Note ...",
+            "note": "Note",
             "price": "Price",
             "add_item": "Add Item",
             "update_invoice": "Update Invoice",
             "preview": "Preview"
+        },
+        "preview": {
+            "invoice": "Invoice",
+            "date": "Date",
+            "item": "Item",
+            "type": "Type",
+            "quantity": "Quantity",
+            "currency": "Currency",
+            "name": "Name",
+            "note": "Note",
+            "price": "Price",
+            "send_invoice": "Send Invoice",
+            "download": "Download",
+            "print": "Print",
+            "total": "Total",
+            "update_invoice": "Update Invoice"
+        },
+        "print": {
+            "invoice_to": "Invoice To",
+            "invoice": "Invoice",
+            "date": "Date",
+            "item": "Item",
+            "type": "Type",
+            "quantity": "Quantity",
+            "currency": "Currency",
+            "name": "Name",
+            "note": "Note",
+            "price": "Price",
+            "total": "Total"
         }
     },
     "user_page": {
