@@ -262,6 +262,11 @@ export enum InvoiceType {
   INCOME = 'income'
 }
 
+export enum CurrencyType {
+  VND = 'vnd',
+  USD = 'usd'
+}
+
 export interface CreateInvoiceItemRequest {
   /** @example "Monthly bill" */
   name: string
@@ -269,8 +274,12 @@ export interface CreateInvoiceItemRequest {
   note?: string
   /** @example 100000 */
   price: number
+  /** @example 1 */
+  quantity: number
   /** @example "expense" */
   type: InvoiceType
+  /** @example "vnd" */
+  currency: CurrencyType
 }
 
 export interface CreateInvoiceRequestDto {
@@ -291,8 +300,12 @@ export interface InvoiceItemResponseDto {
   note: string
   /** @example 10000 */
   price: number
+  /** @example 1 */
+  quantity: number
   /** @example "expense" */
   type: InvoiceType
+  /** @example "vnd" */
+  currency: CurrencyType
 }
 
 export interface InvoiceResponseDto {
@@ -324,8 +337,12 @@ export interface UpdateInvoiceItemRequest {
   note?: string
   /** @example 100000 */
   price?: number
+  /** @example 1 */
+  quantity?: number
   /** @example "expense" */
   type?: InvoiceType
+  /** @example "vnd" */
+  currency?: CurrencyType
 }
 
 export interface UpdateInvoiceRequestDto {

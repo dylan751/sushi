@@ -26,14 +26,22 @@ import themeConfig from 'src/configs/themeConfig'
 
 // ** Types Imports
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
-import { InvoiceType } from 'src/__generated__/AccountifyAPI'
+import { CurrencyType, InvoiceType } from 'src/__generated__/AccountifyAPI'
 
 // ** Custom Component Imports
 import Repeater from 'src/@core/components/repeater'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 
-const initialFormData = { index: 0, name: '', note: '', type: InvoiceType.EXPENSE, price: 0 }
+const initialFormData = {
+  index: 0,
+  name: '',
+  note: '',
+  type: InvoiceType.EXPENSE,
+  price: 0,
+  quantity: 0,
+  currency: CurrencyType.VND
+}
 
 interface PickerProps {
   label?: string
@@ -240,7 +248,7 @@ const AddCard = ({ setFormData, date, setDate }: AddCardProps) => {
                 <Grid container>
                   <RepeatingContent item xs={12}>
                     <Grid container sx={{ py: 4, width: '100%', pr: { lg: 0, xs: 4 } }}>
-                      <Grid item lg={6} md={5} xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
+                      <Grid item lg={3} md={3} xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
                         <Typography
                           variant='body2'
                           className='col-title'
@@ -283,7 +291,7 @@ const AddCard = ({ setFormData, date, setDate }: AddCardProps) => {
                           <MenuItem value={InvoiceType.INCOME}>Income</MenuItem>
                         </Select>
                       </Grid>
-                      <Grid item lg={3} md={3} xs={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
+                      <Grid item lg={2} md={2} xs={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
                         <Typography
                           variant='body2'
                           className='col-title'
@@ -292,12 +300,48 @@ const AddCard = ({ setFormData, date, setDate }: AddCardProps) => {
                           {t('invoice_page.add.price')}
                         </Typography>
                         <TextField
+                          fullWidth
                           size='small'
                           type='number'
                           placeholder='1000'
                           InputProps={{ inputProps: { min: 0 } }}
                           onChange={e => handleChangeForm(i, 'price', e.target.value)}
                         />
+                      </Grid>
+                      <Grid item lg={2} md={2} xs={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
+                        <Typography
+                          variant='body2'
+                          className='col-title'
+                          sx={{ fontWeight: '600', mb: { md: 2, xs: 0 } }}
+                        >
+                          {t('invoice_page.add.quantity')}
+                        </Typography>
+                        <TextField
+                          fullWidth
+                          size='small'
+                          type='number'
+                          placeholder='10'
+                          InputProps={{ inputProps: { min: 0 } }}
+                          onChange={e => handleChangeForm(i, 'quantity', e.target.value)}
+                        />
+                      </Grid>
+                      <Grid item lg={2} md={2} xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
+                        <Typography
+                          variant='body2'
+                          className='col-title'
+                          sx={{ fontWeight: '600', mb: { md: 2, xs: 0 } }}
+                        >
+                          {t('invoice_page.add.currency')}
+                        </Typography>
+                        <Select
+                          fullWidth
+                          size='small'
+                          defaultValue={CurrencyType.VND}
+                          onChange={e => handleChangeForm(i, 'currency', e.target.value)}
+                        >
+                          <MenuItem value={CurrencyType.VND}>VND</MenuItem>
+                          <MenuItem value={CurrencyType.USD}>USD</MenuItem>
+                        </Select>
                       </Grid>
                     </Grid>
                     <InvoiceAction>

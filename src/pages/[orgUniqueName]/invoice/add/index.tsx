@@ -21,7 +21,12 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from 'src/store'
 import { addInvoice } from 'src/store/apps/invoice'
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
-import { CreateInvoiceItemRequest, CreateInvoiceRequestDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
+import {
+  CreateInvoiceItemRequest,
+  CreateInvoiceRequestDto,
+  CurrencyType,
+  InvoiceType
+} from 'src/__generated__/AccountifyAPI'
 
 // ** Third Party Imports
 import toast from 'react-hot-toast'
@@ -32,7 +37,15 @@ import { getInvoiceListUrl } from 'src/utils/router/invoice'
 
 export type CreateInvoiceFormData = CreateInvoiceItemRequest & { index: number }
 
-const initialFormData = { index: 0, name: '', note: '', type: InvoiceType.EXPENSE, price: 0 }
+const initialFormData = {
+  index: 0,
+  name: '',
+  note: '',
+  type: InvoiceType.EXPENSE,
+  price: 0,
+  quantity: 0,
+  currency: CurrencyType.VND
+}
 
 const InvoiceAdd = () => {
   // ** States
@@ -46,7 +59,7 @@ const InvoiceAdd = () => {
   const isSubmitDisabled = (): boolean => {
     let isDisabled = false
     formData.map(data => {
-      if (!data.name || !data.type || !data.price) {
+      if (!data.name || !data.type || !data.price || !data.quantity || !data.currency) {
         isDisabled = true
       }
     })
@@ -58,7 +71,7 @@ const InvoiceAdd = () => {
     // Validation
     let isError = false
     formData.map(data => {
-      if (!data.name || !data.type || !data.price) {
+      if (!data.name || !data.type || !data.price || !data.quantity || !data.currency) {
         toast.error('Please fill out all the fields of all items')
         isError = true
 

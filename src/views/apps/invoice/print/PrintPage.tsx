@@ -35,6 +35,7 @@ import themeConfig from 'src/configs/themeConfig'
 
 // ** Utils Imports
 import { getInvoiceListUrl } from 'src/utils/router/invoice'
+import { calculateInvoiceItemTotal } from 'src/utils/invoice'
 
 const CalcWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   display: 'flex',
@@ -193,6 +194,7 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
               <TableCell>Type</TableCell>
               <TableCell>Price</TableCell>
               <TableCell>Qty</TableCell>
+              <TableCell>Currency</TableCell>
               <TableCell>Total</TableCell>
             </TableRow>
           </TableHead>
@@ -203,8 +205,9 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
                 <TableCell>{item.note}</TableCell>
                 <TableCell>{item.type}</TableCell>
                 <TableCell>{item.price}</TableCell>
-                <TableCell>1</TableCell>
-                <TableCell>$32</TableCell>
+                <TableCell>{item.quantity}</TableCell>
+                <TableCell>{item.currency}</TableCell>
+                <TableCell>${calculateInvoiceItemTotal(item.price, item.quantity)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
