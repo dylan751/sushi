@@ -11,7 +11,8 @@
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "build:icons": "tsc -b src/iconify-bundle && node src/iconify-bundle/bundle-icons-react.js",
     "new-release": "./scripts/create-release-branch.sh",
-    "api-gen": "node scripts/swagger-gen.js"
+    "api-gen": "node scripts/swagger-gen.js",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@casl/ability": "6.5.0",
@@ -100,6 +101,7 @@
     "eslint-import-resolver-alias": "1.1.2",
     "eslint-import-resolver-typescript": "3.5.3",
     "eslint-plugin-import": "2.27.5",
+    "husky": "^9.0.11",
     "prettier": "2.8.4",
     "typescript": "5.0.4"
   },
