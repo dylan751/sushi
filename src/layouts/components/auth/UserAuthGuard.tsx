@@ -7,6 +7,9 @@ import { useRouter } from 'next/router'
 // ** Next Auth Imports
 import { useSession } from 'next-auth/react'
 
+// ** Utils Imports
+import { getLoginUrl } from 'src/utils/router/auth'
+
 interface UserAuthGuardProps {
   children: ReactNode
   fallback: ReactElement | null
@@ -26,11 +29,11 @@ const UserAuthGuard = (props: UserAuthGuardProps) => {
       if (session.status === 'unauthenticated') {
         if (router.asPath !== '/') {
           router.replace({
-            pathname: '/login',
+            pathname: getLoginUrl(),
             query: { returnUrl: router.asPath }
           })
         } else {
-          router.replace('/login')
+          router.replace(getLoginUrl())
         }
       }
     },

@@ -47,6 +47,9 @@ import { RegisterRequestDto } from 'src/__generated__/AccountifyAPI'
 // ** Axios Imports
 import { $api } from 'src/utils/api'
 
+// ** Utils Imports
+import { getLoginUrl } from 'src/utils/router/auth'
+
 // ** Styled Components
 const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   padding: theme.spacing(20),
@@ -139,7 +142,7 @@ const Register = () => {
       .internal.register(data)
       .then(() => {
         toast.success('Register succeed')
-        router.replace('/login')
+        router.replace(getLoginUrl())
       })
       .catch(() => {
         setError('email', {

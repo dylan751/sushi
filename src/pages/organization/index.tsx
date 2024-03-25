@@ -13,7 +13,7 @@ import { CaslPermission, OrganizationProfileResponseDto } from 'src/__generated_
 import { useTranslation } from 'react-i18next'
 
 // ** Util Imports
-import { defaultHomeRoute } from 'src/layouts/components/acl/getUserHomeRoute'
+import { getCreateOrganizationUrl, getOrganizationDefaultHomeUrl } from 'src/utils/router/organization'
 
 // ** Next Auth Imports
 import { useSession } from 'next-auth/react'
@@ -36,11 +36,11 @@ const OrganizationPage = () => {
     localStorage.setItem('organization', JSON.stringify(organization))
     localStorage.setItem('permissions', JSON.stringify(userPermissions))
 
-    router.replace(`/${organization.uniqueName}/${defaultHomeRoute}`)
+    router.replace(getOrganizationDefaultHomeUrl(organization.uniqueName))
   }
 
   const navigateToCreateOrganizationPage = () => {
-    router.replace('/organization/new')
+    router.replace(getCreateOrganizationUrl())
   }
 
   return (
