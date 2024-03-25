@@ -132,6 +132,7 @@
             "creator": "Creator",
             "name": "Name",
             "note": "Note",
+            "total": "Total",
             "date": "Date",
             "amount": "Amount",
             "type": "Type",
