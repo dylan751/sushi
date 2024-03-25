@@ -257,14 +257,14 @@ export interface UpdateRoleRequestDto {
   permissionConfigs: PermissionConfigDto[]
 }
 
-export enum InvoiceType {
-  EXPENSE = 'expense',
-  INCOME = 'income'
-}
-
 export enum CurrencyType {
   VND = 'vnd',
   USD = 'usd'
+}
+
+export enum InvoiceType {
+  EXPENSE = 'expense',
+  INCOME = 'income'
 }
 
 export interface CreateInvoiceItemRequest {
@@ -278,8 +278,6 @@ export interface CreateInvoiceItemRequest {
   quantity: number
   /** @example "expense" */
   type: InvoiceType
-  /** @example "vnd" */
-  currency: CurrencyType
 }
 
 export interface CreateInvoiceRequestDto {
@@ -288,6 +286,8 @@ export interface CreateInvoiceRequestDto {
    * @example "2024-02-26T07:31:35.000Z"
    */
   date: string
+  /** @example "vnd" */
+  currency: CurrencyType
   items: CreateInvoiceItemRequest[]
 }
 
@@ -304,8 +304,6 @@ export interface InvoiceItemResponseDto {
   quantity: number
   /** @example "expense" */
   type: InvoiceType
-  /** @example "vnd" */
-  currency: CurrencyType
 }
 
 export interface InvoiceResponseDto {
@@ -316,6 +314,8 @@ export interface InvoiceResponseDto {
    * @example "2024-02-26T07:31:35.000Z"
    */
   date: string
+  /** @example "vnd" */
+  currency: CurrencyType
   /** @example 10 */
   total: number
   items: InvoiceItemResponseDto[]
@@ -343,8 +343,6 @@ export interface UpdateInvoiceItemRequest {
   quantity?: number
   /** @example "expense" */
   type?: InvoiceType
-  /** @example "vnd" */
-  currency?: CurrencyType
 }
 
 export interface UpdateInvoiceRequestDto {
@@ -353,6 +351,8 @@ export interface UpdateInvoiceRequestDto {
    * @example "2024-02-26T07:31:35.000Z"
    */
   date?: string
+  /** @example "vnd" */
+  currency?: CurrencyType
   items: UpdateInvoiceItemRequest[]
 }
 

@@ -37,6 +37,7 @@ import { DateType } from 'src/types/forms/reactDatepickerTypes'
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
 import { getInvoiceEditUrl, getInvoicePreviewUrl } from 'src/utils/router/invoice'
+import { formatInvoiceCurrency } from 'src/utils/invoice'
 
 // ** Custom Components Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
@@ -170,7 +171,9 @@ const InvoiceList = () => {
       minWidth: 90,
       field: 'total',
       headerName: t('invoice_page.list.total') as string,
-      renderCell: ({ row }: CellType) => <Typography variant='body2'>{`$${row.total || 0}`}</Typography>
+      renderCell: ({ row }: CellType) => (
+        <Typography variant='body2'>{formatInvoiceCurrency(row.total || 0, row.currency)}</Typography>
+      )
     },
     {
       flex: 0.2,

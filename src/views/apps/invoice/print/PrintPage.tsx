@@ -35,7 +35,7 @@ import themeConfig from 'src/configs/themeConfig'
 
 // ** Utils Imports
 import { getInvoiceListUrl } from 'src/utils/router/invoice'
-import { calculateInvoiceItemTotal } from 'src/utils/invoice'
+import { formatInvoiceCurrency } from 'src/utils/invoice'
 
 // ** Hooks Imports
 import { useTranslation } from 'react-i18next'
@@ -198,7 +198,6 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
               <TableCell>{t('invoice_page.print.type')}</TableCell>
               <TableCell>{t('invoice_page.print.price')}</TableCell>
               <TableCell>{t('invoice_page.print.quantity')}</TableCell>
-              <TableCell>{t('invoice_page.print.currency')}</TableCell>
               <TableCell>{t('invoice_page.print.total')}</TableCell>
             </TableRow>
           </TableHead>
@@ -210,8 +209,7 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
                 <TableCell>{item.type}</TableCell>
                 <TableCell>{item.price}</TableCell>
                 <TableCell>{item.quantity}</TableCell>
-                <TableCell>{item.currency}</TableCell>
-                <TableCell>${calculateInvoiceItemTotal(item.price, item.quantity)}</TableCell>
+                <TableCell>{formatInvoiceCurrency(item.price * item.quantity, invoice.currency)}</TableCell>
               </TableRow>
             ))}
           </TableBody>

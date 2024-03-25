@@ -43,13 +43,13 @@ const initialFormData = {
   note: '',
   type: InvoiceType.EXPENSE,
   price: 0,
-  quantity: 0,
-  currency: CurrencyType.VND
+  quantity: 0
 }
 
 const InvoiceAdd = () => {
   // ** States
   const [date, setDate] = useState<DateType>(new Date())
+  const [currency, setCurrency] = useState<CurrencyType>(CurrencyType.VND)
   const [formData, setFormData] = useState<CreateInvoiceFormData[]>([initialFormData])
 
   // ** Hooks
@@ -59,7 +59,7 @@ const InvoiceAdd = () => {
   const isSubmitDisabled = (): boolean => {
     let isDisabled = false
     formData.map(data => {
-      if (!data.name || !data.type || !data.price || !data.quantity || !data.currency) {
+      if (!data.name || !data.type || !data.price || !data.quantity) {
         isDisabled = true
       }
     })
@@ -71,7 +71,7 @@ const InvoiceAdd = () => {
     // Validation
     let isError = false
     formData.map(data => {
-      if (!data.name || !data.type || !data.price || !data.quantity || !data.currency) {
+      if (!data.name || !data.type || !data.price || !data.quantity) {
         toast.error('Please fill out all the fields of all items')
         isError = true
 
@@ -90,7 +90,8 @@ const InvoiceAdd = () => {
 
         return { ...resData }
       }),
-      date: format(date as Date, 'yyyy-MM-dd')
+      date: format(date as Date, 'yyyy-MM-dd'),
+      currency
     }
 
     // Call api
@@ -103,7 +104,13 @@ const InvoiceAdd = () => {
     <DatePickerWrapper sx={{ '& .react-datepicker-wrapper': { width: 'auto' } }}>
       <Grid container spacing={6}>
         <Grid item xl={9} md={8} xs={12}>
-          <AddCard setFormData={setFormData} date={date} setDate={setDate} />
+          <AddCard
+            setFormData={setFormData}
+            date={date}
+            setDate={setDate}
+            currency={currency}
+            setCurrency={setCurrency}
+          />
         </Grid>
         <Grid item xl={3} md={4} xs={12}>
           <AddActions onSubmit={onSubmit} isSubmitDisabled={isSubmitDisabled} />

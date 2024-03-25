@@ -39,8 +39,7 @@ const initialFormData = {
   note: '',
   type: InvoiceType.EXPENSE,
   price: 0,
-  quantity: 0,
-  currency: CurrencyType.VND
+  quantity: 0
 }
 
 interface PickerProps {
@@ -89,9 +88,11 @@ export interface AddCardProps {
   setFormData: (value: any) => void
   date: DateType
   setDate: (value: DateType) => void
+  currency: CurrencyType
+  setCurrency: (value: CurrencyType) => void
 }
 
-const AddCard = ({ setFormData, date, setDate }: AddCardProps) => {
+const AddCard = ({ setFormData, date, setDate, currency, setCurrency }: AddCardProps) => {
   // ** States
   const [count, setCount] = useState<number>(1)
 
@@ -231,6 +232,15 @@ const AddCard = ({ setFormData, date, setDate }: AddCardProps) => {
                   onChange={(date: Date) => setDate(date)}
                 />
               </Box>
+              <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+                <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
+                  {t('invoice_page.add.currency')}:
+                </Typography>
+                <Select size='small' value={currency} onChange={e => setCurrency(e.target.value as CurrencyType)}>
+                  <MenuItem value={CurrencyType.VND}>VND</MenuItem>
+                  <MenuItem value={CurrencyType.USD}>USD</MenuItem>
+                </Select>
+              </Box>
             </Box>
           </Grid>
         </Grid>
@@ -248,7 +258,7 @@ const AddCard = ({ setFormData, date, setDate }: AddCardProps) => {
                 <Grid container>
                   <RepeatingContent item xs={12}>
                     <Grid container sx={{ py: 4, width: '100%', pr: { lg: 0, xs: 4 } }}>
-                      <Grid item lg={3} md={3} xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
+                      <Grid item lg={4} md={4} xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
                         <Typography
                           variant='body2'
                           className='col-title'
@@ -291,7 +301,7 @@ const AddCard = ({ setFormData, date, setDate }: AddCardProps) => {
                           <MenuItem value={InvoiceType.INCOME}>Income</MenuItem>
                         </Select>
                       </Grid>
-                      <Grid item lg={2} md={2} xs={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
+                      <Grid item lg={3} md={3} xs={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
                         <Typography
                           variant='body2'
                           className='col-title'
@@ -324,24 +334,6 @@ const AddCard = ({ setFormData, date, setDate }: AddCardProps) => {
                           InputProps={{ inputProps: { min: 0 } }}
                           onChange={e => handleChangeForm(i, 'quantity', e.target.value)}
                         />
-                      </Grid>
-                      <Grid item lg={2} md={2} xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
-                        <Typography
-                          variant='body2'
-                          className='col-title'
-                          sx={{ fontWeight: '600', mb: { md: 2, xs: 0 } }}
-                        >
-                          {t('invoice_page.add.currency')}
-                        </Typography>
-                        <Select
-                          fullWidth
-                          size='small'
-                          defaultValue={CurrencyType.VND}
-                          onChange={e => handleChangeForm(i, 'currency', e.target.value)}
-                        >
-                          <MenuItem value={CurrencyType.VND}>VND</MenuItem>
-                          <MenuItem value={CurrencyType.USD}>USD</MenuItem>
-                        </Select>
                       </Grid>
                     </Grid>
                     <InvoiceAction>
