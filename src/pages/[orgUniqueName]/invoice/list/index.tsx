@@ -165,7 +165,13 @@ const InvoiceList = () => {
         )
       }
     },
-
+    {
+      flex: 0.1,
+      minWidth: 90,
+      field: 'total',
+      headerName: t('invoice_page.list.total') as string,
+      renderCell: ({ row }: CellType) => <Typography variant='body2'>{`$${row.total || 0}`}</Typography>
+    },
     {
       flex: 0.2,
       minWidth: 125,

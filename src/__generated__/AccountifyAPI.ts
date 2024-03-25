@@ -316,6 +316,8 @@ export interface InvoiceResponseDto {
    * @example "2024-02-26T07:31:35.000Z"
    */
   date: string
+  /** @example 10 */
+  total: number
   items: InvoiceItemResponseDto[]
   creator: OrganizationUserResponseDto
   /**

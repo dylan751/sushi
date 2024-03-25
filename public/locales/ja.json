@@ -132,6 +132,7 @@
             "creator": "創造者",
             "name": "名前",
             "note": "メモ",
+            "total": "合計",
             "date": "日付",
             "amount": "価格",
             "type": "タイプ",
