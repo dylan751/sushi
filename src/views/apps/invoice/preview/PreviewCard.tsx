@@ -23,7 +23,7 @@ import { InvoiceResponseDto } from 'src/__generated__/AccountifyAPI'
 import { format } from 'date-fns'
 
 // ** Utils Imports
-import { calculateInvoiceItemTotal } from 'src/utils/invoice'
+import { formatInvoiceCurrency } from 'src/utils/invoice'
 
 // ** Hooks Imports
 import { useTranslation } from 'react-i18next'
@@ -185,7 +185,6 @@ const PreviewCard = ({ data }: Props) => {
                 <TableCell>{t('invoice_page.preview.type')}</TableCell>
                 <TableCell>{t('invoice_page.preview.price')}</TableCell>
                 <TableCell>{t('invoice_page.preview.quantity')}</TableCell>
-                <TableCell>{t('invoice_page.preview.currency')}</TableCell>
                 <TableCell>{t('invoice_page.preview.total')}</TableCell>
               </TableRow>
             </TableHead>
@@ -197,8 +196,7 @@ const PreviewCard = ({ data }: Props) => {
                   <TableCell>{item.type}</TableCell>
                   <TableCell>{item.price}</TableCell>
                   <TableCell>{item.quantity}</TableCell>
-                  <TableCell>{item.currency}</TableCell>
-                  <TableCell>${calculateInvoiceItemTotal(item.price, item.quantity)}</TableCell>
+                  <TableCell>{formatInvoiceCurrency(item.price * item.quantity, data.currency)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

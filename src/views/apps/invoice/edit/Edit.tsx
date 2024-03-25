@@ -17,7 +17,12 @@ import { fetchAnInvoice, updateInvoice } from 'src/store/apps/invoice'
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
-import { InvoiceResponseDto, UpdateInvoiceItemRequest, UpdateInvoiceRequestDto } from 'src/__generated__/AccountifyAPI'
+import {
+  CurrencyType,
+  InvoiceResponseDto,
+  UpdateInvoiceItemRequest,
+  UpdateInvoiceRequestDto
+} from 'src/__generated__/AccountifyAPI'
 
 // ** Components Imports
 import EditCard from './EditCard'
@@ -54,6 +59,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
       ? new Date((invoiceStore.invoice as InvoiceResponseDto).date)
       : new Date()
   )
+  const [currency, setCurrency] = useState<CurrencyType>((invoiceStore.invoice as InvoiceResponseDto).currency)
   const [formData, setFormData] = useState<UpdateInvoiceFormData[]>([])
 
   const [addPaymentOpen, setAddPaymentOpen] = useState<boolean>(false)
@@ -65,7 +71,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   const isSubmitDisabled = (): boolean => {
     let isDisabled = false
     formData?.map(data => {
-      if (!data.name || !data.type || !data.price || !data.quantity || !data.currency) {
+      if (!data.name || !data.type || !data.price || !data.quantity) {
         isDisabled = true
       }
     })
@@ -77,7 +83,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
     // Validation
     let isError = false
     formData.map(data => {
-      if (!data.name || !data.type || !data.price || !data.quantity || !data.currency) {
+      if (!data.name || !data.type || !data.price || !data.quantity) {
         toast.error('Please fill out all the fields of all items')
         isError = true
 
@@ -96,7 +102,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
 
         return { ...resData }
       }),
-      date: format(date as Date, 'yyyy-MM-dd')
+      date: format(date as Date, 'yyyy-MM-dd'),
+      currency
     }
 
     // Call api
@@ -115,6 +122,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
               setFormData={setFormData}
               date={date}
               setDate={setDate}
+              currency={currency}
+              setCurrency={setCurrency}
             />
           </Grid>
           <Grid item xl={3} md={4} xs={12}>
