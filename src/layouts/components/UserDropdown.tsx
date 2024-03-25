@@ -28,8 +28,8 @@ import { Settings } from 'src/@core/context/settingsContext'
 
 // ** Util Imports
 import { getOrganization } from 'src/utils/localStorage'
-import { getOrgUniqueName } from 'src/utils/organization'
-import { selectOrganizationRoute } from './acl/getUserHomeRoute'
+import { getAccountSettingsAccountUrl } from 'src/utils/router/account-settings'
+import { getSelectOrganizationUrl } from 'src/utils/router/organization'
 
 interface Props {
   settings: Settings
@@ -89,12 +89,12 @@ const UserDropdown = (props: Props) => {
   }
 
   const handleAccountSettings = () => {
-    router.replace(`/${getOrgUniqueName()}/account-settings/account`)
+    router.replace(getAccountSettingsAccountUrl())
     handleDropdownClose()
   }
 
   const handleOrganization = () => {
-    router.replace(`/${selectOrganizationRoute}`)
+    router.replace(getSelectOrganizationUrl())
     handleDropdownClose()
   }
 

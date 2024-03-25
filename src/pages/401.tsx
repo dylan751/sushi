@@ -17,7 +17,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 import FooterIllustrations from 'src/views/pages/misc/FooterIllustrations'
 
 // ** Util Imports
-import { loginRoute, selectOrganizationRoute } from 'src/layouts/components/acl/getUserHomeRoute'
+import { getLoginUrl, getSelectOrganizationUrl } from 'src/utils/router'
 
 // ** Next Auth Imports
 import { useSession } from 'next-auth/react'
@@ -45,7 +45,7 @@ const Img = styled('img')(({ theme }) => ({
 
 const Error401 = () => {
   const session = useSession()
-  const getBackToHomeRoute = session.data && session.data.user ? `/${selectOrganizationRoute}` : `/${loginRoute}`
+  const getBackToHomeRoute = session.data && session.data.user ? getSelectOrganizationUrl() : getLoginUrl()
 
   return (
     <Box className='content-center'>
