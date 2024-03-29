@@ -23,10 +23,13 @@ import { InvoiceResponseDto } from 'src/__generated__/AccountifyAPI'
 import { format } from 'date-fns'
 
 // ** Utils Imports
-import { formatInvoiceCurrency } from 'src/utils/invoice'
+import { formatCurrencyAsStandard } from 'src/utils/currency'
 
 // ** Hooks Imports
 import { useTranslation } from 'react-i18next'
+
+// ** Enums Imports
+import { Locale } from 'src/enum'
 
 interface Props {
   data: InvoiceResponseDto
@@ -194,9 +197,11 @@ const PreviewCard = ({ data }: Props) => {
                   <TableCell>{item.name}</TableCell>
                   <TableCell>{item.note}</TableCell>
                   <TableCell>{item.type}</TableCell>
-                  <TableCell>{item.price}</TableCell>
+                  <TableCell>{formatCurrencyAsStandard(item.price, Locale.EN, data.currency)}</TableCell>
                   <TableCell>{item.quantity}</TableCell>
-                  <TableCell>{formatInvoiceCurrency(item.price * item.quantity, data.currency)}</TableCell>
+                  <TableCell>
+                    {formatCurrencyAsStandard(item.price * item.quantity, Locale.EN, data.currency)}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
