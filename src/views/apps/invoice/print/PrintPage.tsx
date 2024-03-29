@@ -35,10 +35,13 @@ import themeConfig from 'src/configs/themeConfig'
 
 // ** Utils Imports
 import { getInvoiceListUrl } from 'src/utils/router/invoice'
-import { formatInvoiceCurrency } from 'src/utils/invoice'
+import { formatCurrencyAsStandard } from 'src/utils/currency'
 
 // ** Hooks Imports
 import { useTranslation } from 'react-i18next'
+
+// ** Enums Imports
+import { Locale } from 'src/enum'
 
 const CalcWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   display: 'flex',
@@ -207,9 +210,11 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.note}</TableCell>
                 <TableCell>{item.type}</TableCell>
-                <TableCell>{item.price}</TableCell>
+                <TableCell>{formatCurrencyAsStandard(item.price, Locale.EN, invoice.currency)}</TableCell>
                 <TableCell>{item.quantity}</TableCell>
-                <TableCell>{formatInvoiceCurrency(item.price * item.quantity, invoice.currency)}</TableCell>
+                <TableCell>
+                  {formatCurrencyAsStandard(item.price * item.quantity, Locale.EN, invoice.currency)}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
