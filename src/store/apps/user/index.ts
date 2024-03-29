@@ -13,7 +13,7 @@ import {
 } from 'src/__generated__/AccountifyAPI'
 
 // ** Utils
-import { getAccessToken, getOrgId } from 'src/utils/localStorage'
+import { getAccessToken } from 'src/utils/localStorage'
 
 interface DataParams {
   query: string
@@ -26,55 +26,11 @@ interface Redux {
 }
 
 // ** Fetch Users
-export const fetchUser = createAsyncThunk('appUsers/fetchUser', async (params: DataParams) => {
-  const organizationId = getOrgId()
-  const storedToken = getAccessToken()
-
-  try {
-    const response = await new Api({
-      baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
-      timeout: 30 * 1000, // 30 seconds
-      headers: {
-        Authorization: `Bearer ${storedToken}`
-      }
-    }).internal.getUserListForOrganization(organizationId, params)
-
-    return response.data
-  } catch (error: any) {
-    toast.error(error.message)
-  }
-})
-
-// ** Add User
-export const addUser = createAsyncThunk('appUsers/addUser', async (data: BulkInviteRequestDto, { dispatch }: Redux) => {
-  const organizationId = getOrgId()
-  const storedToken = getAccessToken()
-
-  try {
-    const response = await new Api({
-      baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
-      timeout: 30 * 1000, // 30 seconds
-      headers: {
-        Authorization: `Bearer ${storedToken}`
-      }
-    }).internal.inviteUsersToOrganization(organizationId, data)
-
-    dispatch(fetchUser({ role: '', query: '' }))
-    dispatch(fetchAdminCount())
-    toast.success('Add user succeed')
-
-    return response.data
-  } catch (error: any) {
-    toast.error(error.message)
-  }
-})
-
-// ** Update User
-export const updateUser = createAsyncThunk(
-  'appUsers/updateUser',
-  async (data: UpdateOrganizationUserRequestDto & { userId: number }, { dispatch }: Redux) => {
-    const organizationId = getOrgId()
+export const fetchUser = createAsyncThunk(
+  'appUsers/fetchUser',
+  async (params: DataParams & { organizationId: number }) => {
     const storedToken = getAccessToken()
+    const { organizationId, ...resParams } = params
 
     try {
       const response = await new Api({
@@ -83,10 +39,60 @@ export const updateUser = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${storedToken}`
         }
-      }).internal.updateOrganizationUserInformation(organizationId, data.userId, data)
+      }).internal.getUserListForOrganization(organizationId, resParams)
 
-      dispatch(fetchUser({ role: '', query: '' }))
-      dispatch(fetchAdminCount())
+      return response.data
+    } catch (error: any) {
+      toast.error(error.message)
+    }
+  }
+)
+
+// ** Add User
+export const addUser = createAsyncThunk(
+  'appUsers/addUser',
+  async (data: BulkInviteRequestDto & { organizationId: number }, { dispatch }: Redux) => {
+    const storedToken = getAccessToken()
+    const { organizationId, ...resData } = data
+
+    try {
+      const response = await new Api({
+        baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+        timeout: 30 * 1000, // 30 seconds
+        headers: {
+          Authorization: `Bearer ${storedToken}`
+        }
+      }).internal.inviteUsersToOrganization(organizationId, resData)
+
+      dispatch(fetchUser({ organizationId, role: '', query: '' }))
+      dispatch(fetchAdminCount(organizationId))
+      toast.success('Add user succeed')
+
+      return response.data
+    } catch (error: any) {
+      toast.error(error.message)
+    }
+  }
+)
+
+// ** Update User
+export const updateUser = createAsyncThunk(
+  'appUsers/updateUser',
+  async (data: UpdateOrganizationUserRequestDto & { organizationId: number; userId: number }, { dispatch }: Redux) => {
+    const storedToken = getAccessToken()
+    const { organizationId, ...resData } = data
+
+    try {
+      const response = await new Api({
+        baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+        timeout: 30 * 1000, // 30 seconds
+        headers: {
+          Authorization: `Bearer ${storedToken}`
+        }
+      }).internal.updateOrganizationUserInformation(organizationId, resData.userId, resData)
+
+      dispatch(fetchUser({ organizationId, role: '', query: '' }))
+      dispatch(fetchAdminCount(organizationId))
       toast.success('Update user role succeed')
 
       return response.data
@@ -97,32 +103,34 @@ export const updateUser = createAsyncThunk(
 )
 
 // ** Delete User
-export const deleteUser = createAsyncThunk('appRoles/deleteUser', async (userId: number, { dispatch }: Redux) => {
-  const organizationId = getOrgId()
-  const storedToken = getAccessToken()
+export const deleteUser = createAsyncThunk(
+  'appRoles/deleteUser',
+  async (params: { organizationId: number; userId: number }, { dispatch }: Redux) => {
+    const storedToken = getAccessToken()
+    const { organizationId, userId } = params
 
-  try {
-    const response = await new Api({
-      baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
-      timeout: 30 * 1000, // 30 seconds
-      headers: {
-        Authorization: `Bearer ${storedToken}`
-      }
-    }).internal.deleteAnOrganizationUser(organizationId, userId)
+    try {
+      const response = await new Api({
+        baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+        timeout: 30 * 1000, // 30 seconds
+        headers: {
+          Authorization: `Bearer ${storedToken}`
+        }
+      }).internal.deleteAnOrganizationUser(organizationId, userId)
 
-    dispatch(fetchUser({ role: '', query: '' }))
-    dispatch(fetchAdminCount())
-    toast.success('Remove user from this organization succeed')
+      dispatch(fetchUser({ organizationId, role: '', query: '' }))
+      dispatch(fetchAdminCount(organizationId))
+      toast.success('Remove user from this organization succeed')
 
-    return response.data
-  } catch (error: any) {
-    toast.error(error.message)
+      return response.data
+    } catch (error: any) {
+      toast.error(error.message)
+    }
   }
-})
+)
 
 // ** Fetch Admin counts
-export const fetchAdminCount = createAsyncThunk('appUsers/fetchAdminCount', async () => {
-  const organizationId = getOrgId()
+export const fetchAdminCount = createAsyncThunk('appUsers/fetchAdminCount', async (organizationId: number) => {
   const storedToken = getAccessToken()
 
   try {

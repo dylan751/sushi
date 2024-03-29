@@ -5,7 +5,7 @@ import { createSlice, createAsyncThunk, Dispatch } from '@reduxjs/toolkit'
 import { Api, CreateRoleRequestDto, RoleResponseDto, UpdateRoleRequestDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Utils
-import { getAccessToken, getOrgId } from 'src/utils/localStorage'
+import { getAccessToken } from 'src/utils/localStorage'
 import { fetchUser } from '../user'
 
 // ** Third Party Imports
@@ -21,54 +21,11 @@ interface Redux {
 }
 
 // ** Fetch Roles
-export const fetchRole = createAsyncThunk('appRoles/fetchRole', async (params: DataParams) => {
-  const organizationId = getOrgId()
-  const storedToken = getAccessToken()
-
-  try {
-    const response = await new Api({
-      baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
-      timeout: 30 * 1000, // 30 seconds
-      headers: {
-        Authorization: `Bearer ${storedToken}`
-      }
-    }).internal.getRoleListForOrganization(organizationId!, params)
-
-    return response.data
-  } catch (error: any) {
-    toast.error(error.message)
-  }
-})
-
-// ** Add Role
-export const addRole = createAsyncThunk('appRoles/addRole', async (data: CreateRoleRequestDto, { dispatch }: Redux) => {
-  const organizationId = getOrgId()
-  const storedToken = getAccessToken()
-
-  try {
-    const response = await new Api({
-      baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
-      timeout: 30 * 1000, // 30 seconds
-      headers: {
-        Authorization: `Bearer ${storedToken}`
-      }
-    }).internal.createRolesForAnOrganization(organizationId, data)
-
-    dispatch(fetchRole({ query: '' }))
-    toast.success('Add role succeed')
-
-    return response.data
-  } catch (error: any) {
-    toast.error(error.message)
-  }
-})
-
-// ** Update Role
-export const updateRole = createAsyncThunk(
-  'appRoles/updateRole',
-  async (data: UpdateRoleRequestDto & { roleId: number }, { dispatch }: Redux) => {
-    const organizationId = getOrgId()
+export const fetchRole = createAsyncThunk(
+  'appRoles/fetchRole',
+  async (params: DataParams & { organizationId: number }) => {
     const storedToken = getAccessToken()
+    const { organizationId, ...resParams } = params
 
     try {
       const response = await new Api({
@@ -77,9 +34,58 @@ export const updateRole = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${storedToken}`
         }
-      }).internal.updateARoleForAnOrganization(organizationId, data.roleId, data)
+      }).internal.getRoleListForOrganization(organizationId, resParams)
 
-      dispatch(fetchRole({ query: '' }))
+      return response.data
+    } catch (error: any) {
+      toast.error(error.message)
+    }
+  }
+)
+
+// ** Add Role
+export const addRole = createAsyncThunk(
+  'appRoles/addRole',
+  async (data: CreateRoleRequestDto & { organizationId: number }, { dispatch }: Redux) => {
+    const storedToken = getAccessToken()
+    const { organizationId, ...resData } = data
+
+    try {
+      const response = await new Api({
+        baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+        timeout: 30 * 1000, // 30 seconds
+        headers: {
+          Authorization: `Bearer ${storedToken}`
+        }
+      }).internal.createRolesForAnOrganization(organizationId, resData)
+
+      dispatch(fetchRole({ organizationId, query: '' }))
+      toast.success('Add role succeed')
+
+      return response.data
+    } catch (error: any) {
+      toast.error(error.message)
+    }
+  }
+)
+
+// ** Update Role
+export const updateRole = createAsyncThunk(
+  'appRoles/updateRole',
+  async (data: UpdateRoleRequestDto & { organizationId: number; roleId: number }, { dispatch }: Redux) => {
+    const storedToken = getAccessToken()
+    const { organizationId, ...resData } = data
+
+    try {
+      const response = await new Api({
+        baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+        timeout: 30 * 1000, // 30 seconds
+        headers: {
+          Authorization: `Bearer ${storedToken}`
+        }
+      }).internal.updateARoleForAnOrganization(organizationId, resData.roleId, resData)
+
+      dispatch(fetchRole({ organizationId, query: '' }))
       toast.success('Update role succeed')
 
       return response.data
@@ -90,28 +96,31 @@ export const updateRole = createAsyncThunk(
 )
 
 // ** Delete Role
-export const deleteRole = createAsyncThunk('appRoles/deleteRole', async (roleId: number, { dispatch }: Redux) => {
-  const organizationId = getOrgId()
-  const storedToken = getAccessToken()
+export const deleteRole = createAsyncThunk(
+  'appRoles/deleteRole',
+  async (params: { organizationId: number; roleId: number }, { dispatch }: Redux) => {
+    const storedToken = getAccessToken()
+    const { organizationId, roleId } = params
 
-  try {
-    const response = await new Api({
-      baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
-      timeout: 30 * 1000, // 30 seconds
-      headers: {
-        Authorization: `Bearer ${storedToken}`
-      }
-    }).internal.deleteARoleForAnOrganization(organizationId, roleId)
+    try {
+      const response = await new Api({
+        baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+        timeout: 30 * 1000, // 30 seconds
+        headers: {
+          Authorization: `Bearer ${storedToken}`
+        }
+      }).internal.deleteARoleForAnOrganization(organizationId, roleId)
 
-    dispatch(fetchRole({ query: '' }))
-    dispatch(fetchUser({ role: '', query: '' }))
-    toast.success('Delete role succeed')
+      dispatch(fetchRole({ organizationId, query: '' }))
+      dispatch(fetchUser({ organizationId, role: '', query: '' }))
+      toast.success('Delete role succeed')
 
-    return response.data
-  } catch (error: any) {
-    toast.error(error.message)
+      return response.data
+    } catch (error: any) {
+      toast.error(error.message)
+    }
   }
-})
+)
 
 export const appRolesSlice = createSlice({
   name: 'appRoles',

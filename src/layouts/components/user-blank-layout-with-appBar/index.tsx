@@ -43,7 +43,6 @@ const BlankLayoutAppBar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken')
-    localStorage.removeItem('organization')
     localStorage.removeItem('permissions')
     signOut({ callbackUrl: '/', redirect: false }).then(() => {
       router.asPath = '/'

@@ -54,6 +54,9 @@ import { AbilityContext } from 'src/layouts/components/acl/Can'
 // ** Enums Imports
 import { Locale } from 'src/enum'
 
+// ** Hooks Imports
+import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
+
 interface CustomInputProps {
   dates: Date[]
   label: string
@@ -113,6 +116,7 @@ const InvoiceList = () => {
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
   // ** Hooks
+  const { organizationId } = useCurrentOrganization()
   const dispatch = useDispatch<AppDispatch>()
   const store = useSelector((state: RootState) => state.invoice)
   const ability = useContext(AbilityContext)
@@ -121,12 +125,13 @@ const InvoiceList = () => {
   useEffect(() => {
     dispatch(
       fetchInvoice({
+        organizationId,
         fromDate: dates[0]?.toString(),
         toDate: dates[1]?.toString(),
         query: value
       })
     )
-  }, [dispatch, value, dates])
+  }, [dispatch, value, dates, organizationId])
 
   const handleFilter = (val: string) => {
     setValue(val)
@@ -202,7 +207,7 @@ const InvoiceList = () => {
           <Tooltip title={t('invoice_page.list.delete_invoice')}>
             <IconButton
               size='small'
-              onClick={() => dispatch(deleteInvoice(row.id))}
+              onClick={() => dispatch(deleteInvoice({ organizationId, invoiceId: row.id }))}
               disabled={!ability?.can('delete', 'invoice')}
             >
               <Icon icon='mdi:delete-outline' fontSize={20} />

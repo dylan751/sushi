@@ -37,6 +37,9 @@ import { getInvoiceListUrl, getInvoicePreviewUrl } from 'src/utils/router/invoic
 import { format } from 'date-fns'
 import toast from 'react-hot-toast'
 
+// ** Hooks Imports
+import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
+
 export interface InvoiceEditProps {
   id: string
 }
@@ -49,9 +52,11 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   const invoiceStore = useSelector((state: RootState) => state.invoice)
   const router = useRouter()
 
+  const { organizationId } = useCurrentOrganization()
+
   useEffect(() => {
-    dispatch(fetchAnInvoice(parseInt(id!)))
-  }, [dispatch, id])
+    dispatch(fetchAnInvoice({ organizationId, id: parseInt(id!) }))
+  }, [dispatch, id, organizationId])
 
   // ** States
   const [date, setDate] = useState<Date>(
@@ -107,7 +112,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
     }
 
     // Call api
-    dispatch(updateInvoice({ ...updateInvoiceRequest, invoiceId: parseInt(id!) }))
+    dispatch(updateInvoice({ ...updateInvoiceRequest, invoiceId: parseInt(id!), organizationId }))
     router.replace(getInvoicePreviewUrl(id))
   }
 

@@ -39,6 +39,7 @@ import { formatCurrencyAsStandard } from 'src/utils/currency'
 
 // ** Hooks Imports
 import { useTranslation } from 'react-i18next'
+import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
 
 // ** Enums Imports
 import { Locale } from 'src/enum'
@@ -60,6 +61,7 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
   // ** Hooks
   const theme = useTheme()
   const { t } = useTranslation()
+  const { organizationId } = useCurrentOrganization()
 
   // ** Store
   const dispatch = useDispatch<AppDispatch>()
@@ -72,8 +74,8 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
   }, [])
 
   useEffect(() => {
-    dispatch(fetchAnInvoice(parseInt(id!)))
-  }, [dispatch, id])
+    dispatch(fetchAnInvoice({ organizationId, id: parseInt(id!) }))
+  }, [dispatch, id, organizationId])
 
   if (invoiceStore.invoice) {
     const invoice = invoiceStore.invoice as InvoiceResponseDto

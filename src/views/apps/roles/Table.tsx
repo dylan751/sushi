@@ -26,7 +26,6 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 // ** Utils Import
 import { getOrganizationDefaultHomeUrl } from 'src/utils/router/organization'
 import { getInitials } from 'src/@core/utils/get-initials'
-import { getOrgId } from 'src/utils/localStorage'
 import { isAdmin } from 'src/utils/role'
 
 // ** Actions Imports
@@ -35,7 +34,7 @@ import { fetchRole } from 'src/store/apps/role'
 
 // ** Types Imports
 import { RootState, AppDispatch } from 'src/store'
-import { OrganizationProfileResponseDto, OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
+import { OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Custom Components Imports
 import TableHeader from 'src/views/apps/roles/TableHeader'
@@ -45,6 +44,7 @@ import AddUserDrawer from '../user/list/AddUserDrawer'
 
 // ** Hook Imports
 import { useTranslation } from 'react-i18next'
+import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
 
 // ** Next Auth Imports
 import { useSession } from 'next-auth/react'
@@ -83,6 +83,7 @@ const UserList = () => {
 
   // ** Hooks
   const session = useSession()
+  const { organization, organizationId } = useCurrentOrganization()
   const dispatch = useDispatch<AppDispatch>()
   const userStore = useSelector((state: RootState) => state.user)
   const roleStore = useSelector((state: RootState) => state.role)
@@ -92,13 +93,14 @@ const UserList = () => {
   useEffect(() => {
     dispatch(
       fetchUser({
+        organizationId,
         role: role,
         query: value
       })
     )
-    dispatch(fetchAdminCount())
-    dispatch(fetchRole({ query: '' }))
-  }, [dispatch, role, value])
+    dispatch(fetchAdminCount(organizationId))
+    dispatch(fetchRole({ organizationId, query: '' }))
+  }, [dispatch, role, value, organizationId])
 
   const hasOnlyOneAdmin = (): boolean => {
     return userStore.totalAdmins <= 1
@@ -142,25 +144,22 @@ const UserList = () => {
 
   const onSubmitEditUserRole = () => {
     if (!selectedOrganizationUser) return
-    const orgId = getOrgId()
     const data = {
       userId: selectedOrganizationUser.id,
       roleIds: selectedCheckbox.map(roleId => parseInt(roleId))
     }
-    dispatch(updateUser(data))
+    dispatch(updateUser({ organizationId, ...data }))
     if (session.data && selectedOrganizationUser.id !== session.data.user.id) {
       setShowDialogEditUserRole(false)
       setSelectedCheckbox([])
 
       return
     }
-    const organization =
-      session.data && session.data.user.organizations.find((org: OrganizationProfileResponseDto) => org.id === orgId)!
     window.location.assign(getOrganizationDefaultHomeUrl(organization?.uniqueName))
   }
 
   const handleDeleteUser = (userId: number) => {
-    dispatch(deleteUser(userId))
+    dispatch(deleteUser({ organizationId, userId }))
 
     setShowDialogDeleteUser(false)
     setSelectedOrganizationUser(null)

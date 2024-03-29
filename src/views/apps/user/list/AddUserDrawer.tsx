@@ -34,6 +34,9 @@ import { ADMIN_ROLE_ID } from 'src/utils/role'
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
 
+// ** Hooks Imports
+import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
+
 interface SidebarAddUserType {
   open: boolean
   toggle: () => void
@@ -74,6 +77,7 @@ const SidebarAddUser = (props: SidebarAddUserType) => {
 
   // ** Hooks
   const { t } = useTranslation()
+  const { organizationId } = useCurrentOrganization()
   const dispatch = useDispatch<AppDispatch>()
   const {
     reset,
@@ -95,7 +99,7 @@ const SidebarAddUser = (props: SidebarAddUserType) => {
       roleIds
     }
 
-    dispatch(addUser(inviteUsersRequest))
+    dispatch(addUser({ organizationId, ...inviteUsersRequest }))
     toggle()
     reset()
   }
