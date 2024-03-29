@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 # 👆 ignored by husky, but leave it here so IDE and Shellcheck will be happy
 set -e # implicitly set by husky, leave it here so we can debug this command if needed with the right settings in the future
 
