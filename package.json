@@ -12,7 +12,7 @@
     "build:icons": "tsc -b src/iconify-bundle && node src/iconify-bundle/bundle-icons-react.js",
     "new-release": "./scripts/create-release-branch.sh",
     "api-gen": "node scripts/swagger-gen.js",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "dependencies": {
     "@casl/ability": "6.5.0",

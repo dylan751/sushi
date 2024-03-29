@@ -1,5 +1,6 @@
-#!/usr/bin/env bash
-. "$(dirname "$0")/_/husky.sh"
+#!/usr/bin/env sh
+# 👆 ignored by husky, but leave it here so IDE and Shellcheck will be happy
+set -e # implicitly set by husky, leave it here so we can debug this command if needed with the right settings in the future
 
 valid_branch_regex='^(((epic|demo|release)/[a-zA-Z0-9_-]+)|((feat|fix|hotfix|refactor|perf|chore|docs|test)\/[0-9]+[_-][a-zA-Z0-9_-]+))$'
 local_branch_name="$(git rev-parse --abbrev-ref HEAD)"
@@ -18,12 +19,9 @@ If you still want to use this branch name ($local_branch_name), please set the e
 MSG
 )"
 
-if [[ -z "$HUSKY_IGNORE_BRANCH_NAMING" ]] && [[ ! $local_branch_name =~ $valid_branch_regex ]]; then
+if [ -z "$HUSKY_IGNORE_BRANCH_NAMING" ] && ! echo "$local_branch_name" | grep -Eq "$valid_branch_regex"; then
     echo "$message"
     exit 1
 fi
-
-# TODO: look into how to properly lint staged files using cache
-# yarn lint-staged && node scripts/check_task_def.js
 
 yarn lint
