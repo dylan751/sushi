@@ -27,6 +27,9 @@ import SendInvoiceDrawer from 'src/views/apps/invoice/shared-drawer/SendInvoiceD
 // ** Utils Imports
 import { getInvoiceListUrl } from 'src/utils/router/invoice'
 
+// ** Hooks Imports
+import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
+
 export interface InvoicePreviewProps {
   id: string
 }
@@ -36,9 +39,11 @@ const InvoicePreview = ({ id }: InvoicePreviewProps) => {
   const dispatch = useDispatch<AppDispatch>()
   const invoiceStore = useSelector((state: RootState) => state.invoice)
 
+  const { organizationId } = useCurrentOrganization()
+
   useEffect(() => {
-    dispatch(fetchAnInvoice(parseInt(id!)))
-  }, [dispatch, id])
+    dispatch(fetchAnInvoice({ organizationId, id: parseInt(id!) }))
+  }, [dispatch, id, organizationId])
 
   // ** State
   const [addPaymentOpen, setAddPaymentOpen] = useState<boolean>(false)

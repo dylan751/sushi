@@ -5,11 +5,10 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { Api, CaslPermission } from 'src/__generated__/AccountifyAPI'
 
 // ** Utils
-import { getAccessToken, getOrgId } from 'src/utils/localStorage'
+import { getAccessToken } from 'src/utils/localStorage'
 
 // ** Fetch User permissions
-export const fetchPermissions = createAsyncThunk('authPermissions/fetchPermissions', async () => {
-  const organizationId = getOrgId()
+export const fetchPermissions = createAsyncThunk('authPermissions/fetchPermissions', async (organizationId: number) => {
   const storedToken = getAccessToken()
 
   if (organizationId) {

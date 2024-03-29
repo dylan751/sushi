@@ -27,9 +27,9 @@ import { useTranslation } from 'react-i18next'
 import { Settings } from 'src/@core/context/settingsContext'
 
 // ** Util Imports
-import { getOrganization } from 'src/utils/localStorage'
 import { getAccountSettingsAccountUrl } from 'src/utils/router/account-settings'
 import { getSelectOrganizationUrl } from 'src/utils/router/organization'
+import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
 
 interface Props {
   settings: Settings
@@ -55,9 +55,7 @@ const UserDropdown = (props: Props) => {
   const { t } = useTranslation()
   const router = useRouter()
   const session = useSession()
-
-  // ** Utils
-  const organization = getOrganization()
+  const { organization } = useCurrentOrganization()
 
   // ** Vars
   const { direction } = settings
@@ -100,7 +98,6 @@ const UserDropdown = (props: Props) => {
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken')
-    localStorage.removeItem('organization')
     localStorage.removeItem('permissions')
     signOut({ callbackUrl: '/', redirect: false }).then(() => {
       router.asPath = '/'

@@ -54,6 +54,9 @@ import AddUserDrawer from 'src/views/apps/user/list/AddUserDrawer'
 import { useTranslation } from 'react-i18next'
 import { AbilityContext } from 'src/layouts/components/acl/Can'
 
+// ** Hooks Imports
+import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
+
 interface CellType {
   row: OrganizationUserResponseDto
 }
@@ -83,9 +86,11 @@ const renderClient = (row: OrganizationUserResponseDto) => {
 }
 
 const RowOptions = ({
+  organizationId,
   row,
   isUserLastAdmin
 }: {
+  organizationId: number
   row: OrganizationUserResponseDto
   isUserLastAdmin: (user: OrganizationUserResponseDto) => boolean
 }) => {
@@ -107,7 +112,7 @@ const RowOptions = ({
   }
 
   const handleDelete = (userId: number) => {
-    dispatch(deleteUser(userId))
+    dispatch(deleteUser({ organizationId, userId }))
     handleRowOptionsClose()
   }
 
@@ -166,6 +171,7 @@ const UserPage = () => {
 
   // ** Hooks
   const { t } = useTranslation()
+  const { organizationId } = useCurrentOrganization()
   const dispatch = useDispatch<AppDispatch>()
   const userStore = useSelector((state: RootState) => state.user)
   const roleStore = useSelector((state: RootState) => state.role)
@@ -173,13 +179,14 @@ const UserPage = () => {
   useEffect(() => {
     dispatch(
       fetchUser({
+        organizationId,
         role,
         query: value
       })
     )
-    dispatch(fetchAdminCount())
-    dispatch(fetchRole({ query: '' }))
-  }, [dispatch, role, value])
+    dispatch(fetchAdminCount(organizationId))
+    dispatch(fetchRole({ organizationId, query: '' }))
+  }, [dispatch, role, value, organizationId])
 
   const totalUserItem: UserCardStatsHorizontalProps = {
     stats: userStore.total.toString(),
@@ -307,7 +314,9 @@ const UserPage = () => {
       sortable: false,
       field: 'actions',
       headerName: `${t('user_page.actions')}`,
-      renderCell: ({ row }: CellType) => <RowOptions row={row} isUserLastAdmin={isUserLastAdmin} />
+      renderCell: ({ row }: CellType) => (
+        <RowOptions organizationId={organizationId} row={row} isUserLastAdmin={isUserLastAdmin} />
+      )
     }
   ]
 

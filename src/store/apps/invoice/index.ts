@@ -10,7 +10,7 @@ import {
 } from 'src/__generated__/AccountifyAPI'
 
 // ** Utils
-import { getAccessToken, getOrgId } from 'src/utils/localStorage'
+import { getAccessToken } from 'src/utils/localStorage'
 
 // ** Third Party Imports
 import toast from 'react-hot-toast'
@@ -28,51 +28,11 @@ interface Redux {
 }
 
 // ** Fetch Invoices
-export const fetchInvoice = createAsyncThunk('appInvoices/fetchInvoice', async (params: DataParams) => {
-  const organizationId = getOrgId()
-  const storedToken = getAccessToken()
-
-  try {
-    const response = await new Api({
-      baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
-      timeout: 30 * 1000, // 30 seconds
-      headers: {
-        Authorization: `Bearer ${storedToken}`
-      }
-    }).internal.getInvoiceListForOrganization(organizationId!, params)
-
-    return response.data
-  } catch (error: any) {
-    toast.error(error.message)
-  }
-})
-
-// ** Fetch 1 invoice
-export const fetchAnInvoice = createAsyncThunk('appInvoices/fetchAnInvoice', async (id: number) => {
-  const organizationId = getOrgId()
-  const storedToken = getAccessToken()
-
-  try {
-    const response = await new Api({
-      baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
-      timeout: 30 * 1000, // 30 seconds
-      headers: {
-        Authorization: `Bearer ${storedToken}`
-      }
-    }).internal.getInvoiceByIdForAnOrg(organizationId!, id)
-
-    return response.data
-  } catch (error: any) {
-    toast.error(error.message)
-  }
-})
-
-// ** Add Invoice
-export const addInvoice = createAsyncThunk(
-  'appInvoices/addInvoice',
-  async (data: CreateInvoiceRequestDto, { dispatch }: Redux) => {
-    const organizationId = getOrgId()
+export const fetchInvoice = createAsyncThunk(
+  'appInvoices/fetchInvoice',
+  async (params: DataParams & { organizationId: number }) => {
     const storedToken = getAccessToken()
+    const { organizationId, ...restParams } = params
 
     try {
       const response = await new Api({
@@ -81,9 +41,55 @@ export const addInvoice = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${storedToken}`
         }
-      }).internal.createInvoicesForAnOrganization(organizationId, data)
+      }).internal.getInvoiceListForOrganization(organizationId, restParams)
 
-      dispatch(fetchInvoice({ query: '' }))
+      return response.data
+    } catch (error: any) {
+      toast.error(error.message)
+    }
+  }
+)
+
+// ** Fetch 1 invoice
+export const fetchAnInvoice = createAsyncThunk(
+  'appInvoices/fetchAnInvoice',
+  async (params: { organizationId: number; id: number }) => {
+    const storedToken = getAccessToken()
+    const { organizationId, id } = params
+
+    try {
+      const response = await new Api({
+        baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+        timeout: 30 * 1000, // 30 seconds
+        headers: {
+          Authorization: `Bearer ${storedToken}`
+        }
+      }).internal.getInvoiceByIdForAnOrg(organizationId, id)
+
+      return response.data
+    } catch (error: any) {
+      toast.error(error.message)
+    }
+  }
+)
+
+// ** Add Invoice
+export const addInvoice = createAsyncThunk(
+  'appInvoices/addInvoice',
+  async (data: CreateInvoiceRequestDto & { organizationId: number }, { dispatch }: Redux) => {
+    const storedToken = getAccessToken()
+    const { organizationId, ...resData } = data
+
+    try {
+      const response = await new Api({
+        baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+        timeout: 30 * 1000, // 30 seconds
+        headers: {
+          Authorization: `Bearer ${storedToken}`
+        }
+      }).internal.createInvoicesForAnOrganization(organizationId, resData)
+
+      dispatch(fetchInvoice({ organizationId, query: '' }))
       toast.success('Add invoice succeed')
 
       return response.data
@@ -96,9 +102,9 @@ export const addInvoice = createAsyncThunk(
 // ** Update Invoice
 export const updateInvoice = createAsyncThunk(
   'appInvoices/updateInvoice',
-  async (data: UpdateInvoiceRequestDto & { invoiceId: number }, { dispatch }: Redux) => {
-    const organizationId = getOrgId()
+  async (data: UpdateInvoiceRequestDto & { organizationId: number; invoiceId: number }, { dispatch }: Redux) => {
     const storedToken = getAccessToken()
+    const { organizationId, ...resData } = data
 
     try {
       const response = await new Api({
@@ -107,9 +113,9 @@ export const updateInvoice = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${storedToken}`
         }
-      }).internal.updateAnInvoiceForAnOrganization(organizationId, data.invoiceId, data)
+      }).internal.updateAnInvoiceForAnOrganization(organizationId, resData.invoiceId, resData)
 
-      dispatch(fetchInvoice({ query: '' }))
+      dispatch(fetchInvoice({ organizationId, query: '' }))
       toast.success('Update invoice succeed')
 
       return response.data
@@ -122,9 +128,9 @@ export const updateInvoice = createAsyncThunk(
 // ** Delete Invoice
 export const deleteInvoice = createAsyncThunk(
   'appInvoices/deleteInvoice',
-  async (invoiceId: number, { dispatch }: Redux) => {
-    const organizationId = getOrgId()
+  async (params: { organizationId: number; invoiceId: number }, { dispatch }: Redux) => {
     const storedToken = getAccessToken()
+    const { organizationId, invoiceId } = params
 
     try {
       const response = await new Api({
@@ -135,7 +141,7 @@ export const deleteInvoice = createAsyncThunk(
         }
       }).internal.deleteAnInvoiceForAnOrganization(organizationId, invoiceId)
 
-      dispatch(fetchInvoice({ query: '' }))
+      dispatch(fetchInvoice({ organizationId, query: '' }))
       toast.success('Delete invoice succeed')
 
       return response.data

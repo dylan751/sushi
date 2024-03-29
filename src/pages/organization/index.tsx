@@ -32,8 +32,7 @@ const OrganizationPage = () => {
     const response = await $api(session.data?.accessToken).internal.getOrganizationUsersPermissions(organization.id)
     const userPermissions: CaslPermission[] = response.data.permissions
 
-    // Set organization and permissions data into AuthContext
-    localStorage.setItem('organization', JSON.stringify(organization))
+    // Set permissions data into AuthContext
     localStorage.setItem('permissions', JSON.stringify(userPermissions))
 
     router.replace(getOrganizationDefaultHomeUrl(organization.uniqueName))

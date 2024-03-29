@@ -35,6 +35,9 @@ import { format } from 'date-fns'
 // ** Utils Imports
 import { getInvoiceListUrl } from 'src/utils/router/invoice'
 
+// ** Hooks Imports
+import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
+
 export type CreateInvoiceFormData = CreateInvoiceItemRequest & { index: number }
 
 const initialFormData = {
@@ -55,6 +58,7 @@ const InvoiceAdd = () => {
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
   const router = useRouter()
+  const { organizationId } = useCurrentOrganization()
 
   const isSubmitDisabled = (): boolean => {
     let isDisabled = false
@@ -96,7 +100,7 @@ const InvoiceAdd = () => {
 
     // Call api
     setFormData([initialFormData])
-    dispatch(addInvoice(createInvoiceRequest))
+    dispatch(addInvoice({ organizationId, ...createInvoiceRequest }))
     router.replace(getInvoiceListUrl())
   }
 

@@ -67,6 +67,9 @@ import { $api } from 'src/utils/api'
 // ** Next Auth
 import { useSession } from 'next-auth/react'
 
+// ** Hooks Imports
+import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
+
 const cardDummyData = {
   totalUsers: 5,
   avatars: ['4.png', '5.png', '6.png', '7.png', '8.png']
@@ -75,10 +78,9 @@ const cardDummyData = {
 const RolesCards = () => {
   // ** Hooks
   const session = useSession()
+  const { organizationId } = useCurrentOrganization()
   const ability = useContext(AbilityContext)
   const { t } = useTranslation()
-
-  // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
   const store = useSelector((state: RootState) => state.role)
 
@@ -113,7 +115,7 @@ const RolesCards = () => {
   }
 
   const handleDelete = (roleId: number) => {
-    dispatch(deleteRole(roleId))
+    dispatch(deleteRole({ organizationId, roleId }))
 
     setShowDialogDeleteRole(false)
     setSelectedRole(null)
@@ -142,9 +144,9 @@ const RolesCards = () => {
 
     // Call api
     if (!selectedRole) {
-      dispatch(addRole(createOrUpdateRoleRequest))
+      dispatch(addRole({ organizationId, ...createOrUpdateRoleRequest }))
     } else if (selectedRole) {
-      dispatch(updateRole({ ...createOrUpdateRoleRequest, roleId: selectedRole.id }))
+      dispatch(updateRole({ ...createOrUpdateRoleRequest, roleId: selectedRole.id, organizationId }))
     }
 
     setOpen(false)
@@ -195,11 +197,11 @@ const RolesCards = () => {
     }
 
     // Fetch organization's roles
-    dispatch(fetchRole({ query: '' }))
+    dispatch(fetchRole({ organizationId, query: '' }))
 
     // Fetch all permission subjects
     fetchPermissionSubjects()
-  }, [dispatch, session.data])
+  }, [dispatch, session.data, organizationId])
 
   useEffect(() => {
     if (selectedCheckbox.length > 0 && selectedCheckbox.length < permissionSubjects.length * 3) {
