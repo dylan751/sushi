@@ -68,7 +68,7 @@ import { $api } from 'src/utils/api'
 import { useSession } from 'next-auth/react'
 
 // ** Hooks Imports
-import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
+import { useCurrentOrganization } from 'src/hooks'
 
 const cardDummyData = {
   totalUsers: 5,

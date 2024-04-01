@@ -28,7 +28,7 @@ import SendInvoiceDrawer from 'src/views/apps/invoice/shared-drawer/SendInvoiceD
 import { getInvoiceListUrl } from 'src/utils/router/invoice'
 
 // ** Hooks Imports
-import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
+import { useCurrentOrganization } from 'src/hooks'
 
 export interface InvoicePreviewProps {
   id: string

@@ -29,7 +29,7 @@ import { Settings } from 'src/@core/context/settingsContext'
 // ** Util Imports
 import { getAccountSettingsAccountUrl } from 'src/utils/router/account-settings'
 import { getSelectOrganizationUrl } from 'src/utils/router/organization'
-import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
+import { useCurrentOrganization } from 'src/hooks'
 
 interface Props {
   settings: Settings
