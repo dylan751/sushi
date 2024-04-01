@@ -36,7 +36,7 @@ import { format } from 'date-fns'
 import { getInvoiceListUrl } from 'src/utils/router/invoice'
 
 // ** Hooks Imports
-import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
+import { useCurrentOrganization } from 'src/hooks'
 
 export type CreateInvoiceFormData = CreateInvoiceItemRequest & { index: number }
 

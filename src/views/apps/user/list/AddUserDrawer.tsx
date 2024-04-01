@@ -35,7 +35,7 @@ import { ADMIN_ROLE_ID } from 'src/utils/role'
 import { useTranslation } from 'react-i18next'
 
 // ** Hooks Imports
-import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
+import { useCurrentOrganization } from 'src/hooks'
 
 interface SidebarAddUserType {
   open: boolean

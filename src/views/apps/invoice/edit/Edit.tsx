@@ -38,7 +38,7 @@ import { format } from 'date-fns'
 import toast from 'react-hot-toast'
 
 // ** Hooks Imports
-import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
+import { useCurrentOrganization } from 'src/hooks'
 
 export interface InvoiceEditProps {
   id: string

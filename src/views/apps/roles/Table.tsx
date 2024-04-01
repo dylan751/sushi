@@ -44,7 +44,7 @@ import AddUserDrawer from '../user/list/AddUserDrawer'
 
 // ** Hook Imports
 import { useTranslation } from 'react-i18next'
-import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
+import { useCurrentOrganization } from 'src/hooks'
 
 // ** Next Auth Imports
 import { useSession } from 'next-auth/react'

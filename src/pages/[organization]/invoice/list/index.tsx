@@ -55,7 +55,7 @@ import { AbilityContext } from 'src/layouts/components/acl/Can'
 import { Locale } from 'src/enum'
 
 // ** Hooks Imports
-import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
+import { useCurrentOrganization } from 'src/hooks'
 
 interface CustomInputProps {
   dates: Date[]

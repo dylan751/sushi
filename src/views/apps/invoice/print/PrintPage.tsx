@@ -39,7 +39,7 @@ import { formatCurrencyAsStandard } from 'src/utils/currency'
 
 // ** Hooks Imports
 import { useTranslation } from 'react-i18next'
-import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
+import { useCurrentOrganization } from 'src/hooks'
 
 // ** Enums Imports
 import { Locale } from 'src/enum'

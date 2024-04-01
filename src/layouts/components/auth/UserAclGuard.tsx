@@ -20,7 +20,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Hooks
 import { useSession } from 'next-auth/react'
-import { useCurrentOrganization } from 'src/hooks/useCurrentOrganization'
+import { useCurrentOrganization } from 'src/hooks'
 
 // ** Util Imports
 import getUserHomeRoute from 'src/layouts/components/acl/getUserHomeRoute'

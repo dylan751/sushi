@@ -44,7 +44,7 @@ const OrganizationPage = () => {
 
   return (
     <Box className='content-center'>
-      <Card sx={{ width: 1 / 2 }}>
+      <Card sx={{ width: { lg: '40%', md: '50%', sm: '70%', xs: '100%' } }}>
         <CardHeader
           title={
             session.data &&
