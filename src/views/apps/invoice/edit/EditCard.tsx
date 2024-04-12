@@ -117,13 +117,15 @@ const EditCard = ({
     if (data) {
       setCount(data.items?.length)
       setDate(new Date(data.date ? data.date : new Date()))
+      setType(data.type)
+      setCurrency(data.currency)
       setFormData(
         data.items?.map((item, index) => {
           return { ...item, index }
         })
       )
     }
-  }, [data, setCount, setDate, setFormData])
+  }, [data, setCount, setDate, setType, setCurrency, setFormData])
 
   // ** Hook
   const theme = useTheme()

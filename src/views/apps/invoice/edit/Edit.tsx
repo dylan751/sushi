@@ -55,18 +55,14 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
 
   const { organizationId } = useCurrentOrganization()
 
-  useEffect(() => {
-    dispatch(fetchAnInvoice({ organizationId, id: parseInt(id!) }))
-  }, [dispatch, id, organizationId])
-
   // ** States
   const [date, setDate] = useState<Date>(
     (invoiceStore.invoice as InvoiceResponseDto).date
       ? new Date((invoiceStore.invoice as InvoiceResponseDto).date)
       : new Date()
   )
-  const [type, setType] = useState<InvoiceType>((invoiceStore.invoice as InvoiceResponseDto).type)
-  const [currency, setCurrency] = useState<CurrencyType>((invoiceStore.invoice as InvoiceResponseDto).currency)
+  const [type, setType] = useState<InvoiceType>((invoiceStore.invoice as InvoiceResponseDto).type || '')
+  const [currency, setCurrency] = useState<CurrencyType>((invoiceStore.invoice as InvoiceResponseDto).currency || '')
   const [formData, setFormData] = useState<UpdateInvoiceFormData[]>([])
 
   const [addPaymentOpen, setAddPaymentOpen] = useState<boolean>(false)
@@ -74,6 +70,10 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
 
   const toggleSendInvoiceDrawer = () => setSendInvoiceOpen(!sendInvoiceOpen)
   const toggleAddPaymentDrawer = () => setAddPaymentOpen(!addPaymentOpen)
+
+  useEffect(() => {
+    dispatch(fetchAnInvoice({ organizationId, id: parseInt(id!) }))
+  }, [dispatch, id, organizationId])
 
   const isSubmitDisabled = (): boolean => {
     let isDisabled = false
