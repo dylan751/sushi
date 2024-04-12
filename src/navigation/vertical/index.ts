@@ -30,6 +30,13 @@ const navigation = (): VerticalNavItemsType => {
       icon: 'mdi:shield-outline'
     },
     {
+      path: `/${uniqueName}/projects`,
+      action: 'read',
+      subject: 'user',
+      title: 'Projects',
+      icon: 'mdi:cube-outline'
+    },
+    {
       title: 'navbar.invoice_page.invoice',
       icon: 'mdi:file-document-outline',
       children: [
