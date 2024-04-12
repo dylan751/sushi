@@ -56,6 +56,7 @@ import { Locale } from 'src/enum'
 
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 
 interface CustomInputProps {
   dates: Date[]
@@ -109,6 +110,7 @@ const CustomInput = forwardRef((props: CustomInputProps, ref) => {
 const InvoiceList = () => {
   // ** State
   const [dates, setDates] = useState<Date[]>([])
+  const [type, setType] = useState<InvoiceType | ''>('')
   const [value, setValue] = useState<string>('')
   const [endDateRange, setEndDateRange] = useState<DateType>(null)
   const [selectedRows, setSelectedRows] = useState<GridRowId[]>([])
@@ -128,10 +130,11 @@ const InvoiceList = () => {
         organizationId,
         fromDate: dates[0]?.toString(),
         toDate: dates[1]?.toString(),
-        query: value
+        query: value,
+        type
       })
     )
-  }, [dispatch, value, dates, organizationId])
+  }, [dispatch, value, dates, type, organizationId])
 
   const handleFilter = (val: string) => {
     setValue(val)
@@ -144,6 +147,10 @@ const InvoiceList = () => {
     }
     setStartDateRange(start)
     setEndDateRange(end)
+  }
+
+  const handleOnChangeType = (value: InvoiceType | '') => {
+    setType(value)
   }
 
   const defaultColumns: GridColDef[] = [
@@ -277,6 +284,24 @@ const InvoiceList = () => {
                       />
                     }
                   />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <FormControl fullWidth>
+                    <InputLabel id='invoice-status-select'>Invoice Type</InputLabel>
+
+                    <Select
+                      fullWidth
+                      value={type}
+                      sx={{ mr: 4, mb: 2 }}
+                      label='Invoice Status'
+                      onChange={e => handleOnChangeType(e.target.value as InvoiceType | '')}
+                      labelId='invoice-status-select'
+                    >
+                      <MenuItem value=''>All Types</MenuItem>
+                      <MenuItem value={InvoiceType.EXPENSE}>Expense</MenuItem>
+                      <MenuItem value={InvoiceType.INCOME}>Income</MenuItem>
+                    </Select>
+                  </FormControl>
                 </Grid>
               </Grid>
             </CardContent>
