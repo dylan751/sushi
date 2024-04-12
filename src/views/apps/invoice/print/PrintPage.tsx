@@ -200,7 +200,6 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
             <TableRow>
               <TableCell>{t('invoice_page.print.item')}</TableCell>
               <TableCell>{t('invoice_page.print.note')}</TableCell>
-              <TableCell>{t('invoice_page.print.type')}</TableCell>
               <TableCell>{t('invoice_page.print.price')}</TableCell>
               <TableCell>{t('invoice_page.print.quantity')}</TableCell>
               <TableCell>{t('invoice_page.print.total')}</TableCell>
@@ -211,7 +210,6 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
               <TableRow key={item.id}>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.note}</TableCell>
-                <TableCell>{item.type}</TableCell>
                 <TableCell>{formatCurrencyAsStandard(item.price, Locale.EN, invoice.currency)}</TableCell>
                 <TableCell>{item.quantity}</TableCell>
                 <TableCell>

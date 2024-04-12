@@ -20,6 +20,7 @@ import { AppDispatch, RootState } from 'src/store'
 import {
   CurrencyType,
   InvoiceResponseDto,
+  InvoiceType,
   UpdateInvoiceItemRequest,
   UpdateInvoiceRequestDto
 } from 'src/__generated__/AccountifyAPI'
@@ -54,17 +55,14 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
 
   const { organizationId } = useCurrentOrganization()
 
-  useEffect(() => {
-    dispatch(fetchAnInvoice({ organizationId, id: parseInt(id!) }))
-  }, [dispatch, id, organizationId])
-
   // ** States
   const [date, setDate] = useState<Date>(
     (invoiceStore.invoice as InvoiceResponseDto).date
       ? new Date((invoiceStore.invoice as InvoiceResponseDto).date)
       : new Date()
   )
-  const [currency, setCurrency] = useState<CurrencyType>((invoiceStore.invoice as InvoiceResponseDto).currency)
+  const [type, setType] = useState<InvoiceType>((invoiceStore.invoice as InvoiceResponseDto).type || '')
+  const [currency, setCurrency] = useState<CurrencyType>((invoiceStore.invoice as InvoiceResponseDto).currency || '')
   const [formData, setFormData] = useState<UpdateInvoiceFormData[]>([])
 
   const [addPaymentOpen, setAddPaymentOpen] = useState<boolean>(false)
@@ -73,10 +71,14 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   const toggleSendInvoiceDrawer = () => setSendInvoiceOpen(!sendInvoiceOpen)
   const toggleAddPaymentDrawer = () => setAddPaymentOpen(!addPaymentOpen)
 
+  useEffect(() => {
+    dispatch(fetchAnInvoice({ organizationId, id: parseInt(id!) }))
+  }, [dispatch, id, organizationId])
+
   const isSubmitDisabled = (): boolean => {
     let isDisabled = false
     formData?.map(data => {
-      if (!data.name || !data.type || !data.price || !data.quantity) {
+      if (!data.name || !data.price || !data.quantity) {
         isDisabled = true
       }
     })
@@ -88,7 +90,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
     // Validation
     let isError = false
     formData.map(data => {
-      if (!data.name || !data.type || !data.price || !data.quantity) {
+      if (!data.name || !data.price || !data.quantity) {
         toast.error('Please fill out all the fields of all items')
         isError = true
 
@@ -108,6 +110,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
         return { ...resData }
       }),
       date: format(date as Date, 'yyyy-MM-dd'),
+      type,
       currency
     }
 
@@ -127,6 +130,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
               setFormData={setFormData}
               date={date}
               setDate={setDate}
+              type={type}
+              setType={setType}
               currency={currency}
               setCurrency={setCurrency}
             />
