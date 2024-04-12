@@ -38,7 +38,6 @@ const initialFormData = {
   index: 0,
   name: '',
   note: '',
-  type: InvoiceType.EXPENSE,
   price: 0,
   quantity: 0
 }
@@ -91,11 +90,23 @@ export interface EditCardProps {
   setFormData: (value: any) => void
   date: Date
   setDate: (value: Date) => void
+  type: InvoiceType
+  setType: (value: InvoiceType) => void
   currency: CurrencyType
   setCurrency: (value: CurrencyType) => void
 }
 
-const EditCard = ({ data, formData, setFormData, date, setDate, currency, setCurrency }: EditCardProps) => {
+const EditCard = ({
+  data,
+  formData,
+  setFormData,
+  date,
+  setDate,
+  type,
+  setType,
+  currency,
+  setCurrency
+}: EditCardProps) => {
   // ** States
   const [count, setCount] = useState<number>(data.items?.length || 1)
 
@@ -235,7 +246,7 @@ const EditCard = ({ data, formData, setFormData, date, setDate, currency, setCur
             <Grid item xl={6} xs={12}>
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xl: 'flex-end', xs: 'flex-start' } }}>
                 <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-                  <Typography variant='h6' sx={{ mr: 2, width: '125px' }}>
+                  <Typography variant='h6' sx={{ mr: 3, width: '125px' }}>
                     {t('invoice_page.edit.invoice')}
                   </Typography>
                   <TextField
@@ -249,7 +260,7 @@ const EditCard = ({ data, formData, setFormData, date, setDate, currency, setCur
                   />
                 </Box>
                 <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-                  <Typography variant='body2' sx={{ mr: 3, width: '120px' }}>
+                  <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
                     {t('invoice_page.edit.date')}:
                   </Typography>
                   <DatePicker
@@ -262,7 +273,16 @@ const EditCard = ({ data, formData, setFormData, date, setDate, currency, setCur
                 </Box>
                 <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                   <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
-                    {t('invoice_page.add.currency')}:
+                    {t('invoice_page.edit.type')}:
+                  </Typography>
+                  <Select size='small' value={type} onChange={e => setType(e.target.value as InvoiceType)}>
+                    <MenuItem value={InvoiceType.EXPENSE}>Expense</MenuItem>
+                    <MenuItem value={InvoiceType.INCOME}>Income</MenuItem>
+                  </Select>
+                </Box>
+                <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+                  <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
+                    {t('invoice_page.edit.currency')}:
                   </Typography>
                   <Select size='small' value={currency} onChange={e => setCurrency(e.target.value as CurrencyType)}>
                     <MenuItem value={CurrencyType.VND}>VND</MenuItem>
@@ -286,7 +306,7 @@ const EditCard = ({ data, formData, setFormData, date, setDate, currency, setCur
                   <Grid container>
                     <RepeatingContent item xs={12}>
                       <Grid container sx={{ py: 4, width: '100%', pr: { lg: 0, xs: 4 } }}>
-                        <Grid item lg={4} md={4} xs={12} sx={{ px: 4, my: { lg: 0, xs: 2 } }}>
+                        <Grid item lg={6} md={6} xs={12} sx={{ px: 4, my: { lg: 0, xs: 2 } }}>
                           <Typography
                             variant='body2'
                             className='col-title'
@@ -313,24 +333,6 @@ const EditCard = ({ data, formData, setFormData, date, setDate, currency, setCur
                             onChange={e => handleChangeForm(i, 'note', e.target.value)}
                           />
                         </Grid>
-                        <Grid item lg={3} md={3} xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
-                          <Typography
-                            variant='body2'
-                            className='col-title'
-                            sx={{ fontWeight: '600', mb: { md: 2, xs: 0 } }}
-                          >
-                            {t('invoice_page.edit.type')}
-                          </Typography>
-                          <Select
-                            fullWidth
-                            size='small'
-                            value={formData?.find(data => data.index === i)?.type || InvoiceType.EXPENSE}
-                            onChange={e => handleChangeForm(i, 'type', e.target.value)}
-                          >
-                            <MenuItem value={InvoiceType.EXPENSE}>Expense</MenuItem>
-                            <MenuItem value={InvoiceType.INCOME}>Income</MenuItem>
-                          </Select>
-                        </Grid>
                         <Grid item lg={3} md={3} xs={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
                           <Typography
                             variant='body2'
@@ -349,13 +351,13 @@ const EditCard = ({ data, formData, setFormData, date, setDate, currency, setCur
                             onChange={e => handleChangeForm(i, 'price', e.target.value)}
                           />
                         </Grid>
-                        <Grid item lg={2} md={2} xs={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
+                        <Grid item lg={3} md={3} xs={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
                           <Typography
                             variant='body2'
                             className='col-title'
                             sx={{ fontWeight: '600', mb: { md: 2, xs: 0 } }}
                           >
-                            {t('invoice_page.add.quantity')}
+                            {t('invoice_page.edit.quantity')}
                           </Typography>
                           <TextField
                             fullWidth

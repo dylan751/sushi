@@ -185,7 +185,6 @@ const PreviewCard = ({ data }: Props) => {
               <TableRow>
                 <TableCell>{t('invoice_page.preview.item')}</TableCell>
                 <TableCell>{t('invoice_page.preview.note')}</TableCell>
-                <TableCell>{t('invoice_page.preview.type')}</TableCell>
                 <TableCell>{t('invoice_page.preview.price')}</TableCell>
                 <TableCell>{t('invoice_page.preview.quantity')}</TableCell>
                 <TableCell>{t('invoice_page.preview.total')}</TableCell>
@@ -196,7 +195,6 @@ const PreviewCard = ({ data }: Props) => {
                 <TableRow key={item.id}>
                   <TableCell>{item.name}</TableCell>
                   <TableCell>{item.note}</TableCell>
-                  <TableCell>{item.type}</TableCell>
                   <TableCell>{formatCurrencyAsStandard(item.price, Locale.EN, data.currency)}</TableCell>
                   <TableCell>{item.quantity}</TableCell>
                   <TableCell>

@@ -44,7 +44,6 @@ const initialFormData = {
   index: 0,
   name: '',
   note: '',
-  type: InvoiceType.EXPENSE,
   price: 0,
   quantity: 0
 }
@@ -52,6 +51,7 @@ const initialFormData = {
 const InvoiceAdd = () => {
   // ** States
   const [date, setDate] = useState<DateType>(new Date())
+  const [type, setType] = useState<InvoiceType>(InvoiceType.EXPENSE)
   const [currency, setCurrency] = useState<CurrencyType>(CurrencyType.VND)
   const [formData, setFormData] = useState<CreateInvoiceFormData[]>([initialFormData])
 
@@ -63,7 +63,7 @@ const InvoiceAdd = () => {
   const isSubmitDisabled = (): boolean => {
     let isDisabled = false
     formData.map(data => {
-      if (!data.name || !data.type || !data.price || !data.quantity) {
+      if (!data.name || !data.price || !data.quantity) {
         isDisabled = true
       }
     })
@@ -75,7 +75,7 @@ const InvoiceAdd = () => {
     // Validation
     let isError = false
     formData.map(data => {
-      if (!data.name || !data.type || !data.price || !data.quantity) {
+      if (!data.name || !data.price || !data.quantity) {
         toast.error('Please fill out all the fields of all items')
         isError = true
 
@@ -95,6 +95,7 @@ const InvoiceAdd = () => {
         return { ...resData }
       }),
       date: format(date as Date, 'yyyy-MM-dd'),
+      type,
       currency
     }
 
@@ -112,6 +113,8 @@ const InvoiceAdd = () => {
             setFormData={setFormData}
             date={date}
             setDate={setDate}
+            type={type}
+            setType={setType}
             currency={currency}
             setCurrency={setCurrency}
           />

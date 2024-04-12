@@ -46,7 +46,7 @@ import TableHeader from 'src/views/apps/invoice/list/TableHeader'
 
 // ** Styled Components
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import { InvoiceResponseDto, OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
+import { InvoiceResponseDto, InvoiceType, OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
@@ -180,7 +180,10 @@ const InvoiceList = () => {
       field: 'total',
       headerName: t('invoice_page.list.total') as string,
       renderCell: ({ row }: CellType) => (
-        <Typography variant='body2'>{formatCurrencyAsStandard(row.total, Locale.EN, row.currency)}</Typography>
+        <Typography variant='body2' sx={{ color: row.type === InvoiceType.EXPENSE ? 'error.main' : 'success.main' }}>
+          {row.type === InvoiceType.EXPENSE ? '-' : '+'}
+          {formatCurrencyAsStandard(row.total, Locale.EN, row.currency)}
+        </Typography>
       )
     },
     {
