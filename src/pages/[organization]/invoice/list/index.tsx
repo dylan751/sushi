@@ -46,6 +46,8 @@ import TableHeader from 'src/views/apps/invoice/list/TableHeader'
 
 // ** Styled Components
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+
+// ** Type Imports
 import { InvoiceResponseDto, InvoiceType, OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Context Imports
