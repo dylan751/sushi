@@ -1,27 +1,30 @@
 // ** Next Import
 import Link from 'next/link'
 
+// ** React Import
+import { useEffect } from 'react'
+
 // ** MUI Components
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Divider from '@mui/material/Divider'
-import Tooltip from '@mui/material/Tooltip'
 import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
-import AvatarGroup from '@mui/material/AvatarGroup'
 import CardContent from '@mui/material/CardContent'
 import LinearProgress from '@mui/material/LinearProgress'
 
-// ** Icon Imports
-import Icon from 'src/@core/components/icon'
-
 // ** Types
 import { ProjectsTabType } from 'src/@fake-db/types'
+import { CurrencyType, ProjectResponseDto } from 'src/__generated__/AccountifyAPI'
+
+// ** Enums Imports
+import { Locale } from 'src/enum'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
-import { getProjectDefaultTab } from 'src/utils/router'
+import { getProjectDefaultTab, getProjectEditUrl } from 'src/utils/router'
+import { formatCurrencyAsCompact } from 'src/utils/currency'
 
 // ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
@@ -31,18 +34,22 @@ import OptionsMenu from 'src/@core/components/option-menu'
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
 
-const ProjectAvatar = ({ project }: { project: ProjectsTabType }) => {
-  const { title, avatar, avatarColor = 'primary' } = project
+// ** Store Imports
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from 'src/store'
+import { deleteProject, fetchProject } from 'src/store/apps/project'
 
-  if (avatar.length) {
-    return <CustomAvatar src={avatar} sx={{ width: 38, height: 38 }} />
-  } else {
-    return (
-      <CustomAvatar skin='light' color={avatarColor} sx={{ width: 38, height: 38 }}>
-        {getInitials(title)}
-      </CustomAvatar>
-    )
-  }
+// ** Third Party Imports
+import { format } from 'date-fns'
+
+const ProjectAvatar = ({ project }: { project: ProjectResponseDto }) => {
+  const { name } = project
+
+  return (
+    <CustomAvatar skin='light' color='primary' sx={{ width: 38, height: 38 }}>
+      {getInitials(name)}
+    </CustomAvatar>
+  )
 }
 
 export const projectDummyData: ProjectsTabType[] = [
@@ -60,7 +67,7 @@ export const projectDummyData: ProjectsTabType[] = [
     startDate: '14/2/21',
     budgetSpent: '$24.8k',
     members: '280 members',
-    title: 'Social Banners',
+    title: 'HPTN083',
     client: 'Christian Jimenez',
     avatar: '/images/icons/project-icons/social-label.png',
     description: 'We are Consulting, Software Development and Web Development Services.',
@@ -84,7 +91,7 @@ export const projectDummyData: ProjectsTabType[] = [
     chipColor: 'warning',
     startDate: '18/8/21',
     members: '1.1k members',
-    title: 'Admin Template',
+    title: 'SNaP',
     client: 'Jeffrey Phillips',
     avatar: '/images/icons/project-icons/react-label.png',
     avatarGroup: [
@@ -106,7 +113,7 @@ export const projectDummyData: ProjectsTabType[] = [
     chipColor: 'error',
     budgetSpent: '$980',
     deadline: '8/10/21',
-    title: 'App Design',
+    title: 'E-BAI',
     startDate: '24/7/21',
     members: '458 members',
     client: 'Ricky McDonald',
@@ -133,7 +140,7 @@ export const projectDummyData: ProjectsTabType[] = [
     startDate: '10/2/19',
     members: '137 members',
     client: 'Hulda Wright',
-    title: 'Create Website',
+    title: 'B-PrEP',
     avatar: '/images/icons/project-icons/html-label.png',
     description: 'Your domain name should reflect your products or services so that your...',
     avatarGroup: [
@@ -157,7 +164,7 @@ export const projectDummyData: ProjectsTabType[] = [
     members: '82 members',
     budgetSpent: '$52.7k',
     client: 'Jerry Greene',
-    title: 'Figma Dashboard',
+    title: 'A5300B',
     avatar: '/images/icons/project-icons/figma-label.png',
     description: 'Use this template to organize your design project. Some of the key features are…',
     avatarGroup: [
@@ -179,7 +186,7 @@ export const projectDummyData: ProjectsTabType[] = [
     chipColor: 'success',
     deadline: '02/11/21',
     startDate: '17/8/21',
-    title: 'Logo Design',
+    title: 'A5379',
     members: '16 members',
     client: 'Olive Strickland',
     avatar: '/images/icons/project-icons/xd-label.png',
@@ -193,13 +200,22 @@ export const projectDummyData: ProjectsTabType[] = [
 ]
 
 const Projects = () => {
-  const { organizationUniqueName } = useCurrentOrganization()
+  const { organizationId } = useCurrentOrganization()
+
+  // ** Hooks
+  const dispatch = useDispatch<AppDispatch>()
+  const store = useSelector((state: RootState) => state.project)
+
+  useEffect(() => {
+    // Fetch organization's projects
+    dispatch(fetchProject({ organizationId, query: '' }))
+  }, [dispatch, organizationId])
 
   return (
     <Grid container spacing={6}>
-      {projectDummyData &&
-        Array.isArray(projectDummyData) &&
-        projectDummyData.map((item, index) => {
+      {store.data &&
+        Array.isArray(store.data) &&
+        store.data.map((item, index) => {
           return (
             <Grid key={index} item xs={12} md={6} lg={4}>
               <Card>
@@ -217,33 +233,40 @@ const Projects = () => {
                       <Box component='span' sx={{ fontWeight: 600 }}>
                         Client:
                       </Box>{' '}
-                      {item.client}
+                      {/* TODO: Calculate item.client */}
+                      {/* {item.client} */}
+                      Christian Jimenez
                     </Typography>
                   }
                   action={
                     <OptionsMenu
                       iconButtonProps={{ size: 'small' }}
                       options={[
-                        'Rename Project',
-                        'View Details',
-                        'Add to Favorites',
+                        { text: 'Edit Project', href: getProjectEditUrl(item.id) },
+                        { text: 'View Details', href: getProjectDefaultTab(item.id) },
                         { divider: true },
-                        { text: 'Leave Project', menuItemProps: { sx: { color: 'error.main' } } }
+                        {
+                          text: 'Delete Project',
+                          menuItemProps: {
+                            sx: { color: 'error.main' },
+                            onClick: () => dispatch(deleteProject({ organizationId, projectId: item.id }))
+                          }
+                        }
                       ]}
                     />
                   }
                   title={
                     <Typography
-                      href={getProjectDefaultTab(organizationUniqueName, item.id)}
+                      href={getProjectDefaultTab(item.id)}
                       variant='h6'
                       component={Link}
                       sx={{ textDecoration: 'none', '&:hover': { color: 'primary.main' } }}
                     >
-                      {item.title}
+                      {item.name}
                     </Typography>
                   }
                 />
-                <CardContent>
+                <CardContent sx={{ minHeight: '180px' }}>
                   <Box
                     sx={{
                       mb: 4,
@@ -261,22 +284,31 @@ const Projects = () => {
                       sx={{ height: 60 }}
                       label={
                         <>
-                          <Box sx={{ display: 'flex' }}>
-                            <Typography sx={{ fontWeight: 600 }}>{item.budgetSpent}</Typography>
-                            <Typography sx={{ color: 'text.secondary' }}>{`/${item.budget}`}</Typography>
-                          </Box>
                           <Typography sx={{ color: 'text.secondary' }}>Total Budget</Typography>
+                          <Box sx={{ display: 'flex' }}>
+                            {/* TODO: Calculate item.budgetSpent */}
+                            <Typography sx={{ color: 'text.secondary' }}>$18.2k/</Typography>
+                            <Typography sx={{ fontWeight: 600 }}>{`${formatCurrencyAsCompact(
+                              item.totalBudget,
+                              Locale.EN,
+                              CurrencyType.USD
+                            )}`}</Typography>
+                          </Box>
                         </>
                       }
                     />
                     <Box sx={{ display: 'flex', alignItems: 'flex-end', flexDirection: 'column' }}>
                       <Box sx={{ display: 'flex' }}>
                         <Typography sx={{ mr: 1, fontWeight: 600 }}>Start Date:</Typography>
-                        <Typography sx={{ color: 'text.secondary' }}>{item.startDate}</Typography>
+                        <Typography sx={{ color: 'text.secondary' }}>
+                          {format(new Date(item.startDate), 'dd MMM yyyy')}
+                        </Typography>
                       </Box>
                       <Box sx={{ display: 'flex' }}>
                         <Typography sx={{ mr: 1, fontWeight: 600 }}>Deadline:</Typography>
-                        <Typography sx={{ color: 'text.secondary' }}>{item.deadline}</Typography>
+                        <Typography sx={{ color: 'text.secondary' }}>
+                          {format(new Date(item.endDate), 'dd MMM yyyy')}
+                        </Typography>
                       </Box>
                     </Box>
                   </Box>
@@ -284,23 +316,16 @@ const Projects = () => {
                 </CardContent>
                 <Divider sx={{ my: '0 !important' }} />
                 <CardContent sx={{ pt: 6 }}>
-                  <Box sx={{ mb: 3.5, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Box sx={{ display: 'flex' }}>
-                      <Typography sx={{ mr: 1, fontWeight: 600 }}>All Hours:</Typography>
-                      <Typography sx={{ color: 'text.secondary' }}>{item.hours}</Typography>
-                    </Box>
-                    <CustomChip size='small' skin='light' color={item.chipColor} label={`${item.daysLeft} days left`} />
-                  </Box>
                   <Box sx={{ mb: 1.5, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Typography variant='caption'>{`Tasks: ${item.completedTask}/${item.totalTask}`}</Typography>
                     <Typography variant='caption'>
-                      {`${Math.round((item.completedTask / item.totalTask) * 100)}% Completed`}
+                      {/* TODO: Calculate item.budgetSpent */}
+                      {`${Math.round((18200 / item.totalBudget) * 100)}% Spent`}
                     </Typography>
                   </Box>
                   <LinearProgress
                     color='primary'
                     variant='determinate'
-                    value={Math.round((item.completedTask / item.totalTask) * 100)}
+                    value={Math.round((18200 / item.totalBudget) * 100)} // TODO: Calculate item.budgetSpent
                     sx={{
                       mb: 3.5,
                       height: 8,
@@ -308,37 +333,6 @@ const Projects = () => {
                       '& .MuiLinearProgress-bar': { borderRadius: 2 }
                     }}
                   />
-                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <AvatarGroup className='pull-up' sx={{ mr: 2 }}>
-                        {item.avatarGroup &&
-                          item.avatarGroup.map((person, index) => {
-                            return (
-                              <Tooltip key={index} title={person.name}>
-                                <CustomAvatar src={person.avatar} alt={person.name} sx={{ height: 32, width: 32 }} />
-                              </Tooltip>
-                            )
-                          })}
-                      </AvatarGroup>
-                      <Typography variant='body2' sx={{ color: 'text.disabled' }}>
-                        {item.members}
-                      </Typography>
-                    </Box>
-                    <Box
-                      href='/'
-                      component={Link}
-                      onClick={e => e.preventDefault()}
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        textDecoration: 'none',
-                        '& svg': { mr: 1, color: 'text.disabled' }
-                      }}
-                    >
-                      <Icon icon='mdi:message-outline' />
-                      <Typography sx={{ color: 'text.disabled' }}>{item.comments}</Typography>
-                    </Box>
-                  </Box>
                 </CardContent>
               </Card>
             </Grid>
@@ -346,6 +340,11 @@ const Projects = () => {
         })}
     </Grid>
   )
+}
+
+Projects.acl = {
+  action: 'read',
+  subject: 'project'
 }
 
 export default Projects
