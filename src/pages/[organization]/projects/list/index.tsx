@@ -1,54 +1,25 @@
-// ** React Imports
-import { useState, useEffect, forwardRef, useContext } from 'react'
-
 // ** Next Import
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
-// ** MUI Imports
+// ** React Import
+import { forwardRef, useContext, useEffect, useState } from 'react'
+
+// ** MUI Components
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
-import Tooltip from '@mui/material/Tooltip'
-import { styled } from '@mui/material/styles'
-import TextField from '@mui/material/TextField'
 import CardHeader from '@mui/material/CardHeader'
-import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { DataGrid, GridColDef, GridRowId } from '@mui/x-data-grid'
-
-// ** Icon Imports
-import Icon from 'src/@core/components/icon'
-
-// ** Third Party Imports
-import format from 'date-fns/format'
-import DatePicker from 'react-datepicker'
-import { useTranslation } from 'react-i18next'
-
-// ** Store & Actions Imports
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchInvoice, deleteInvoice } from 'src/store/apps/invoice'
-
-// ** Types Imports
-import { RootState, AppDispatch } from 'src/store'
-import { ThemeColor } from 'src/@core/layouts/types'
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
-
-// ** Utils Import
-import { getInitials } from 'src/@core/utils/get-initials'
-import { getInvoiceEditUrl, getInvoicePreviewUrl } from 'src/utils/router/invoice'
-import { formatCurrencyAsStandard } from 'src/utils/currency'
-
-// ** Custom Components Imports
-import CustomAvatar from 'src/@core/components/mui/avatar'
-import OptionsMenu from 'src/@core/components/option-menu'
-import TableHeader from 'src/views/apps/invoice/list/TableHeader'
-
-// ** Styled Components
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import Tooltip from '@mui/material/Tooltip'
+import IconButton from '@mui/material/IconButton'
+import TextField from '@mui/material/TextField'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { styled } from '@mui/material/styles'
 
 // ** Type Imports
-import { InvoiceResponseDto, InvoiceType, OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
+import { CurrencyType, OrganizationUserResponseDto, ProjectResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
@@ -56,9 +27,31 @@ import { AbilityContext } from 'src/layouts/components/acl/Can'
 // ** Enums Imports
 import { Locale } from 'src/enum'
 
+// ** Utils Import
+import { getInitials } from 'src/@core/utils/get-initials'
+import { getProjectDefaultTab, getProjectEditUrl } from 'src/utils/router'
+import { formatCurrencyAsCompact } from 'src/utils/currency'
+
+// ** Custom Components Imports
+import CustomAvatar from 'src/@core/components/mui/avatar'
+import Icon from 'src/@core/components/icon'
+
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+
+// ** Store Imports
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from 'src/store'
+import { deleteProject, fetchProject } from 'src/store/apps/project'
+
+// ** Third Party Imports
+import { format } from 'date-fns'
+import { useTranslation } from 'react-i18next'
+import { ThemeColor } from 'src/@core/layouts/types'
+import DatePicker from 'react-datepicker'
+import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import FormControl from '@mui/material/FormControl'
+import { DateType } from 'src/types/forms/reactDatepickerTypes'
 
 interface CustomInputProps {
   dates: Date[]
@@ -69,7 +62,7 @@ interface CustomInputProps {
 }
 
 interface CellType {
-  row: InvoiceResponseDto
+  row: ProjectResponseDto
 }
 
 // ** Styled component for the link in the dataTable
@@ -80,6 +73,7 @@ const LinkStyled = styled(Link)(({ theme }) => ({
 
 // ** renders client column
 const renderClient = (row: OrganizationUserResponseDto) => {
+  console.log(row)
   if (row.avatar.length) {
     return <CustomAvatar src={row.avatar} sx={{ mr: 3, width: '1.875rem', height: '1.875rem' }} />
   } else {
@@ -109,37 +103,32 @@ const CustomInput = forwardRef((props: CustomInputProps, ref) => {
 })
 /* eslint-enable */
 
-const InvoiceList = () => {
+const Projects = () => {
+  const { organizationId } = useCurrentOrganization()
+  const { t } = useTranslation()
+
+  // ** Hooks
+  const dispatch = useDispatch<AppDispatch>()
+  const router = useRouter()
+  const store = useSelector((state: RootState) => state.project)
+  const ability = useContext(AbilityContext)
+
   // ** State
   const [dates, setDates] = useState<Date[]>([])
-  const [type, setType] = useState<InvoiceType | ''>('')
-  const [value, setValue] = useState<string>('')
+  const [searchValue, setSearchValue] = useState<string>('')
   const [endDateRange, setEndDateRange] = useState<DateType>(null)
-  const [selectedRows, setSelectedRows] = useState<GridRowId[]>([])
   const [startDateRange, setStartDateRange] = useState<DateType>(null)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
-  // ** Hooks
-  const { organizationId } = useCurrentOrganization()
-  const dispatch = useDispatch<AppDispatch>()
-  const store = useSelector((state: RootState) => state.invoice)
-  const ability = useContext(AbilityContext)
-  const { t } = useTranslation()
-
   useEffect(() => {
+    // Fetch organization's projects
     dispatch(
-      fetchInvoice({
-        organizationId,
-        fromDate: dates[0]?.toString(),
-        toDate: dates[1]?.toString(),
-        query: value,
-        type
-      })
+      fetchProject({ organizationId, query: searchValue, fromDate: dates[0]?.toString(), toDate: dates[1]?.toString() })
     )
-  }, [dispatch, value, dates, type, organizationId])
+  }, [dispatch, searchValue, dates, organizationId])
 
-  const handleFilter = (val: string) => {
-    setValue(val)
+  const handleFilterByName = (name: string) => {
+    setSearchValue(name)
   }
 
   const handleOnChangeRange = (dates: any) => {
@@ -151,23 +140,32 @@ const InvoiceList = () => {
     setEndDateRange(end)
   }
 
-  const handleOnChangeType = (value: InvoiceType | '') => {
-    setType(value)
-  }
-
   const defaultColumns: GridColDef[] = [
     {
       flex: 0.1,
       field: 'id',
       minWidth: 50,
       headerName: '#',
-      renderCell: ({ row }: CellType) => <LinkStyled href={getInvoicePreviewUrl(row.id)}>{`#${row.id}`}</LinkStyled>
+      renderCell: ({ row }: CellType) => <LinkStyled href={getProjectDefaultTab(row.id)}>{`#${row.id}`}</LinkStyled>
+    },
+    {
+      flex: 0.2,
+      minWidth: 150,
+      field: 'name',
+      headerName: `${t('project_page.list.name')}`,
+      renderCell: ({ row }: CellType) => {
+        return (
+          <Typography variant='body2' noWrap>
+            {row.name || '-'}
+          </Typography>
+        )
+      }
     },
     {
       flex: 0.2,
       field: 'creator',
-      minWidth: 150,
-      headerName: t('invoice_page.list.creator') as string,
+      minWidth: 200,
+      headerName: t('project_page.list.creator') as string,
       renderCell: ({ row }: CellType) => {
         const { creator } = row
 
@@ -184,24 +182,71 @@ const InvoiceList = () => {
       }
     },
     {
-      flex: 0.1,
-      minWidth: 90,
-      field: 'total',
-      headerName: t('invoice_page.list.total') as string,
+      flex: 0.2,
+      field: 'client',
+      minWidth: 200,
+      headerName: t('project_page.list.client') as string,
+      renderCell: ({ row }: CellType) => {
+        const { creator } = row
+
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {renderClient(creator)}
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
+                Jeffrey Phillips
+              </Typography>
+            </Box>
+          </Box>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 150,
+      field: 'totalBudget',
+      headerName: t('project_page.list.total_budget') as string,
       renderCell: ({ row }: CellType) => (
-        <Typography variant='body2' sx={{ color: row.type === InvoiceType.EXPENSE ? 'error.main' : 'success.main' }}>
-          {row.type === InvoiceType.EXPENSE ? '-' : '+'}
-          {formatCurrencyAsStandard(row.total, Locale.EN, row.currency)}
-        </Typography>
+        <Box sx={{ display: 'flex' }}>
+          {/* TODO: Calculate item.budgetSpent */}
+          <Typography sx={{ color: 'text.secondary' }}>$18.2k/</Typography>
+          <Typography sx={{ fontWeight: 600 }}>{`${formatCurrencyAsCompact(
+            row.totalBudget,
+            Locale.EN,
+            CurrencyType.USD
+          )}`}</Typography>
+        </Box>
       )
     },
     {
       flex: 0.2,
-      minWidth: 125,
-      field: 'date',
-      headerName: t('invoice_page.list.date') as string,
+      minWidth: 150,
+      field: 'description',
+      headerName: `${t('project_page.list.description')}`,
+      renderCell: ({ row }: CellType) => {
+        return (
+          <Typography variant='body2' noWrap>
+            {row.description || '-'}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 150,
+      field: 'startDate',
+      headerName: t('project_page.list.start_date') as string,
       renderCell: ({ row }: CellType) => (
-        <Typography variant='body2'>{format(new Date(row.date), 'dd MMM yyyy')}</Typography>
+        <Typography variant='body2'>{format(new Date(row.startDate), 'dd MMM yyyy')}</Typography>
+      )
+    },
+    {
+      flex: 0.2,
+      minWidth: 150,
+      field: 'endDate',
+      headerName: t('project_page.list.end_date') as string,
+      renderCell: ({ row }: CellType) => (
+        <Typography variant='body2'>{format(new Date(row.endDate), 'dd MMM yyyy')}</Typography>
       )
     }
   ]
@@ -213,46 +258,34 @@ const InvoiceList = () => {
       minWidth: 130,
       sortable: false,
       field: 'actions',
-      headerName: t('invoice_page.list.actions') as string,
+      headerName: t('project_page.list.actions') as string,
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Tooltip title={t('invoice_page.list.delete_invoice')}>
+          <Tooltip title={t('project_page.list.delete_project')}>
             <IconButton
               size='small'
               color='error'
-              onClick={() => dispatch(deleteInvoice({ organizationId, invoiceId: row.id }))}
-              disabled={!ability?.can('delete', 'invoice')}
+              onClick={() => dispatch(deleteProject({ organizationId, projectId: row.id }))}
+              disabled={!ability?.can('delete', 'project')}
             >
               <Icon icon='mdi:delete-outline' fontSize={20} />
             </IconButton>
           </Tooltip>
           <Tooltip title={t('invoice_page.list.view')}>
-            <IconButton size='small' component={Link} href={getInvoicePreviewUrl(row.id)}>
+            <IconButton size='small' component={Link} href={getProjectDefaultTab(row.id)}>
               <Icon icon='mdi:eye-outline' fontSize={20} />
             </IconButton>
           </Tooltip>
-          {ability?.can('update', 'invoice') && (
-            <OptionsMenu
-              iconProps={{ fontSize: 20 }}
-              iconButtonProps={{ size: 'small' }}
-              menuProps={{ sx: { '& .MuiMenuItem-root svg': { mr: 2 } } }}
-              options={[
-                {
-                  text: t('invoice_page.list.download'),
-                  icon: <Icon icon='mdi:download' fontSize={20} />
-                },
-                {
-                  text: t('invoice_page.list.edit'),
-                  href: getInvoiceEditUrl(row.id),
-                  icon: <Icon icon='mdi:pencil-outline' fontSize={20} />
-                },
-                {
-                  text: t('invoice_page.list.duplicate'),
-                  icon: <Icon icon='mdi:content-copy' fontSize={20} />
-                }
-              ]}
-            />
-          )}
+          <Tooltip title={t('project_page.list.edit_project')}>
+            <IconButton
+              size='small'
+              color='info'
+              onClick={() => router.replace(getProjectEditUrl(row.id))}
+              disabled={!ability?.can('update', 'project')}
+            >
+              <Icon icon='mdi:pencil-outline' fontSize={20} />
+            </IconButton>
+          </Tooltip>
         </Box>
       )
     }
@@ -263,7 +296,7 @@ const InvoiceList = () => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <Card>
-            <CardHeader title={t('invoice_page.list.filters')} />
+            <CardHeader title={t('project_page.list.filters')} />
             <CardContent>
               <Grid container spacing={6}>
                 <Grid item xs={12} sm={6}>
@@ -281,7 +314,7 @@ const InvoiceList = () => {
                       <CustomInput
                         dates={dates}
                         setDates={setDates}
-                        label={t('invoice_page.list.invoice_date')}
+                        label={t('project_page.list.project_start_date')}
                         end={endDateRange as number | Date}
                         start={startDateRange as number | Date}
                       />
@@ -290,20 +323,12 @@ const InvoiceList = () => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormControl fullWidth>
-                    <InputLabel id='invoice-status-select'>Invoice Type</InputLabel>
-
-                    <Select
-                      fullWidth
-                      value={type}
+                    <TextField
+                      value={searchValue}
                       sx={{ mr: 4, mb: 2 }}
-                      label='Invoice Status'
-                      onChange={e => handleOnChangeType(e.target.value as InvoiceType | '')}
-                      labelId='invoice-status-select'
-                    >
-                      <MenuItem value=''>All Types</MenuItem>
-                      <MenuItem value={InvoiceType.EXPENSE}>Expense</MenuItem>
-                      <MenuItem value={InvoiceType.INCOME}>Income</MenuItem>
-                    </Select>
+                      placeholder={t('project_page.list.search_project_name') as string}
+                      onChange={e => handleFilterByName(e.target.value)}
+                    />
                   </FormControl>
                 </Grid>
               </Grid>
@@ -312,7 +337,6 @@ const InvoiceList = () => {
         </Grid>
         <Grid item xs={12}>
           <Card>
-            <TableHeader value={value} selectedRows={selectedRows} handleFilter={handleFilter} />
             <DataGrid
               autoHeight
               pagination
@@ -323,7 +347,6 @@ const InvoiceList = () => {
               pageSizeOptions={[10, 25, 50]}
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
-              onRowSelectionModelChange={rows => setSelectedRows(rows)}
             />
           </Card>
         </Grid>
@@ -332,9 +355,9 @@ const InvoiceList = () => {
   )
 }
 
-InvoiceList.acl = {
+Projects.acl = {
   action: 'read',
-  subject: 'invoice'
+  subject: 'project'
 }
 
-export default InvoiceList
+export default Projects

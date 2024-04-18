@@ -6,6 +6,11 @@
         },
         "home": "Trang chủ",
         "role_page": "Trang phân quyền",
+        "project_page": {
+            "project": "Dự án",
+            "list": "Danh sách",
+            "add": "Thêm"
+        },
         "invoice_page": {
             "invoice": "Hoá đơn",
             "list": "Danh sách",
@@ -117,6 +122,39 @@
             "no_admin_nor_member": "Member phải được chọn",
             "last_admin": "đây là quản trị viên cuối cùng",
             "max_of_roles_can_be_selected": "Chỉ được chọn một số lượng vai trò giới hạn"
+        }
+    },
+    "project_page": {
+        "list": {
+            "filters": "Bộ lọc",
+            "project_start_date": "Ngày bắt đầu dự án",
+            "actions": "Hành động",
+            "search_project_name": "Tìm theo tên dự án",
+            "create_project": "Tạo dự án",
+            "creator": "Người tạo",
+            "client": "Khách hàng",
+            "name": "Tên",
+            "description": "Mô tả",
+            "total_budget": "Tổng ngân sách",
+            "start_date": "Ngày bắt đầu",
+            "end_date": "Ngày kết thúc",
+            "delete_project": "Xoá dự án",
+            "view": "Xem",
+            "edit_project": "Cập nhật dự án"
+        },
+        "add": {
+            "create_project": "Tạo một dự án mới",
+            "project_name": "Tên dự án",
+            "description": "Mô tả",
+            "total_budget": "Tổng ngân sách",
+            "project_date": "Thời gian dự án"
+        },
+        "edit": {
+            "update_project": "Cập nhật một dự án",
+            "project_name": "Tên dự án",
+            "description": "Mô tả",
+            "total_budget": "Tổng ngân sách",
+            "project_date": "Thời gian dự án"
         }
     },
     "invoice_page": {

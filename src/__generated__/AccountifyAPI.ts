@@ -166,7 +166,10 @@ export enum PermissionSubject {
   ORGANIZATION = 'organization',
   USER = 'user',
   ROLE = 'role',
-  INVOICE = 'invoice'
+  INVOICE = 'invoice',
+  PROJECT = 'project',
+  BUDGET = 'budget',
+  CATEGORY = 'category'
 }
 
 export interface CaslPermission {
@@ -356,6 +359,152 @@ export interface UpdateInvoiceRequestDto {
   items: UpdateInvoiceItemRequest[]
 }
 
+export interface CreateProjectRequestDto {
+  /** @example "Technology Investment" */
+  name: string
+  /** @example "A project to improve school technology" */
+  description: string
+  /** @example 100000 */
+  totalBudget: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  startDate: string
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  endDate: string
+}
+
+export interface ProjectResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "Technology Investment" */
+  name: string
+  /** @example "A project to improve school technology" */
+  description: string
+  /** @example 100000 */
+  totalBudget: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  startDate: string
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  endDate: string
+  creator: OrganizationUserResponseDto
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
+export interface ProjectResponseListDto {
+  projects: ProjectResponseDto[]
+  metadata: MetaData
+}
+
+export interface UpdateProjectRequestDto {
+  /** @example "Technology Investment" */
+  name?: string
+  /** @example "A project to improve school technology" */
+  description?: string
+  /** @example 100000 */
+  totalBudget?: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  startDate?: string
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  endDate?: string
+}
+
+export interface CreateBudgetRequestDto {
+  /** @example 1 */
+  categoryId: number
+  /** @example 100000 */
+  amount: number
+}
+
+export interface BudgetResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example 1 */
+  categoryId: number
+  /** @example 100000 */
+  amount: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
+export interface BudgetResponseListDto {
+  budgets: BudgetResponseDto[]
+  metadata: MetaData
+}
+
+export interface UpdateBudgetRequestDto {
+  /** @example 100000 */
+  amount?: number
+}
+
+export interface CreateCategoryRequestDto {
+  /** @example "Computer Expense" */
+  name: string
+  /** @example "#abcdef" */
+  color: string
+  /** @example "mdi:circle-outline" */
+  icon: string
+  /** @example "expense" */
+  type: InvoiceType
+}
+
+export interface CategoryResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "Computer Expense" */
+  name: string
+  /** @example "#abcdef" */
+  color: string
+  /** @example "mdi:circle-outline" */
+  icon: string
+  /** @example "expense" */
+  type: InvoiceType
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
+export interface CategoryResponseListDto {
+  categories: CategoryResponseDto[]
+  metadata: MetaData
+}
+
+export interface UpdateCategoryRequestDto {
+  /** @example "Computer Expense" */
+  name?: string
+  /** @example "#abcdef" */
+  color?: string
+  /** @example "mdi:circle-outline" */
+  icon?: string
+  /** @example "expense" */
+  type?: InvoiceType
+}
+
 /** @example "create" */
 export enum PermissionConfigDtoActionEnum {
   MANAGE = 'manage',
@@ -371,7 +520,10 @@ export enum PermissionConfigDtoSubjectEnum {
   ORGANIZATION = 'organization',
   USER = 'user',
   ROLE = 'role',
-  INVOICE = 'invoice'
+  INVOICE = 'invoice',
+  PROJECT = 'project',
+  BUDGET = 'budget',
+  CATEGORY = 'category'
 }
 
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType } from 'axios'
@@ -1053,6 +1205,369 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     deleteAnInvoiceForAnOrganization: (organizationId: number, id: number, params: RequestParams = {}) =>
       this.request<EmptyResponseDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/invoices/${id}`,
+        method: 'DELETE',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Create projects for an organization
+     *
+     * @tags Organization Project
+     * @name CreateProjectsForAnOrganization
+     * @summary Create projects for an organization
+     * @request POST:/internal/api/v1/organizations/{organizationId}/projects
+     * @secure
+     */
+    createProjectsForAnOrganization: (
+      organizationId: number,
+      data: CreateProjectRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<ProjectResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get project list for organization
+     *
+     * @tags Organization Project
+     * @name GetProjectListForOrganization
+     * @summary Get project list for organization
+     * @request GET:/internal/api/v1/organizations/{organizationId}/projects
+     * @secure
+     */
+    getProjectListForOrganization: (
+      organizationId: number,
+      query?: {
+        query?: string
+        /** @format date-time */
+        fromDate?: string
+        /** @format date-time */
+        toDate?: string
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<ProjectResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects`,
+        method: 'GET',
+        query: query,
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get project by ID for an org
+     *
+     * @tags Organization Project
+     * @name GetProjectByIdForAnOrg
+     * @summary Get project by ID for an org
+     * @request GET:/internal/api/v1/organizations/{organizationId}/projects/{id}
+     * @secure
+     */
+    getProjectByIdForAnOrg: (organizationId: number, id: number, params: RequestParams = {}) =>
+      this.request<ProjectResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${id}`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Update a project for an organization
+     *
+     * @tags Organization Project
+     * @name UpdateAProjectForAnOrganization
+     * @summary Update a project for an organization
+     * @request PATCH:/internal/api/v1/organizations/{organizationId}/projects/{id}
+     * @secure
+     */
+    updateAProjectForAnOrganization: (
+      organizationId: number,
+      id: number,
+      data: UpdateProjectRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<ProjectResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${id}`,
+        method: 'PATCH',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Delete a project for an organization
+     *
+     * @tags Organization Project
+     * @name DeleteAProjectForAnOrganization
+     * @summary Delete a project for an organization
+     * @request DELETE:/internal/api/v1/organizations/{organizationId}/projects/{id}
+     * @secure
+     */
+    deleteAProjectForAnOrganization: (organizationId: number, id: number, params: RequestParams = {}) =>
+      this.request<EmptyResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${id}`,
+        method: 'DELETE',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Create project's budget for an organization
+     *
+     * @tags Organization Project Budget
+     * @name CreateProjectsBudgetForAnOrganization
+     * @summary Create project's budget for an organization
+     * @request POST:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/budgets
+     * @secure
+     */
+    createProjectsBudgetForAnOrganization: (
+      organizationId: number,
+      projectId: number,
+      data: CreateBudgetRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<BudgetResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/budgets`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get budget list for project of organization
+     *
+     * @tags Organization Project Budget
+     * @name GetBudgetListForProjectOfOrganization
+     * @summary Get budget list for project of organization
+     * @request GET:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/budgets
+     * @secure
+     */
+    getBudgetListForProjectOfOrganization: (
+      organizationId: number,
+      projectId: number,
+      query?: {
+        categoryId?: number
+        fromAmount?: number
+        toAmount?: number
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<BudgetResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/budgets`,
+        method: 'GET',
+        query: query,
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get project's budget by ID for an org
+     *
+     * @tags Organization Project Budget
+     * @name GetProjectsBudgetByIdForAnOrg
+     * @summary Get project's budget by ID for an org
+     * @request GET:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/budgets/{id}
+     * @secure
+     */
+    getProjectsBudgetByIdForAnOrg: (
+      organizationId: number,
+      projectId: number,
+      id: number,
+      params: RequestParams = {}
+    ) =>
+      this.request<BudgetResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/budgets/${id}`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Update a budget for a project of organization
+     *
+     * @tags Organization Project Budget
+     * @name UpdateABudgetForAProjectOfOrganization
+     * @summary Update a budget for a project of organization
+     * @request PATCH:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/budgets/{id}
+     * @secure
+     */
+    updateABudgetForAProjectOfOrganization: (
+      organizationId: number,
+      projectId: number,
+      id: number,
+      data: UpdateBudgetRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<BudgetResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/budgets/${id}`,
+        method: 'PATCH',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Delete a project's budget for an organization
+     *
+     * @tags Organization Project Budget
+     * @name DeleteAProjectsBudgetForAnOrganization
+     * @summary Delete a project's budget for an organization
+     * @request DELETE:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/budgets/{id}
+     * @secure
+     */
+    deleteAProjectsBudgetForAnOrganization: (
+      organizationId: number,
+      projectId: number,
+      id: number,
+      params: RequestParams = {}
+    ) =>
+      this.request<EmptyResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/budgets/${id}`,
+        method: 'DELETE',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Create project's category for an organization
+     *
+     * @tags Organization Project Category
+     * @name CreateProjectsCategoryForAnOrganization
+     * @summary Create project's category for an organization
+     * @request POST:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/categories
+     * @secure
+     */
+    createProjectsCategoryForAnOrganization: (
+      organizationId: number,
+      projectId: number,
+      data: CreateCategoryRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<CategoryResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/categories`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get category list for project of organization
+     *
+     * @tags Organization Project Category
+     * @name GetCategoryListForProjectOfOrganization
+     * @summary Get category list for project of organization
+     * @request GET:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/categories
+     * @secure
+     */
+    getCategoryListForProjectOfOrganization: (
+      organizationId: number,
+      projectId: number,
+      query?: {
+        query?: string
+        type?: string
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<CategoryResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/categories`,
+        method: 'GET',
+        query: query,
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get project's category by ID for an org
+     *
+     * @tags Organization Project Category
+     * @name GetProjectsCategoryByIdForAnOrg
+     * @summary Get project's category by ID for an org
+     * @request GET:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/categories/{id}
+     * @secure
+     */
+    getProjectsCategoryByIdForAnOrg: (
+      organizationId: number,
+      projectId: number,
+      id: number,
+      params: RequestParams = {}
+    ) =>
+      this.request<CategoryResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/categories/${id}`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Update a category for a project of organization
+     *
+     * @tags Organization Project Category
+     * @name UpdateACategoryForAProjectOfOrganization
+     * @summary Update a category for a project of organization
+     * @request PATCH:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/categories/{id}
+     * @secure
+     */
+    updateACategoryForAProjectOfOrganization: (
+      organizationId: number,
+      projectId: number,
+      id: number,
+      data: UpdateCategoryRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<CategoryResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/categories/${id}`,
+        method: 'PATCH',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Delete a project's category for an organization
+     *
+     * @tags Organization Project Category
+     * @name DeleteAProjectsCategoryForAnOrganization
+     * @summary Delete a project's category for an organization
+     * @request DELETE:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/categories/{id}
+     * @secure
+     */
+    deleteAProjectsCategoryForAnOrganization: (
+      organizationId: number,
+      projectId: number,
+      id: number,
+      params: RequestParams = {}
+    ) =>
+      this.request<EmptyResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/categories/${id}`,
         method: 'DELETE',
         secure: true,
         format: 'json',

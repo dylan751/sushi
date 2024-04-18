@@ -6,6 +6,11 @@
         },
         "home": "ホームページ",
         "role_page": "役割ページ",
+        "project_page": {
+            "project": "プロジェクト",
+            "list": "リスト",
+            "add": "追加"
+        },
         "invoice_page": {
             "invoice": "インヴォイス",
             "list": "リスト",
@@ -120,6 +125,39 @@
             "no_admin_nor_member": "Memberを選択する必要があります",
             "last_admin": "これが最後の管理者です",
             "max_of_roles_can_be_selected": "最大ロール個のみ選択できます"
+        }
+    },
+    "project_page": {
+        "list": {
+            "filters": "フィルター",
+            "project_start_date": "プロジェクトの開始日",
+            "actions": "行動",
+            "search_project_name": "プロジェクトの名前での検索",
+            "create_project": "プロジェクトの作成",
+            "creator": "創造者",
+            "client": "クライアント",
+            "name": "名前",
+            "description": "説明",
+            "total_budget": "総予算",
+            "start_date": "開始日",
+            "end_date": "締め切り",
+            "delete_project": "プロジェクトの削除",
+            "view": "ビュー",
+            "edit_project": "プロジェクトの編集"
+        },
+        "add": {
+            "create_project": "新しいプロジェクトを作成する",
+            "project_name": "プロジェクトの名前",
+            "description": "説明",
+            "total_budget": "総予算",
+            "project_date": "プロジェクトの日付"
+        },
+        "edit": {
+            "update_project": "プロジェクトを更新する",
+            "project_name": "プロジェクトの名前",
+            "description": "説明",
+            "total_budget": "総予算",
+            "project_date": "プロジェクトの日付"
         }
     },
     "invoice_page": {
