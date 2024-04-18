@@ -39,6 +39,7 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
+import { useTranslation } from 'react-i18next'
 
 interface CustomInputProps {
   dates: Date[]
@@ -87,12 +88,9 @@ const ProjectEdit = () => {
   const projectStore = useSelector((state: RootState) => state.project)
 
   const { organizationId } = useCurrentOrganization()
+  const { t } = useTranslation()
 
   // ** States
-  // const [dates, setDates] = useState<Date[]>([])
-  // const [endDateRange, setEndDateRange] = useState<DateType>(null)
-  // const [startDateRange, setStartDateRange] = useState<DateType>(null)
-
   const [dates, setDates] = useState<Date[]>([
     (projectStore.project as ProjectResponseDto).startDate
       ? new Date((projectStore.project as ProjectResponseDto).startDate)
@@ -188,14 +186,14 @@ const ProjectEdit = () => {
     return (
       <DatePickerWrapper>
         <Card>
-          <CardHeader title='Create A New Project' />
+          <CardHeader title={t('project_page.edit.update_project')} />
           <CardContent>
             <form onSubmit={e => handleSubmit(e)}>
               <Grid container spacing={5}>
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
-                    label='Project Name'
+                    label={t('project_page.edit.project_name')}
                     placeholder='HPTN083'
                     helperText='You can use letters, numbers & periods'
                     value={formData.name || ''}
@@ -218,7 +216,7 @@ const ProjectEdit = () => {
                     fullWidth
                     multiline
                     minRows={3}
-                    label='Description'
+                    label={t('project_page.edit.description')}
                     placeholder='Bio...'
                     sx={{ '& .MuiOutlinedInput-root': { alignItems: 'baseline' } }}
                     value={formData.description || ''}
@@ -240,7 +238,7 @@ const ProjectEdit = () => {
                   <TextField
                     fullWidth
                     type='number'
-                    label='Total Budget'
+                    label={t('project_page.edit.total_budget')}
                     placeholder='23000'
                     value={formData.totalBudget || 0}
                     onChange={e =>
@@ -272,7 +270,7 @@ const ProjectEdit = () => {
                       <CustomInput
                         dates={dates}
                         setDates={setDates}
-                        label='Project Date'
+                        label={t('project_page.edit.project_date')}
                         end={endDateRange as number | Date}
                         start={startDateRange as number | Date}
                       />
@@ -281,7 +279,7 @@ const ProjectEdit = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <Button type='submit' variant='contained' size='large' disabled={isSubmitDisabled()}>
-                    Submit
+                    {t('button.submit')}
                   </Button>
                 </Grid>
               </Grid>

@@ -219,6 +219,7 @@ const InvoiceList = () => {
           <Tooltip title={t('invoice_page.list.delete_invoice')}>
             <IconButton
               size='small'
+              color='error'
               onClick={() => dispatch(deleteInvoice({ organizationId, invoiceId: row.id }))}
               disabled={!ability?.can('delete', 'invoice')}
             >

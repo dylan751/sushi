@@ -35,6 +35,7 @@ import { addProject } from 'src/store/apps/project'
 
 // ** Util Imports
 import { getProjectListUrl } from 'src/utils/router'
+import { useTranslation } from 'react-i18next'
 
 interface CustomInputProps {
   dates: Date[]
@@ -93,6 +94,7 @@ const ProjectAdd = () => {
   const dispatch = useDispatch<AppDispatch>()
   const router = useRouter()
   const { organizationId } = useCurrentOrganization()
+  const { t } = useTranslation()
 
   const handleOnChangeRange = (dates: any) => {
     const [start, end] = dates
@@ -122,14 +124,14 @@ const ProjectAdd = () => {
   return (
     <DatePickerWrapper>
       <Card>
-        <CardHeader title='Create A New Project' />
+        <CardHeader title={t('project_page.add.create_project')} />
         <CardContent>
           <form onSubmit={e => handleSubmit(e)}>
             <Grid container spacing={5}>
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label='Project Name'
+                  label={t('project_page.add.project_name')}
                   placeholder='HPTN083'
                   helperText='You can use letters, numbers & periods'
                   onChange={e =>
@@ -151,7 +153,7 @@ const ProjectAdd = () => {
                   fullWidth
                   multiline
                   minRows={3}
-                  label='Description'
+                  label={t('project_page.add.description')}
                   placeholder='Bio...'
                   sx={{ '& .MuiOutlinedInput-root': { alignItems: 'baseline' } }}
                   onChange={e =>
@@ -172,7 +174,7 @@ const ProjectAdd = () => {
                 <TextField
                   fullWidth
                   type='number'
-                  label='Total Budget'
+                  label={t('project_page.add.total_budget')}
                   placeholder='23000'
                   onChange={e =>
                     setFormData(formData => {
@@ -203,7 +205,7 @@ const ProjectAdd = () => {
                     <CustomInput
                       dates={dates}
                       setDates={setDates}
-                      label='Project Date'
+                      label={t('project_page.add.project_date')}
                       end={endDateRange as number | Date}
                       start={startDateRange as number | Date}
                     />
@@ -212,7 +214,7 @@ const ProjectAdd = () => {
               </Grid>
               <Grid item xs={12}>
                 <Button type='submit' variant='contained' size='large' disabled={isSubmitDisabled()}>
-                  Submit
+                  {t('button.submit')}
                 </Button>
               </Grid>
             </Grid>

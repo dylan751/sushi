@@ -6,6 +6,11 @@
         },
         "home": "Home",
         "role_page": "Role Page",
+        "project_page": {
+            "project": "Project",
+            "list": "List",
+            "add": "Add"
+        },
         "invoice_page": {
             "invoice": "Invoice",
             "list": "List",
@@ -120,6 +125,38 @@
             "no_admin_nor_member": "Member has to be selected",
             "last_admin": "This is the last admin",
             "max_of_roles_can_be_selected": "Only a maximum of roles can be selected"
+        }
+    },
+    "project_page": {
+        "list": {
+            "filters": "Filters",
+            "project_start_date": "Project Start Date",
+            "actions": "Actions",
+            "search_project_name": "Search Project Name",
+            "create_project": "Create Project",
+            "client": "Client",
+            "name": "Name",
+            "description": "Description",
+            "total_budget": "Total Budget",
+            "start_date": "Start Date",
+            "end_date": "Deadline",
+            "delete_project": "Delete Project",
+            "view": "View",
+            "edit_project": "Edit Project"
+        },
+        "add": {
+            "create_project": "Create A New Project",
+            "project_name": "Project Name",
+            "description": "Description",
+            "total_budget": "Total Budget",
+            "project_date": "Project Date"
+        },
+        "edit": {
+            "update_project": "Update A Project",
+            "project_name": "Project Name",
+            "description": "Description",
+            "total_budget": "Total Budget",
+            "project_date": "Project Date"
         }
     },
     "invoice_page": {

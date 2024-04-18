@@ -1,21 +1,24 @@
 // ** Next Import
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 // ** React Import
-import { useEffect } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
-import Divider from '@mui/material/Divider'
 import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import LinearProgress from '@mui/material/LinearProgress'
+import Tooltip from '@mui/material/Tooltip'
+import IconButton from '@mui/material/IconButton'
+import TextField from '@mui/material/TextField'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { styled } from '@mui/material/styles'
 
 // ** Types
-import { ProjectsTabType } from 'src/@fake-db/types'
 import { CurrencyType, ProjectResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Enums Imports
@@ -27,9 +30,8 @@ import { getProjectDefaultTab, getProjectEditUrl } from 'src/utils/router'
 import { formatCurrencyAsCompact } from 'src/utils/currency'
 
 // ** Custom Components Imports
-import CustomChip from 'src/@core/components/mui/chip'
 import CustomAvatar from 'src/@core/components/mui/avatar'
-import OptionsMenu from 'src/@core/components/option-menu'
+import Icon from 'src/@core/components/icon'
 
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
@@ -41,304 +43,278 @@ import { deleteProject, fetchProject } from 'src/store/apps/project'
 
 // ** Third Party Imports
 import { format } from 'date-fns'
+import { useTranslation } from 'react-i18next'
+import { ThemeColor } from 'src/@core/layouts/types'
+import DatePicker from 'react-datepicker'
+import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import FormControl from '@mui/material/FormControl'
+import { DateType } from 'src/types/forms/reactDatepickerTypes'
 
-const ProjectAvatar = ({ project }: { project: ProjectResponseDto }) => {
-  const { name } = project
+interface CustomInputProps {
+  dates: Date[]
+  label: string
+  end: number | Date
+  start: number | Date
+  setDates?: (value: Date[]) => void
+}
 
+interface CellType {
+  row: ProjectResponseDto
+}
+
+// ** Styled component for the link in the dataTable
+const LinkStyled = styled(Link)(({ theme }) => ({
+  textDecoration: 'none',
+  color: theme.palette.primary.main
+}))
+
+// ** renders client column
+const renderClient = (name: string) => {
   return (
-    <CustomAvatar skin='light' color='primary' sx={{ width: 38, height: 38 }}>
-      {getInitials(name)}
+    <CustomAvatar
+      skin='light'
+      color={'primary' as ThemeColor}
+      sx={{ mr: 3, fontSize: '.8rem', width: '1.875rem', height: '1.875rem' }}
+    >
+      {getInitials(name || 'John Doe')}
     </CustomAvatar>
   )
 }
 
-export const projectDummyData: ProjectsTabType[] = [
-  {
-    id: 1,
-    daysLeft: 28,
-    comments: 15,
-    totalTask: 344,
-    hours: '380/244',
-    tasks: '290/344',
-    budget: '$18.2k',
-    completedTask: 328,
-    deadline: '28/2/22',
-    chipColor: 'success',
-    startDate: '14/2/21',
-    budgetSpent: '$24.8k',
-    members: '280 members',
-    title: 'HPTN083',
-    client: 'Christian Jimenez',
-    avatar: '/images/icons/project-icons/social-label.png',
-    description: 'We are Consulting, Software Development and Web Development Services.',
-    avatarGroup: [
-      { avatar: '/images/avatars/1.png', name: 'Vinnie Mostowy' },
-      { avatar: '/images/avatars/2.png', name: 'Allen Rieske' },
-      { avatar: '/images/avatars/3.png', name: 'Julee Rossignol' }
-    ]
-  },
-  {
-    id: 2,
-    daysLeft: 15,
-    comments: 236,
-    totalTask: 90,
-    tasks: '12/90',
-    hours: '98/135',
-    budget: '$1.8k',
-    completedTask: 38,
-    deadline: '21/6/22',
-    budgetSpent: '$2.4k',
-    chipColor: 'warning',
-    startDate: '18/8/21',
-    members: '1.1k members',
-    title: 'SNaP',
-    client: 'Jeffrey Phillips',
-    avatar: '/images/icons/project-icons/react-label.png',
-    avatarGroup: [
-      { avatar: '/images/avatars/4.png', name: "Kaith D'souza" },
-      { avatar: '/images/avatars/5.png', name: 'John Doe' },
-      { avatar: '/images/avatars/6.png', name: 'Alan Walker' }
-    ],
-    description: "Time is our most valuable asset, that's why we want to help you save it by creating…"
-  },
-  {
-    id: 3,
-    daysLeft: 45,
-    comments: 98,
-    budget: '$420',
-    totalTask: 140,
-    tasks: '22/140',
-    hours: '880/421',
-    completedTask: 95,
-    chipColor: 'error',
-    budgetSpent: '$980',
-    deadline: '8/10/21',
-    title: 'E-BAI',
-    startDate: '24/7/21',
-    members: '458 members',
-    client: 'Ricky McDonald',
-    avatar: '/images/icons/project-icons/vue-label.png',
-    description: 'App design combines the user interface (UI) and user experience (UX).',
-    avatarGroup: [
-      { avatar: '/images/avatars/7.png', name: 'Jimmy Ressula' },
-      { avatar: '/images/avatars/8.png', name: 'Kristi Lawker' },
-      { avatar: '/images/avatars/1.png', name: 'Danny Paul' }
-    ]
-  },
-  {
-    id: 4,
-    comments: 120,
-    daysLeft: 126,
-    totalTask: 420,
-    budget: '2.43k',
-    tasks: '237/420',
-    hours: '1.2k/820',
-    completedTask: 302,
-    deadline: '12/9/22',
-    budgetSpent: '$8.5k',
-    chipColor: 'warning',
-    startDate: '10/2/19',
-    members: '137 members',
-    client: 'Hulda Wright',
-    title: 'B-PrEP',
-    avatar: '/images/icons/project-icons/html-label.png',
-    description: 'Your domain name should reflect your products or services so that your...',
-    avatarGroup: [
-      { avatar: '/images/avatars/2.png', name: 'Andrew Tye' },
-      { avatar: '/images/avatars/3.png', name: 'Rishi Swaat' },
-      { avatar: '/images/avatars/4.png', name: 'Rossie Kim' }
-    ]
-  },
-  {
-    id: 5,
-    daysLeft: 5,
-    comments: 20,
-    totalTask: 285,
-    tasks: '29/285',
-    budget: '28.4k',
-    hours: '142/420',
-    chipColor: 'error',
-    completedTask: 100,
-    deadline: '25/12/21',
-    startDate: '12/12/20',
-    members: '82 members',
-    budgetSpent: '$52.7k',
-    client: 'Jerry Greene',
-    title: 'A5300B',
-    avatar: '/images/icons/project-icons/figma-label.png',
-    description: 'Use this template to organize your design project. Some of the key features are…',
-    avatarGroup: [
-      { avatar: '/images/avatars/5.png', name: 'Kim Merchent' },
-      { avatar: '/images/avatars/6.png', name: "Sam D'souza" },
-      { avatar: '/images/avatars/7.png', name: 'Nurvi Karlos' }
-    ]
-  },
-  {
-    id: 6,
-    daysLeft: 4,
-    comments: 16,
-    budget: '$655',
-    totalTask: 290,
-    tasks: '29/290',
-    hours: '580/445',
-    completedTask: 290,
-    budgetSpent: '$1.3k',
-    chipColor: 'success',
-    deadline: '02/11/21',
-    startDate: '17/8/21',
-    title: 'A5379',
-    members: '16 members',
-    client: 'Olive Strickland',
-    avatar: '/images/icons/project-icons/xd-label.png',
-    description: 'Premium logo designs created by top logo designers. Create the branding of business.',
-    avatarGroup: [
-      { avatar: '/images/avatars/8.png', name: 'Kim Karlos' },
-      { avatar: '/images/avatars/1.png', name: 'Katy Turner' },
-      { avatar: '/images/avatars/2.png', name: 'Peter Adward' }
-    ]
-  }
-]
+/* eslint-disable */
+const CustomInput = forwardRef((props: CustomInputProps, ref) => {
+  const startDate = props.start !== null ? format(props.start, 'MM/dd/yyyy') : ''
+  const endDate = props.end !== null ? ` - ${format(props.end, 'MM/dd/yyyy')}` : null
+
+  const value = `${startDate}${endDate !== null ? endDate : ''}`
+  props.start === null && props.dates.length && props.setDates ? props.setDates([]) : null
+  const updatedProps = { ...props }
+  delete updatedProps.setDates
+
+  return <TextField fullWidth inputRef={ref} {...updatedProps} label={props.label || ''} value={value} />
+})
+/* eslint-enable */
 
 const Projects = () => {
   const { organizationId } = useCurrentOrganization()
+  const { t } = useTranslation()
 
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
+  const router = useRouter()
   const store = useSelector((state: RootState) => state.project)
+
+  // ** State
+  const [dates, setDates] = useState<Date[]>([])
+  const [searchValue, setSearchValue] = useState<string>('')
+  const [endDateRange, setEndDateRange] = useState<DateType>(null)
+  const [startDateRange, setStartDateRange] = useState<DateType>(null)
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
   useEffect(() => {
     // Fetch organization's projects
-    dispatch(fetchProject({ organizationId, query: '' }))
-  }, [dispatch, organizationId])
+    dispatch(
+      fetchProject({ organizationId, query: searchValue, fromDate: dates[0]?.toString(), toDate: dates[1]?.toString() })
+    )
+  }, [dispatch, searchValue, dates, organizationId])
+
+  const handleFilterByName = (name: string) => {
+    setSearchValue(name)
+  }
+
+  const handleOnChangeRange = (dates: any) => {
+    const [start, end] = dates
+    if (start !== null && end !== null) {
+      setDates(dates)
+    }
+    setStartDateRange(start)
+    setEndDateRange(end)
+  }
+
+  const defaultColumns: GridColDef[] = [
+    {
+      flex: 0.1,
+      field: 'id',
+      minWidth: 50,
+      headerName: '#',
+      renderCell: ({ row }: CellType) => <LinkStyled href={getProjectDefaultTab(row.id)}>{`#${row.id}`}</LinkStyled>
+    },
+    {
+      flex: 0.2,
+      minWidth: 150,
+      field: 'name',
+      headerName: `${t('project_page.list.name')}`,
+      renderCell: ({ row }: CellType) => {
+        return (
+          <Typography variant='body2' noWrap>
+            {row.name || '-'}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      field: 'client',
+      minWidth: 200,
+      headerName: t('project_page.list.client') as string,
+      renderCell: () => {
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {renderClient('Jeffrey Phillips')}
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
+                Jeffrey Phillips
+              </Typography>
+            </Box>
+          </Box>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 150,
+      field: 'totalBudget',
+      headerName: t('project_page.list.total_budget') as string,
+      renderCell: ({ row }: CellType) => (
+        <Box sx={{ display: 'flex' }}>
+          {/* TODO: Calculate item.budgetSpent */}
+          <Typography sx={{ color: 'text.secondary' }}>$18.2k/</Typography>
+          <Typography sx={{ fontWeight: 600 }}>{`${formatCurrencyAsCompact(
+            row.totalBudget,
+            Locale.EN,
+            CurrencyType.USD
+          )}`}</Typography>
+        </Box>
+      )
+    },
+    {
+      flex: 0.2,
+      minWidth: 150,
+      field: 'description',
+      headerName: `${t('project_page.list.description')}`,
+      renderCell: ({ row }: CellType) => {
+        return (
+          <Typography variant='body2' noWrap>
+            {row.description || '-'}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 150,
+      field: 'startDate',
+      headerName: t('project_page.list.start_date') as string,
+      renderCell: ({ row }: CellType) => (
+        <Typography variant='body2'>{format(new Date(row.startDate), 'dd MMM yyyy')}</Typography>
+      )
+    },
+    {
+      flex: 0.2,
+      minWidth: 150,
+      field: 'endDate',
+      headerName: t('project_page.list.end_date') as string,
+      renderCell: ({ row }: CellType) => (
+        <Typography variant='body2'>{format(new Date(row.endDate), 'dd MMM yyyy')}</Typography>
+      )
+    }
+  ]
+
+  const columns: GridColDef[] = [
+    ...defaultColumns,
+    {
+      flex: 0.1,
+      minWidth: 130,
+      sortable: false,
+      field: 'actions',
+      headerName: t('project_page.list.actions') as string,
+      renderCell: ({ row }: CellType) => (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Tooltip title={t('project_page.list.delete_project')}>
+            <IconButton
+              size='small'
+              color='error'
+              onClick={() => dispatch(deleteProject({ organizationId, projectId: row.id }))}
+            >
+              <Icon icon='mdi:delete-outline' fontSize={20} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={t('invoice_page.list.view')}>
+            <IconButton size='small' component={Link} href={getProjectDefaultTab(row.id)}>
+              <Icon icon='mdi:eye-outline' fontSize={20} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={t('project_page.list.edit_project')}>
+            <IconButton size='small' color='info' onClick={() => router.replace(getProjectEditUrl(row.id))}>
+              <Icon icon='mdi:pencil-outline' fontSize={20} />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      )
+    }
+  ]
 
   return (
-    <Grid container spacing={6}>
-      {store.data &&
-        Array.isArray(store.data) &&
-        store.data.map((item, index) => {
-          return (
-            <Grid key={index} item xs={12} md={6} lg={4}>
-              <Card>
-                <CardHeader
-                  avatar={<ProjectAvatar project={item} />}
-                  sx={{
-                    pb: 4,
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    justifyContent: 'space-between',
-                    '& .MuiCardHeader-avatar': { mr: 3 }
-                  }}
-                  subheader={
-                    <Typography sx={{ color: 'text.secondary' }}>
-                      <Box component='span' sx={{ fontWeight: 600 }}>
-                        Client:
-                      </Box>{' '}
-                      {/* TODO: Calculate item.client */}
-                      {/* {item.client} */}
-                      Christian Jimenez
-                    </Typography>
-                  }
-                  action={
-                    <OptionsMenu
-                      iconButtonProps={{ size: 'small' }}
-                      options={[
-                        { text: 'Edit Project', href: getProjectEditUrl(item.id) },
-                        { text: 'View Details', href: getProjectDefaultTab(item.id) },
-                        { divider: true },
-                        {
-                          text: 'Delete Project',
-                          menuItemProps: {
-                            sx: { color: 'error.main' },
-                            onClick: () => dispatch(deleteProject({ organizationId, projectId: item.id }))
-                          }
-                        }
-                      ]}
-                    />
-                  }
-                  title={
-                    <Typography
-                      href={getProjectDefaultTab(item.id)}
-                      variant='h6'
-                      component={Link}
-                      sx={{ textDecoration: 'none', '&:hover': { color: 'primary.main' } }}
-                    >
-                      {item.name}
-                    </Typography>
-                  }
-                />
-                <CardContent sx={{ minHeight: '180px' }}>
-                  <Box
-                    sx={{
-                      mb: 4,
-                      gap: 2,
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      alignItems: 'center',
-                      justifyContent: 'space-between'
-                    }}
-                  >
-                    <CustomChip
-                      rounded
-                      size='small'
-                      skin='light'
-                      sx={{ height: 60 }}
-                      label={
-                        <>
-                          <Typography sx={{ color: 'text.secondary' }}>Total Budget</Typography>
-                          <Box sx={{ display: 'flex' }}>
-                            {/* TODO: Calculate item.budgetSpent */}
-                            <Typography sx={{ color: 'text.secondary' }}>$18.2k/</Typography>
-                            <Typography sx={{ fontWeight: 600 }}>{`${formatCurrencyAsCompact(
-                              item.totalBudget,
-                              Locale.EN,
-                              CurrencyType.USD
-                            )}`}</Typography>
-                          </Box>
-                        </>
-                      }
-                    />
-                    <Box sx={{ display: 'flex', alignItems: 'flex-end', flexDirection: 'column' }}>
-                      <Box sx={{ display: 'flex' }}>
-                        <Typography sx={{ mr: 1, fontWeight: 600 }}>Start Date:</Typography>
-                        <Typography sx={{ color: 'text.secondary' }}>
-                          {format(new Date(item.startDate), 'dd MMM yyyy')}
-                        </Typography>
-                      </Box>
-                      <Box sx={{ display: 'flex' }}>
-                        <Typography sx={{ mr: 1, fontWeight: 600 }}>Deadline:</Typography>
-                        <Typography sx={{ color: 'text.secondary' }}>
-                          {format(new Date(item.endDate), 'dd MMM yyyy')}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Box>
-                  <Typography sx={{ color: 'text.secondary' }}>{item.description}</Typography>
-                </CardContent>
-                <Divider sx={{ my: '0 !important' }} />
-                <CardContent sx={{ pt: 6 }}>
-                  <Box sx={{ mb: 1.5, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Typography variant='caption'>
-                      {/* TODO: Calculate item.budgetSpent */}
-                      {`${Math.round((18200 / item.totalBudget) * 100)}% Spent`}
-                    </Typography>
-                  </Box>
-                  <LinearProgress
-                    color='primary'
-                    variant='determinate'
-                    value={Math.round((18200 / item.totalBudget) * 100)} // TODO: Calculate item.budgetSpent
-                    sx={{
-                      mb: 3.5,
-                      height: 8,
-                      borderRadius: 2,
-                      '& .MuiLinearProgress-bar': { borderRadius: 2 }
-                    }}
+    <DatePickerWrapper>
+      <Grid container spacing={6}>
+        <Grid item xs={12}>
+          <Card>
+            <CardHeader title={t('project_page.list.filters')} />
+            <CardContent>
+              <Grid container spacing={6}>
+                <Grid item xs={12} sm={6}>
+                  <DatePicker
+                    isClearable
+                    selectsRange
+                    monthsShown={2}
+                    endDate={endDateRange}
+                    selected={startDateRange}
+                    startDate={startDateRange}
+                    shouldCloseOnSelect={false}
+                    id='date-range-picker-months'
+                    onChange={handleOnChangeRange}
+                    customInput={
+                      <CustomInput
+                        dates={dates}
+                        setDates={setDates}
+                        label={t('project_page.list.project_start_date')}
+                        end={endDateRange as number | Date}
+                        start={startDateRange as number | Date}
+                      />
+                    }
                   />
-                </CardContent>
-              </Card>
-            </Grid>
-          )
-        })}
-    </Grid>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <FormControl fullWidth>
+                    <TextField
+                      value={searchValue}
+                      sx={{ mr: 4, mb: 2 }}
+                      placeholder={t('project_page.list.search_project_name') as string}
+                      onChange={e => handleFilterByName(e.target.value)}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12}>
+          <Card>
+            <DataGrid
+              autoHeight
+              pagination
+              rows={store.data}
+              columns={columns}
+              checkboxSelection
+              disableRowSelectionOnClick
+              pageSizeOptions={[10, 25, 50]}
+              paginationModel={paginationModel}
+              onPaginationModelChange={setPaginationModel}
+            />
+          </Card>
+        </Grid>
+      </Grid>
+    </DatePickerWrapper>
   )
 }
 

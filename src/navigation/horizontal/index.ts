@@ -30,19 +30,19 @@ const navigation = (): HorizontalNavItemsType => {
       icon: 'mdi:shield-outline'
     },
     {
-      title: 'Projects',
+      title: 'navbar.project_page.project',
       icon: 'mdi:cube-outline',
       children: [
         {
           action: 'read',
-          subject: 'user',
-          title: 'List',
+          subject: 'project',
+          title: 'navbar.project_page.list',
           path: `/${uniqueName}/projects/list`
         },
         {
           action: 'create',
-          subject: 'user',
-          title: 'Add',
+          subject: 'project',
+          title: 'navbar.project_page.add',
           path: `/${uniqueName}/projects/add`
         }
       ]

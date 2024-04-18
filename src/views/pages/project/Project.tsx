@@ -84,7 +84,7 @@ const Project = ({ tab, id }: { tab: string; id: string }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <ProjectHeader id={id} />
+        <ProjectHeader />
       </Grid>
       {activeTab === undefined ? null : (
         <Grid item xs={12}>
