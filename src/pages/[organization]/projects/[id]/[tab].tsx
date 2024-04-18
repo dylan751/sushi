@@ -20,4 +20,9 @@ const ProjectsTab = () => {
   return <Project tab={currentTab} id={id} />
 }
 
+ProjectsTab.acl = {
+  action: 'read',
+  subject: 'project'
+}
+
 export default ProjectsTab

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 // ** React Import
-import { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useContext, useEffect, useState } from 'react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
@@ -18,8 +18,11 @@ import TextField from '@mui/material/TextField'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { styled } from '@mui/material/styles'
 
-// ** Types
+// ** Type Imports
 import { CurrencyType, ProjectResponseDto } from 'src/__generated__/AccountifyAPI'
+
+// ** Context Imports
+import { AbilityContext } from 'src/layouts/components/acl/Can'
 
 // ** Enums Imports
 import { Locale } from 'src/enum'
@@ -103,6 +106,7 @@ const Projects = () => {
   const dispatch = useDispatch<AppDispatch>()
   const router = useRouter()
   const store = useSelector((state: RootState) => state.project)
+  const ability = useContext(AbilityContext)
 
   // ** State
   const [dates, setDates] = useState<Date[]>([])
@@ -235,6 +239,7 @@ const Projects = () => {
               size='small'
               color='error'
               onClick={() => dispatch(deleteProject({ organizationId, projectId: row.id }))}
+              disabled={!ability?.can('delete', 'project')}
             >
               <Icon icon='mdi:delete-outline' fontSize={20} />
             </IconButton>
@@ -245,7 +250,12 @@ const Projects = () => {
             </IconButton>
           </Tooltip>
           <Tooltip title={t('project_page.list.edit_project')}>
-            <IconButton size='small' color='info' onClick={() => router.replace(getProjectEditUrl(row.id))}>
+            <IconButton
+              size='small'
+              color='info'
+              onClick={() => router.replace(getProjectEditUrl(row.id))}
+              disabled={!ability?.can('update', 'project')}
+            >
               <Icon icon='mdi:pencil-outline' fontSize={20} />
             </IconButton>
           </Tooltip>
