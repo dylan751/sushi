@@ -1428,15 +1428,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Delete an project's budget for an organization
+     * @description Delete a project's budget for an organization
      *
      * @tags Organization Project Budget
-     * @name DeleteAnProjectsBudgetForAnOrganization
-     * @summary Delete an project's budget for an organization
+     * @name DeleteAProjectsBudgetForAnOrganization
+     * @summary Delete a project's budget for an organization
      * @request DELETE:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/budgets/{id}
      * @secure
      */
-    deleteAnProjectsBudgetForAnOrganization: (
+    deleteAProjectsBudgetForAnOrganization: (
       organizationId: number,
       projectId: number,
       id: number,
@@ -1552,15 +1552,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Delete an project's category for an organization
+     * @description Delete a project's category for an organization
      *
      * @tags Organization Project Category
-     * @name DeleteAnProjectsCategoryForAnOrganization
-     * @summary Delete an project's category for an organization
+     * @name DeleteAProjectsCategoryForAnOrganization
+     * @summary Delete a project's category for an organization
      * @request DELETE:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/categories/{id}
      * @secure
      */
-    deleteAnProjectsCategoryForAnOrganization: (
+    deleteAProjectsCategoryForAnOrganization: (
       organizationId: number,
       projectId: number,
       id: number,
