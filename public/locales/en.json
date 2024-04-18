@@ -134,6 +134,7 @@
             "actions": "Actions",
             "search_project_name": "Search Project Name",
             "create_project": "Create Project",
+            "creator": "Creator",
             "client": "Client",
             "name": "Name",
             "description": "Description",

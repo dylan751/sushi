@@ -397,6 +397,7 @@ export interface ProjectResponseDto {
    * @example "2024-02-26T07:31:35.000Z"
    */
   endDate: string
+  creator: OrganizationUserResponseDto
   /**
    * @format date-time
    * @example "2024-02-26T07:31:35.000Z"

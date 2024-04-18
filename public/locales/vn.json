@@ -131,6 +131,7 @@
             "actions": "Hành động",
             "search_project_name": "Tìm theo tên dự án",
             "create_project": "Tạo dự án",
+            "creator": "Người tạo",
             "client": "Khách hàng",
             "name": "Tên",
             "description": "Mô tả",

@@ -134,6 +134,7 @@
             "actions": "行動",
             "search_project_name": "プロジェクトの名前での検索",
             "create_project": "プロジェクトの作成",
+            "creator": "創造者",
             "client": "クライアント",
             "name": "名前",
             "description": "説明",

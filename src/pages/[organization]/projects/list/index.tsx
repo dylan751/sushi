@@ -19,7 +19,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { styled } from '@mui/material/styles'
 
 // ** Type Imports
-import { CurrencyType, ProjectResponseDto } from 'src/__generated__/AccountifyAPI'
+import { CurrencyType, OrganizationUserResponseDto, ProjectResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
@@ -72,16 +72,21 @@ const LinkStyled = styled(Link)(({ theme }) => ({
 }))
 
 // ** renders client column
-const renderClient = (name: string) => {
-  return (
-    <CustomAvatar
-      skin='light'
-      color={'primary' as ThemeColor}
-      sx={{ mr: 3, fontSize: '.8rem', width: '1.875rem', height: '1.875rem' }}
-    >
-      {getInitials(name || 'John Doe')}
-    </CustomAvatar>
-  )
+const renderClient = (row: OrganizationUserResponseDto) => {
+  console.log(row)
+  if (row.avatar.length) {
+    return <CustomAvatar src={row.avatar} sx={{ mr: 3, width: '1.875rem', height: '1.875rem' }} />
+  } else {
+    return (
+      <CustomAvatar
+        skin='light'
+        color={'primary' as ThemeColor}
+        sx={{ mr: 3, fontSize: '.8rem', width: '1.875rem', height: '1.875rem' }}
+      >
+        {getInitials(row.name || 'John Doe')}
+      </CustomAvatar>
+    )
+  }
 }
 
 /* eslint-disable */
@@ -158,13 +163,35 @@ const Projects = () => {
     },
     {
       flex: 0.2,
+      field: 'creator',
+      minWidth: 200,
+      headerName: t('project_page.list.creator') as string,
+      renderCell: ({ row }: CellType) => {
+        const { creator } = row
+
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {renderClient(creator)}
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
+                {creator.name}
+              </Typography>
+            </Box>
+          </Box>
+        )
+      }
+    },
+    {
+      flex: 0.2,
       field: 'client',
       minWidth: 200,
       headerName: t('project_page.list.client') as string,
-      renderCell: () => {
+      renderCell: ({ row }: CellType) => {
+        const { creator } = row
+
         return (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {renderClient('Jeffrey Phillips')}
+            {renderClient(creator)}
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
                 Jeffrey Phillips
