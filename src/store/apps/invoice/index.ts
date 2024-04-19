@@ -50,6 +50,29 @@ export const fetchInvoice = createAsyncThunk(
   }
 )
 
+// ** Fetch Invoices for a project
+export const fetchInvoiceForProject = createAsyncThunk(
+  'appInvoices/fetchInvoiceForProject',
+  async (params: DataParams & { organizationId: number; projectId: number }) => {
+    const storedToken = getAccessToken()
+    const { organizationId, projectId, ...restParams } = params
+
+    try {
+      const response = await new Api({
+        baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+        timeout: 30 * 1000, // 30 seconds
+        headers: {
+          Authorization: `Bearer ${storedToken}`
+        }
+      }).internal.getInvoiceListForAProjectOfOrganization(organizationId, projectId, restParams)
+
+      return response.data
+    } catch (error: any) {
+      toast.error(error.message)
+    }
+  }
+)
+
 // ** Fetch 1 invoice
 export const fetchAnInvoice = createAsyncThunk(
   'appInvoices/fetchAnInvoice',
@@ -167,6 +190,11 @@ export const appInvoicesSlice = createSlice({
       state.total = action.payload?.metadata.total || 0
       state.params = action.payload?.metadata.params || {}
     }),
+      builder.addCase(fetchInvoiceForProject.fulfilled, (state, action) => {
+        state.data = action.payload?.invoices || []
+        state.total = action.payload?.metadata.total || 0
+        state.params = action.payload?.metadata.params || {}
+      }),
       builder.addCase(fetchAnInvoice.fulfilled, (state, action) => {
         state.invoice = action.payload || {}
       })

@@ -49,6 +49,8 @@ const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
 }))
 
 const Project = ({ tab, id, project }: { tab: string; id: string; project: ProjectResponseDto }) => {
+  console.log('project', project)
+
   // ** State
   const [activeTab, setActiveTab] = useState<string>(tab)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -77,7 +79,7 @@ const Project = ({ tab, id, project }: { tab: string; id: string; project: Proje
 
   const tabContentList: { [key: string]: ReactElement } = {
     dashboard: <DashboardTab />,
-    invoice: <InvoiceTab />,
+    invoice: <InvoiceTab project={project} />,
     budget: <BudgetTab />,
     category: <CategoryTab />
   }

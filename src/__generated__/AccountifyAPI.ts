@@ -1331,6 +1331,37 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
+     * @description Get invoice list for a project of organization
+     *
+     * @tags Organization Project Invoice
+     * @name GetInvoiceListForAProjectOfOrganization
+     * @summary Get invoice list for a project of organization
+     * @request GET:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/invoices
+     * @secure
+     */
+    getInvoiceListForAProjectOfOrganization: (
+      organizationId: number,
+      projectId: number,
+      query?: {
+        query?: string
+        /** @format date-time */
+        fromDate?: string
+        /** @format date-time */
+        toDate?: string
+        type?: string
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<InvoiceResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/invoices`,
+        method: 'GET',
+        query: query,
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
      * @description Create project's budget for an organization
      *
      * @tags Organization Project Budget
