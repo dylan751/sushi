@@ -132,6 +132,7 @@
             "category": "Phân loại"
         },
         "list": {
+            "project_list": "Danh sách dự án",
             "filters": "Bộ lọc",
             "project_start_date": "Ngày bắt đầu dự án",
             "actions": "Hành động",

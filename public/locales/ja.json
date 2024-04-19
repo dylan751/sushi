@@ -135,6 +135,7 @@
             "category": "カテゴリー"
         },
         "list": {
+            "project_list": "プロジェクトリスト",
             "filters": "フィルター",
             "project_start_date": "プロジェクトの開始日",
             "actions": "行動",

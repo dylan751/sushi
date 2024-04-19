@@ -135,6 +135,7 @@
             "category": "Category"
         },
         "list": {
+            "project_list": "Project List",
             "filters": "Filters",
             "project_start_date": "Project Start Date",
             "actions": "Actions",
