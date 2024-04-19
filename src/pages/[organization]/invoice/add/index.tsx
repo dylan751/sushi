@@ -127,8 +127,8 @@ const InvoiceAdd = () => {
       <Grid container spacing={6}>
         <Grid item xl={9} md={8} xs={12}>
           <AddCard
-            projects={projectStore.data}
-            categories={categoryStore.data}
+            projects={projectStore.projects}
+            categories={categoryStore.categories}
             setFormData={setFormData}
             date={date}
             setDate={setDate}

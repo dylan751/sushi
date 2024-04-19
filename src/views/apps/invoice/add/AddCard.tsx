@@ -114,9 +114,6 @@ const AddCard = ({
   categoryId,
   setCategoryId
 }: AddCardProps) => {
-  console.log('projects', projects)
-  console.log('categories', categories)
-
   // ** States
   const [count, setCount] = useState<number>(1)
 

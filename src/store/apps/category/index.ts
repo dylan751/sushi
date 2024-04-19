@@ -156,7 +156,7 @@ export const deleteCategory = createAsyncThunk(
 export const appCategoriesSlice = createSlice({
   name: 'appCategories',
   initialState: {
-    data: [] as CategoryResponseDto[],
+    categories: [] as CategoryResponseDto[],
     total: 0,
     params: {},
 
@@ -165,7 +165,7 @@ export const appCategoriesSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchCategory.fulfilled, (state, action) => {
-      state.data = action.payload?.categories || []
+      state.categories = action.payload?.categories || []
       state.total = action.payload?.metadata.total || 0
       state.params = action.payload?.metadata.params || {}
     }),

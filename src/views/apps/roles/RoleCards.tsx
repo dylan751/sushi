@@ -101,7 +101,7 @@ const RolesCards = () => {
   const handleClickOpenAdd = () => setOpen(true)
 
   const handleClickOpenEdit = (roleId: number) => {
-    const role = store.data.find(role => role.id === roleId)!
+    const role = store.roles.find(role => role.id === roleId)!
     role.permissions.forEach((permission: any) => {
       if (permission.action === 'manage' && permission.subject === 'all') {
         handleSelectAllCheckbox()
@@ -212,7 +212,7 @@ const RolesCards = () => {
   }, [selectedCheckbox, permissionSubjects.length])
 
   const renderCards = () =>
-    (store.data as RoleResponseDto[]).map((item, index: number) => (
+    (store.roles as RoleResponseDto[]).map((item, index: number) => (
       <Grid item xs={12} sm={6} lg={4} key={index}>
         <Card>
           <CardContent>
@@ -265,7 +265,7 @@ const RolesCards = () => {
   return (
     <Grid container spacing={6} className='match-height'>
       {renderCards()}
-      {ability?.can('create', 'role') && store.data.length < MAX_ROLES_PER_ORGANIZATION && (
+      {ability?.can('create', 'role') && store.roles.length < MAX_ROLES_PER_ORGANIZATION && (
         <Grid item xs={12} sm={6} lg={4}>
           <Card
             sx={{ cursor: 'pointer' }}

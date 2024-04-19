@@ -339,7 +339,7 @@ const Projects = () => {
             <DataGrid
               autoHeight
               pagination
-              rows={store.data}
+              rows={store.projects}
               columns={columns}
               checkboxSelection
               disableRowSelectionOnClick

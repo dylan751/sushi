@@ -151,7 +151,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
         <Grid container spacing={6}>
           <Grid item xl={9} md={8} xs={12}>
             <EditCard
-              categories={categoryStore.data}
+              categories={categoryStore.categories}
               data={invoiceStore.invoice as InvoiceResponseDto}
               formData={formData}
               setFormData={setFormData}

@@ -153,18 +153,18 @@ export const deleteProject = createAsyncThunk(
 export const appProjectsSlice = createSlice({
   name: 'appProjects',
   initialState: {
-    data: [] as ProjectResponseDto[],
-    total: 0,
-    params: {},
+    projects: [] as ProjectResponseDto[],
+    totalProjects: 0,
+    paramsProjects: {},
 
     project: {}
   },
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchProject.fulfilled, (state, action) => {
-      state.data = action.payload?.projects || []
-      state.total = action.payload?.metadata.total || 0
-      state.params = action.payload?.metadata.params || {}
+      state.projects = action.payload?.projects || []
+      state.totalProjects = action.payload?.metadata.total || 0
+      state.paramsProjects = action.payload?.metadata.params || {}
     }),
       builder.addCase(fetchAProject.fulfilled, (state, action) => {
         state.project = action.payload || {}

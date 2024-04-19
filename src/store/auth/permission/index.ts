@@ -27,12 +27,12 @@ export const fetchPermissions = createAsyncThunk('authPermissions/fetchPermissio
 export const authPermissionsSlice = createSlice({
   name: 'authPermissions',
   initialState: {
-    data: [] as CaslPermission[]
+    permissions: [] as CaslPermission[]
   },
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchPermissions.fulfilled, (state, action) => {
-      state.data = action.payload?.permissions || []
+      state.permissions = action.payload?.permissions || []
     })
   }
 })
