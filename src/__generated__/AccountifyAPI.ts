@@ -270,30 +270,6 @@ export enum CurrencyType {
   USD = 'usd'
 }
 
-export interface CreateInvoiceItemRequest {
-  /** @example "Monthly bill" */
-  name: string
-  /** @example "Pay monthly internet bill" */
-  note?: string
-  /** @example 100000 */
-  price: number
-  /** @example 1 */
-  quantity: number
-}
-
-export interface CreateInvoiceRequestDto {
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  date: string
-  /** @example "expense" */
-  type: InvoiceType
-  /** @example "vnd" */
-  currency: CurrencyType
-  items: CreateInvoiceItemRequest[]
-}
-
 export interface InvoiceItemResponseDto {
   /** @example 1 */
   id: number
@@ -399,30 +375,6 @@ export interface InvoiceResponseListDto {
   metadata: MetaData
 }
 
-export interface UpdateInvoiceItemRequest {
-  /** @example "Monthly bill" */
-  name?: string
-  /** @example "Pay monthly internet bill" */
-  note?: string
-  /** @example 100000 */
-  price?: number
-  /** @example 1 */
-  quantity?: number
-}
-
-export interface UpdateInvoiceRequestDto {
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  date?: string
-  /** @example "expense" */
-  type?: InvoiceType
-  /** @example "vnd" */
-  currency?: CurrencyType
-  items: UpdateInvoiceItemRequest[]
-}
-
 export interface CreateProjectRequestDto {
   /** @example "Technology Investment" */
   name: string
@@ -464,6 +416,58 @@ export interface UpdateProjectRequestDto {
    * @example "2024-02-26T07:31:35.000Z"
    */
   endDate?: string
+}
+
+export interface CreateInvoiceItemRequest {
+  /** @example "Monthly bill" */
+  name: string
+  /** @example "Pay monthly internet bill" */
+  note?: string
+  /** @example 100000 */
+  price: number
+  /** @example 1 */
+  quantity: number
+}
+
+export interface CreateInvoiceRequestDto {
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  date: string
+  /** @example "expense" */
+  type: InvoiceType
+  /** @example "vnd" */
+  currency: CurrencyType
+  items: CreateInvoiceItemRequest[]
+  /** @example 1 */
+  categoryId: number
+}
+
+export interface UpdateInvoiceItemRequest {
+  /** @example "Monthly bill" */
+  name?: string
+  /** @example "Pay monthly internet bill" */
+  note?: string
+  /** @example 100000 */
+  price?: number
+  /** @example 1 */
+  quantity?: number
+}
+
+export interface UpdateInvoiceRequestDto {
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  date?: string
+  /** @example "expense" */
+  type?: InvoiceType
+  /** @example "vnd" */
+  currency?: CurrencyType
+  items: UpdateInvoiceItemRequest[]
+  /** @example 1 */
+  categoryId?: number
 }
 
 export interface CreateBudgetRequestDto {
@@ -1102,30 +1106,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create invoices for an organization
-     *
-     * @tags Organization Invoice
-     * @name CreateInvoicesForAnOrganization
-     * @summary Create invoices for an organization
-     * @request POST:/internal/api/v1/organizations/{organizationId}/invoices
-     * @secure
-     */
-    createInvoicesForAnOrganization: (
-      organizationId: number,
-      data: CreateInvoiceRequestDto,
-      params: RequestParams = {}
-    ) =>
-      this.request<InvoiceResponseListDto, any>({
-        path: `/internal/api/v1/organizations/${organizationId}/invoices`,
-        method: 'POST',
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: 'json',
-        ...params
-      }),
-
-    /**
      * @description Get invoice list for organization
      *
      * @tags Organization Invoice
@@ -1169,31 +1149,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/internal/api/v1/organizations/${organizationId}/invoices/${id}`,
         method: 'GET',
         secure: true,
-        format: 'json',
-        ...params
-      }),
-
-    /**
-     * @description Update an invoice for an organization
-     *
-     * @tags Organization Invoice
-     * @name UpdateAnInvoiceForAnOrganization
-     * @summary Update an invoice for an organization
-     * @request PATCH:/internal/api/v1/organizations/{organizationId}/invoices/{id}
-     * @secure
-     */
-    updateAnInvoiceForAnOrganization: (
-      organizationId: number,
-      id: number,
-      data: UpdateInvoiceRequestDto,
-      params: RequestParams = {}
-    ) =>
-      this.request<InvoiceResponseDto, any>({
-        path: `/internal/api/v1/organizations/${organizationId}/invoices/${id}`,
-        method: 'PATCH',
-        body: data,
-        secure: true,
-        type: ContentType.Json,
         format: 'json',
         ...params
       }),
@@ -1331,6 +1286,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
+     * @description Create invoices for a project of organization
+     *
+     * @tags Organization Project Invoice
+     * @name CreateInvoicesForAProjectOfOrganization
+     * @summary Create invoices for a project of organization
+     * @request POST:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/invoices
+     * @secure
+     */
+    createInvoicesForAProjectOfOrganization: (
+      organizationId: number,
+      projectId: number,
+      data: CreateInvoiceRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<InvoiceResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/invoices`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params
+      }),
+
+    /**
      * @description Get invoice list for a project of organization
      *
      * @tags Organization Project Invoice
@@ -1357,6 +1337,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: 'GET',
         query: query,
         secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Update an invoice for a project of organization
+     *
+     * @tags Organization Project Invoice
+     * @name UpdateAnInvoiceForAProjectOfOrganization
+     * @summary Update an invoice for a project of organization
+     * @request PATCH:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/invoices/{id}
+     * @secure
+     */
+    updateAnInvoiceForAProjectOfOrganization: (
+      organizationId: number,
+      projectId: number,
+      id: number,
+      data: UpdateInvoiceRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<InvoiceResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/invoices/${id}`,
+        method: 'PATCH',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         format: 'json',
         ...params
       }),

@@ -40,6 +40,7 @@ import toast from 'react-hot-toast'
 
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
+import { fetchCategory } from 'src/store/apps/category'
 
 export interface InvoiceEditProps {
   id: string
@@ -51,6 +52,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   // ** Store
   const dispatch = useDispatch<AppDispatch>()
   const invoiceStore = useSelector((state: RootState) => state.invoice)
+  const categoryStore = useSelector((state: RootState) => state.category)
   const router = useRouter()
 
   const { organizationId } = useCurrentOrganization()
@@ -63,6 +65,15 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   )
   const [type, setType] = useState<InvoiceType>((invoiceStore.invoice as InvoiceResponseDto).type || '')
   const [currency, setCurrency] = useState<CurrencyType>((invoiceStore.invoice as InvoiceResponseDto).currency || '')
+  const [projectId, setProjectId] = useState<string>(
+    (invoiceStore.invoice as InvoiceResponseDto).project?.id.toString() || ''
+  )
+  const [projectName, setProjectName] = useState<string>(
+    (invoiceStore.invoice as InvoiceResponseDto).project?.name || ''
+  )
+  const [categoryId, setCategoryId] = useState<string>(
+    (invoiceStore.invoice as InvoiceResponseDto).category?.id.toString() || ''
+  )
   const [formData, setFormData] = useState<UpdateInvoiceFormData[]>([])
 
   const [addPaymentOpen, setAddPaymentOpen] = useState<boolean>(false)
@@ -75,10 +86,17 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
     dispatch(fetchAnInvoice({ organizationId, id: parseInt(id!) }))
   }, [dispatch, id, organizationId])
 
+  useEffect(() => {
+    // Fetch invoice's project's categories
+    if ((invoiceStore.invoice as InvoiceResponseDto).project?.id) {
+      dispatch(fetchCategory({ organizationId, projectId: (invoiceStore.invoice as InvoiceResponseDto).project.id }))
+    }
+  }, [dispatch, id, organizationId, invoiceStore.invoice])
+
   const isSubmitDisabled = (): boolean => {
     let isDisabled = false
     formData?.map(data => {
-      if (!data.name || !data.price || !data.quantity) {
+      if (!data.name || !data.price || !data.quantity || !projectId || !categoryId) {
         isDisabled = true
       }
     })
@@ -90,7 +108,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
     // Validation
     let isError = false
     formData.map(data => {
-      if (!data.name || !data.price || !data.quantity) {
+      if (!data.name || !data.price || !data.quantity || !categoryId) {
         toast.error('Please fill out all the fields of all items')
         isError = true
 
@@ -111,11 +129,19 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
       }),
       date: format(date as Date, 'yyyy-MM-dd'),
       type,
-      currency
+      currency,
+      categoryId: parseInt(categoryId)
     }
 
     // Call api
-    dispatch(updateInvoice({ ...updateInvoiceRequest, invoiceId: parseInt(id!), organizationId }))
+    dispatch(
+      updateInvoice({
+        ...updateInvoiceRequest,
+        projectId: parseInt(projectId),
+        invoiceId: parseInt(id!),
+        organizationId
+      })
+    )
     router.replace(getInvoicePreviewUrl(id))
   }
 
@@ -125,6 +151,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
         <Grid container spacing={6}>
           <Grid item xl={9} md={8} xs={12}>
             <EditCard
+              categories={categoryStore.data}
               data={invoiceStore.invoice as InvoiceResponseDto}
               formData={formData}
               setFormData={setFormData}
@@ -134,6 +161,12 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
               setType={setType}
               currency={currency}
               setCurrency={setCurrency}
+              projectId={projectId}
+              setProjectId={setProjectId}
+              projectName={projectName}
+              setProjectName={setProjectName}
+              categoryId={categoryId}
+              setCategoryId={setCategoryId}
             />
           </Grid>
           <Grid item xl={3} md={4} xs={12}>

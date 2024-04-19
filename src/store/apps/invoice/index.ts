@@ -99,9 +99,9 @@ export const fetchAnInvoice = createAsyncThunk(
 // ** Add Invoice
 export const addInvoice = createAsyncThunk(
   'appInvoices/addInvoice',
-  async (data: CreateInvoiceRequestDto & { organizationId: number }, { dispatch }: Redux) => {
+  async (data: CreateInvoiceRequestDto & { organizationId: number; projectId: number }, { dispatch }: Redux) => {
     const storedToken = getAccessToken()
-    const { organizationId, ...resData } = data
+    const { organizationId, projectId, ...resData } = data
 
     try {
       const response = await new Api({
@@ -110,9 +110,10 @@ export const addInvoice = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${storedToken}`
         }
-      }).internal.createInvoicesForAnOrganization(organizationId, resData)
+      }).internal.createInvoicesForAProjectOfOrganization(organizationId, projectId, resData)
 
       dispatch(fetchInvoice({ organizationId, query: '' }))
+      dispatch(fetchInvoiceForProject({ organizationId, projectId, query: '' }))
       toast.success('Add invoice succeed')
 
       return response.data
@@ -125,9 +126,12 @@ export const addInvoice = createAsyncThunk(
 // ** Update Invoice
 export const updateInvoice = createAsyncThunk(
   'appInvoices/updateInvoice',
-  async (data: UpdateInvoiceRequestDto & { organizationId: number; invoiceId: number }, { dispatch }: Redux) => {
+  async (
+    data: UpdateInvoiceRequestDto & { organizationId: number; projectId: number; invoiceId: number },
+    { dispatch }: Redux
+  ) => {
     const storedToken = getAccessToken()
-    const { organizationId, ...resData } = data
+    const { organizationId, projectId, ...resData } = data
 
     try {
       const response = await new Api({
@@ -136,9 +140,10 @@ export const updateInvoice = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${storedToken}`
         }
-      }).internal.updateAnInvoiceForAnOrganization(organizationId, resData.invoiceId, resData)
+      }).internal.updateAnInvoiceForAProjectOfOrganization(organizationId, projectId, resData.invoiceId, resData)
 
       dispatch(fetchInvoice({ organizationId, query: '' }))
+      dispatch(fetchInvoiceForProject({ organizationId, projectId, query: '' }))
       toast.success('Update invoice succeed')
 
       return response.data

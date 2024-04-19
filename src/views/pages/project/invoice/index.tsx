@@ -48,12 +48,7 @@ import TableHeader from 'src/views/apps/invoice/list/TableHeader'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 // ** Type Imports
-import {
-  InvoiceResponseDto,
-  InvoiceType,
-  OrganizationUserResponseDto,
-  ProjectResponseDto
-} from 'src/__generated__/AccountifyAPI'
+import { InvoiceResponseDto, InvoiceType, OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
@@ -115,10 +110,10 @@ const CustomInput = forwardRef((props: CustomInputProps, ref) => {
 /* eslint-enable */
 
 export interface InvoiceTabProps {
-  project: ProjectResponseDto
+  id: string
 }
 
-const InvoiceTab = ({ project }: InvoiceTabProps) => {
+const InvoiceTab = ({ id }: InvoiceTabProps) => {
   // ** State
   const [dates, setDates] = useState<Date[]>([])
   const [type, setType] = useState<InvoiceType | ''>('')
@@ -139,14 +134,14 @@ const InvoiceTab = ({ project }: InvoiceTabProps) => {
     dispatch(
       fetchInvoiceForProject({
         organizationId,
-        projectId: project.id,
+        projectId: parseInt(id),
         fromDate: dates[0]?.toString(),
         toDate: dates[1]?.toString(),
         query: value,
         type
       })
     )
-  }, [dispatch, value, dates, type, organizationId, project])
+  }, [dispatch, value, dates, type, organizationId, id])
 
   const handleFilter = (val: string) => {
     setValue(val)

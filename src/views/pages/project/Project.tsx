@@ -79,7 +79,7 @@ const Project = ({ tab, id, project }: { tab: string; id: string; project: Proje
 
   const tabContentList: { [key: string]: ReactElement } = {
     dashboard: <DashboardTab />,
-    invoice: <InvoiceTab project={project} />,
+    invoice: <InvoiceTab id={id} />,
     budget: <BudgetTab />,
     category: <CategoryTab />
   }
