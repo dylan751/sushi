@@ -26,6 +26,7 @@ import BudgetTab from 'src/views/pages/project/budget'
 import CategoryTab from 'src/views/pages/project/category'
 import ProjectHeader from 'src/views/pages/project/ProjectHeader'
 import { getOrgUniqueName } from 'src/utils/organization'
+import { ProjectResponseDto } from 'src/__generated__/AccountifyAPI'
 
 const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
   '& .MuiTabs-indicator': {
@@ -47,7 +48,7 @@ const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
   }
 }))
 
-const Project = ({ tab, id }: { tab: string; id: string }) => {
+const Project = ({ tab, id, project }: { tab: string; id: string; project: ProjectResponseDto }) => {
   // ** State
   const [activeTab, setActiveTab] = useState<string>(tab)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -84,7 +85,7 @@ const Project = ({ tab, id }: { tab: string; id: string }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <ProjectHeader />
+        <ProjectHeader project={project} />
       </Grid>
       {activeTab === undefined ? null : (
         <Grid item xs={12}>

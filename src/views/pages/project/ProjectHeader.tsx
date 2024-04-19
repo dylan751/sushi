@@ -1,11 +1,17 @@
 // ** MUI Components
 import Typography from '@mui/material/Typography'
 
-const ProjectHeader = () => {
+// ** Type Imports
+import { ProjectResponseDto } from 'src/__generated__/AccountifyAPI'
+
+export interface ProjectHeaderProps {
+  project: ProjectResponseDto
+}
+
+const ProjectHeader = ({ project }: ProjectHeaderProps) => {
   return (
     <Typography variant='h5' sx={{ fontWeight: 600, lineHeight: 1.05 }}>
-      {/* TODO: Render dynamic project name */}
-      Project Name
+      {project.name}
     </Typography>
   )
 }

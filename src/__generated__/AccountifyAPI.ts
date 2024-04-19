@@ -307,6 +307,68 @@ export interface InvoiceItemResponseDto {
   quantity: number
 }
 
+export interface BudgetResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example 1 */
+  categoryId: number
+  /** @example 100000 */
+  amount: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
+export interface CategoryResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "Computer Expense" */
+  name: string
+  /** @example "#abcdef" */
+  color: string
+  /** @example "mdi:circle-outline" */
+  icon: string
+  /** @example "expense" */
+  type: InvoiceType
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
+export interface ProjectResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "Technology Investment" */
+  name: string
+  /** @example "A project to improve school technology" */
+  description: string
+  /** @example 100000 */
+  totalBudget: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  startDate: string
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  endDate: string
+  creator: OrganizationUserResponseDto
+  invoices: any[][]
+  budgets: BudgetResponseDto[]
+  categories: CategoryResponseDto[]
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
 export interface InvoiceResponseDto {
   /** @example 1 */
   id: number
@@ -322,6 +384,8 @@ export interface InvoiceResponseDto {
   /** @example 10 */
   total: number
   items: InvoiceItemResponseDto[]
+  project: ProjectResponseDto
+  category: CategoryResponseDto
   creator: OrganizationUserResponseDto
   /**
    * @format date-time
@@ -378,33 +442,6 @@ export interface CreateProjectRequestDto {
   endDate: string
 }
 
-export interface ProjectResponseDto {
-  /** @example 1 */
-  id: number
-  /** @example "Technology Investment" */
-  name: string
-  /** @example "A project to improve school technology" */
-  description: string
-  /** @example 100000 */
-  totalBudget: number
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  startDate: string
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  endDate: string
-  creator: OrganizationUserResponseDto
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  createdAt: string
-}
-
 export interface ProjectResponseListDto {
   projects: ProjectResponseDto[]
   metadata: MetaData
@@ -436,20 +473,6 @@ export interface CreateBudgetRequestDto {
   amount: number
 }
 
-export interface BudgetResponseDto {
-  /** @example 1 */
-  id: number
-  /** @example 1 */
-  categoryId: number
-  /** @example 100000 */
-  amount: number
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  createdAt: string
-}
-
 export interface BudgetResponseListDto {
   budgets: BudgetResponseDto[]
   metadata: MetaData
@@ -469,24 +492,6 @@ export interface CreateCategoryRequestDto {
   icon: string
   /** @example "expense" */
   type: InvoiceType
-}
-
-export interface CategoryResponseDto {
-  /** @example 1 */
-  id: number
-  /** @example "Computer Expense" */
-  name: string
-  /** @example "#abcdef" */
-  color: string
-  /** @example "mdi:circle-outline" */
-  icon: string
-  /** @example "expense" */
-  type: InvoiceType
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  createdAt: string
 }
 
 export interface CategoryResponseListDto {
