@@ -38,11 +38,13 @@ import { DateType } from 'src/types/forms/reactDatepickerTypes'
 import { getInitials } from 'src/@core/utils/get-initials'
 import { getInvoiceEditUrl, getInvoicePreviewUrl } from 'src/utils/router/invoice'
 import { formatCurrencyAsStandard } from 'src/utils/currency'
+import { getProjectInvoiceTab } from 'src/utils/router'
 
 // ** Custom Components Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import OptionsMenu from 'src/@core/components/option-menu'
 import TableHeader from 'src/views/apps/invoice/list/TableHeader'
+import CustomChip from 'src/@core/components/mui/chip'
 
 // ** Styled Components
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
@@ -184,8 +186,8 @@ const InvoiceList = () => {
       }
     },
     {
-      flex: 0.1,
-      minWidth: 90,
+      flex: 0.2,
+      minWidth: 125,
       field: 'total',
       headerName: t('invoice_page.list.total') as string,
       renderCell: ({ row }: CellType) => (
@@ -202,6 +204,24 @@ const InvoiceList = () => {
       headerName: t('invoice_page.list.date') as string,
       renderCell: ({ row }: CellType) => (
         <Typography variant='body2'>{format(new Date(row.date), 'dd MMM yyyy')}</Typography>
+      )
+    },
+    {
+      flex: 0.15,
+      minWidth: 90,
+      field: 'project',
+      headerName: t('invoice_page.list.project') as string,
+      renderCell: ({ row }: CellType) => (
+        <LinkStyled href={getProjectInvoiceTab(row.project.id)}>{`${row.project.name}`}</LinkStyled>
+      )
+    },
+    {
+      flex: 0.15,
+      minWidth: 90,
+      field: 'category',
+      headerName: t('invoice_page.list.category') as string,
+      renderCell: ({ row }: CellType) => (
+        <CustomChip label={row.category.name} skin='light' color={row.category.color as any} />
       )
     }
   ]

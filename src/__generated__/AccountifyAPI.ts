@@ -297,13 +297,23 @@ export interface BudgetResponseDto {
   createdAt: string
 }
 
+export enum ColorType {
+  DEFAULT = 'default',
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary',
+  ERROR = 'error',
+  INFO = 'info',
+  SUCCESS = 'success',
+  WARNING = 'WARNING'
+}
+
 export interface CategoryResponseDto {
   /** @example 1 */
   id: number
   /** @example "Computer Expense" */
   name: string
-  /** @example "#abcdef" */
-  color: string
+  /** @example "primary" */
+  color: ColorType
   /** @example "mdi:circle-outline" */
   icon: string
   /** @example "expense" */
@@ -490,8 +500,8 @@ export interface UpdateBudgetRequestDto {
 export interface CreateCategoryRequestDto {
   /** @example "Computer Expense" */
   name: string
-  /** @example "#abcdef" */
-  color: string
+  /** @example "primary" */
+  color: ColorType
   /** @example "mdi:circle-outline" */
   icon: string
   /** @example "expense" */
@@ -506,8 +516,8 @@ export interface CategoryResponseListDto {
 export interface UpdateCategoryRequestDto {
   /** @example "Computer Expense" */
   name?: string
-  /** @example "#abcdef" */
-  color?: string
+  /** @example "primary" */
+  color?: ColorType
   /** @example "mdi:circle-outline" */
   icon?: string
   /** @example "expense" */

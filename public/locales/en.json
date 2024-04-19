@@ -172,6 +172,8 @@
             "note": "Note",
             "total": "Total",
             "date": "Date",
+            "project": "Project",
+            "category": "Category",
             "amount": "Amount",
             "type": "Type",
             "delete_invoice": "Delete Invoice",

@@ -169,6 +169,8 @@
             "note": "Ghi chú",
             "total": "Tổng cộng",
             "date": "Thời gian",
+            "project": "Dự án",
+            "category": "Phân loại",
             "amount": "Giá",
             "type": "Loại",
             "delete_invoice": "Xoá hoá đơn",
