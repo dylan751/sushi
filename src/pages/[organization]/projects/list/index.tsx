@@ -29,7 +29,7 @@ import { Locale } from 'src/enum'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
-import { getProjectDefaultTab, getProjectEditUrl } from 'src/utils/router'
+import { getProjectDefaultTab, getProjectEditUrl, getProjectInvoiceTab } from 'src/utils/router'
 import { formatCurrencyAsCompact } from 'src/utils/currency'
 
 // ** Custom Components Imports
@@ -153,11 +153,7 @@ const Projects = () => {
       field: 'name',
       headerName: `${t('project_page.list.name')}`,
       renderCell: ({ row }: CellType) => {
-        return (
-          <Typography variant='body2' noWrap>
-            {row.name || '-'}
-          </Typography>
-        )
+        return <LinkStyled href={getProjectInvoiceTab(row.id)}>{`${row.name}` || '-'}</LinkStyled>
       }
     },
     {

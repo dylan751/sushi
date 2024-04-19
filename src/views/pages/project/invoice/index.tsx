@@ -305,7 +305,7 @@ const InvoiceTab = ({ id }: InvoiceTabProps) => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormControl fullWidth>
-                    <InputLabel id='invoice-status-select'>Invoice Type</InputLabel>
+                    <InputLabel id='invoice-status-select'>{t('invoice_page.list.invoice_type')}</InputLabel>
 
                     <Select
                       fullWidth

@@ -128,6 +128,12 @@
         }
     },
     "project_page": {
+        "tab": {
+            "dashboard": "Dashboard",
+            "invoice": "Invoice",
+            "budget": "Budget",
+            "category": "Category"
+        },
         "list": {
             "filters": "Filters",
             "project_start_date": "Project Start Date",
@@ -164,6 +170,7 @@
         "list": {
             "filters": "Filters",
             "invoice_date": "Invoice Date",
+            "invoice_type": "Invoice Type",
             "actions": "Actions",
             "search_invoice": "Search Invoice",
             "create_invoice": "Create Invoice",

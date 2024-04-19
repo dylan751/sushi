@@ -27,6 +27,7 @@ import CategoryTab from 'src/views/pages/project/category'
 import ProjectHeader from 'src/views/pages/project/ProjectHeader'
 import { getOrgUniqueName } from 'src/utils/organization'
 import { ProjectResponseDto } from 'src/__generated__/AccountifyAPI'
+import { useTranslation } from 'react-i18next'
 
 const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
   '& .MuiTabs-indicator': {
@@ -56,6 +57,7 @@ const Project = ({ tab, id, project }: { tab: string; id: string; project: Proje
   // ** Hooks
   const router = useRouter()
   const hideText = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
+  const { t } = useTranslation()
 
   const handleChange = (event: SyntheticEvent, value: string) => {
     setIsLoading(true)
@@ -103,7 +105,7 @@ const Project = ({ tab, id, project }: { tab: string; id: string; project: Proje
                     label={
                       <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
                         <Icon fontSize={20} icon='mdi:account-outline' />
-                        {!hideText && 'Dashboard'}
+                        {!hideText && t('project_page.tab.dashboard')}
                       </Box>
                     }
                   />
@@ -112,7 +114,7 @@ const Project = ({ tab, id, project }: { tab: string; id: string; project: Proje
                     label={
                       <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
                         <Icon fontSize={20} icon='mdi:account-multiple-outline' />
-                        {!hideText && 'Invoice'}
+                        {!hideText && t('project_page.tab.invoice')}
                       </Box>
                     }
                   />
@@ -121,7 +123,7 @@ const Project = ({ tab, id, project }: { tab: string; id: string; project: Proje
                     label={
                       <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
                         <Icon fontSize={20} icon='mdi:view-grid-outline' />
-                        {!hideText && 'Budget'}
+                        {!hideText && t('project_page.tab.budget')}
                       </Box>
                     }
                   />
@@ -130,7 +132,7 @@ const Project = ({ tab, id, project }: { tab: string; id: string; project: Proje
                     label={
                       <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
                         <Icon fontSize={20} icon='mdi:link' />
-                        {!hideText && 'Category'}
+                        {!hideText && t('project_page.tab.category')}
                       </Box>
                     }
                   />

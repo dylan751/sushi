@@ -125,6 +125,12 @@
         }
     },
     "project_page": {
+        "tab": {
+            "dashboard": "Bảng thống kê",
+            "invoice": "Hoá đơn",
+            "budget": "định mức",
+            "category": "Phân loại"
+        },
         "list": {
             "filters": "Bộ lọc",
             "project_start_date": "Ngày bắt đầu dự án",
@@ -135,7 +141,7 @@
             "client": "Khách hàng",
             "name": "Tên",
             "description": "Mô tả",
-            "total_budget": "Tổng ngân sách",
+            "total_budget": "Tổng định mức",
             "start_date": "Ngày bắt đầu",
             "end_date": "Ngày kết thúc",
             "delete_project": "Xoá dự án",
@@ -146,14 +152,14 @@
             "create_project": "Tạo một dự án mới",
             "project_name": "Tên dự án",
             "description": "Mô tả",
-            "total_budget": "Tổng ngân sách",
+            "total_budget": "Tổng định mức",
             "project_date": "Thời gian dự án"
         },
         "edit": {
             "update_project": "Cập nhật một dự án",
             "project_name": "Tên dự án",
             "description": "Mô tả",
-            "total_budget": "Tổng ngân sách",
+            "total_budget": "Tổng định mức",
             "project_date": "Thời gian dự án"
         }
     },
@@ -161,6 +167,7 @@
         "list": {
             "filters": "Bộ lọc",
             "invoice_date": "Ngày tháng",
+            "invoice_type": "Loại hoá đơn",
             "actions": "Hành động",
             "search_invoice": "Tìm hoá đơn",
             "create_invoice": "Tạo hoá đơn",

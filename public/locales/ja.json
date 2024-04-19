@@ -128,6 +128,12 @@
         }
     },
     "project_page": {
+        "tab": {
+            "dashboard": "ダッシュボード",
+            "invoice": "インヴォイス",
+            "budget": "予算",
+            "category": "カテゴリー"
+        },
         "list": {
             "filters": "フィルター",
             "project_start_date": "プロジェクトの開始日",
@@ -164,6 +170,7 @@
         "list": {
             "filters": "フィルター",
             "invoice_date": "インヴォイスの日付",
+            "invoice_type": "インヴォイスのタイプ",
             "actions": "行動",
             "search_invoice": "インヴォイスの検索",
             "create_invoice": "インヴォイスの作成",
