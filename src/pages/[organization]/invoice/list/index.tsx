@@ -316,7 +316,7 @@ const InvoiceList = () => {
             <DataGrid
               autoHeight
               pagination
-              rows={store.data}
+              rows={store.invoices}
               columns={columns}
               checkboxSelection
               disableRowSelectionOnClick

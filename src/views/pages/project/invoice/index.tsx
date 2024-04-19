@@ -225,7 +225,7 @@ const InvoiceTab = ({ id }: InvoiceTabProps) => {
             <IconButton
               size='small'
               color='error'
-              onClick={() => dispatch(deleteInvoice({ organizationId, invoiceId: row.id }))}
+              onClick={() => dispatch(deleteInvoice({ organizationId, projectId: parseInt(id), invoiceId: row.id }))}
               disabled={!ability?.can('delete', 'invoice')}
             >
               <Icon icon='mdi:delete-outline' fontSize={20} />
@@ -321,7 +321,7 @@ const InvoiceTab = ({ id }: InvoiceTabProps) => {
             <DataGrid
               autoHeight
               pagination
-              rows={store.data}
+              rows={store.projectInvoices}
               columns={columns}
               checkboxSelection
               disableRowSelectionOnClick
