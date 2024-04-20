@@ -29,7 +29,7 @@ import { addCategory } from 'src/store/apps/category'
 
 // ** Types Imports
 import { AppDispatch } from 'src/store'
-import { ColorType, CreateCategoryRequestDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
+import { ColorType, CreateCategoryRequestDto, IconType, InvoiceType } from 'src/__generated__/AccountifyAPI'
 
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
@@ -54,6 +54,17 @@ const Header = styled(Box)<BoxProps>(({ theme }) => ({
   backgroundColor: theme.palette.background.default
 }))
 
+const ITEM_HEIGHT = 48
+const ITEM_PADDING_TOP = 8
+const MenuProps = {
+  PaperProps: {
+    style: {
+      width: 250,
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP
+    }
+  }
+}
+
 const schema = yup.object().shape({
   name: yup.string().required(),
   icon: yup.string().required(),
@@ -63,25 +74,14 @@ const schema = yup.object().shape({
 
 const defaultValues = {
   name: '',
-  icon: '',
+  icon: IconType.MDI_AIRPLANE,
   color: ColorType.PRIMARY,
   type: InvoiceType.EXPENSE
 }
 
-const allIcons = [
-  'mdi:delete-outline',
-  'mdi:pencil-outline',
-  'mdi:home-outline',
-  'mdi:shield-outline',
-  'mdi:cube-outline',
-  'mdi:file-document-outline',
-  'mdi:account-outline',
-  'mdi:account-cog-outline'
-]
-
 export interface CreateCategoryData {
   name: string
-  icon: string
+  icon: IconType
   color: ColorType
   type: InvoiceType
 }
@@ -175,8 +175,9 @@ const SidebarAddCategory = (props: SidebarAddCategoryInterface) => {
                       onChange(e.target.value)
                     }}
                     inputProps={{ placeholder: t('project_page.category.icon').toString() }}
+                    MenuProps={MenuProps}
                   >
-                    {allIcons.map(icon => (
+                    {Object.values(IconType).map(icon => (
                       <MenuItem key={icon} value={icon}>
                         <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 3 } }}>
                           <Icon icon={icon} fontSize={20} />
@@ -207,6 +208,7 @@ const SidebarAddCategory = (props: SidebarAddCategoryInterface) => {
                       onChange(e.target.value)
                     }}
                     inputProps={{ placeholder: t('project_page.category.name').toString() }}
+                    MenuProps={MenuProps}
                   >
                     {Object.values(ColorType).map(color => (
                       <MenuItem key={color} value={color}>
@@ -237,6 +239,7 @@ const SidebarAddCategory = (props: SidebarAddCategoryInterface) => {
                       onChange(e.target.value)
                     }}
                     inputProps={{ placeholder: t('project_page.category.type').toString() }}
+                    MenuProps={MenuProps}
                   >
                     {Object.values(InvoiceType).map(type => (
                       <MenuItem key={type} value={type}>

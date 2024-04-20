@@ -179,7 +179,8 @@
             "created_date": "Created Date",
             "type": "Type",
             "actions": "Actions",
-            "add_category": "Add Category"
+            "add_category": "Add Category",
+            "update_category": "Update Category"
         }
     },
     "invoice_page": {

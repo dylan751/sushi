@@ -137,7 +137,14 @@ const CategoryTab = ({ projectId }: CategoryTabProps) => {
       minWidth: 215,
       field: 'type',
       headerName: t('project_page.category.type') as string,
-      renderCell: ({ row }: CellType) => <Typography>{capitalizeFirstLetter(row.type)}</Typography>
+      renderCell: ({ row }: CellType) => (
+        <CustomChip
+          size='small'
+          skin='light'
+          color={row.type === InvoiceType.EXPENSE ? 'error' : 'success'}
+          label={capitalizeFirstLetter(row.type)}
+        />
+      )
     }
   ]
 

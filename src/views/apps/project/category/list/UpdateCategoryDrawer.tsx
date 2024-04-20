@@ -29,7 +29,13 @@ import { updateCategory } from 'src/store/apps/category'
 
 // ** Types Imports
 import { AppDispatch } from 'src/store'
-import { CategoryResponseDto, ColorType, UpdateCategoryRequestDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
+import {
+  CategoryResponseDto,
+  ColorType,
+  UpdateCategoryRequestDto,
+  InvoiceType,
+  IconType
+} from 'src/__generated__/AccountifyAPI'
 
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
@@ -56,23 +62,23 @@ const Header = styled(Box)<BoxProps>(({ theme }) => ({
   backgroundColor: theme.palette.background.default
 }))
 
+const ITEM_HEIGHT = 48
+const ITEM_PADDING_TOP = 8
+const MenuProps = {
+  PaperProps: {
+    style: {
+      width: 250,
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP
+    }
+  }
+}
+
 const schema = yup.object().shape({
   name: yup.string(),
   icon: yup.string(),
   color: yup.string(),
   type: yup.string()
 })
-
-const allIcons = [
-  'mdi:delete-outline',
-  'mdi:pencil-outline',
-  'mdi:home-outline',
-  'mdi:shield-outline',
-  'mdi:cube-outline',
-  'mdi:file-document-outline',
-  'mdi:account-outline',
-  'mdi:account-cog-outline'
-]
 
 export interface UpdateCategoryData {
   name?: string
@@ -186,11 +192,12 @@ const SidebarUpdateCategory = (props: SidebarUpdateCategoryInterface) => {
                       label={t('project_page.category.icon')}
                       labelId='icon'
                       onChange={e => {
-                        setSelectedCategory({ ...selectedCategory, icon: e.target.value })
+                        setSelectedCategory({ ...selectedCategory, icon: e.target.value as IconType })
                       }}
                       inputProps={{ placeholder: t('project_page.category.icon').toString() }}
+                      MenuProps={MenuProps}
                     >
-                      {allIcons.map(icon => (
+                      {Object.values(IconType).map(icon => (
                         <MenuItem key={icon} value={icon}>
                           <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 3 } }}>
                             <Icon icon={icon} fontSize={20} />
@@ -221,6 +228,7 @@ const SidebarUpdateCategory = (props: SidebarUpdateCategoryInterface) => {
                         setSelectedCategory({ ...selectedCategory, color: e.target.value as any })
                       }}
                       inputProps={{ placeholder: t('project_page.category.name').toString() }}
+                      MenuProps={MenuProps}
                     >
                       {Object.values(ColorType).map(color => (
                         <MenuItem key={color} value={color}>
@@ -251,6 +259,7 @@ const SidebarUpdateCategory = (props: SidebarUpdateCategoryInterface) => {
                         setSelectedCategory({ ...selectedCategory, type: e.target.value as InvoiceType })
                       }}
                       inputProps={{ placeholder: t('project_page.category.type').toString() }}
+                      MenuProps={MenuProps}
                     >
                       {Object.values(InvoiceType).map(type => (
                         <MenuItem key={type} value={type}>

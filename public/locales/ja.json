@@ -179,7 +179,8 @@
             "created_date": "作成日",
             "type": "タイプ",
             "actions": "行動",
-            "add_category": "カテゴリーの追加"
+            "add_category": "カテゴリーの追加",
+            "update_category": "カテゴリーの編集"
         }
     },
     "invoice_page": {
