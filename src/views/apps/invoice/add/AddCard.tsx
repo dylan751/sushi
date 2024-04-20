@@ -26,7 +26,7 @@ import themeConfig from 'src/configs/themeConfig'
 
 // ** Types Imports
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
-import { CurrencyType, InvoiceType } from 'src/__generated__/AccountifyAPI'
+import { CategoryResponseDto, CurrencyType, InvoiceType, ProjectResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Custom Component Imports
 import Repeater from 'src/@core/components/repeater'
@@ -84,6 +84,8 @@ const InvoiceAction = styled(Box)<BoxProps>(({ theme }) => ({
 }))
 
 export interface AddCardProps {
+  projects: ProjectResponseDto[]
+  categories: CategoryResponseDto[]
   setFormData: (value: any) => void
   date: DateType
   setDate: (value: DateType) => void
@@ -91,9 +93,27 @@ export interface AddCardProps {
   setType: (value: InvoiceType) => void
   currency: CurrencyType
   setCurrency: (value: CurrencyType) => void
+  projectId: string
+  setProjectId: (value: string) => void
+  categoryId: string
+  setCategoryId: (value: string) => void
 }
 
-const AddCard = ({ setFormData, date, setDate, type, setType, currency, setCurrency }: AddCardProps) => {
+const AddCard = ({
+  projects,
+  categories,
+  setFormData,
+  date,
+  setDate,
+  type,
+  setType,
+  currency,
+  setCurrency,
+  projectId,
+  setProjectId,
+  categoryId,
+  setCategoryId
+}: AddCardProps) => {
   // ** States
   const [count, setCount] = useState<number>(1)
 
@@ -247,10 +267,36 @@ const AddCard = ({ setFormData, date, setDate, type, setType, currency, setCurre
                   {t('invoice_page.add.currency')}:
                 </Typography>
                 <Select size='small' value={currency} onChange={e => setCurrency(e.target.value as CurrencyType)}>
-                  <MenuItem value={CurrencyType.VND}>VND</MenuItem>
                   <MenuItem value={CurrencyType.USD}>USD</MenuItem>
+                  <MenuItem value={CurrencyType.VND}>VND</MenuItem>
                 </Select>
               </Box>
+              <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+                <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
+                  Project:
+                </Typography>
+                <Select size='small' value={projectId} onChange={e => setProjectId(e.target.value as CurrencyType)}>
+                  {projects.map(project => (
+                    <MenuItem value={project.id} key={project.id}>
+                      {project.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Box>
+              {categories && categories.length > 0 && (
+                <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+                  <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
+                    Category:
+                  </Typography>
+                  <Select size='small' value={categoryId} onChange={e => setCategoryId(e.target.value as CurrencyType)}>
+                    {categories.map(category => (
+                      <MenuItem value={category.id} key={category.id}>
+                        {category.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </Box>
+              )}
             </Box>
           </Grid>
         </Grid>

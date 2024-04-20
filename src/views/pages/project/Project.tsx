@@ -26,6 +26,8 @@ import BudgetTab from 'src/views/pages/project/budget'
 import CategoryTab from 'src/views/pages/project/category'
 import ProjectHeader from 'src/views/pages/project/ProjectHeader'
 import { getOrgUniqueName } from 'src/utils/organization'
+import { ProjectResponseDto } from 'src/__generated__/AccountifyAPI'
+import { useTranslation } from 'react-i18next'
 
 const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
   '& .MuiTabs-indicator': {
@@ -47,7 +49,7 @@ const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
   }
 }))
 
-const Project = ({ tab, id }: { tab: string; id: string }) => {
+const Project = ({ tab, id, project }: { tab: string; id: string; project: ProjectResponseDto }) => {
   // ** State
   const [activeTab, setActiveTab] = useState<string>(tab)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -55,6 +57,7 @@ const Project = ({ tab, id }: { tab: string; id: string }) => {
   // ** Hooks
   const router = useRouter()
   const hideText = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
+  const { t } = useTranslation()
 
   const handleChange = (event: SyntheticEvent, value: string) => {
     setIsLoading(true)
@@ -76,7 +79,7 @@ const Project = ({ tab, id }: { tab: string; id: string }) => {
 
   const tabContentList: { [key: string]: ReactElement } = {
     dashboard: <DashboardTab />,
-    invoice: <InvoiceTab />,
+    invoice: <InvoiceTab id={id} />,
     budget: <BudgetTab />,
     category: <CategoryTab />
   }
@@ -84,7 +87,7 @@ const Project = ({ tab, id }: { tab: string; id: string }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <ProjectHeader />
+        <ProjectHeader project={project} />
       </Grid>
       {activeTab === undefined ? null : (
         <Grid item xs={12}>
@@ -102,7 +105,7 @@ const Project = ({ tab, id }: { tab: string; id: string }) => {
                     label={
                       <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
                         <Icon fontSize={20} icon='mdi:account-outline' />
-                        {!hideText && 'Dashboard'}
+                        {!hideText && t('project_page.tab.dashboard')}
                       </Box>
                     }
                   />
@@ -111,7 +114,7 @@ const Project = ({ tab, id }: { tab: string; id: string }) => {
                     label={
                       <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
                         <Icon fontSize={20} icon='mdi:account-multiple-outline' />
-                        {!hideText && 'Invoice'}
+                        {!hideText && t('project_page.tab.invoice')}
                       </Box>
                     }
                   />
@@ -120,7 +123,7 @@ const Project = ({ tab, id }: { tab: string; id: string }) => {
                     label={
                       <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
                         <Icon fontSize={20} icon='mdi:view-grid-outline' />
-                        {!hideText && 'Budget'}
+                        {!hideText && t('project_page.tab.budget')}
                       </Box>
                     }
                   />
@@ -129,7 +132,7 @@ const Project = ({ tab, id }: { tab: string; id: string }) => {
                     label={
                       <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
                         <Icon fontSize={20} icon='mdi:link' />
-                        {!hideText && 'Category'}
+                        {!hideText && t('project_page.tab.category')}
                       </Box>
                     }
                   />

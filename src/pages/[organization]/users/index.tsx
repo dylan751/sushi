@@ -189,13 +189,13 @@ const UserPage = () => {
   }, [dispatch, role, value, organizationId])
 
   const totalUserItem: UserCardStatsHorizontalProps = {
-    stats: userStore.total.toString(),
+    stats: userStore.totalUsers.toString(),
     title: 'user_page.total_users',
     icon: 'mdi:account-outline'
   }
 
   const totalRoleItem: UserCardStatsHorizontalProps = {
-    stats: roleStore.total.toString(),
+    stats: roleStore.totalRoles.toString(),
     title: 'user_page.total_roles',
     icon: 'mdi:shield-outline',
     color: 'success'
@@ -350,7 +350,7 @@ const UserPage = () => {
                     inputProps={{ placeholder: `${t('user_page.select_role')}` }}
                   >
                     <MenuItem value=''>{t('user_page.select_role')}</MenuItem>
-                    {roleStore.data.map(role => (
+                    {roleStore.roles.map(role => (
                       <MenuItem value={role.slug} key={role.id}>
                         {role.name}
                       </MenuItem>
@@ -364,7 +364,7 @@ const UserPage = () => {
           <TableHeader value={value} handleFilter={handleFilter} toggle={toggleAddUserDrawer} />
           <DataGrid
             autoHeight
-            rows={userStore.data}
+            rows={userStore.users}
             columns={columns}
             checkboxSelection
             disableRowSelectionOnClick
@@ -378,7 +378,7 @@ const UserPage = () => {
       <AddUserDrawer
         open={addUserOpen}
         toggle={toggleAddUserDrawer}
-        allRoles={roleStore.data}
+        allRoles={roleStore.roles}
         isSelectAdmin={isSelectAdmin}
         setIsSelectAdmin={setIsSelectAdmin}
       />

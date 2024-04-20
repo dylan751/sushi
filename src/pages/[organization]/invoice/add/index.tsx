@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** Next Imports
 import { useRouter } from 'next/router'
@@ -15,10 +15,10 @@ import AddActions from 'src/views/apps/invoice/add/AddActions'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 // ** Store Imports
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 // ** Types Imports
-import { AppDispatch } from 'src/store'
+import { AppDispatch, RootState } from 'src/store'
 import { addInvoice } from 'src/store/apps/invoice'
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
 import {
@@ -37,6 +37,8 @@ import { getInvoiceListUrl } from 'src/utils/router/invoice'
 
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
+import { fetchProject } from 'src/store/apps/project'
+import { fetchCategory } from 'src/store/apps/category'
 
 export type CreateInvoiceFormData = CreateInvoiceItemRequest & { index: number }
 
@@ -49,21 +51,35 @@ const initialFormData = {
 }
 
 const InvoiceAdd = () => {
-  // ** States
-  const [date, setDate] = useState<DateType>(new Date())
-  const [type, setType] = useState<InvoiceType>(InvoiceType.EXPENSE)
-  const [currency, setCurrency] = useState<CurrencyType>(CurrencyType.VND)
-  const [formData, setFormData] = useState<CreateInvoiceFormData[]>([initialFormData])
-
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
   const router = useRouter()
+  const projectStore = useSelector((state: RootState) => state.project)
+  const categoryStore = useSelector((state: RootState) => state.category)
   const { organizationId } = useCurrentOrganization()
+
+  // ** States
+  const [date, setDate] = useState<DateType>(new Date())
+  const [type, setType] = useState<InvoiceType>(InvoiceType.EXPENSE)
+  const [currency, setCurrency] = useState<CurrencyType>(CurrencyType.USD)
+  const [projectId, setProjectId] = useState<string>('')
+  const [categoryId, setCategoryId] = useState<string>('')
+  const [formData, setFormData] = useState<CreateInvoiceFormData[]>([initialFormData])
+
+  useEffect(() => {
+    // Fetch organization's projects
+    dispatch(fetchProject({ organizationId }))
+
+    if (projectId) {
+      // Fetch organization's projects's categories
+      dispatch(fetchCategory({ organizationId, projectId: parseInt(projectId) }))
+    }
+  }, [dispatch, organizationId, projectId])
 
   const isSubmitDisabled = (): boolean => {
     let isDisabled = false
     formData.map(data => {
-      if (!data.name || !data.price || !data.quantity) {
+      if (!data.name || !data.price || !data.quantity || !projectId || !categoryId) {
         isDisabled = true
       }
     })
@@ -96,12 +112,13 @@ const InvoiceAdd = () => {
       }),
       date: format(date as Date, 'yyyy-MM-dd'),
       type,
-      currency
+      currency,
+      categoryId: parseInt(categoryId)
     }
 
     // Call api
     setFormData([initialFormData])
-    dispatch(addInvoice({ organizationId, ...createInvoiceRequest }))
+    dispatch(addInvoice({ organizationId, projectId: parseInt(projectId), ...createInvoiceRequest }))
     router.replace(getInvoiceListUrl())
   }
 
@@ -110,6 +127,8 @@ const InvoiceAdd = () => {
       <Grid container spacing={6}>
         <Grid item xl={9} md={8} xs={12}>
           <AddCard
+            projects={projectStore.projects}
+            categories={categoryStore.categories}
             setFormData={setFormData}
             date={date}
             setDate={setDate}
@@ -117,6 +136,10 @@ const InvoiceAdd = () => {
             setType={setType}
             currency={currency}
             setCurrency={setCurrency}
+            projectId={projectId}
+            setProjectId={setProjectId}
+            categoryId={categoryId}
+            setCategoryId={setCategoryId}
           />
         </Grid>
         <Grid item xl={3} md={4} xs={12}>

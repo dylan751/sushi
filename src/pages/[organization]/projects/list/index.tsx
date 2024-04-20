@@ -73,7 +73,6 @@ const LinkStyled = styled(Link)(({ theme }) => ({
 
 // ** renders client column
 const renderClient = (row: OrganizationUserResponseDto) => {
-  console.log(row)
   if (row.avatar.length) {
     return <CustomAvatar src={row.avatar} sx={{ mr: 3, width: '1.875rem', height: '1.875rem' }} />
   } else {
@@ -154,11 +153,7 @@ const Projects = () => {
       field: 'name',
       headerName: `${t('project_page.list.name')}`,
       renderCell: ({ row }: CellType) => {
-        return (
-          <Typography variant='body2' noWrap>
-            {row.name || '-'}
-          </Typography>
-        )
+        return <LinkStyled href={getProjectDefaultTab(row.id)}>{`${row.name}` || '-'}</LinkStyled>
       }
     },
     {
@@ -340,7 +335,7 @@ const Projects = () => {
             <DataGrid
               autoHeight
               pagination
-              rows={store.data}
+              rows={store.projects}
               columns={columns}
               checkboxSelection
               disableRowSelectionOnClick

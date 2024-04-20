@@ -315,14 +315,14 @@ const UserList = () => {
           <TableHeader
             role={role}
             value={value}
-            allRoles={roleStore.data}
+            allRoles={roleStore.roles}
             handleFilter={handleFilter}
             handleRoleChange={handleRoleChange}
             toggleAddUserDrawer={toggleAddUserDrawer}
           />
           <DataGrid
             autoHeight
-            rows={userStore.data}
+            rows={userStore.users}
             columns={columns}
             checkboxSelection
             disableRowSelectionOnClick
@@ -336,7 +336,7 @@ const UserList = () => {
       <DialogEditUserRole
         show={showDialogEditUserRole}
         setShow={setShowDialogEditUserRole}
-        allRoles={roleStore.data}
+        allRoles={roleStore.roles}
         selectedCheckbox={selectedCheckbox}
         setSelectedCheckbox={setSelectedCheckbox}
         isUserOnlyAdmin={isUserOnlyAdmin}
@@ -352,7 +352,7 @@ const UserList = () => {
       <AddUserDrawer
         open={addUserOpen}
         toggle={toggleAddUserDrawer}
-        allRoles={roleStore.data}
+        allRoles={roleStore.roles}
         isSelectAdmin={isSelectAdmin}
         setIsSelectAdmin={setIsSelectAdmin}
       />

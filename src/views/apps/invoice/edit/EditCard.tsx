@@ -28,7 +28,7 @@ import { useTranslation } from 'react-i18next'
 import themeConfig from 'src/configs/themeConfig'
 
 // ** Types Imports
-import { CurrencyType, InvoiceResponseDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
+import { CategoryResponseDto, CurrencyType, InvoiceResponseDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
 import { UpdateInvoiceFormData } from './Edit'
 
 // ** Custom Component Imports
@@ -85,6 +85,7 @@ const InvoiceAction = styled(Box)<BoxProps>(({ theme }) => ({
 }))
 
 export interface EditCardProps {
+  categories: CategoryResponseDto[]
   data: InvoiceResponseDto
   formData: UpdateInvoiceFormData[]
   setFormData: (value: any) => void
@@ -94,9 +95,16 @@ export interface EditCardProps {
   setType: (value: InvoiceType) => void
   currency: CurrencyType
   setCurrency: (value: CurrencyType) => void
+  projectId: string
+  setProjectId: (value: string) => void
+  projectName: string
+  setProjectName: (value: string) => void
+  categoryId: string
+  setCategoryId: (value: string) => void
 }
 
 const EditCard = ({
+  categories,
   data,
   formData,
   setFormData,
@@ -105,7 +113,13 @@ const EditCard = ({
   type,
   setType,
   currency,
-  setCurrency
+  setCurrency,
+  projectId,
+  setProjectId,
+  projectName,
+  setProjectName,
+  categoryId,
+  setCategoryId
 }: EditCardProps) => {
   // ** States
   const [count, setCount] = useState<number>(data.items?.length || 1)
@@ -119,13 +133,16 @@ const EditCard = ({
       setDate(new Date(data.date ? data.date : new Date()))
       setType(data.type)
       setCurrency(data.currency)
+      setProjectId(data.project?.id.toString())
+      setProjectName(data.project?.name)
+      setCategoryId(data.category?.id.toString())
       setFormData(
         data.items?.map((item, index) => {
           return { ...item, index }
         })
       )
     }
-  }, [data, setCount, setDate, setType, setCurrency, setFormData])
+  }, [data, setCount, setDate, setType, setCurrency, setProjectId, setProjectName, setCategoryId, setFormData])
 
   // ** Hook
   const theme = useTheme()
@@ -287,10 +304,34 @@ const EditCard = ({
                     {t('invoice_page.edit.currency')}:
                   </Typography>
                   <Select size='small' value={currency} onChange={e => setCurrency(e.target.value as CurrencyType)}>
-                    <MenuItem value={CurrencyType.VND}>VND</MenuItem>
                     <MenuItem value={CurrencyType.USD}>USD</MenuItem>
+                    <MenuItem value={CurrencyType.VND}>VND</MenuItem>
                   </Select>
                 </Box>
+                <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+                  <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
+                    Project:
+                  </Typography>
+                  <Select size='small' value={projectId} disabled>
+                    <MenuItem value={projectId} key={projectId}>
+                      {projectName}
+                    </MenuItem>
+                  </Select>
+                </Box>
+                {categories && categories.length > 0 && (
+                  <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+                    <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
+                      Category:
+                    </Typography>
+                    <Select size='small' value={categoryId} onChange={e => setCategoryId(e.target.value)}>
+                      {categories.map(category => (
+                        <MenuItem value={category.id} key={category.id}>
+                          {category.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Box>
+                )}
               </Box>
             </Grid>
           </Grid>

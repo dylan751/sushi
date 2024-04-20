@@ -151,18 +151,18 @@ export const fetchAdminCount = createAsyncThunk('appUsers/fetchAdminCount', asyn
 export const appUsersSlice = createSlice({
   name: 'appUsers',
   initialState: {
-    data: [] as OrganizationUserResponseDto[],
-    total: 0,
-    params: {},
+    users: [] as OrganizationUserResponseDto[],
+    totalUsers: 0,
+    paramsUsers: {},
 
     totalAdmins: 0
   },
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchUser.fulfilled, (state, action) => {
-      state.data = action.payload?.users || []
-      state.total = action.payload?.metadata.total || 0
-      state.params = action.payload?.metadata.params || {}
+      state.users = action.payload?.users || []
+      state.totalUsers = action.payload?.metadata.total || 0
+      state.paramsUsers = action.payload?.metadata.params || {}
     }),
       builder.addCase(fetchAdminCount.fulfilled, (state, action) => {
         state.totalAdmins = action.payload?.totalAdmins || 0

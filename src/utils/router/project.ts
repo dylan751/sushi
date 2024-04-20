@@ -4,6 +4,10 @@ export const getProjectDefaultTab = (id: number): string => {
   return `/${getOrgUniqueName()}/projects/${id}/dashboard`
 }
 
+export const getProjectInvoiceTab = (id: number): string => {
+  return `/${getOrgUniqueName()}/projects/${id}/invoice`
+}
+
 export const getProjectListUrl = (): string => {
   return `/${getOrgUniqueName()}/projects/list`
 }

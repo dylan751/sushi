@@ -270,30 +270,6 @@ export enum CurrencyType {
   USD = 'usd'
 }
 
-export interface CreateInvoiceItemRequest {
-  /** @example "Monthly bill" */
-  name: string
-  /** @example "Pay monthly internet bill" */
-  note?: string
-  /** @example 100000 */
-  price: number
-  /** @example 1 */
-  quantity: number
-}
-
-export interface CreateInvoiceRequestDto {
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  date: string
-  /** @example "expense" */
-  type: InvoiceType
-  /** @example "vnd" */
-  currency: CurrencyType
-  items: CreateInvoiceItemRequest[]
-}
-
 export interface InvoiceItemResponseDto {
   /** @example 1 */
   id: number
@@ -307,22 +283,13 @@ export interface InvoiceItemResponseDto {
   quantity: number
 }
 
-export interface InvoiceResponseDto {
+export interface BudgetResponseDto {
   /** @example 1 */
   id: number
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  date: string
-  /** @example "expense" */
-  type: InvoiceType
-  /** @example "vnd" */
-  currency: CurrencyType
-  /** @example 10 */
-  total: number
-  items: InvoiceItemResponseDto[]
-  creator: OrganizationUserResponseDto
+  /** @example 1 */
+  categoryId: number
+  /** @example 100000 */
+  amount: number
   /**
    * @format date-time
    * @example "2024-02-26T07:31:35.000Z"
@@ -330,52 +297,32 @@ export interface InvoiceResponseDto {
   createdAt: string
 }
 
-export interface InvoiceResponseListDto {
-  invoices: InvoiceResponseDto[]
-  metadata: MetaData
+export enum ColorType {
+  DEFAULT = 'default',
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary',
+  ERROR = 'error',
+  INFO = 'info',
+  SUCCESS = 'success',
+  WARNING = 'WARNING'
 }
 
-export interface UpdateInvoiceItemRequest {
-  /** @example "Monthly bill" */
-  name?: string
-  /** @example "Pay monthly internet bill" */
-  note?: string
-  /** @example 100000 */
-  price?: number
+export interface CategoryResponseDto {
   /** @example 1 */
-  quantity?: number
-}
-
-export interface UpdateInvoiceRequestDto {
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  date?: string
-  /** @example "expense" */
-  type?: InvoiceType
-  /** @example "vnd" */
-  currency?: CurrencyType
-  items: UpdateInvoiceItemRequest[]
-}
-
-export interface CreateProjectRequestDto {
-  /** @example "Technology Investment" */
+  id: number
+  /** @example "Computer Expense" */
   name: string
-  /** @example "A project to improve school technology" */
-  description: string
-  /** @example 100000 */
-  totalBudget: number
+  /** @example "primary" */
+  color: ColorType
+  /** @example "mdi:circle-outline" */
+  icon: string
+  /** @example "expense" */
+  type: InvoiceType
   /**
    * @format date-time
    * @example "2024-02-26T07:31:35.000Z"
    */
-  startDate: string
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  endDate: string
+  createdAt: string
 }
 
 export interface ProjectResponseDto {
@@ -398,11 +345,63 @@ export interface ProjectResponseDto {
    */
   endDate: string
   creator: OrganizationUserResponseDto
+  invoices: any[][]
+  budgets: BudgetResponseDto[]
+  categories: CategoryResponseDto[]
   /**
    * @format date-time
    * @example "2024-02-26T07:31:35.000Z"
    */
   createdAt: string
+}
+
+export interface InvoiceResponseDto {
+  /** @example 1 */
+  id: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  date: string
+  /** @example "expense" */
+  type: InvoiceType
+  /** @example "vnd" */
+  currency: CurrencyType
+  /** @example 10 */
+  total: number
+  items: InvoiceItemResponseDto[]
+  project: ProjectResponseDto
+  category: CategoryResponseDto
+  creator: OrganizationUserResponseDto
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
+export interface InvoiceResponseListDto {
+  invoices: InvoiceResponseDto[]
+  metadata: MetaData
+}
+
+export interface CreateProjectRequestDto {
+  /** @example "Technology Investment" */
+  name: string
+  /** @example "A project to improve school technology" */
+  description: string
+  /** @example 100000 */
+  totalBudget: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  startDate: string
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  endDate: string
 }
 
 export interface ProjectResponseListDto {
@@ -429,25 +428,63 @@ export interface UpdateProjectRequestDto {
   endDate?: string
 }
 
+export interface CreateInvoiceItemRequest {
+  /** @example "Monthly bill" */
+  name: string
+  /** @example "Pay monthly internet bill" */
+  note?: string
+  /** @example 100000 */
+  price: number
+  /** @example 1 */
+  quantity: number
+}
+
+export interface CreateInvoiceRequestDto {
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  date: string
+  /** @example "expense" */
+  type: InvoiceType
+  /** @example "vnd" */
+  currency: CurrencyType
+  items: CreateInvoiceItemRequest[]
+  /** @example 1 */
+  categoryId: number
+}
+
+export interface UpdateInvoiceItemRequest {
+  /** @example "Monthly bill" */
+  name?: string
+  /** @example "Pay monthly internet bill" */
+  note?: string
+  /** @example 100000 */
+  price?: number
+  /** @example 1 */
+  quantity?: number
+}
+
+export interface UpdateInvoiceRequestDto {
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  date?: string
+  /** @example "expense" */
+  type?: InvoiceType
+  /** @example "vnd" */
+  currency?: CurrencyType
+  items: UpdateInvoiceItemRequest[]
+  /** @example 1 */
+  categoryId?: number
+}
+
 export interface CreateBudgetRequestDto {
   /** @example 1 */
   categoryId: number
   /** @example 100000 */
   amount: number
-}
-
-export interface BudgetResponseDto {
-  /** @example 1 */
-  id: number
-  /** @example 1 */
-  categoryId: number
-  /** @example 100000 */
-  amount: number
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  createdAt: string
 }
 
 export interface BudgetResponseListDto {
@@ -463,30 +500,12 @@ export interface UpdateBudgetRequestDto {
 export interface CreateCategoryRequestDto {
   /** @example "Computer Expense" */
   name: string
-  /** @example "#abcdef" */
-  color: string
+  /** @example "primary" */
+  color: ColorType
   /** @example "mdi:circle-outline" */
   icon: string
   /** @example "expense" */
   type: InvoiceType
-}
-
-export interface CategoryResponseDto {
-  /** @example 1 */
-  id: number
-  /** @example "Computer Expense" */
-  name: string
-  /** @example "#abcdef" */
-  color: string
-  /** @example "mdi:circle-outline" */
-  icon: string
-  /** @example "expense" */
-  type: InvoiceType
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  createdAt: string
 }
 
 export interface CategoryResponseListDto {
@@ -497,8 +516,8 @@ export interface CategoryResponseListDto {
 export interface UpdateCategoryRequestDto {
   /** @example "Computer Expense" */
   name?: string
-  /** @example "#abcdef" */
-  color?: string
+  /** @example "primary" */
+  color?: ColorType
   /** @example "mdi:circle-outline" */
   icon?: string
   /** @example "expense" */
@@ -1097,30 +1116,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description Create invoices for an organization
-     *
-     * @tags Organization Invoice
-     * @name CreateInvoicesForAnOrganization
-     * @summary Create invoices for an organization
-     * @request POST:/internal/api/v1/organizations/{organizationId}/invoices
-     * @secure
-     */
-    createInvoicesForAnOrganization: (
-      organizationId: number,
-      data: CreateInvoiceRequestDto,
-      params: RequestParams = {}
-    ) =>
-      this.request<InvoiceResponseListDto, any>({
-        path: `/internal/api/v1/organizations/${organizationId}/invoices`,
-        method: 'POST',
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: 'json',
-        ...params
-      }),
-
-    /**
      * @description Get invoice list for organization
      *
      * @tags Organization Invoice
@@ -1164,31 +1159,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/internal/api/v1/organizations/${organizationId}/invoices/${id}`,
         method: 'GET',
         secure: true,
-        format: 'json',
-        ...params
-      }),
-
-    /**
-     * @description Update an invoice for an organization
-     *
-     * @tags Organization Invoice
-     * @name UpdateAnInvoiceForAnOrganization
-     * @summary Update an invoice for an organization
-     * @request PATCH:/internal/api/v1/organizations/{organizationId}/invoices/{id}
-     * @secure
-     */
-    updateAnInvoiceForAnOrganization: (
-      organizationId: number,
-      id: number,
-      data: UpdateInvoiceRequestDto,
-      params: RequestParams = {}
-    ) =>
-      this.request<InvoiceResponseDto, any>({
-        path: `/internal/api/v1/organizations/${organizationId}/invoices/${id}`,
-        method: 'PATCH',
-        body: data,
-        secure: true,
-        type: ContentType.Json,
         format: 'json',
         ...params
       }),
@@ -1321,6 +1291,88 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/internal/api/v1/organizations/${organizationId}/projects/${id}`,
         method: 'DELETE',
         secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Create invoices for a project of organization
+     *
+     * @tags Organization Project Invoice
+     * @name CreateInvoicesForAProjectOfOrganization
+     * @summary Create invoices for a project of organization
+     * @request POST:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/invoices
+     * @secure
+     */
+    createInvoicesForAProjectOfOrganization: (
+      organizationId: number,
+      projectId: number,
+      data: CreateInvoiceRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<InvoiceResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/invoices`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get invoice list for a project of organization
+     *
+     * @tags Organization Project Invoice
+     * @name GetInvoiceListForAProjectOfOrganization
+     * @summary Get invoice list for a project of organization
+     * @request GET:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/invoices
+     * @secure
+     */
+    getInvoiceListForAProjectOfOrganization: (
+      organizationId: number,
+      projectId: number,
+      query?: {
+        query?: string
+        /** @format date-time */
+        fromDate?: string
+        /** @format date-time */
+        toDate?: string
+        type?: string
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<InvoiceResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/invoices`,
+        method: 'GET',
+        query: query,
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Update an invoice for a project of organization
+     *
+     * @tags Organization Project Invoice
+     * @name UpdateAnInvoiceForAProjectOfOrganization
+     * @summary Update an invoice for a project of organization
+     * @request PATCH:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/invoices/{id}
+     * @secure
+     */
+    updateAnInvoiceForAProjectOfOrganization: (
+      organizationId: number,
+      projectId: number,
+      id: number,
+      data: UpdateInvoiceRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<InvoiceResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/invoices/${id}`,
+        method: 'PATCH',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         format: 'json',
         ...params
       }),

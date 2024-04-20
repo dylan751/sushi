@@ -128,7 +128,14 @@
         }
     },
     "project_page": {
+        "tab": {
+            "dashboard": "Dashboard",
+            "invoice": "Invoice",
+            "budget": "Budget",
+            "category": "Category"
+        },
         "list": {
+            "project_list": "Project List",
             "filters": "Filters",
             "project_start_date": "Project Start Date",
             "actions": "Actions",
@@ -164,6 +171,7 @@
         "list": {
             "filters": "Filters",
             "invoice_date": "Invoice Date",
+            "invoice_type": "Invoice Type",
             "actions": "Actions",
             "search_invoice": "Search Invoice",
             "create_invoice": "Create Invoice",
@@ -172,6 +180,8 @@
             "note": "Note",
             "total": "Total",
             "date": "Date",
+            "project": "Project",
+            "category": "Category",
             "amount": "Amount",
             "type": "Type",
             "delete_invoice": "Delete Invoice",

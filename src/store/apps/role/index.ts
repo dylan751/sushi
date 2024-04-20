@@ -125,16 +125,16 @@ export const deleteRole = createAsyncThunk(
 export const appRolesSlice = createSlice({
   name: 'appRoles',
   initialState: {
-    data: [] as RoleResponseDto[],
-    total: 0,
-    params: {}
+    roles: [] as RoleResponseDto[],
+    totalRoles: 0,
+    paramsRoles: {}
   },
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchRole.fulfilled, (state, action) => {
-      state.data = action.payload?.roles || []
-      state.total = action.payload?.metadata.total || 0
-      state.params = action.payload?.metadata.params || {}
+      state.roles = action.payload?.roles || []
+      state.totalRoles = action.payload?.metadata.total || 0
+      state.paramsRoles = action.payload?.metadata.params || {}
     })
   }
 })
