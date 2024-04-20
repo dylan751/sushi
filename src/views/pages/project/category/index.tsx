@@ -28,6 +28,7 @@ import { CategoryResponseDto } from 'src/__generated__/AccountifyAPI'
 // ** Custom Table Components Imports
 import TableHeader from 'src/views/apps/project/category/list/TableHeader'
 import AddCategoryDrawer from 'src/views/apps/project/category/list/AddCategoryDrawer'
+import UpdateCategoryDrawer from 'src/views/apps/project/category/list/UpdateCategoryDrawer'
 
 // ** Hooks
 import { useTranslation } from 'react-i18next'
@@ -52,6 +53,8 @@ const CategoryTab = ({ projectId }: CategoryTabProps) => {
   // ** State
   const [value, setValue] = useState<string>('')
   const [addCategoryOpen, setAddCategoryOpen] = useState<boolean>(false)
+  const [updateCategoryOpen, setUpdateCategoryOpen] = useState<boolean>(false)
+  const [selectedCategory, setSelectedCategory] = useState<CategoryResponseDto | null>(null)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
   // ** Hooks
@@ -83,6 +86,17 @@ const CategoryTab = ({ projectId }: CategoryTabProps) => {
 
   const toggleAddCategoryDrawer = () => {
     setAddCategoryOpen(!addCategoryOpen)
+  }
+
+  const toggleUpdateCategoryDrawer = (categoryId: number | null) => {
+    if (categoryId) {
+      const category = categoryStore.categories.find(category => category.id === categoryId) ?? null
+      setSelectedCategory(category)
+    } else {
+      setSelectedCategory(null)
+    }
+
+    setUpdateCategoryOpen(!updateCategoryOpen)
   }
 
   const defaultColumns: GridColDef[] = [
@@ -133,9 +147,8 @@ const CategoryTab = ({ projectId }: CategoryTabProps) => {
       headerName: t('project_page.category.actions') as string,
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {/* <IconButton color='info' onClick={() => handleEditCategory(row.id)}> */}
           {ability?.can('update', 'category') && (
-            <IconButton color='info'>
+            <IconButton color='info' onClick={() => toggleUpdateCategoryDrawer(row.id)}>
               <Icon icon='mdi:pencil-outline' fontSize={20} />
             </IconButton>
           )}
@@ -167,6 +180,13 @@ const CategoryTab = ({ projectId }: CategoryTabProps) => {
       </Grid>
 
       <AddCategoryDrawer open={addCategoryOpen} toggle={toggleAddCategoryDrawer} projectId={projectId} />
+      <UpdateCategoryDrawer
+        open={updateCategoryOpen}
+        toggle={toggleUpdateCategoryDrawer}
+        projectId={projectId}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
     </Grid>
   )
 }

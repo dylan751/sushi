@@ -132,7 +132,7 @@ const SidebarAddCategory = (props: SidebarAddCategoryInterface) => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h6'>{t('project_page.category.name')}</Typography>
+        <Typography variant='h6'>{t('project_page.category.add_category')}</Typography>
         <IconButton size='small' onClick={handleClose} sx={{ color: 'text.primary' }}>
           <Icon icon='mdi:close' fontSize={20} />
         </IconButton>
