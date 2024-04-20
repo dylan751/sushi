@@ -33,6 +33,7 @@ import { UpdateInvoiceFormData } from './Edit'
 
 // ** Custom Component Imports
 import Repeater from 'src/@core/components/repeater'
+import CustomChip from 'src/@core/components/mui/chip'
 
 const initialFormData = {
   index: 0,
@@ -326,7 +327,7 @@ const EditCard = ({
                     <Select size='small' value={categoryId} onChange={e => setCategoryId(e.target.value)}>
                       {categories.map(category => (
                         <MenuItem value={category.id} key={category.id}>
-                          {category.name}
+                          <CustomChip size='small' skin='light' color={category.color as any} label={category.name} />
                         </MenuItem>
                       ))}
                     </Select>

@@ -23,7 +23,7 @@ import { deleteCategory, fetchCategory } from 'src/store/apps/category'
 
 // ** Types Imports
 import { RootState, AppDispatch } from 'src/store'
-import { CategoryResponseDto } from 'src/__generated__/AccountifyAPI'
+import { CategoryResponseDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
 
 // ** Custom Table Components Imports
 import TableHeader from 'src/views/apps/project/category/list/TableHeader'
@@ -52,6 +52,7 @@ export interface CategoryTabProps {
 const CategoryTab = ({ projectId }: CategoryTabProps) => {
   // ** State
   const [value, setValue] = useState<string>('')
+  const [type, setType] = useState<InvoiceType | ''>('')
   const [addCategoryOpen, setAddCategoryOpen] = useState<boolean>(false)
   const [updateCategoryOpen, setUpdateCategoryOpen] = useState<boolean>(false)
   const [selectedCategory, setSelectedCategory] = useState<CategoryResponseDto | null>(null)
@@ -69,15 +70,18 @@ const CategoryTab = ({ projectId }: CategoryTabProps) => {
       fetchCategory({
         organizationId,
         projectId: parseInt(projectId),
-        query: value
-
-        // type
+        query: value,
+        type: type
       })
     )
-  }, [dispatch, value, organizationId, projectId])
+  }, [dispatch, value, type, organizationId, projectId])
 
-  const handleFilter = useCallback((val: string) => {
+  const handleFilterByName = useCallback((val: string) => {
     setValue(val)
+  }, [])
+
+  const handleFilterByType = useCallback((val: InvoiceType | '') => {
+    setType(val)
   }, [])
 
   const handleDeleteCategory = (categoryId: number) => {
@@ -166,7 +170,13 @@ const CategoryTab = ({ projectId }: CategoryTabProps) => {
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <Card>
-          <TableHeader value={value} handleFilter={handleFilter} toggle={toggleAddCategoryDrawer} />
+          <TableHeader
+            value={value}
+            type={type}
+            handleFilterByName={handleFilterByName}
+            handleFilterByType={handleFilterByType}
+            toggle={toggleAddCategoryDrawer}
+          />
           <DataGrid
             autoHeight
             rows={categoryStore.categories}
