@@ -111,10 +111,10 @@ const CustomInput = forwardRef((props: CustomInputProps, ref) => {
 /* eslint-enable */
 
 export interface InvoiceTabProps {
-  id: string
+  projectId: string
 }
 
-const InvoiceTab = ({ id }: InvoiceTabProps) => {
+const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
   // ** State
   const [dates, setDates] = useState<Date[]>([])
   const [type, setType] = useState<InvoiceType | ''>('')
@@ -135,14 +135,14 @@ const InvoiceTab = ({ id }: InvoiceTabProps) => {
     dispatch(
       fetchInvoiceForProject({
         organizationId,
-        projectId: parseInt(id),
+        projectId: parseInt(projectId),
         fromDate: dates[0]?.toString(),
         toDate: dates[1]?.toString(),
         query: value,
         type
       })
     )
-  }, [dispatch, value, dates, type, organizationId, id])
+  }, [dispatch, value, dates, type, organizationId, projectId])
 
   const handleFilter = (val: string) => {
     setValue(val)
@@ -235,7 +235,9 @@ const InvoiceTab = ({ id }: InvoiceTabProps) => {
             <IconButton
               size='small'
               color='error'
-              onClick={() => dispatch(deleteInvoice({ organizationId, projectId: parseInt(id), invoiceId: row.id }))}
+              onClick={() =>
+                dispatch(deleteInvoice({ organizationId, projectId: parseInt(projectId), invoiceId: row.id }))
+              }
               disabled={!ability?.can('delete', 'invoice')}
             >
               <Icon icon='mdi:delete-outline' fontSize={20} />

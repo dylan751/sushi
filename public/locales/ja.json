@@ -165,6 +165,21 @@
             "description": "説明",
             "total_budget": "総予算",
             "project_date": "プロジェクトの日付"
+        },
+        "dashboard": {},
+        "invoice": {},
+        "budget": {},
+        "category": {
+            "search_category": "カテゴリーの検索",
+            "select_type": "タイプの選択",
+            "category": "カテゴリー",
+            "name": "名前",
+            "icon": "アイコン",
+            "color": "色",
+            "created_date": "作成日",
+            "type": "タイプ",
+            "actions": "行動",
+            "add_category": "カテゴリーの追加"
         }
     },
     "invoice_page": {

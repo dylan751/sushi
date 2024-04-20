@@ -298,13 +298,12 @@ export interface BudgetResponseDto {
 }
 
 export enum ColorType {
-  DEFAULT = 'default',
   PRIMARY = 'primary',
   SECONDARY = 'secondary',
   ERROR = 'error',
   INFO = 'info',
   SUCCESS = 'success',
-  WARNING = 'WARNING'
+  WARNING = 'warning'
 }
 
 export interface CategoryResponseDto {
