@@ -116,8 +116,6 @@ const SidebarUpdateCategory = (props: SidebarUpdateCategoryInterface) => {
       type: selectedCategory.type
     }
 
-    console.log('updateCategoryRequest', updateCategoryRequest)
-
     dispatch(
       updateCategory({
         organizationId,
