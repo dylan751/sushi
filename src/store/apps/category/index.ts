@@ -17,8 +17,7 @@ import toast from 'react-hot-toast'
 
 interface DataParams {
   query?: string
-  fromDate?: string
-  toDate?: string
+  type?: string
 }
 
 interface Redux {

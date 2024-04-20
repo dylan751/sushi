@@ -32,6 +32,7 @@ import { CategoryResponseDto, CurrencyType, InvoiceType, ProjectResponseDto } fr
 import Repeater from 'src/@core/components/repeater'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
+import CustomChip from 'src/@core/components/mui/chip'
 
 const initialFormData = {
   index: 0,
@@ -258,8 +259,12 @@ const AddCard = ({
                   {t('invoice_page.add.type')}:
                 </Typography>
                 <Select size='small' value={type} onChange={e => setType(e.target.value as InvoiceType)}>
-                  <MenuItem value={InvoiceType.EXPENSE}>Expense</MenuItem>
-                  <MenuItem value={InvoiceType.INCOME}>Income</MenuItem>
+                  <MenuItem value={InvoiceType.EXPENSE}>
+                    <CustomChip size='small' skin='light' color='error' label='Expense' />
+                  </MenuItem>
+                  <MenuItem value={InvoiceType.INCOME}>
+                    <CustomChip size='small' skin='light' color='success' label='Income' />
+                  </MenuItem>
                 </Select>
               </Box>
               <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
@@ -291,7 +296,7 @@ const AddCard = ({
                   <Select size='small' value={categoryId} onChange={e => setCategoryId(e.target.value as CurrencyType)}>
                     {categories.map(category => (
                       <MenuItem value={category.id} key={category.id}>
-                        {category.name}
+                        <CustomChip size='small' skin='light' color={category.color as any} label={category.name} />
                       </MenuItem>
                     ))}
                   </Select>

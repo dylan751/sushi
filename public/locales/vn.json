@@ -162,6 +162,22 @@
             "description": "Mô tả",
             "total_budget": "Tổng định mức",
             "project_date": "Thời gian dự án"
+        },
+        "dashboard": {},
+        "invoice": {},
+        "budget": {},
+        "category": {
+            "search_category": "Tìm phân loại",
+            "select_type": "Chọn loại",
+            "category": "Phân loại",
+            "name": "Tên",
+            "icon": "Biểu tượng",
+            "color": "Màu sắc",
+            "created_date": "Ngày tạo",
+            "type": "Loại",
+            "actions": "Hành động",
+            "add_category": "Thêm phân loại",
+            "update_category": "Cập nhật phân loại"
         }
     },
     "invoice_page": {

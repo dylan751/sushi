@@ -298,13 +298,30 @@ export interface BudgetResponseDto {
 }
 
 export enum ColorType {
-  DEFAULT = 'default',
   PRIMARY = 'primary',
   SECONDARY = 'secondary',
   ERROR = 'error',
   INFO = 'info',
   SUCCESS = 'success',
-  WARNING = 'WARNING'
+  WARNING = 'warning'
+}
+
+export enum IconType {
+  MDI_INVOICE_ADD = 'mdi:invoice-add',
+  MDI_INVOICE_MINUS = 'mdi:invoice-minus',
+  MDI_INVOICE_TEXT_CHECK_OUTLINE = 'mdi:invoice-text-check-outline',
+  MDI_INVOICE_TEXT_SEND_OUTLINE = 'mdi:invoice-text-send-outline',
+  MDI_CATEGORY_OUTLINE = 'mdi:category-outline',
+  MDI_CATEGORY_PLUS_OUTLINE = 'mdi:category-plus-outline',
+  MDI_COMPUTER = 'mdi:computer',
+  MDI_ACCOUNT_BADGE_OUTLINE = 'mdi:account-badge-outline',
+  MDI_MEDICINE_BOTTLE_OUTLINE = 'mdi:medicine-bottle-outline',
+  MDI_AIRPLANE = 'mdi:airplane',
+  MDI_CAR_OUTLINE = 'mdi:car-outline',
+  MDI_IMPORT = 'mdi:import',
+  MDI_EXPORT = 'mdi:export',
+  MDI_CREDIT_CARD_ADD = 'mdi:credit-card-add',
+  MDI_EMAIL_ADD_OUTLINE = 'mdi:email-add-outline'
 }
 
 export interface CategoryResponseDto {
@@ -314,8 +331,8 @@ export interface CategoryResponseDto {
   name: string
   /** @example "primary" */
   color: ColorType
-  /** @example "mdi:circle-outline" */
-  icon: string
+  /** @example "mdi:airplane" */
+  icon: IconType
   /** @example "expense" */
   type: InvoiceType
   /**
@@ -502,8 +519,8 @@ export interface CreateCategoryRequestDto {
   name: string
   /** @example "primary" */
   color: ColorType
-  /** @example "mdi:circle-outline" */
-  icon: string
+  /** @example "mdi:airplane" */
+  icon: IconType
   /** @example "expense" */
   type: InvoiceType
 }
@@ -518,8 +535,8 @@ export interface UpdateCategoryRequestDto {
   name?: string
   /** @example "primary" */
   color?: ColorType
-  /** @example "mdi:circle-outline" */
-  icon?: string
+  /** @example "mdi:airplane" */
+  icon?: IconType
   /** @example "expense" */
   type?: InvoiceType
 }

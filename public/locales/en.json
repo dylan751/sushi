@@ -165,6 +165,22 @@
             "description": "Description",
             "total_budget": "Total Budget",
             "project_date": "Project Date"
+        },
+        "dashboard": {},
+        "invoice": {},
+        "budget": {},
+        "category": {
+            "search_category": "Search Category",
+            "select_type": "Select Type",
+            "category": "Category",
+            "name": "Name",
+            "icon": "Icon",
+            "color": "Color",
+            "created_date": "Created Date",
+            "type": "Type",
+            "actions": "Actions",
+            "add_category": "Add Category",
+            "update_category": "Update Category"
         }
     },
     "invoice_page": {
