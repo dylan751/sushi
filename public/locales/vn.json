@@ -165,7 +165,13 @@
         },
         "dashboard": {},
         "invoice": {},
-        "budget": {},
+        "budget": {
+            "filters": "Bộ lọc",
+            "category_type": "Chọn phân loại",
+            "category": "Phân loại",
+            "progress": "Tiến độ",
+            "amount": "Định mức"
+        },
         "category": {
             "search_category": "Tìm phân loại",
             "select_type": "Chọn loại",

@@ -168,7 +168,13 @@
         },
         "dashboard": {},
         "invoice": {},
-        "budget": {},
+        "budget": {
+            "filters": "フィルター",
+            "category_type": "カテゴリーのタイプ",
+            "category": "カテゴリー",
+            "progress": "進捗",
+            "amount": "価格"
+        },
         "category": {
             "search_category": "カテゴリーの検索",
             "select_type": "タイプの選択",

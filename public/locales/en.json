@@ -168,7 +168,13 @@
         },
         "dashboard": {},
         "invoice": {},
-        "budget": {},
+        "budget": {
+            "filters": "Filters",
+            "category_type": "Category Type",
+            "category": "Category",
+            "progress": "Progress",
+            "amount": "Amount"
+        },
         "category": {
             "search_category": "Search Category",
             "select_type": "Select Type",
