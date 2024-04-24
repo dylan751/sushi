@@ -40,10 +40,10 @@ const TableHeader = (props: TableHeaderProps) => {
           sx={{ mb: 2 }}
           onClick={toggle}
           variant='contained'
-          disabled={!ability?.can('create', 'category')}
-          startIcon={<Icon icon='mdi:category-outline' />}
+          disabled={!ability?.can('create', 'budget')}
+          startIcon={<Icon icon='mdi:money' />}
         >
-          {t('project_page.category.add_category')}
+          {t('project_page.budget.add_budget')}
         </Button>
       </Box>
     </Box>

@@ -165,9 +165,20 @@
         },
         "dashboard": {},
         "invoice": {},
-        "budget": {},
+        "budget": {
+            "filters": "Bộ lọc",
+            "category_type": "Chọn phân loại",
+            "category": "Phân loại",
+            "progress": "Tiến độ",
+            "amount": "Định mức",
+            "actions": "Hành động",
+            "add_budget": "Thêm định mức",
+            "update_budget": "Cập nhật định mức"
+        },
         "category": {
+            "filters": "Bộ lọc",
             "search_category": "Tìm phân loại",
+            "category_type": "Chọn phân loại",
             "select_type": "Chọn loại",
             "category": "Phân loại",
             "name": "Tên",
