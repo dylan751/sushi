@@ -4,6 +4,7 @@ import { configureStore } from '@reduxjs/toolkit'
 // ** Reducers
 import user from 'src/store/apps/user'
 import role from 'src/store/apps/role'
+import budget from 'src/store/apps/budget'
 import category from 'src/store/apps/category'
 import invoice from 'src/store/apps/invoice'
 import project from 'src/store/apps/project'
@@ -14,6 +15,7 @@ export const store = configureStore({
   reducer: {
     user,
     role,
+    budget,
     category,
     invoice,
     project,

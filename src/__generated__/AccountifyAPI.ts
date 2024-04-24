@@ -283,20 +283,6 @@ export interface InvoiceItemResponseDto {
   quantity: number
 }
 
-export interface BudgetResponseDto {
-  /** @example 1 */
-  id: number
-  /** @example 1 */
-  categoryId: number
-  /** @example 100000 */
-  amount: number
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  createdAt: string
-}
-
 export enum ColorType {
   PRIMARY = 'primary',
   SECONDARY = 'secondary',
@@ -335,6 +321,23 @@ export interface CategoryResponseDto {
   icon: IconType
   /** @example "expense" */
   type: InvoiceType
+  /** @example 1000 */
+  spentAmount: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
+export interface BudgetResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example 1 */
+  categoryId: number
+  /** @example 100000 */
+  amount: number
+  category: CategoryResponseDto
   /**
    * @format date-time
    * @example "2024-02-26T07:31:35.000Z"
