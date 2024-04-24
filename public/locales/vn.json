@@ -176,7 +176,9 @@
             "update_budget": "Cập nhật định mức"
         },
         "category": {
+            "filters": "Bộ lọc",
             "search_category": "Tìm phân loại",
+            "category_type": "Chọn phân loại",
             "select_type": "Chọn loại",
             "category": "Phân loại",
             "name": "Tên",

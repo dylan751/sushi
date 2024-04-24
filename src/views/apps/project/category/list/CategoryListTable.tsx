@@ -7,6 +7,13 @@ import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
+import CardHeader from '@mui/material/CardHeader'
+import CardContent from '@mui/material/CardContent'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import TextField from '@mui/material/TextField'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 
 // ** Icon Imports
@@ -177,13 +184,43 @@ const CategoryListTable = ({ projectId }: CategoryTabProps) => {
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <Card>
-          <TableHeader
-            value={value}
-            type={type}
-            handleFilterByName={handleFilterByName}
-            handleFilterByType={handleFilterByType}
-            toggle={toggleAddCategoryDrawer}
-          />
+          <CardHeader title={t('project_page.category.filters')} />
+          <CardContent>
+            <Grid container spacing={6}>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <TextField
+                    value={value}
+                    sx={{ mb: 2 }}
+                    placeholder={t('project_page.category.search_category') as string}
+                    onChange={e => handleFilterByName(e.target.value)}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id='category-type-select'>{t('project_page.category.category_type')}</InputLabel>
+                  <Select
+                    value={type}
+                    sx={{ mb: 2 }}
+                    onChange={e => handleFilterByType(e.target.value as InvoiceType | '')}
+                    id='select-type'
+                    labelId='select-type-label'
+                  >
+                    <MenuItem value=''>All Types</MenuItem>
+                    <MenuItem value={InvoiceType.EXPENSE}>Expense</MenuItem>
+                    <MenuItem value={InvoiceType.INCOME}>Income</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12}>
+        <Card>
+          <TableHeader toggle={toggleAddCategoryDrawer} />
+
           <DataGrid
             autoHeight
             rows={categoryStore.categories}

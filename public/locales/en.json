@@ -179,7 +179,9 @@
             "update_budget": "Update budget"
         },
         "category": {
+            "filters": "Filters",
             "search_category": "Search Category",
+            "category_type": "Category Type",
             "select_type": "Select Type",
             "category": "Category",
             "name": "Name",

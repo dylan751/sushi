@@ -179,7 +179,9 @@
             "update_budget": "予算の編集"
         },
         "category": {
+            "filters": "フィルター",
             "search_category": "カテゴリーの検索",
+            "category_type": "カテゴリーのタイプ",
             "select_type": "タイプの選択",
             "category": "カテゴリー",
             "name": "名前",
