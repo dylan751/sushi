@@ -33,7 +33,7 @@ import { Locale } from 'src/enum'
 
 // ** Utils Imports
 import { formatCurrencyAsCompact } from 'src/utils/currency'
-import { calculateBudgetProcess } from 'src/utils/budget'
+import { calculateBudgetProcess, renderColorBudgetProcess } from 'src/utils/budget'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -148,7 +148,7 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
           <LinearProgress
             variant='determinate'
             value={calculateBudgetProcess(row.category.spentAmount, row.amount)}
-            color={row.category.color} // TODO: Use `success`, `warning`, `error` color based on budget state
+            color={renderColorBudgetProcess(row.category.spentAmount, row.amount) as any}
             sx={{ height: 6, borderRadius: '5px' }}
           />
         </Box>

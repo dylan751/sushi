@@ -133,7 +133,7 @@ const SidebarAddBudget = (props: SidebarAddBudgetInterface) => {
               rules={{ required: true }}
               render={({ field: { value, onChange } }) => (
                 <TextField
-                  type='text'
+                  type='number'
                   value={value}
                   label={`${t('project_page.budget.amount')} *`}
                   onChange={onChange}
