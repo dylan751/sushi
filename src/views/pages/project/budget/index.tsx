@@ -15,4 +15,9 @@ const BudgetTab = ({ projectId }: BudgetTabProps) => {
   )
 }
 
+BudgetTab.acl = {
+  action: 'read',
+  subject: 'budget'
+}
+
 export default BudgetTab

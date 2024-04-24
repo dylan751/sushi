@@ -100,7 +100,6 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
       fetchBudgetParams.categoryId = parseInt(categoryId)
     }
     dispatch(fetchBudget(fetchBudgetParams))
-    dispatch(fetchCategory({ organizationId, projectId: parseInt(projectId) }))
   }, [dispatch, organizationId, projectId, categoryId])
 
   useEffect(() => {
