@@ -146,7 +146,7 @@ const SidebarAddCategory = (props: SidebarAddCategoryInterface) => {
               rules={{ required: true }}
               render={({ field: { value, onChange } }) => (
                 <TextField
-                  type='name'
+                  type='text'
                   value={value}
                   label={`${t('project_page.category.name')} *`}
                   onChange={onChange}

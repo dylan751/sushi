@@ -173,7 +173,10 @@
             "category_type": "カテゴリーのタイプ",
             "category": "カテゴリー",
             "progress": "進捗",
-            "amount": "価格"
+            "amount": "価格",
+            "actions": "行動",
+            "add_budget": "予算の追加",
+            "update_budget": "予算の編集"
         },
         "category": {
             "search_category": "カテゴリーの検索",

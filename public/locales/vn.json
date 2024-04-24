@@ -170,7 +170,10 @@
             "category_type": "Chọn phân loại",
             "category": "Phân loại",
             "progress": "Tiến độ",
-            "amount": "Định mức"
+            "amount": "Định mức",
+            "actions": "Hành động",
+            "add_budget": "Thêm định mức",
+            "update_budget": "Cập nhật định mức"
         },
         "category": {
             "search_category": "Tìm phân loại",

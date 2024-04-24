@@ -173,7 +173,10 @@
             "category_type": "Category Type",
             "category": "Category",
             "progress": "Progress",
-            "amount": "Amount"
+            "amount": "Amount",
+            "actions": "Actions",
+            "add_budget": "Add budget",
+            "update_budget": "Update budget"
         },
         "category": {
             "search_category": "Search Category",

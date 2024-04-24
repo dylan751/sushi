@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -19,11 +19,12 @@ import MenuItem from '@mui/material/MenuItem'
 // ** Hook Imports
 import { useCurrentOrganization } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
+import { AbilityContext } from 'src/layouts/components/acl/Can'
 
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'src/store'
-import { fetchBudget } from 'src/store/apps/budget'
+import { deleteBudget, fetchBudget } from 'src/store/apps/budget'
 import { fetchCategory } from 'src/store/apps/category'
 
 // ** Type Imports
@@ -39,6 +40,9 @@ import Icon from 'src/@core/components/icon'
 
 // ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
+import TableHeader from './TableHeader'
+import AddBudgetDrawer from './AddBudgetDrawer'
+import UpdateBudgetDrawer from './UpdateBudgetDrawer'
 
 interface CellType {
   row: BudgetResponseDto
@@ -51,6 +55,9 @@ export interface BudgetListTableProps {
 const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
   // ** State
   const [categoryId, setCategoryId] = useState<string | ''>('')
+  const [addBudgetOpen, setAddBudgetOpen] = useState<boolean>(false)
+  const [updateBudgetOpen, setUpdateBudgetOpen] = useState<boolean>(false)
+  const [selectedBudget, setSelectedBudget] = useState<BudgetResponseDto | null>(null)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
 
   // ** Hooks
@@ -59,9 +66,29 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
   const dispatch = useDispatch<AppDispatch>()
   const budgetStore = useSelector((state: RootState) => state.budget)
   const categoryStore = useSelector((state: RootState) => state.category)
+  const ability = useContext(AbilityContext)
 
   const handleOnChangeCategory = (value: string | '') => {
     setCategoryId(value)
+  }
+
+  const handleDeleteBudget = (budgetId: number) => {
+    dispatch(deleteBudget({ organizationId, projectId: parseInt(projectId), budgetId }))
+  }
+
+  const toggleAddBudgetDrawer = () => {
+    setAddBudgetOpen(!addBudgetOpen)
+  }
+
+  const toggleUpdateBudgetDrawer = (budgetId: number | null) => {
+    if (budgetId) {
+      const budget = budgetStore.budgets.find(budget => budget.id === budgetId) ?? null
+      setSelectedBudget(budget)
+    } else {
+      setSelectedBudget(null)
+    }
+
+    setUpdateBudgetOpen(!updateBudgetOpen)
   }
 
   useEffect(() => {
@@ -80,7 +107,7 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
     dispatch(fetchCategory({ organizationId, projectId: parseInt(projectId) }))
   }, [dispatch, organizationId, projectId])
 
-  const columns: GridColDef[] = [
+  const defaultColumns: GridColDef[] = [
     {
       flex: 0.25,
       minWidth: 150,
@@ -141,6 +168,31 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
     }
   ]
 
+  const columns: GridColDef[] = [
+    ...defaultColumns,
+    {
+      flex: 0.15,
+      minWidth: 115,
+      sortable: false,
+      field: 'actions',
+      headerName: t('project_page.budget.actions') as string,
+      renderCell: ({ row }: CellType) => (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          {ability?.can('update', 'budget') && (
+            <IconButton color='info' onClick={() => toggleUpdateBudgetDrawer(row.id)}>
+              <Icon icon='mdi:pencil-outline' fontSize={20} />
+            </IconButton>
+          )}
+          {ability?.can('delete', 'budget') && (
+            <IconButton color='error' onClick={() => handleDeleteBudget(row.id)}>
+              <Icon icon='mdi:delete-outline' fontSize={20} />
+            </IconButton>
+          )}
+        </Box>
+      )
+    }
+  ]
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -175,6 +227,7 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
       </Grid>
       <Grid item xs={12}>
         <Card>
+          <TableHeader toggle={toggleAddBudgetDrawer} />
           <DataGrid
             autoHeight
             rows={budgetStore.budgets}
@@ -186,6 +239,19 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
           />
         </Card>
       </Grid>
+      <AddBudgetDrawer
+        open={addBudgetOpen}
+        toggle={toggleAddBudgetDrawer}
+        projectId={projectId}
+        categories={categoryStore.categories}
+      />
+      <UpdateBudgetDrawer
+        open={updateBudgetOpen}
+        toggle={toggleUpdateBudgetDrawer}
+        projectId={projectId}
+        selectedBudget={selectedBudget}
+        setSelectedBudget={setSelectedBudget}
+      />
     </Grid>
   )
 }
