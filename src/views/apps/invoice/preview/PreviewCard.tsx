@@ -131,6 +131,16 @@ const PreviewCard = ({ data }: Props) => {
                     {themeConfig.templateName}
                   </Typography>
                 </Box>
+                {/* TODO: Change to dynamic organization information */}
+                <div>
+                  <Typography variant='body2' sx={{ mb: 1 }}>
+                    Office 149, 450 South Brand Brooklyn
+                  </Typography>
+                  <Typography variant='body2' sx={{ mb: 1 }}>
+                    San Diego County, CA 91905, USA
+                  </Typography>
+                  <Typography variant='body2'>+1 (123) 456 7891, +44 (876) 543 2198</Typography>
+                </div>
               </Box>
             </Grid>
             <Grid item sm={6} xs={12}>
@@ -226,12 +236,12 @@ const PreviewCard = ({ data }: Props) => {
             <Grid item xs={12} sm={7} lg={9} sx={{ order: { sm: 1, xs: 2 } }}>
               <Box sx={{ mb: 2, display: 'flex', alignItems: 'center' }}>
                 <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
-                  Salesperson:
+                  {t('invoice_page.preview.sales_person')}:
                 </Typography>
-                <Typography variant='body2'>Tommy Shelby</Typography>
+                <Typography variant='body2'>{data.creator?.name}</Typography>
               </Box>
 
-              <Typography variant='body2'>Thanks for your business</Typography>
+              <Typography variant='body2'>{t('invoice_page.preview.thanks_for_you_business')}</Typography>
             </Grid>
             <Grid item xs={12} sm={5} lg={3} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>
               <CalcWrapper>

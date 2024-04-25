@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useEffect, ReactElement, SyntheticEvent } from 'react'
+import { useState, useEffect, ReactElement, SyntheticEvent, useContext } from 'react'
 
 // ** Next Import
 import { useRouter } from 'next/router'
@@ -28,6 +28,9 @@ import ProjectHeader from 'src/views/pages/project/ProjectHeader'
 import { getOrgUniqueName } from 'src/utils/organization'
 import { ProjectResponseDto } from 'src/__generated__/AccountifyAPI'
 import { useTranslation } from 'react-i18next'
+
+// ** Context Imports
+import { AbilityContext } from 'src/layouts/components/acl/Can'
 
 const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
   '& .MuiTabs-indicator': {
@@ -58,6 +61,7 @@ const Project = ({ tab, id, project }: { tab: string; id: string; project: Proje
   const router = useRouter()
   const hideText = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
   const { t } = useTranslation()
+  const ability = useContext(AbilityContext)
 
   const handleChange = (event: SyntheticEvent, value: string) => {
     setIsLoading(true)
@@ -100,42 +104,50 @@ const Project = ({ tab, id, project }: { tab: string; id: string; project: Proje
                   onChange={handleChange}
                   aria-label='customized tabs example'
                 >
-                  <Tab
-                    value='dashboard'
-                    label={
-                      <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
-                        <Icon fontSize={20} icon='mdi:account-outline' />
-                        {!hideText && t('project_page.tab.dashboard')}
-                      </Box>
-                    }
-                  />
-                  <Tab
-                    value='invoice'
-                    label={
-                      <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
-                        <Icon fontSize={20} icon='mdi:account-multiple-outline' />
-                        {!hideText && t('project_page.tab.invoice')}
-                      </Box>
-                    }
-                  />
-                  <Tab
-                    value='budget'
-                    label={
-                      <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
-                        <Icon fontSize={20} icon='mdi:view-grid-outline' />
-                        {!hideText && t('project_page.tab.budget')}
-                      </Box>
-                    }
-                  />
-                  <Tab
-                    value='category'
-                    label={
-                      <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
-                        <Icon fontSize={20} icon='mdi:link' />
-                        {!hideText && t('project_page.tab.category')}
-                      </Box>
-                    }
-                  />
+                  {ability?.can('read', 'project') && (
+                    <Tab
+                      value='dashboard'
+                      label={
+                        <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
+                          <Icon fontSize={20} icon='mdi:account-outline' />
+                          {!hideText && t('project_page.tab.dashboard')}
+                        </Box>
+                      }
+                    />
+                  )}
+                  {ability?.can('read', 'invoice') && (
+                    <Tab
+                      value='invoice'
+                      label={
+                        <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
+                          <Icon fontSize={20} icon='mdi:account-multiple-outline' />
+                          {!hideText && t('project_page.tab.invoice')}
+                        </Box>
+                      }
+                    />
+                  )}
+                  {ability?.can('read', 'budget') && (
+                    <Tab
+                      value='budget'
+                      label={
+                        <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
+                          <Icon fontSize={20} icon='mdi:view-grid-outline' />
+                          {!hideText && t('project_page.tab.budget')}
+                        </Box>
+                      }
+                    />
+                  )}
+                  {ability?.can('read', 'category') && (
+                    <Tab
+                      value='category'
+                      label={
+                        <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
+                          <Icon fontSize={20} icon='mdi:link' />
+                          {!hideText && t('project_page.tab.category')}
+                        </Box>
+                      }
+                    />
+                  )}
                 </TabList>
               </Grid>
               <Grid item xs={12} sx={{ pt: theme => `${theme.spacing(4)} !important` }}>

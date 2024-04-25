@@ -177,7 +177,8 @@
             "amount": "Amount",
             "actions": "Actions",
             "add_budget": "Add budget",
-            "update_budget": "Update budget"
+            "update_budget": "Update budget",
+            "delete_budget": "Delete budget"
         },
         "category": {
             "filters": "Filters",
@@ -192,7 +193,8 @@
             "type": "Type",
             "actions": "Actions",
             "add_category": "Add Category",
-            "update_category": "Update Category"
+            "update_category": "Update Category",
+            "delete_category": "Delete Category"
         }
     },
     "invoice_page": {
@@ -265,7 +267,9 @@
             "download": "Download",
             "print": "Print",
             "total": "Total",
-            "update_invoice": "Update Invoice"
+            "update_invoice": "Update Invoice",
+            "thanks_for_you_business": "Thanks for your business",
+            "sales_person": "Salesperson"
         },
         "print": {
             "invoice_to": "Invoice To",
@@ -278,7 +282,9 @@
             "name": "Name",
             "note": "Note",
             "price": "Price",
-            "total": "Total"
+            "total": "Total",
+            "thanks_for_you_business": "Thanks for your business",
+            "sales_person": "Salesperson"
         }
     },
     "user_page": {

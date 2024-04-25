@@ -163,8 +163,10 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
   }, [dispatch, value, dates, type, categoryId, organizationId, projectId])
 
   useEffect(() => {
-    dispatch(fetchCategory({ organizationId, projectId: parseInt(projectId) }))
-  }, [dispatch, organizationId, projectId])
+    if (ability?.can('read', 'category')) {
+      dispatch(fetchCategory({ organizationId, projectId: parseInt(projectId) }))
+    }
+  }, [dispatch, organizationId, projectId, ability])
 
   const handleFilter = (val: string) => {
     setValue(val)
@@ -278,21 +280,25 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Tooltip title={t('invoice_page.list.delete_invoice')}>
-            <IconButton
-              size='small'
-              color='error'
-              onClick={() =>
-                dispatch(deleteInvoice({ organizationId, projectId: parseInt(projectId), invoiceId: row.id }))
-              }
-              disabled={!ability?.can('delete', 'invoice')}
-            >
-              <Icon icon='mdi:delete-outline' fontSize={20} />
-            </IconButton>
+            <span>
+              <IconButton
+                size='small'
+                color='error'
+                onClick={() =>
+                  dispatch(deleteInvoice({ organizationId, projectId: parseInt(projectId), invoiceId: row.id }))
+                }
+                disabled={!ability?.can('delete', 'invoice')}
+              >
+                <Icon icon='mdi:delete-outline' fontSize={20} />
+              </IconButton>
+            </span>
           </Tooltip>
           <Tooltip title={t('invoice_page.list.view')}>
-            <IconButton size='small' component={Link} href={getInvoicePreviewUrl(row.id)}>
-              <Icon icon='mdi:eye-outline' fontSize={20} />
-            </IconButton>
+            <span>
+              <IconButton size='small' component={Link} href={getInvoicePreviewUrl(row.id)}>
+                <Icon icon='mdi:eye-outline' fontSize={20} />
+              </IconButton>
+            </span>
           </Tooltip>
           {ability?.can('update', 'invoice') && (
             <OptionsMenu
@@ -364,8 +370,12 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
                       labelId='invoice-status-select'
                     >
                       <MenuItem value=''>All Types</MenuItem>
-                      <MenuItem value={InvoiceType.EXPENSE}>Expense</MenuItem>
-                      <MenuItem value={InvoiceType.INCOME}>Income</MenuItem>
+                      <MenuItem value={InvoiceType.EXPENSE}>
+                        <CustomChip size='small' skin='light' color='error' label='Expense' />
+                      </MenuItem>
+                      <MenuItem value={InvoiceType.INCOME}>
+                        <CustomChip size='small' skin='light' color='success' label='Income' />
+                      </MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
@@ -402,7 +412,6 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
               pagination
               rows={invoiceStore.projectInvoices}
               columns={columns}
-              checkboxSelection
               disableRowSelectionOnClick
               pageSizeOptions={[10, 25, 50]}
               paginationModel={paginationModel}

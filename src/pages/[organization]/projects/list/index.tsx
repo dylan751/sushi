@@ -230,29 +230,35 @@ const Projects = () => {
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Tooltip title={t('project_page.list.delete_project')}>
-            <IconButton
-              size='small'
-              color='error'
-              onClick={() => dispatch(deleteProject({ organizationId, projectId: row.id }))}
-              disabled={!ability?.can('delete', 'project')}
-            >
-              <Icon icon='mdi:delete-outline' fontSize={20} />
-            </IconButton>
+            <span>
+              <IconButton
+                size='small'
+                color='error'
+                onClick={() => dispatch(deleteProject({ organizationId, projectId: row.id }))}
+                disabled={!ability?.can('delete', 'project')}
+              >
+                <Icon icon='mdi:delete-outline' fontSize={20} />
+              </IconButton>
+            </span>
           </Tooltip>
           <Tooltip title={t('invoice_page.list.view')}>
-            <IconButton size='small' component={Link} href={getProjectDefaultTab(row.id)}>
-              <Icon icon='mdi:eye-outline' fontSize={20} />
-            </IconButton>
+            <span>
+              <IconButton size='small' component={Link} href={getProjectDefaultTab(row.id)}>
+                <Icon icon='mdi:eye-outline' fontSize={20} />
+              </IconButton>
+            </span>
           </Tooltip>
           <Tooltip title={t('project_page.list.edit_project')}>
-            <IconButton
-              size='small'
-              color='info'
-              onClick={() => router.replace(getProjectEditUrl(row.id))}
-              disabled={!ability?.can('update', 'project')}
-            >
-              <Icon icon='mdi:pencil-outline' fontSize={20} />
-            </IconButton>
+            <span>
+              <IconButton
+                size='small'
+                color='info'
+                onClick={() => router.replace(getProjectEditUrl(row.id))}
+                disabled={!ability?.can('update', 'project')}
+              >
+                <Icon icon='mdi:pencil-outline' fontSize={20} />
+              </IconButton>
+            </span>
           </Tooltip>
         </Box>
       )
