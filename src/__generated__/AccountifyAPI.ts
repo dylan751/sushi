@@ -322,7 +322,7 @@ export interface CategoryResponseDto {
   /** @example "expense" */
   type: InvoiceType
   /** @example 1000 */
-  spentAmount: number
+  totalSpent: number
   /**
    * @format date-time
    * @example "2024-02-26T07:31:35.000Z"
@@ -368,6 +368,8 @@ export interface ProjectResponseDto {
   invoices: any[][]
   budgets: BudgetResponseDto[]
   categories: CategoryResponseDto[]
+  /** @example 1000 */
+  totalSpent: number
   /**
    * @format date-time
    * @example "2024-02-26T07:31:35.000Z"
@@ -1153,6 +1155,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** @format date-time */
         toDate?: string
         type?: string
+        projectId?: number
       },
       params: RequestParams = {}
     ) =>
@@ -1359,6 +1362,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** @format date-time */
         toDate?: string
         type?: string
+        projectId?: number
       },
       params: RequestParams = {}
     ) =>

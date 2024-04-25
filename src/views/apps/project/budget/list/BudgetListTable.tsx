@@ -143,12 +143,12 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
       renderCell: ({ row }: CellType) => (
         <Box sx={{ width: '100%' }}>
           <Typography variant='body2' sx={{ color: `text.${row.category.color}` }}>
-            {calculateBudgetProcess(row.category.spentAmount, row.amount)}%
+            {calculateBudgetProcess(row.category.totalSpent, row.amount)}%
           </Typography>
           <LinearProgress
             variant='determinate'
-            value={calculateBudgetProcess(row.category.spentAmount, row.amount)}
-            color={renderColorBudgetProcess(row.category.spentAmount, row.amount) as any}
+            value={calculateBudgetProcess(row.category.totalSpent, row.amount)}
+            color={renderColorBudgetProcess(row.category.totalSpent, row.amount) as any}
             sx={{ height: 6, borderRadius: '5px' }}
           />
         </Box>
@@ -201,7 +201,7 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
             <Grid container spacing={6}>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
-                  <InputLabel id='invoice-status-select'>{t('project_page.budget.category_type')}</InputLabel>
+                  <InputLabel id='category-type-select'>{t('project_page.budget.category_type')}</InputLabel>
 
                   <Select
                     fullWidth
@@ -212,11 +212,14 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
                     labelId='category-type-select'
                   >
                     <MenuItem value=''>All Categories</MenuItem>
-                    {categoryStore.categories.map(category => (
-                      <MenuItem value={category.id} key={category.id}>
-                        {category.name}
-                      </MenuItem>
-                    ))}
+                    {categoryStore.categories.map(
+                      category =>
+                        category.type === InvoiceType.EXPENSE && (
+                          <MenuItem value={category.id} key={category.id}>
+                            {category.name}
+                          </MenuItem>
+                        )
+                    )}
                   </Select>
                 </FormControl>
               </Grid>

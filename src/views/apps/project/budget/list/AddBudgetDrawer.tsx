@@ -26,13 +26,16 @@ import { addBudget } from 'src/store/apps/budget'
 
 // ** Types Imports
 import { AppDispatch } from 'src/store'
-import { CategoryResponseDto, CreateBudgetRequestDto } from 'src/__generated__/AccountifyAPI'
+import { CategoryResponseDto, CreateBudgetRequestDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
 
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
 
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
+
+// ** Custom Component Imports
+import CustomChip from 'src/@core/components/mui/chip'
 
 interface SidebarAddBudgetInterface {
   open: boolean
@@ -119,7 +122,7 @@ const SidebarAddBudget = (props: SidebarAddBudgetInterface) => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h6'>{t('project_page.budget.add_category')}</Typography>
+        <Typography variant='h6'>{t('project_page.budget.add_budget')}</Typography>
         <IconButton size='small' onClick={handleClose} sx={{ color: 'text.primary' }}>
           <Icon icon='mdi:close' fontSize={20} />
         </IconButton>
@@ -151,7 +154,7 @@ const SidebarAddBudget = (props: SidebarAddBudgetInterface) => {
               rules={{ required: true }}
               render={({ field: { value, onChange } }) => (
                 <>
-                  <InputLabel id='icon-select'>{t('project_page.budget.category')} *</InputLabel>
+                  <InputLabel id='icon-select'>{t('project_page.budget.category_only_expense')} *</InputLabel>
                   <Select
                     fullWidth
                     value={value}
@@ -164,11 +167,14 @@ const SidebarAddBudget = (props: SidebarAddBudgetInterface) => {
                     inputProps={{ placeholder: t('project_page.budget.category').toString() }}
                     MenuProps={MenuProps}
                   >
-                    {categories.map(category => (
-                      <MenuItem key={category.id} value={category.id}>
-                        {category.name}
-                      </MenuItem>
-                    ))}
+                    {categories.map(
+                      category =>
+                        category.type === InvoiceType.EXPENSE && (
+                          <MenuItem key={category.id} value={category.id}>
+                            <CustomChip size='small' skin='light' color={category.color as any} label={category.name} />
+                          </MenuItem>
+                        )
+                    )}
                   </Select>
                 </>
               )}

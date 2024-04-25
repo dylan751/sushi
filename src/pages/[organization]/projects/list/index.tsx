@@ -31,6 +31,7 @@ import { Locale } from 'src/enum'
 import { getInitials } from 'src/@core/utils/get-initials'
 import { getProjectDefaultTab, getProjectEditUrl } from 'src/utils/router'
 import { formatCurrencyAsCompact } from 'src/utils/currency'
+import { renderColorBudgetProcess } from 'src/utils/budget'
 
 // ** Custom Components Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
@@ -71,8 +72,8 @@ const LinkStyled = styled(Link)(({ theme }) => ({
   color: theme.palette.primary.main
 }))
 
-// ** renders client column
-const renderClient = (row: OrganizationUserResponseDto) => {
+// ** renders creator column
+const renderCreator = (row: OrganizationUserResponseDto) => {
   if (row.avatar.length) {
     return <CustomAvatar src={row.avatar} sx={{ mr: 3, width: '1.875rem', height: '1.875rem' }} />
   } else {
@@ -141,13 +142,6 @@ const Projects = () => {
 
   const defaultColumns: GridColDef[] = [
     {
-      flex: 0.1,
-      field: 'id',
-      minWidth: 50,
-      headerName: '#',
-      renderCell: ({ row }: CellType) => <LinkStyled href={getProjectDefaultTab(row.id)}>{`#${row.id}`}</LinkStyled>
-    },
-    {
       flex: 0.2,
       minWidth: 150,
       field: 'name',
@@ -166,30 +160,10 @@ const Projects = () => {
 
         return (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {renderClient(creator)}
+            {renderCreator(creator)}
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
                 {creator.name}
-              </Typography>
-            </Box>
-          </Box>
-        )
-      }
-    },
-    {
-      flex: 0.2,
-      field: 'client',
-      minWidth: 200,
-      headerName: t('project_page.list.client') as string,
-      renderCell: ({ row }: CellType) => {
-        const { creator } = row
-
-        return (
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {renderClient(creator)}
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
-                Jeffrey Phillips
               </Typography>
             </Box>
           </Box>
@@ -203,13 +177,12 @@ const Projects = () => {
       headerName: t('project_page.list.total_budget') as string,
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex' }}>
-          {/* TODO: Calculate item.budgetSpent */}
-          <Typography sx={{ color: 'text.secondary' }}>$18.2k/</Typography>
-          <Typography sx={{ fontWeight: 600 }}>{`${formatCurrencyAsCompact(
-            row.totalBudget,
-            Locale.EN,
-            CurrencyType.USD
-          )}`}</Typography>
+          <Typography sx={{ color: `${renderColorBudgetProcess(row.totalSpent, row.totalBudget)}.main` }}>
+            {formatCurrencyAsCompact(row.totalSpent, Locale.EN, CurrencyType.USD)}/
+          </Typography>
+          <Typography
+            sx={{ fontWeight: 600, color: `${renderColorBudgetProcess(row.totalSpent, row.totalBudget)}.main` }}
+          >{`${formatCurrencyAsCompact(row.totalBudget, Locale.EN, CurrencyType.USD)}`}</Typography>
         </Box>
       )
     },
@@ -337,7 +310,6 @@ const Projects = () => {
               pagination
               rows={store.projects}
               columns={columns}
-              checkboxSelection
               disableRowSelectionOnClick
               pageSizeOptions={[10, 25, 50]}
               paginationModel={paginationModel}

@@ -1,16 +1,16 @@
-export const calculateBudgetProcess = (spentAmount: number, totalBudget: number): number => {
-  const budgetProcess = parseFloat(((spentAmount / totalBudget) * 100).toFixed(2))
+export const calculateBudgetProcess = (totalSpent: number, totalBudget: number): number => {
+  const budgetProcess = parseFloat(((totalSpent / totalBudget) * 100).toFixed(2))
 
   // Prevent over 100% value for linear progress UI
   return budgetProcess <= 100 ? budgetProcess : 100
 }
 
-export const renderColorBudgetProcess = (spentAmount: number, totalBudget: number): string => {
-  const budgetProcess = calculateBudgetProcess(spentAmount, totalBudget)
+export const renderColorBudgetProcess = (totalSpent: number, totalBudget: number): string => {
+  const budgetProcess = calculateBudgetProcess(totalSpent, totalBudget)
 
-  if (budgetProcess <= 50) {
+  if (budgetProcess <= 75) {
     return 'success'
-  } else if (budgetProcess <= 75) {
+  } else if (budgetProcess < 100) {
     return 'warning'
   } else {
     return 'error'
