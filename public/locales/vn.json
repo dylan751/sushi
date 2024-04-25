@@ -169,6 +169,7 @@
             "filters": "Bộ lọc",
             "category_type": "Chọn phân loại",
             "category": "Phân loại",
+            "category_only_expense": "Phân loại (chỉ loại chi phí)",
             "progress": "Tiến độ",
             "amount": "Định mức",
             "actions": "Hành động",

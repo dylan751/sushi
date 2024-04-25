@@ -172,6 +172,7 @@
             "filters": "フィルター",
             "category_type": "カテゴリーのタイプ",
             "category": "カテゴリー",
+            "category_only_expense": "カテゴリー（経費型のみ）",
             "progress": "進捗",
             "amount": "価格",
             "actions": "行動",
