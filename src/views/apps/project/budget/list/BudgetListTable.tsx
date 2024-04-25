@@ -143,12 +143,12 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
       renderCell: ({ row }: CellType) => (
         <Box sx={{ width: '100%' }}>
           <Typography variant='body2' sx={{ color: `text.${row.category.color}` }}>
-            {calculateBudgetProcess(row.category.spentAmount, row.amount)}%
+            {calculateBudgetProcess(row.category.totalSpent, row.amount)}%
           </Typography>
           <LinearProgress
             variant='determinate'
-            value={calculateBudgetProcess(row.category.spentAmount, row.amount)}
-            color={renderColorBudgetProcess(row.category.spentAmount, row.amount) as any}
+            value={calculateBudgetProcess(row.category.totalSpent, row.amount)}
+            color={renderColorBudgetProcess(row.category.totalSpent, row.amount) as any}
             sx={{ height: 6, borderRadius: '5px' }}
           />
         </Box>
