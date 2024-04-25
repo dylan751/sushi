@@ -389,6 +389,8 @@ export interface InvoiceResponseDto {
   type: InvoiceType
   /** @example "vnd" */
   currency: CurrencyType
+  /** @example "John Doe" */
+  clientName: string
   /** @example 10 */
   total: number
   items: InvoiceItemResponseDto[]
@@ -471,6 +473,8 @@ export interface CreateInvoiceRequestDto {
   type: InvoiceType
   /** @example "vnd" */
   currency: CurrencyType
+  /** @example "John Doe" */
+  clientName: string
   items: CreateInvoiceItemRequest[]
   /** @example 1 */
   categoryId: number
@@ -497,6 +501,8 @@ export interface UpdateInvoiceRequestDto {
   type?: InvoiceType
   /** @example "vnd" */
   currency?: CurrencyType
+  /** @example "John Doe" */
+  clientName?: string
   items: UpdateInvoiceItemRequest[]
   /** @example 1 */
   categoryId?: number
@@ -1156,6 +1162,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         toDate?: string
         type?: string
         projectId?: number
+        categoryId?: number
       },
       params: RequestParams = {}
     ) =>
@@ -1363,6 +1370,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         toDate?: string
         type?: string
         projectId?: number
+        categoryId?: number
       },
       params: RequestParams = {}
     ) =>

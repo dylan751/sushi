@@ -201,6 +201,7 @@
             "search_invoice": "Tìm hoá đơn",
             "create_invoice": "Tạo hoá đơn",
             "creator": "Người tạo",
+            "client": "Khách hàng",
             "name": "Tên",
             "note": "Ghi chú",
             "total": "Tổng cộng",
@@ -222,6 +223,8 @@
             "type": "Loại",
             "quantity": "Số lượng",
             "currency": "Tiền tệ",
+            "invoice_to": "Người nhận",
+            "client_name": "Tên khách hàng",
             "name": "Tên",
             "note": "Ghi chú",
             "price": "Giá",
@@ -235,6 +238,8 @@
             "type": "Loại",
             "quantity": "Số lượng",
             "currency": "Tiền tệ",
+            "invoice_to": "Người nhận",
+            "client_name": "Tên khách hàng",
             "name": "Tên",
             "note": "Ghi chú",
             "price": "Giá",
@@ -243,6 +248,7 @@
             "preview": "Xem trước"
         },
         "preview": {
+            "invoice_to": "Người nhận",
             "invoice": "Hoá đơn",
             "date": "Thời gian",
             "item": "Tên",
@@ -259,7 +265,7 @@
             "update_invoice": "Cập nhật hoá đơn"
         },
         "print": {
-            "invoice_to": "Hoá đơn tới",
+            "invoice_to": "Người nhận",
             "invoice": "Hoá đơn",
             "date": "Thời gian",
             "item": "Tên",

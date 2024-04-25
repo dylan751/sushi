@@ -179,6 +179,21 @@ const PreviewCard = ({ data }: Props) => {
 
         <Divider />
 
+        <CardContent>
+          <Grid container>
+            <Grid item xs={12} sm={6} sx={{ mb: { lg: 0, xs: 4 } }}>
+              <Typography variant='body2' sx={{ mb: 3.5, fontWeight: 600 }}>
+                {t('invoice_page.preview.invoice_to')}:
+              </Typography>
+              <Typography variant='body2' sx={{ mb: 2 }}>
+                {data.clientName}
+              </Typography>
+            </Grid>
+          </Grid>
+        </CardContent>
+
+        <Divider />
+
         <TableContainer>
           <Table>
             <TableHead>
