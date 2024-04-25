@@ -200,12 +200,14 @@ const CategoryListTable = ({ projectId }: CategoryTabProps) => {
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
                   <InputLabel id='category-type-select'>{t('project_page.category.category_type')}</InputLabel>
+
                   <Select
+                    fullWidth
                     value={type}
-                    sx={{ mb: 2 }}
-                    onChange={e => handleFilterByType(e.target.value as InvoiceType | '')}
-                    id='select-type'
-                    labelId='select-type-label'
+                    sx={{ mr: 4, mb: 2 }}
+                    label='Category Type'
+                    onChange={e => handleFilterByType(e.target.value as InvoiceType)}
+                    labelId='category-type-select'
                   >
                     <MenuItem value=''>All Types</MenuItem>
                     <MenuItem value={InvoiceType.EXPENSE}>Expense</MenuItem>

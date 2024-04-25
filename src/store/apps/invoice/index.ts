@@ -20,6 +20,8 @@ interface DataParams {
   fromDate?: string
   toDate?: string
   type?: string
+  projectId?: number
+  categoryId?: number
 }
 
 interface Redux {

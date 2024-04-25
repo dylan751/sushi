@@ -1155,6 +1155,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** @format date-time */
         toDate?: string
         type?: string
+        projectId?: number
       },
       params: RequestParams = {}
     ) =>
@@ -1361,6 +1362,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** @format date-time */
         toDate?: string
         type?: string
+        projectId?: number
       },
       params: RequestParams = {}
     ) =>

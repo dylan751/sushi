@@ -61,6 +61,7 @@ import { Locale } from 'src/enum'
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import { fetchProject } from 'src/store/apps/project'
 
 interface CustomInputProps {
   dates: Date[]
@@ -115,6 +116,7 @@ const InvoiceList = () => {
   // ** State
   const [dates, setDates] = useState<Date[]>([])
   const [type, setType] = useState<InvoiceType | ''>('')
+  const [projectId, setProjectId] = useState<string>('')
   const [value, setValue] = useState<string>('')
   const [endDateRange, setEndDateRange] = useState<DateType>(null)
   const [selectedRows, setSelectedRows] = useState<GridRowId[]>([])
@@ -124,21 +126,28 @@ const InvoiceList = () => {
   // ** Hooks
   const { organizationId } = useCurrentOrganization()
   const dispatch = useDispatch<AppDispatch>()
-  const store = useSelector((state: RootState) => state.invoice)
+  const invoiceStore = useSelector((state: RootState) => state.invoice)
+  const projectStore = useSelector((state: RootState) => state.project)
   const ability = useContext(AbilityContext)
   const { t } = useTranslation()
 
   useEffect(() => {
-    dispatch(
-      fetchInvoice({
-        organizationId,
-        fromDate: dates[0]?.toString(),
-        toDate: dates[1]?.toString(),
-        query: value,
-        type
-      })
-    )
-  }, [dispatch, value, dates, type, organizationId])
+    const fetchInvoiceParams: any = {
+      organizationId,
+      fromDate: dates[0]?.toString(),
+      toDate: dates[1]?.toString(),
+      query: value,
+      type
+    }
+    if (projectId) {
+      fetchInvoiceParams.projectId = parseInt(projectId)
+    }
+    dispatch(fetchInvoice(fetchInvoiceParams))
+  }, [dispatch, value, dates, type, projectId, organizationId])
+
+  useEffect(() => {
+    dispatch(fetchProject({ organizationId }))
+  }, [dispatch, organizationId])
 
   const handleFilter = (val: string) => {
     setValue(val)
@@ -155,6 +164,10 @@ const InvoiceList = () => {
 
   const handleOnChangeType = (value: InvoiceType | '') => {
     setType(value)
+  }
+
+  const handleOnChangeProjectId = (value: string) => {
+    setProjectId(value)
   }
 
   const defaultColumns: GridColDef[] = [
@@ -286,7 +299,7 @@ const InvoiceList = () => {
             <CardHeader title={t('invoice_page.list.filters')} />
             <CardContent>
               <Grid container spacing={6}>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                   <DatePicker
                     isClearable
                     selectsRange
@@ -308,21 +321,42 @@ const InvoiceList = () => {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                   <FormControl fullWidth>
-                    <InputLabel id='invoice-status-select'>{t('invoice_page.list.invoice_type')}</InputLabel>
+                    <InputLabel id='invoice-type-select'>{t('invoice_page.list.invoice_type')}</InputLabel>
 
                     <Select
                       fullWidth
                       value={type}
                       sx={{ mr: 4, mb: 2 }}
-                      label='Invoice Status'
+                      label='Invoice Type'
                       onChange={e => handleOnChangeType(e.target.value as InvoiceType | '')}
-                      labelId='invoice-status-select'
+                      labelId='invoice-type-select'
                     >
                       <MenuItem value=''>All Types</MenuItem>
                       <MenuItem value={InvoiceType.EXPENSE}>Expense</MenuItem>
                       <MenuItem value={InvoiceType.INCOME}>Income</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <FormControl fullWidth>
+                    <InputLabel id='invoice-project-select'>{t('invoice_page.list.project')}</InputLabel>
+
+                    <Select
+                      fullWidth
+                      value={projectId}
+                      sx={{ mr: 4, mb: 2 }}
+                      label='Invoice Project'
+                      onChange={e => handleOnChangeProjectId(e.target.value)}
+                      labelId='invoice-project-select'
+                    >
+                      <MenuItem value=''>All Projects</MenuItem>
+                      {projectStore.projects.map(project => (
+                        <MenuItem value={project.id} key={project.id}>
+                          {project.name}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -336,7 +370,7 @@ const InvoiceList = () => {
             <DataGrid
               autoHeight
               pagination
-              rows={store.invoices}
+              rows={invoiceStore.invoices}
               columns={columns}
               checkboxSelection
               disableRowSelectionOnClick

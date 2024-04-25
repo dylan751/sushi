@@ -60,6 +60,7 @@ import { Locale } from 'src/enum'
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import { fetchCategory } from 'src/store/apps/category'
 
 interface CustomInputProps {
   dates: Date[]
@@ -118,6 +119,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
   // ** State
   const [dates, setDates] = useState<Date[]>([])
   const [type, setType] = useState<InvoiceType | ''>('')
+  const [categoryId, setCategoryId] = useState<string>('')
   const [value, setValue] = useState<string>('')
   const [endDateRange, setEndDateRange] = useState<DateType>(null)
   const [selectedRows, setSelectedRows] = useState<GridRowId[]>([])
@@ -127,22 +129,29 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
   // ** Hooks
   const { organizationId } = useCurrentOrganization()
   const dispatch = useDispatch<AppDispatch>()
-  const store = useSelector((state: RootState) => state.invoice)
+  const invoiceStore = useSelector((state: RootState) => state.invoice)
+  const categoryStore = useSelector((state: RootState) => state.category)
   const ability = useContext(AbilityContext)
   const { t } = useTranslation()
 
   useEffect(() => {
-    dispatch(
-      fetchInvoiceForProject({
-        organizationId,
-        projectId: parseInt(projectId),
-        fromDate: dates[0]?.toString(),
-        toDate: dates[1]?.toString(),
-        query: value,
-        type
-      })
-    )
-  }, [dispatch, value, dates, type, organizationId, projectId])
+    const fetchInvoiceParams: any = {
+      organizationId,
+      projectId: parseInt(projectId),
+      fromDate: dates[0]?.toString(),
+      toDate: dates[1]?.toString(),
+      query: value,
+      type
+    }
+    if (categoryId) {
+      fetchInvoiceParams.categoryId = categoryId
+    }
+    dispatch(fetchInvoiceForProject(fetchInvoiceParams))
+  }, [dispatch, value, dates, type, categoryId, organizationId, projectId])
+
+  useEffect(() => {
+    dispatch(fetchCategory({ organizationId, projectId: parseInt(projectId) }))
+  }, [dispatch, organizationId, projectId])
 
   const handleFilter = (val: string) => {
     setValue(val)
@@ -159,6 +168,10 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
 
   const handleOnChangeType = (value: InvoiceType | '') => {
     setType(value)
+  }
+
+  const handleOnChangeCategoryId = (value: string) => {
+    setCategoryId(value)
   }
 
   const defaultColumns: GridColDef[] = [
@@ -283,7 +296,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
             <CardHeader title={t('invoice_page.list.filters')} />
             <CardContent>
               <Grid container spacing={6}>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                   <DatePicker
                     isClearable
                     selectsRange
@@ -305,7 +318,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                   <FormControl fullWidth>
                     <InputLabel id='invoice-status-select'>{t('invoice_page.list.invoice_type')}</InputLabel>
 
@@ -323,6 +336,27 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
                     </Select>
                   </FormControl>
                 </Grid>
+                <Grid item xs={12} sm={4}>
+                  <FormControl fullWidth>
+                    <InputLabel id='invoice-category-select'>{t('invoice_page.list.category')}</InputLabel>
+
+                    <Select
+                      fullWidth
+                      value={categoryId}
+                      sx={{ mr: 4, mb: 2 }}
+                      label='Invoice Category'
+                      onChange={e => handleOnChangeCategoryId(e.target.value)}
+                      labelId='invoice-category-select'
+                    >
+                      <MenuItem value=''>All Categories</MenuItem>
+                      {categoryStore.categories.map(category => (
+                        <MenuItem value={category.id} key={category.id}>
+                          <CustomChip size='small' skin='light' color={category.color as any} label={category.name} />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
               </Grid>
             </CardContent>
           </Card>
@@ -333,7 +367,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
             <DataGrid
               autoHeight
               pagination
-              rows={store.projectInvoices}
+              rows={invoiceStore.projectInvoices}
               columns={columns}
               checkboxSelection
               disableRowSelectionOnClick
