@@ -79,6 +79,7 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
 
   if (invoiceStore.invoice) {
     const invoice = invoiceStore.invoice as InvoiceResponseDto
+    console.log('invoice', invoice)
 
     return (
       <Box sx={{ p: 12, pb: 6 }}>
@@ -152,6 +153,7 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
                   {themeConfig.templateName}
                 </Typography>
               </Box>
+              {/* TODO: Change to dynamic organization information */}
               <div>
                 <Typography variant='body2' sx={{ mb: 1 }}>
                   Office 149, 450 South Brand Brooklyn
@@ -237,12 +239,12 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
           <Grid item xs={8} sm={7} lg={9}>
             <Box sx={{ mb: 2, display: 'flex', alignItems: 'center' }}>
               <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
-                Salesperson:
+                {t('invoice_page.print.sales_person')}:
               </Typography>
-              <Typography variant='body2'>Tommy Shelby</Typography>
+              <Typography variant='body2'>{invoice.creator?.name}</Typography>
             </Box>
 
-            <Typography variant='body2'>Thanks for your business</Typography>
+            <Typography variant='body2'>{t('invoice_page.print.thanks_for_you_business')}</Typography>
           </Grid>
           <Grid item xs={4} sm={5} lg={3}>
             <CalcWrapper>

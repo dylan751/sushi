@@ -264,7 +264,9 @@
             "download": "Tải xuống",
             "print": "In",
             "total": "Tổng cộng",
-            "update_invoice": "Cập nhật hoá đơn"
+            "update_invoice": "Cập nhật hoá đơn",
+            "thanks_for_you_business": "Xin cảm ơn vì đã dùng dịch vụ",
+            "sales_person": "Người bán hàng"
         },
         "print": {
             "invoice_to": "Người nhận",
@@ -277,7 +279,9 @@
             "name": "Tên",
             "note": "Ghi chú",
             "price": "Đơn giá",
-            "total": "Tổng cộng"
+            "total": "Tổng cộng",
+            "thanks_for_you_business": "Xin cảm ơn vì đã dùng dịch vụ",
+            "sales_person": "Người bán hàng"
         }
     },
     "autocomplete": {

@@ -267,7 +267,9 @@
             "download": "Download",
             "print": "Print",
             "total": "Total",
-            "update_invoice": "Update Invoice"
+            "update_invoice": "Update Invoice",
+            "thanks_for_you_business": "Thanks for your business",
+            "sales_person": "Salesperson"
         },
         "print": {
             "invoice_to": "Invoice To",
@@ -280,7 +282,9 @@
             "name": "Name",
             "note": "Note",
             "price": "Price",
-            "total": "Total"
+            "total": "Total",
+            "thanks_for_you_business": "Thanks for your business",
+            "sales_person": "Salesperson"
         }
     },
     "user_page": {
