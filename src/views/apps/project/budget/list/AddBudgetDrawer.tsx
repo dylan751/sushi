@@ -34,6 +34,9 @@ import { useTranslation } from 'react-i18next'
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
 
+// ** Custom Component Imports
+import CustomChip from 'src/@core/components/mui/chip'
+
 interface SidebarAddBudgetInterface {
   open: boolean
   toggle: () => void
@@ -168,7 +171,7 @@ const SidebarAddBudget = (props: SidebarAddBudgetInterface) => {
                       category =>
                         category.type === InvoiceType.EXPENSE && (
                           <MenuItem key={category.id} value={category.id}>
-                            {category.name}
+                            <CustomChip size='small' skin='light' color={category.color as any} label={category.name} />
                           </MenuItem>
                         )
                     )}

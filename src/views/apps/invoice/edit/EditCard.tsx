@@ -329,11 +329,19 @@ const EditCard = ({
                       Category:
                     </Typography>
                     <Select size='small' value={categoryId} onChange={e => setCategoryId(e.target.value)}>
-                      {categories.map(category => (
-                        <MenuItem value={category.id} key={category.id}>
-                          <CustomChip size='small' skin='light' color={category.color as any} label={category.name} />
-                        </MenuItem>
-                      ))}
+                      {categories.map(
+                        category =>
+                          category.type === type && (
+                            <MenuItem value={category.id} key={category.id}>
+                              <CustomChip
+                                size='small'
+                                skin='light'
+                                color={category.color as any}
+                                label={category.name}
+                              />
+                            </MenuItem>
+                          )
+                      )}
                     </Select>
                   </Box>
                 )}
