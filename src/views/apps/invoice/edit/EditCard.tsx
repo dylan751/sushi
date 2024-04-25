@@ -48,7 +48,7 @@ interface PickerProps {
 }
 
 const CustomInput = forwardRef(({ ...props }: PickerProps, ref: ForwardedRef<HTMLElement>) => {
-  return <TextField size='small' inputRef={ref} {...props} sx={{ width: { sm: '250px', xs: '170px' } }} />
+  return <TextField size='small' inputRef={ref} {...props} sx={{ width: { sm: '220px', xs: '170px' } }} />
 })
 
 const RepeatingContent = styled(Grid)<GridProps>(({ theme }) => ({
@@ -102,6 +102,8 @@ export interface EditCardProps {
   setProjectName: (value: string) => void
   categoryId: string
   setCategoryId: (value: string) => void
+  clientName: string
+  setClientName: (value: string) => void
 }
 
 const EditCard = ({
@@ -120,7 +122,9 @@ const EditCard = ({
   projectName,
   setProjectName,
   categoryId,
-  setCategoryId
+  setCategoryId,
+  clientName,
+  setClientName
 }: EditCardProps) => {
   // ** States
   const [count, setCount] = useState<number>(data.items?.length || 1)
@@ -134,6 +138,7 @@ const EditCard = ({
       setDate(new Date(data.date ? data.date : new Date()))
       setType(data.type)
       setCurrency(data.currency)
+      setClientName(data.clientName)
       setProjectId(data.project?.id.toString())
       setProjectName(data.project?.name)
       setCategoryId(data.category?.id.toString())
@@ -143,7 +148,18 @@ const EditCard = ({
         })
       )
     }
-  }, [data, setCount, setDate, setType, setCurrency, setProjectId, setProjectName, setCategoryId, setFormData])
+  }, [
+    data,
+    setCount,
+    setDate,
+    setType,
+    setCurrency,
+    setClientName,
+    setProjectId,
+    setProjectName,
+    setCategoryId,
+    setFormData
+  ])
 
   // ** Hook
   const theme = useTheme()
@@ -192,7 +208,7 @@ const EditCard = ({
       <Card>
         <CardContent>
           <Grid container>
-            <Grid item xl={6} xs={12} sx={{ mb: { xl: 0, xs: 4 } }}>
+            <Grid item xl={12} xs={12} sx={{ mb: { xl: 0, xs: 4 } }}>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ mb: 6, display: 'flex', alignItems: 'center' }}>
                   <svg
@@ -263,8 +279,10 @@ const EditCard = ({
                 </Box>
               </Box>
             </Grid>
-            <Grid item xl={6} xs={12}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xl: 'flex-end', xs: 'flex-start' } }}>
+            <Grid item xl={12} xs={12}>
+              <Box
+                sx={{ display: 'flex', flexDirection: 'column', alignItems: { xl: 'flex-start', xs: 'flex-start' } }}
+              >
                 <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                   <Typography variant='h6' sx={{ mr: 3, width: '125px' }}>
                     {t('invoice_page.edit.invoice')}
@@ -272,7 +290,7 @@ const EditCard = ({
                   <TextField
                     size='small'
                     value={data.id || ''}
-                    sx={{ width: { sm: '250px', xs: '170px' } }}
+                    sx={{ width: { sm: '220px', xs: '170px' } }}
                     InputProps={{
                       disabled: true,
                       startAdornment: <InputAdornment position='start'>#</InputAdornment>
@@ -295,7 +313,12 @@ const EditCard = ({
                   <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
                     {t('invoice_page.edit.type')}:
                   </Typography>
-                  <Select size='small' value={type} onChange={e => setType(e.target.value as InvoiceType)}>
+                  <Select
+                    size='small'
+                    value={type}
+                    sx={{ width: { sm: '220px', xs: '170px' } }}
+                    onChange={e => setType(e.target.value as InvoiceType)}
+                  >
                     <MenuItem value={InvoiceType.EXPENSE}>
                       <CustomChip size='small' skin='light' color='error' label='Expense' />
                     </MenuItem>
@@ -308,7 +331,12 @@ const EditCard = ({
                   <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
                     {t('invoice_page.edit.currency')}:
                   </Typography>
-                  <Select size='small' value={currency} onChange={e => setCurrency(e.target.value as CurrencyType)}>
+                  <Select
+                    size='small'
+                    value={currency}
+                    sx={{ width: { sm: '220px', xs: '170px' } }}
+                    onChange={e => setCurrency(e.target.value as CurrencyType)}
+                  >
                     <MenuItem value={CurrencyType.USD}>USD</MenuItem>
                     <MenuItem value={CurrencyType.VND}>VND</MenuItem>
                   </Select>
@@ -317,7 +345,7 @@ const EditCard = ({
                   <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
                     Project:
                   </Typography>
-                  <Select size='small' value={projectId} disabled>
+                  <Select size='small' value={projectId} sx={{ width: { sm: '220px', xs: '170px' } }} disabled>
                     <MenuItem value={projectId} key={projectId}>
                       {projectName}
                     </MenuItem>
@@ -328,7 +356,12 @@ const EditCard = ({
                     <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
                       Category:
                     </Typography>
-                    <Select size='small' value={categoryId} onChange={e => setCategoryId(e.target.value)}>
+                    <Select
+                      size='small'
+                      value={categoryId}
+                      sx={{ width: { sm: '220px', xs: '170px' } }}
+                      onChange={e => setCategoryId(e.target.value)}
+                    >
                       {categories.map(
                         category =>
                           category.type === type && (
@@ -346,6 +379,25 @@ const EditCard = ({
                   </Box>
                 )}
               </Box>
+            </Grid>
+          </Grid>
+        </CardContent>
+
+        <Divider />
+
+        <CardContent>
+          <Grid container>
+            <Grid item xs={12} sm={6} sx={{ mb: { lg: 0, xs: 4 } }}>
+              <Typography variant='body2' sx={{ mb: 3.5, color: 'text.primary', fontWeight: 600 }}>
+                {t('invoice_page.edit.invoice_to')}:
+              </Typography>
+              <TextField
+                rows={1}
+                placeholder={t('invoice_page.edit.client_name') as string}
+                size='small'
+                value={clientName}
+                onChange={e => setClientName(e.target.value)}
+              />
             </Grid>
           </Grid>
         </CardContent>

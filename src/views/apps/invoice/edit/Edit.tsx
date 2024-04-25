@@ -65,6 +65,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   )
   const [type, setType] = useState<InvoiceType>((invoiceStore.invoice as InvoiceResponseDto).type || '')
   const [currency, setCurrency] = useState<CurrencyType>((invoiceStore.invoice as InvoiceResponseDto).currency || '')
+  const [clientName, setClientName] = useState<string>((invoiceStore.invoice as InvoiceResponseDto).clientName || '')
   const [projectId, setProjectId] = useState<string>(
     (invoiceStore.invoice as InvoiceResponseDto).project?.id.toString() || ''
   )
@@ -96,10 +97,14 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   const isSubmitDisabled = (): boolean => {
     let isDisabled = false
     formData?.map(data => {
-      if (!data.name || !data.price || !data.quantity || !projectId || !categoryId) {
+      if (!data.name || !data.price || !data.quantity) {
         isDisabled = true
       }
     })
+
+    if (!projectId || !categoryId) {
+      isDisabled = true
+    }
 
     return isDisabled
   }
@@ -108,13 +113,16 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
     // Validation
     let isError = false
     formData.map(data => {
-      if (!data.name || !data.price || !data.quantity || !categoryId) {
+      if (!data.name || !data.price || !data.quantity) {
         toast.error('Please fill out all the fields of all items')
         isError = true
 
         return
       }
     })
+    if (!categoryId) {
+      isError = true
+    }
     if (isError) {
       return
     }
@@ -130,7 +138,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
       date: format(date as Date, 'yyyy-MM-dd'),
       type,
       currency,
-      categoryId: parseInt(categoryId)
+      categoryId: parseInt(categoryId),
+      clientName
     }
 
     // Call api
@@ -167,6 +176,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
               setProjectName={setProjectName}
               categoryId={categoryId}
               setCategoryId={setCategoryId}
+              clientName={clientName}
+              setClientName={setClientName}
             />
           </Grid>
           <Grid item xl={3} md={4} xs={12}>

@@ -204,6 +204,7 @@
             "search_invoice": "Search Invoice",
             "create_invoice": "Create Invoice",
             "creator": "Creator",
+            "client": "Client",
             "name": "Name",
             "note": "Note",
             "total": "Total",
@@ -225,6 +226,8 @@
             "type": "Type",
             "quantity": "Quantity",
             "currency": "Currency",
+            "invoice_to": "Invoice To",
+            "client_name": "Client Name",
             "name": "Name",
             "note": "Note",
             "price": "Price",
@@ -238,6 +241,8 @@
             "type": "Type",
             "quantity": "Quantity",
             "currency": "Currency",
+            "invoice_to": "Invoice To",
+            "client_name": "Client Name",
             "name": "Name",
             "note": "Note",
             "price": "Price",
@@ -246,6 +251,7 @@
             "preview": "Preview"
         },
         "preview": {
+            "invoice_to": "Invoice To",
             "invoice": "Invoice",
             "date": "Date",
             "item": "Item",

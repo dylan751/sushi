@@ -81,8 +81,8 @@ const LinkStyled = styled(Link)(({ theme }) => ({
   color: theme.palette.primary.main
 }))
 
-// ** renders client column
-const renderClient = (row: OrganizationUserResponseDto) => {
+// ** renders creator column
+const renderCreator = (row: OrganizationUserResponseDto) => {
   if (row.avatar.length) {
     return <CustomAvatar src={row.avatar} sx={{ mr: 3, width: '1.875rem', height: '1.875rem' }} />
   } else {
@@ -96,6 +96,19 @@ const renderClient = (row: OrganizationUserResponseDto) => {
       </CustomAvatar>
     )
   }
+}
+
+// ** renders client column
+const renderClient = (row: string) => {
+  return (
+    <CustomAvatar
+      skin='light'
+      color={'primary' as ThemeColor}
+      sx={{ mr: 3, fontSize: '.8rem', width: '1.875rem', height: '1.875rem' }}
+    >
+      {getInitials(row || 'John Doe')}
+    </CustomAvatar>
+  )
 }
 
 /* eslint-disable */
@@ -188,10 +201,30 @@ const InvoiceList = () => {
 
         return (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {renderClient(creator)}
+            {renderCreator(creator)}
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
                 {creator.name}
+              </Typography>
+            </Box>
+          </Box>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      field: 'clientName',
+      minWidth: 150,
+      headerName: t('invoice_page.list.client') as string,
+      renderCell: ({ row }: CellType) => {
+        const { clientName } = row
+
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {renderClient(clientName)}
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
+                {clientName}
               </Typography>
             </Box>
           </Box>

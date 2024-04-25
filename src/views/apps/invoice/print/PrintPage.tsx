@@ -185,10 +185,23 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
         <Grid container>
           <Grid item xs={7} md={8} sx={{ mb: { lg: 0, xs: 4 } }}>
             <Typography variant='body2' sx={{ mb: 3.5, fontWeight: 600 }}>
-              {t('invoice_page.print.invoice_to')}:
+              {t('invoice_page.print.name')}:
             </Typography>
             <Typography variant='body2' sx={{ mb: 2 }}>
               {t('invoice_page.print.invoice')} #{invoice.id}
+            </Typography>
+          </Grid>
+        </Grid>
+
+        <Divider sx={{ my: theme => `${theme.spacing(6)} !important` }} />
+
+        <Grid container>
+          <Grid item xs={7} sm={8} sx={{ mb: { lg: 0, xs: 4 } }}>
+            <Typography variant='body2' sx={{ mb: 3.5, fontWeight: 600 }}>
+              {t('invoice_page.preview.invoice_to')}:
+            </Typography>
+            <Typography variant='body2' sx={{ mb: 2 }}>
+              {invoice.clientName}
             </Typography>
           </Grid>
         </Grid>
@@ -262,8 +275,7 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
 
         <Divider sx={{ my: `${theme.spacing(6)} !important` }} />
         <Typography variant='body2'>
-          <strong>{t('invoice_page.print.note')}:</strong> It was a pleasure working with you and your team. We hope you
-          will keep us in mind for future freelance projects. Thank You!
+          <strong>{t('invoice_page.print.note')}:</strong> Note #{invoice.id}
         </Typography>
       </Box>
     )

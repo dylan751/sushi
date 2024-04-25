@@ -64,6 +64,7 @@ const InvoiceAdd = () => {
   const [currency, setCurrency] = useState<CurrencyType>(CurrencyType.USD)
   const [projectId, setProjectId] = useState<string>('')
   const [categoryId, setCategoryId] = useState<string>('')
+  const [clientName, setClientName] = useState<string>('')
   const [formData, setFormData] = useState<CreateInvoiceFormData[]>([initialFormData])
 
   useEffect(() => {
@@ -79,10 +80,14 @@ const InvoiceAdd = () => {
   const isSubmitDisabled = (): boolean => {
     let isDisabled = false
     formData.map(data => {
-      if (!data.name || !data.price || !data.quantity || !projectId || !categoryId) {
+      if (!data.name || !data.price || !data.quantity) {
         isDisabled = true
       }
     })
+
+    if (!projectId || !categoryId || !clientName) {
+      isDisabled = true
+    }
 
     return isDisabled
   }
@@ -98,6 +103,11 @@ const InvoiceAdd = () => {
         return
       }
     })
+
+    if (!projectId || !categoryId || !clientName) {
+      isError = true
+    }
+
     if (isError) {
       return
     }
@@ -113,7 +123,8 @@ const InvoiceAdd = () => {
       date: format(date as Date, 'yyyy-MM-dd'),
       type,
       currency,
-      categoryId: parseInt(categoryId)
+      categoryId: parseInt(categoryId),
+      clientName
     }
 
     // Call api
@@ -140,6 +151,8 @@ const InvoiceAdd = () => {
             setProjectId={setProjectId}
             categoryId={categoryId}
             setCategoryId={setCategoryId}
+            clientName={clientName}
+            setClientName={setClientName}
           />
         </Grid>
         <Grid item xl={3} md={4} xs={12}>
