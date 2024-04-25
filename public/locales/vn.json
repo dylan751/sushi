@@ -174,7 +174,8 @@
             "amount": "Định mức",
             "actions": "Hành động",
             "add_budget": "Thêm định mức",
-            "update_budget": "Cập nhật định mức"
+            "update_budget": "Cập nhật định mức",
+            "delete_budget": "Xoá định mức"
         },
         "category": {
             "filters": "Bộ lọc",
@@ -189,7 +190,8 @@
             "type": "Loại",
             "actions": "Hành động",
             "add_category": "Thêm phân loại",
-            "update_category": "Cập nhật phân loại"
+            "update_category": "Cập nhật phân loại",
+            "delete_category": "Xoá phân loại"
         }
     },
     "invoice_page": {

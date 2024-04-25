@@ -177,7 +177,8 @@
             "amount": "Amount",
             "actions": "Actions",
             "add_budget": "Add budget",
-            "update_budget": "Update budget"
+            "update_budget": "Update budget",
+            "delete_budget": "Delete budget"
         },
         "category": {
             "filters": "Filters",
@@ -192,7 +193,8 @@
             "type": "Type",
             "actions": "Actions",
             "add_category": "Add Category",
-            "update_category": "Update Category"
+            "update_category": "Update Category",
+            "delete_category": "Delete Category"
         }
     },
     "invoice_page": {

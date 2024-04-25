@@ -14,6 +14,7 @@ import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
+import Tooltip from '@mui/material/Tooltip'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 
 // ** Icon Imports
@@ -165,16 +166,28 @@ const CategoryListTable = ({ projectId }: CategoryTabProps) => {
       headerName: t('project_page.category.actions') as string,
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {ability?.can('update', 'category') && (
-            <IconButton color='info' onClick={() => toggleUpdateCategoryDrawer(row.id)}>
-              <Icon icon='mdi:pencil-outline' fontSize={20} />
-            </IconButton>
-          )}
-          {ability?.can('delete', 'category') && (
-            <IconButton color='error' onClick={() => handleDeleteCategory(row.id)}>
-              <Icon icon='mdi:delete-outline' fontSize={20} />
-            </IconButton>
-          )}
+          <Tooltip title={t('project_page.category.update_category')}>
+            <span>
+              <IconButton
+                color='info'
+                onClick={() => toggleUpdateCategoryDrawer(row.id)}
+                disabled={!ability?.can('update', 'category')}
+              >
+                <Icon icon='mdi:pencil-outline' fontSize={20} />
+              </IconButton>
+            </span>
+          </Tooltip>
+          <Tooltip title={t('project_page.category.delete_category')}>
+            <span>
+              <IconButton
+                color='error'
+                onClick={() => handleDeleteCategory(row.id)}
+                disabled={!ability?.can('delete', 'category')}
+              >
+                <Icon icon='mdi:delete-outline' fontSize={20} />
+              </IconButton>
+            </span>
+          </Tooltip>
         </Box>
       )
     }
@@ -210,8 +223,12 @@ const CategoryListTable = ({ projectId }: CategoryTabProps) => {
                     labelId='category-type-select'
                   >
                     <MenuItem value=''>All Types</MenuItem>
-                    <MenuItem value={InvoiceType.EXPENSE}>Expense</MenuItem>
-                    <MenuItem value={InvoiceType.INCOME}>Income</MenuItem>
+                    <MenuItem value={InvoiceType.EXPENSE}>
+                      <CustomChip size='small' skin='light' color='error' label='Expense' />
+                    </MenuItem>
+                    <MenuItem value={InvoiceType.INCOME}>
+                      <CustomChip size='small' skin='light' color='success' label='Income' />
+                    </MenuItem>
                   </Select>
                 </FormControl>
               </Grid>

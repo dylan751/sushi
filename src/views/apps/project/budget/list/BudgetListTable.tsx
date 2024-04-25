@@ -15,6 +15,7 @@ import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
+import Tooltip from '@mui/material/Tooltip'
 
 // ** Hook Imports
 import { useCurrentOrganization } from 'src/hooks'
@@ -103,8 +104,10 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
   }, [dispatch, organizationId, projectId, categoryId])
 
   useEffect(() => {
-    dispatch(fetchCategory({ organizationId, projectId: parseInt(projectId) }))
-  }, [dispatch, organizationId, projectId])
+    if (ability?.can('read', 'category')) {
+      dispatch(fetchCategory({ organizationId, projectId: parseInt(projectId) }))
+    }
+  }, [dispatch, organizationId, projectId, ability])
 
   const defaultColumns: GridColDef[] = [
     {
@@ -120,16 +123,6 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography variant='subtitle2' sx={{ color: `${row.category.color}.main` }}>
               {row.category.name}
-            </Typography>
-            <Typography variant='caption'>
-              {
-                <CustomChip
-                  size='small'
-                  skin='light'
-                  color={row.category.type === InvoiceType.EXPENSE ? 'error' : 'success'}
-                  label={row.category.type}
-                />
-              }
             </Typography>
           </Box>
         </Box>
@@ -177,16 +170,28 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
       headerName: t('project_page.budget.actions') as string,
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {ability?.can('update', 'budget') && (
-            <IconButton color='info' onClick={() => toggleUpdateBudgetDrawer(row.id)}>
-              <Icon icon='mdi:pencil-outline' fontSize={20} />
-            </IconButton>
-          )}
-          {ability?.can('delete', 'budget') && (
-            <IconButton color='error' onClick={() => handleDeleteBudget(row.id)}>
-              <Icon icon='mdi:delete-outline' fontSize={20} />
-            </IconButton>
-          )}
+          <Tooltip title={t('project_page.budget.update_budget')}>
+            <span>
+              <IconButton
+                color='info'
+                onClick={() => toggleUpdateBudgetDrawer(row.id)}
+                disabled={!ability?.can('update', 'budget')}
+              >
+                <Icon icon='mdi:pencil-outline' fontSize={20} />
+              </IconButton>
+            </span>
+          </Tooltip>
+          <Tooltip title={t('project_page.budget.delete_budget')}>
+            <span>
+              <IconButton
+                color='error'
+                onClick={() => handleDeleteBudget(row.id)}
+                disabled={!ability?.can('delete', 'budget')}
+              >
+                <Icon icon='mdi:delete-outline' fontSize={20} />
+              </IconButton>
+            </span>
+          </Tooltip>
         </Box>
       )
     }
@@ -216,7 +221,7 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
                       category =>
                         category.type === InvoiceType.EXPENSE && (
                           <MenuItem value={category.id} key={category.id}>
-                            {category.name}
+                            <CustomChip size='small' skin='light' color={category.color as any} label={category.name} />
                           </MenuItem>
                         )
                     )}
