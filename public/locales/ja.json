@@ -234,6 +234,12 @@
             "note": "メモ",
             "price": "価格",
             "add_item": "アイテムの追加",
+            "tax": "税 (%)",
+            "thanks_for_you_business": "お取引ありがとうございます",
+            "sales_person": "販売員",
+            "subtotal": "小計",
+            "discount": "割引",
+            "total": "合計",
             "create_invoice": "インヴォイスの作成"
         },
         "edit": {
@@ -249,10 +255,14 @@
             "note": "メモ",
             "price": "価格",
             "add_item": "アイテムの追加",
-            "update_invoice": "インヴォイスの編集",
-            "preview": "プレビュー",
+            "tax": "税 (%)",
             "thanks_for_you_business": "お取引ありがとうございます",
-            "sales_person": "販売員"
+            "sales_person": "販売員",
+            "subtotal": "小計",
+            "discount": "割引",
+            "total": "合計",
+            "update_invoice": "インヴォイスの編集",
+            "preview": "プレビュー"
         },
         "preview": {
             "invoice_to": "インヴォイス先",
@@ -269,9 +279,12 @@
             "download": "ダウンロード",
             "print": "印刷",
             "total": "合計",
+            "tax": "税 (%)",
             "update_invoice": "インヴォイスの編集",
             "thanks_for_you_business": "お取引ありがとうございます",
-            "sales_person": "販売員"
+            "sales_person": "販売員",
+            "subtotal": "小計",
+            "discount": "割引"
         },
         "print": {
             "invoice_to": "インヴォイス先",
@@ -284,7 +297,12 @@
             "name": "名前",
             "note": "メモ",
             "price": "価格",
-            "total": "合計"
+            "total": "合計",
+            "tax": "税 (%)",
+            "thanks_for_you_business": "お取引ありがとうございます",
+            "sales_person": "販売員",
+            "subtotal": "小計",
+            "discount": "割引"
         }
     },
     "user_page": {

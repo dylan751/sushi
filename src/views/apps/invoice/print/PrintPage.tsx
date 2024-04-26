@@ -36,6 +36,7 @@ import themeConfig from 'src/configs/themeConfig'
 // ** Utils Imports
 import { getInvoiceListUrl } from 'src/utils/router/invoice'
 import { formatCurrencyAsStandard } from 'src/utils/currency'
+import { calculateInvoiceItemTotal, calculateInvoiceSubtotal } from 'src/utils/invoice'
 
 // ** Hooks Imports
 import { useTranslation } from 'react-i18next'
@@ -79,7 +80,6 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
 
   if (invoiceStore.invoice) {
     const invoice = invoiceStore.invoice as InvoiceResponseDto
-    console.log('invoice', invoice)
 
     return (
       <Box sx={{ p: 12, pb: 6 }}>
@@ -228,7 +228,11 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
                 <TableCell>{formatCurrencyAsStandard(item.price, Locale.EN, invoice.currency)}</TableCell>
                 <TableCell>{item.quantity}</TableCell>
                 <TableCell>
-                  {formatCurrencyAsStandard(item.price * item.quantity, Locale.EN, invoice.currency)}
+                  {formatCurrencyAsStandard(
+                    calculateInvoiceItemTotal(item.price, item.quantity),
+                    Locale.EN,
+                    invoice.currency
+                  )}
                 </TableCell>
               </TableRow>
             ))}
@@ -248,28 +252,28 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
           </Grid>
           <Grid item xs={4} sm={5} lg={3}>
             <CalcWrapper>
-              <Typography variant='body2'>Subtotal:</Typography>
+              <Typography variant='body2'>{t('invoice_page.print.subtotal')}:</Typography>
               <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                $1800
+                {formatCurrencyAsStandard(calculateInvoiceSubtotal(invoice.items), Locale.EN, invoice.currency)}
               </Typography>
             </CalcWrapper>
             <CalcWrapper>
-              <Typography variant='body2'>Discount:</Typography>
+              <Typography variant='body2'>{t('invoice_page.print.discount')}:</Typography>
               <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                $28
+                {formatCurrencyAsStandard(0, Locale.EN, invoice.currency)}
               </Typography>
             </CalcWrapper>
             <CalcWrapper>
-              <Typography variant='body2'>Tax:</Typography>
+              <Typography variant='body2'>{t('invoice_page.print.tax')}:</Typography>
               <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                21%
+                {invoice.tax !== null ? `${invoice.tax}%` : '-'}
               </Typography>
             </CalcWrapper>
             <Divider />
             <CalcWrapper>
-              <Typography variant='body2'>Total:</Typography>
+              <Typography variant='body2'>{t('invoice_page.print.total')}:</Typography>
               <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                $1690
+                {formatCurrencyAsStandard(invoice.total, Locale.EN, invoice.currency)}
               </Typography>
             </CalcWrapper>
           </Grid>

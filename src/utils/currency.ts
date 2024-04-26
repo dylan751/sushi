@@ -32,7 +32,7 @@ export function formatCurrencyAsCompact(value: number, locale: MergeLocaleType, 
 // Please only use it when you can't <Currency> as the react element, for example use currency on the i18next as parameter
 export function formatCurrencyAsStandard(value: number, locale: MergeLocaleType, currency?: string): string {
   if (!currency) {
-    return value.toString()
+    return value ? value.toString() : ''
   }
 
   const key = `${locale} + ${currency}notation:standard`
