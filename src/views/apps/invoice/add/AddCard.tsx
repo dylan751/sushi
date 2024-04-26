@@ -1,3 +1,6 @@
+// ** Next Imports
+import { useSession } from 'next-auth/react'
+
 // ** React Imports
 import { useState, forwardRef, SyntheticEvent, ForwardedRef } from 'react'
 
@@ -76,6 +79,15 @@ const RepeaterWrapper = styled(CardContent)<CardContentProps>(({ theme }) => ({
   }
 }))
 
+const CalcWrapper = styled(Box)<BoxProps>(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  '&:not(:last-of-type)': {
+    marginBottom: theme.spacing(2)
+  }
+}))
+
 const InvoiceAction = styled(Box)<BoxProps>(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -100,6 +112,8 @@ export interface AddCardProps {
   setCategoryId: (value: string) => void
   clientName: string
   setClientName: (value: string) => void
+  tax: string
+  setTax: (value: string) => void
 }
 
 const AddCard = ({
@@ -117,7 +131,9 @@ const AddCard = ({
   categoryId,
   setCategoryId,
   clientName,
-  setClientName
+  setClientName,
+  tax,
+  setTax
 }: AddCardProps) => {
   // ** States
   const [count, setCount] = useState<number>(1)
@@ -125,6 +141,7 @@ const AddCard = ({
   // ** Hook
   const theme = useTheme()
   const { t } = useTranslation()
+  const session = useSession()
 
   const handleChangeForm = (index: number, key: string, value: any): void => {
     setFormData((prevFormData: any[]) => {
@@ -365,7 +382,7 @@ const AddCard = ({
                 <Grid container>
                   <RepeatingContent item xs={12}>
                     <Grid container sx={{ py: 4, width: '100%', pr: { lg: 0, xs: 4 } }}>
-                      <Grid item lg={6} md={6} xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
+                      <Grid item lg={3} md={3} xs={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
                         <Typography
                           variant='body2'
                           className='col-title'
@@ -380,13 +397,21 @@ const AddCard = ({
                           size='small'
                           onChange={e => handleChangeForm(i, 'name', e.target.value)}
                         />
+                      </Grid>
+                      <Grid item lg={3} md={3} xs={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
+                        <Typography
+                          variant='body2'
+                          className='col-title'
+                          sx={{ fontWeight: '600', mb: { md: 2, xs: 0 } }}
+                        >
+                          {t('invoice_page.add.note')}
+                        </Typography>
                         <TextField
-                          rows={2}
+                          rows={1}
                           fullWidth
                           multiline
                           placeholder={t('invoice_page.add.note') as string}
                           size='small'
-                          sx={{ mt: 3.5 }}
                           onChange={e => handleChangeForm(i, 'note', e.target.value)}
                         />
                       </Grid>
@@ -450,6 +475,36 @@ const AddCard = ({
           </Grid>
         </Grid>
       </RepeaterWrapper>
+
+      <Divider />
+
+      <CardContent>
+        <Grid container>
+          <Grid item xs={12} sm={7} lg={8} sx={{ order: { sm: 1, xs: 2 } }}>
+            <Box sx={{ mb: 2, display: 'flex', alignItems: 'center' }}>
+              <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
+                {t('invoice_page.add.sales_person')}:
+              </Typography>
+              <Typography variant='body2'>{session.data?.user.name}</Typography>
+            </Box>
+
+            <Typography variant='body2'>{t('invoice_page.add.thanks_for_you_business')}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={5} lg={4} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>
+            <CalcWrapper>
+              <Typography variant='body2'>{t('invoice_page.add.tax')}:</Typography>
+              <TextField
+                size='small'
+                type='number'
+                placeholder='10'
+                sx={{ width: '100px' }}
+                value={tax}
+                onChange={e => setTax(e.target.value)}
+              />
+            </CalcWrapper>
+          </Grid>
+        </Grid>
+      </CardContent>
     </Card>
   )
 }

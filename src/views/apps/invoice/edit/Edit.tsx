@@ -66,6 +66,9 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   const [type, setType] = useState<InvoiceType>((invoiceStore.invoice as InvoiceResponseDto).type || '')
   const [currency, setCurrency] = useState<CurrencyType>((invoiceStore.invoice as InvoiceResponseDto).currency || '')
   const [clientName, setClientName] = useState<string>((invoiceStore.invoice as InvoiceResponseDto).clientName || '')
+  const [tax, setTax] = useState<string>(
+    (invoiceStore.invoice as InvoiceResponseDto).tax ? (invoiceStore.invoice as InvoiceResponseDto).tax.toString() : ''
+  )
   const [projectId, setProjectId] = useState<string>(
     (invoiceStore.invoice as InvoiceResponseDto).project?.id.toString() || ''
   )
@@ -139,7 +142,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
       type,
       currency,
       categoryId: parseInt(categoryId),
-      clientName
+      clientName,
+      tax: parseInt(tax)
     }
 
     // Call api
@@ -178,6 +182,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
               setCategoryId={setCategoryId}
               clientName={clientName}
               setClientName={setClientName}
+              tax={tax}
+              setTax={setTax}
             />
           </Grid>
           <Grid item xl={3} md={4} xs={12}>

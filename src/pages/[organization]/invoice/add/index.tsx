@@ -65,6 +65,7 @@ const InvoiceAdd = () => {
   const [projectId, setProjectId] = useState<string>('')
   const [categoryId, setCategoryId] = useState<string>('')
   const [clientName, setClientName] = useState<string>('')
+  const [tax, setTax] = useState<string>('')
   const [formData, setFormData] = useState<CreateInvoiceFormData[]>([initialFormData])
 
   useEffect(() => {
@@ -124,7 +125,8 @@ const InvoiceAdd = () => {
       type,
       currency,
       categoryId: parseInt(categoryId),
-      clientName
+      clientName,
+      tax: parseInt(tax)
     }
 
     // Call api
@@ -153,6 +155,8 @@ const InvoiceAdd = () => {
             setCategoryId={setCategoryId}
             clientName={clientName}
             setClientName={setClientName}
+            tax={tax}
+            setTax={setTax}
           />
         </Grid>
         <Grid item xl={3} md={4} xs={12}>

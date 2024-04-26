@@ -231,6 +231,12 @@
             "note": "Ghi chú",
             "price": "Giá",
             "add_item": "Thêm hoá đơn",
+            "tax": "Thuế (%)",
+            "thanks_for_you_business": "Xin cảm ơn vì đã dùng dịch vụ",
+            "sales_person": "Người bán hàng",
+            "subtotal": "Tổng phụ",
+            "discount": "Giảm giá",
+            "total": "Tổng cộng",
             "create_invoice": "Tạo hoá đơn"
         },
         "edit": {
@@ -246,6 +252,12 @@
             "note": "Ghi chú",
             "price": "Giá",
             "add_item": "Thêm hoá đơn",
+            "tax": "Thuế (%)",
+            "thanks_for_you_business": "Xin cảm ơn vì đã dùng dịch vụ",
+            "sales_person": "Người bán hàng",
+            "subtotal": "Tổng phụ",
+            "discount": "Giảm giá",
+            "total": "Tổng cộng",
             "update_invoice": "Cập nhật hoá đơn",
             "preview": "Xem trước"
         },
@@ -264,9 +276,12 @@
             "download": "Tải xuống",
             "print": "In",
             "total": "Tổng cộng",
+            "tax": "Thuế (%)",
             "update_invoice": "Cập nhật hoá đơn",
             "thanks_for_you_business": "Xin cảm ơn vì đã dùng dịch vụ",
-            "sales_person": "Người bán hàng"
+            "sales_person": "Người bán hàng",
+            "subtotal": "Tổng phụ",
+            "discount": "Giảm giá"
         },
         "print": {
             "invoice_to": "Người nhận",
@@ -280,8 +295,11 @@
             "note": "Ghi chú",
             "price": "Đơn giá",
             "total": "Tổng cộng",
+            "tax": "Thuế (%)",
             "thanks_for_you_business": "Xin cảm ơn vì đã dùng dịch vụ",
-            "sales_person": "Người bán hàng"
+            "sales_person": "Người bán hàng",
+            "subtotal": "Tổng phụ",
+            "discount": "Giảm giá"
         }
     },
     "autocomplete": {

@@ -234,6 +234,12 @@
             "note": "Note",
             "price": "Price",
             "add_item": "Add Item",
+            "tax": "Tax (%)",
+            "thanks_for_you_business": "Thanks for your business",
+            "sales_person": "Salesperson",
+            "subtotal": "Subtotal",
+            "discount": "Discount",
+            "total": "Total",
             "create_invoice": "Create Invoice"
         },
         "edit": {
@@ -249,6 +255,12 @@
             "note": "Note",
             "price": "Price",
             "add_item": "Add Item",
+            "tax": "Tax (%)",
+            "thanks_for_you_business": "Thanks for your business",
+            "sales_person": "Salesperson",
+            "subtotal": "Subtotal",
+            "discount": "Discount",
+            "total": "Total",
             "update_invoice": "Update Invoice",
             "preview": "Preview"
         },
@@ -267,9 +279,12 @@
             "download": "Download",
             "print": "Print",
             "total": "Total",
+            "tax": "Tax (%)",
             "update_invoice": "Update Invoice",
             "thanks_for_you_business": "Thanks for your business",
-            "sales_person": "Salesperson"
+            "sales_person": "Salesperson",
+            "subtotal": "Subtotal",
+            "discount": "Discount"
         },
         "print": {
             "invoice_to": "Invoice To",
@@ -283,8 +298,11 @@
             "note": "Note",
             "price": "Price",
             "total": "Total",
+            "tax": "Tax (%)",
             "thanks_for_you_business": "Thanks for your business",
-            "sales_person": "Salesperson"
+            "sales_person": "Salesperson",
+            "subtotal": "Subtotal",
+            "discount": "Discount"
         }
     },
     "user_page": {
