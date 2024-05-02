@@ -336,7 +336,10 @@ const EditCard = ({
                     size='small'
                     value={type}
                     sx={{ width: { sm: '220px', xs: '170px' } }}
-                    onChange={e => setType(e.target.value as InvoiceType)}
+                    onChange={e => {
+                      setType(e.target.value as InvoiceType)
+                      setCategoryId('')
+                    }}
                   >
                     <MenuItem value={InvoiceType.EXPENSE}>
                       <CustomChip size='small' skin='light' color='error' label='Expense' />
@@ -370,7 +373,7 @@ const EditCard = ({
                     </MenuItem>
                   </Select>
                 </Box>
-                {categories && categories.length > 0 && (
+                {projectId && categories && categories.length > 0 && (
                   <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                     <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
                       Category:
