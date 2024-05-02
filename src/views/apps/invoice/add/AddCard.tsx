@@ -315,7 +315,10 @@ const AddCard = ({
                   size='small'
                   value={projectId}
                   sx={{ width: { sm: '220px', xs: '170px' } }}
-                  onChange={e => setProjectId(e.target.value as CurrencyType)}
+                  onChange={e => {
+                    setProjectId(e.target.value)
+                    setCategoryId('')
+                  }}
                 >
                   {projects.map(project => (
                     <MenuItem value={project.id} key={project.id}>
@@ -324,7 +327,7 @@ const AddCard = ({
                   ))}
                 </Select>
               </Box>
-              {categories && categories.length > 0 && (
+              {projectId && categories && categories.length > 0 && (
                 <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                   <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
                     Category:
@@ -333,7 +336,7 @@ const AddCard = ({
                     size='small'
                     value={categoryId}
                     sx={{ width: { sm: '220px', xs: '170px' } }}
-                    onChange={e => setCategoryId(e.target.value as CurrencyType)}
+                    onChange={e => setCategoryId(e.target.value)}
                   >
                     {categories.map(
                       category =>

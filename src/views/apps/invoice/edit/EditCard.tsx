@@ -370,7 +370,7 @@ const EditCard = ({
                     </MenuItem>
                   </Select>
                 </Box>
-                {categories && categories.length > 0 && (
+                {projectId && categories && categories.length > 0 && (
                   <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                     <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
                       Category:
