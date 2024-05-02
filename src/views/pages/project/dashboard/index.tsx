@@ -23,45 +23,25 @@ import ProjectApexLineChart from 'src/views/dashboards/projects/ProjectApexLineC
 import ProjectApexDonutChart from 'src/views/dashboards/projects/ProjectApexDonutChart'
 
 // ** Third Party Imports
-import format from 'date-fns/format'
 import DatePicker from 'react-datepicker'
 
 interface CustomInputProps {
-  dates: Date[]
-  label: string
-  end: number | Date
-  start: number | Date
-  setDates?: (value: Date[]) => void
+  label?: string
+  readOnly?: boolean
 }
 
-/* eslint-disable */
-const CustomInput = forwardRef((props: CustomInputProps, ref) => {
-  const startDate = props.start !== null ? format(props.start, 'MM/dd/yyyy') : ''
-  const endDate = props.end !== null ? ` - ${format(props.end, 'MM/dd/yyyy')}` : null
+const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => {
+  // ** Props
+  const { label, readOnly } = props
 
-  const value = `${startDate}${endDate !== null ? endDate : ''}`
-  props.start === null && props.dates.length && props.setDates ? props.setDates([]) : null
-  const updatedProps = { ...props }
-  delete updatedProps.setDates
-
-  return <TextField sx={{ width: '50%' }} inputRef={ref} {...updatedProps} label={props.label || ''} value={value} />
+  return (
+    <TextField inputRef={ref} {...props} label={label || ''} {...(readOnly && { inputProps: { readOnly: true } })} />
+  )
 })
-/* eslint-enable */
 
 const DashboardTab = () => {
   // ** State
-  const [dates, setDates] = useState<Date[]>([])
-  const [endDateRange, setEndDateRange] = useState<DateType>(null)
-  const [startDateRange, setStartDateRange] = useState<DateType>(null)
-
-  const handleOnChangeRange = (dates: any) => {
-    const [start, end] = dates
-    if (start !== null && end !== null) {
-      setDates(dates)
-    }
-    setStartDateRange(start)
-    setEndDateRange(end)
-  }
+  const [year, setYear] = useState<DateType>(new Date())
 
   const data: CardStatsCharacterProps[] = [
     {
@@ -87,24 +67,12 @@ const DashboardTab = () => {
     <ApexChartWrapper>
       <DatePickerWrapper>
         <DatePicker
-          isClearable
-          selectsRange
-          monthsShown={2}
-          endDate={endDateRange}
-          selected={startDateRange}
-          startDate={startDateRange}
-          shouldCloseOnSelect={false}
-          id='date-range-picker-months'
-          onChange={handleOnChangeRange}
-          customInput={
-            <CustomInput
-              dates={dates}
-              setDates={setDates}
-              label='Filter by Date'
-              end={endDateRange as number | Date}
-              start={startDateRange as number | Date}
-            />
-          }
+          showYearPicker
+          selected={year}
+          id='year-picker'
+          dateFormat='yyyy'
+          onChange={(date: Date) => setYear(date)}
+          customInput={<CustomInput label='Year Picker' />}
         />
         <Grid container spacing={6} sx={{ paddingTop: '30px' }}>
           <Grid item xs={12} sm={6} md={3} sx={{ pt: theme => `${theme.spacing(12.25)} !important` }}>
