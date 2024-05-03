@@ -23,6 +23,9 @@ import { Locale } from 'src/enum'
 // ** Utils Imports
 import { formatCurrencyAsCompact } from 'src/utils/currency'
 
+// ** Hooks Imports
+import { useTranslation } from 'react-i18next'
+
 export interface ProjectApexLineChartProps {
   data: ProjectStatisticsResponseDto
 }
@@ -30,6 +33,7 @@ export interface ProjectApexLineChartProps {
 const ProjectApexLineChart = ({ data }: ProjectApexLineChartProps) => {
   // ** Hook
   const theme = useTheme()
+  const { t } = useTranslation()
 
   const options: ApexOptions = {
     chart: {
@@ -84,11 +88,11 @@ const ProjectApexLineChart = ({ data }: ProjectApexLineChartProps) => {
 
   const series = [
     {
-      name: 'Expense',
+      name: t('project_page.dashboard.expense'),
       data: data.expensesByMonth
     },
     {
-      name: 'Income',
+      name: t('project_page.dashboard.income'),
       data: data.incomesByMonth
     }
   ]
@@ -96,8 +100,8 @@ const ProjectApexLineChart = ({ data }: ProjectApexLineChartProps) => {
   return (
     <Card>
       <CardHeader
-        title='Balance'
-        subheader='Total invoice value'
+        title={t('project_page.dashboard.balance')}
+        subheader={t('project_page.dashboard.total_invoice_value')}
         sx={{
           flexDirection: ['column', 'row'],
           alignItems: ['flex-start', 'center'],

@@ -166,7 +166,22 @@
             "total_budget": "総予算",
             "project_date": "プロジェクトの日付"
         },
-        "dashboard": {},
+        "dashboard": {
+            "year_picker": "年ピッカー",
+            "income": "所得",
+            "expense": "経費",
+            "statistics": "統計",
+            "total_numbers": "総数",
+            "this_year": "😎 今年",
+            "invoices": "インヴォイス",
+            "budgets": "予算",
+            "categories": "カテゴリー",
+            "balance": "バランス",
+            "total_invoice_value": "インヴォイスの合計",
+            "expense_ratio": "経費率",
+            "donut_chart_subtitle": "さまざまなカテゴリへの支出",
+            "total_expense": "総費用"
+        },
         "invoice": {},
         "budget": {
             "filters": "フィルター",

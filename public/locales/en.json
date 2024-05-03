@@ -166,7 +166,22 @@
             "total_budget": "Total Budget",
             "project_date": "Project Date"
         },
-        "dashboard": {},
+        "dashboard": {
+            "year_picker": "Year Picker",
+            "income": "Income",
+            "expense": "Expense",
+            "statistics": "Statistics",
+            "total_numbers": "Total numbers",
+            "this_year": "😎 this year",
+            "invoices": "Invoices",
+            "budgets": "Budgets",
+            "categories": "Categories",
+            "balance": "Balance",
+            "total_invoice_value": "Total invoice value",
+            "expense_ratio": "Expense Ratio",
+            "donut_chart_subtitle": "Spending on various categories",
+            "total_expense": "Total Expense"
+        },
         "invoice": {},
         "budget": {
             "filters": "Filters",

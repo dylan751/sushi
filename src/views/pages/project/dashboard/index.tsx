@@ -32,8 +32,11 @@ import ProjectApexDonutChart from 'src/views/dashboards/projects/ProjectApexDonu
 // ** Third Party Imports
 import DatePicker from 'react-datepicker'
 
-// ** Utils Imports
+// ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
+import { useTranslation } from 'react-i18next'
+
+// ** Utils Imports
 import { formatCurrencyAsCompact } from 'src/utils/currency'
 import { format } from 'date-fns'
 
@@ -61,6 +64,7 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
 
   // ** Hooks
   const { organizationId } = useCurrentOrganization()
+  const { t } = useTranslation()
   const dispatch = useDispatch<AppDispatch>()
   const store = useSelector((state: RootState) => state.statistics)
 
@@ -75,7 +79,7 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
     {
       // trendNumber: '+38%',
       stats: formatCurrencyAsCompact(store.statistics.totalIncome ?? 0, Locale.EN, CurrencyType.USD),
-      title: 'Income',
+      title: t('project_page.dashboard.income'),
       chipColor: 'success',
       chipText: `Year of ${format(year!, 'yyyy')}`,
       src: '/images/cards/pose_f9.png'
@@ -84,7 +88,7 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
       // trend: 'negative',
       // trendNumber: '-22%',
       stats: formatCurrencyAsCompact(store.statistics.totalExpense ?? 0, Locale.EN, CurrencyType.USD),
-      title: 'Expense',
+      title: t('project_page.dashboard.expense'),
       chipText: `Year of ${format(year!, 'yyyy')}`,
       chipColor: 'error',
       src: '/images/cards/pose_m18.png'
@@ -100,7 +104,7 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
           id='year-picker'
           dateFormat='yyyy'
           onChange={(date: Date) => setYear(date)}
-          customInput={<CustomInput label='Year Picker' />}
+          customInput={<CustomInput label={t('project_page.dashboard.year_picker') as string} />}
         />
         <Grid container spacing={6} sx={{ paddingTop: '30px' }}>
           <Grid item xs={12} sm={6} md={3} sx={{ pt: theme => `${theme.spacing(12.25)} !important` }}>
@@ -126,6 +130,11 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
       </DatePickerWrapper>
     </ApexChartWrapper>
   )
+}
+
+DashboardTab.acl = {
+  action: 'read',
+  subject: 'project'
 }
 
 export default DashboardTab

@@ -17,6 +17,9 @@ import { Locale } from 'src/enum'
 // ** Utils Imports
 import { formatCurrencyAsCompact } from 'src/utils/currency'
 
+// ** Hooks Imports
+import { useTranslation } from 'react-i18next'
+
 export interface ProjectApexDonutChartProps {
   data: ProjectStatisticsResponseDto
 }
@@ -24,6 +27,7 @@ export interface ProjectApexDonutChartProps {
 const ProjectApexDonutChart = ({ data }: ProjectApexDonutChartProps) => {
   // ** Hook
   const theme = useTheme()
+  const { t } = useTranslation()
 
   const options: ApexOptions = {
     stroke: { width: 0 },
@@ -67,7 +71,7 @@ const ProjectApexDonutChart = ({ data }: ProjectApexDonutChartProps) => {
             total: {
               show: true,
               fontSize: '1.2rem',
-              label: 'Total Expense',
+              label: t('project_page.dashboard.total_expense') as string,
               formatter: () => formatCurrencyAsCompact(data.totalExpense, Locale.EN, CurrencyType.USD),
               color: theme.palette.text.primary
             }
@@ -121,8 +125,8 @@ const ProjectApexDonutChart = ({ data }: ProjectApexDonutChartProps) => {
   return (
     <Card>
       <CardHeader
-        title='Expense Ratio'
-        subheader='Spending on various categories'
+        title={t('project_page.dashboard.expense_ratio')}
+        subheader={t('project_page.dashboard.donut_chart_subtitle')}
         subheaderTypographyProps={{ sx: { color: theme => `${theme.palette.text.disabled} !important` } }}
       />
       <CardContent>
