@@ -180,7 +180,8 @@
             "total_invoice_value": "インヴォイスの合計",
             "expense_ratio": "経費率",
             "donut_chart_subtitle": "さまざまなカテゴリへの支出",
-            "total_expense": "総費用"
+            "total_expense": "総費用",
+            "last_invoices": "過去5つのインヴォイス"
         },
         "invoice": {},
         "budget": {

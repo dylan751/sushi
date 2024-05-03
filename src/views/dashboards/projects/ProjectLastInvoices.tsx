@@ -159,7 +159,7 @@ const ProjectLastInvoices = ({ data }: ProjectLastInvoicesProps) => {
 
   return (
     <Card>
-      <CardHeader title='Last 5 Invoices' />
+      <CardHeader title={t('project_page.dashboard.last_invoices')} />
       <CardContent>
         <DataGrid
           autoHeight

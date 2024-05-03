@@ -177,7 +177,8 @@
             "total_invoice_value": "Tổng giá trị hoá đơn",
             "expense_ratio": "Tỷ lệ chi tiêu",
             "donut_chart_subtitle": "Chi tiêu cho nhiều hạng mục khác nhau",
-            "total_expense": "Tổng chi tiêu"
+            "total_expense": "Tổng chi tiêu",
+            "last_invoices": "5 hóa đơn gần nhất"
         },
         "invoice": {},
         "budget": {

@@ -180,7 +180,8 @@
             "total_invoice_value": "Total invoice value",
             "expense_ratio": "Expense Ratio",
             "donut_chart_subtitle": "Spending on various categories",
-            "total_expense": "Total Expense"
+            "total_expense": "Total Expense",
+            "last_invoices": "Last 5 Invoices"
         },
         "invoice": {},
         "budget": {
