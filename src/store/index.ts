@@ -8,6 +8,7 @@ import budget from 'src/store/apps/budget'
 import category from 'src/store/apps/category'
 import invoice from 'src/store/apps/invoice'
 import project from 'src/store/apps/project'
+import statistics from 'src/store/apps/project/statistics'
 import permission from 'src/store/auth/permission'
 import profile from 'src/store/auth/profile'
 
@@ -19,6 +20,7 @@ export const store = configureStore({
     category,
     invoice,
     project,
+    statistics,
     permission,
     profile
   },

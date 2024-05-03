@@ -1,13 +1,20 @@
 // ** React Imports
-import { forwardRef, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 
-// ** Type Import
+// ** Store Imports
+import { useDispatch, useSelector } from 'react-redux'
+
+// ** Types Import
+import { AppDispatch, RootState } from 'src/store'
+import { fetchStatistics } from 'src/store/apps/project/statistics'
 import { CardStatsCharacterProps } from 'src/@core/components/card-statistics/types'
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
+import { Locale } from 'src/enum'
+import { CurrencyType } from 'src/__generated__/AccountifyAPI'
 
 // ** Custom Components Imports
 import CardStatisticsCharacter from 'src/@core/components/card-statistics/card-stats-with-image'
@@ -18,67 +25,72 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 // ** Components Imports
 import ProjectTransactions from 'src/views/dashboards/projects/ProjectTransactions'
-import ProjectActivityTimeline from 'src/views/dashboards/projects/ProjectActivityTimeline'
 import ProjectApexLineChart from 'src/views/dashboards/projects/ProjectApexLineChart'
 import ProjectApexDonutChart from 'src/views/dashboards/projects/ProjectApexDonutChart'
+import ProjectLastInvoices from 'src/views/dashboards/projects/ProjectLastInvoices'
 
 // ** Third Party Imports
-import format from 'date-fns/format'
 import DatePicker from 'react-datepicker'
 
+// ** Hooks Imports
+import { useCurrentOrganization } from 'src/hooks'
+import { useTranslation } from 'react-i18next'
+
+// ** Utils Imports
+import { formatCurrencyAsCompact } from 'src/utils/currency'
+import { format } from 'date-fns'
+
 interface CustomInputProps {
-  dates: Date[]
-  label: string
-  end: number | Date
-  start: number | Date
-  setDates?: (value: Date[]) => void
+  label?: string
+  readOnly?: boolean
 }
 
-/* eslint-disable */
-const CustomInput = forwardRef((props: CustomInputProps, ref) => {
-  const startDate = props.start !== null ? format(props.start, 'MM/dd/yyyy') : ''
-  const endDate = props.end !== null ? ` - ${format(props.end, 'MM/dd/yyyy')}` : null
+const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => {
+  // ** Props
+  const { label, readOnly } = props
 
-  const value = `${startDate}${endDate !== null ? endDate : ''}`
-  props.start === null && props.dates.length && props.setDates ? props.setDates([]) : null
-  const updatedProps = { ...props }
-  delete updatedProps.setDates
-
-  return <TextField sx={{ width: '50%' }} inputRef={ref} {...updatedProps} label={props.label || ''} value={value} />
+  return (
+    <TextField inputRef={ref} {...props} label={label || ''} {...(readOnly && { inputProps: { readOnly: true } })} />
+  )
 })
-/* eslint-enable */
 
-const DashboardTab = () => {
+export interface DashboardTabProps {
+  projectId: string
+}
+
+const DashboardTab = ({ projectId }: DashboardTabProps) => {
   // ** State
-  const [dates, setDates] = useState<Date[]>([])
-  const [endDateRange, setEndDateRange] = useState<DateType>(null)
-  const [startDateRange, setStartDateRange] = useState<DateType>(null)
+  const [year, setYear] = useState<DateType>(new Date())
 
-  const handleOnChangeRange = (dates: any) => {
-    const [start, end] = dates
-    if (start !== null && end !== null) {
-      setDates(dates)
-    }
-    setStartDateRange(start)
-    setEndDateRange(end)
-  }
+  // ** Hooks
+  const { organizationId } = useCurrentOrganization()
+  const { t } = useTranslation()
+  const dispatch = useDispatch<AppDispatch>()
+  const store = useSelector((state: RootState) => state.statistics)
+
+  useEffect(() => {
+    // Fetch organization's project's statistics
+    dispatch(fetchStatistics({ organizationId, projectId: parseInt(projectId), date: year ? year.toString() : '' }))
+  }, [dispatch, year, organizationId, projectId])
+
+  console.log('store', store.statistics)
 
   const data: CardStatsCharacterProps[] = [
     {
-      stats: '13.7k',
-      title: 'Income',
-      trendNumber: '+38%',
-      chipColor: 'primary',
-      chipText: 'Year of 2024',
+      // trendNumber: '+38%',
+      stats: formatCurrencyAsCompact(store.statistics.totalIncome ?? 0, Locale.EN, CurrencyType.USD),
+      title: t('project_page.dashboard.income'),
+      chipColor: 'success',
+      chipText: `Year of ${format(year!, 'yyyy')}`,
       src: '/images/cards/pose_f9.png'
     },
     {
-      stats: '24.5k',
-      trend: 'negative',
-      title: 'Expense',
-      trendNumber: '-22%',
-      chipText: 'Last Week',
-      chipColor: 'secondary',
+      // trend: 'negative',
+      // trendNumber: '-22%',
+      stats: formatCurrencyAsCompact(store.statistics.totalExpense ?? 0, Locale.EN, CurrencyType.USD),
+      title: t('project_page.dashboard.expense'),
+      chipText: `Year of ${format(year!, 'yyyy')}`,
+      chipColor: 'error',
       src: '/images/cards/pose_m18.png'
     }
   ]
@@ -87,24 +99,12 @@ const DashboardTab = () => {
     <ApexChartWrapper>
       <DatePickerWrapper>
         <DatePicker
-          isClearable
-          selectsRange
-          monthsShown={2}
-          endDate={endDateRange}
-          selected={startDateRange}
-          startDate={startDateRange}
-          shouldCloseOnSelect={false}
-          id='date-range-picker-months'
-          onChange={handleOnChangeRange}
-          customInput={
-            <CustomInput
-              dates={dates}
-              setDates={setDates}
-              label='Filter by Date'
-              end={endDateRange as number | Date}
-              start={startDateRange as number | Date}
-            />
-          }
+          showYearPicker
+          selected={year}
+          id='year-picker'
+          dateFormat='yyyy'
+          onChange={(date: Date) => setYear(date)}
+          customInput={<CustomInput label={t('project_page.dashboard.year_picker') as string} />}
         />
         <Grid container spacing={6} sx={{ paddingTop: '30px' }}>
           <Grid item xs={12} sm={6} md={3} sx={{ pt: theme => `${theme.spacing(12.25)} !important` }}>
@@ -114,22 +114,26 @@ const DashboardTab = () => {
             <CardStatisticsCharacter data={data[1]} />
           </Grid>
           <Grid item xs={12} md={6}>
-            <ProjectTransactions />
+            <ProjectTransactions data={store.statistics} />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <ProjectApexLineChart data={store.statistics} />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <ProjectApexDonutChart data={store.statistics} />
           </Grid>
           <Grid item xs={12} md={12}>
-            <ProjectApexLineChart />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <ProjectApexDonutChart />
-          </Grid>
-          {/* TODO: Change this ProjectActivityTimeline to `Invoice list for this project` */}
-          <Grid item xs={12} md={6}>
-            <ProjectActivityTimeline />
+            <ProjectLastInvoices data={store.statistics} />
           </Grid>
         </Grid>
       </DatePickerWrapper>
     </ApexChartWrapper>
   )
+}
+
+DashboardTab.acl = {
+  action: 'read',
+  subject: 'project'
 }
 
 export default DashboardTab

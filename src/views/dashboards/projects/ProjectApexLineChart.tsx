@@ -16,20 +16,24 @@ import { ApexOptions } from 'apexcharts'
 import CustomChip from 'src/@core/components/mui/chip'
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
-const series = [
-  {
-    name: 'Expense',
-    data: [280, 200, 220, 180, 270, 250, 70, 90, 200, 150, 160, 100]
-  },
-  {
-    name: 'Income',
-    data: [100, 300, 320, 150, 170, 150, 150, 300, 230, 170, 260, 200]
-  }
-]
+// ** Type Imports
+import { CurrencyType, ProjectStatisticsResponseDto } from 'src/__generated__/AccountifyAPI'
+import { Locale } from 'src/enum'
 
-const ProjectApexLineChart = () => {
+// ** Utils Imports
+import { formatCurrencyAsCompact } from 'src/utils/currency'
+
+// ** Hooks Imports
+import { useTranslation } from 'react-i18next'
+
+export interface ProjectApexLineChartProps {
+  data: ProjectStatisticsResponseDto
+}
+
+const ProjectApexLineChart = ({ data }: ProjectApexLineChartProps) => {
   // ** Hook
   const theme = useTheme()
+  const { t } = useTranslation()
 
   const options: ApexOptions = {
     chart: {
@@ -56,7 +60,11 @@ const ProjectApexLineChart = () => {
     tooltip: {
       custom(data: any) {
         return `<div class='bar-chart'>
-          <span>${data.series[data.seriesIndex][data.dataPointIndex]}%</span>
+          <span>${formatCurrencyAsCompact(
+            data.series[data.seriesIndex][data.dataPointIndex],
+            Locale.EN,
+            CurrencyType.USD
+          )}</span>
         </div>`
       }
     },
@@ -78,11 +86,22 @@ const ProjectApexLineChart = () => {
     }
   }
 
+  const series = [
+    {
+      name: t('project_page.dashboard.expense'),
+      data: data.expensesByMonth
+    },
+    {
+      name: t('project_page.dashboard.income'),
+      data: data.incomesByMonth
+    }
+  ]
+
   return (
     <Card>
       <CardHeader
-        title='Balance'
-        subheader='Total invoice value'
+        title={t('project_page.dashboard.balance')}
+        subheader={t('project_page.dashboard.total_invoice_value')}
         sx={{
           flexDirection: ['column', 'row'],
           alignItems: ['flex-start', 'center'],
@@ -91,8 +110,8 @@ const ProjectApexLineChart = () => {
         }}
         action={
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant='h6' sx={{ mr: 5 }}>
-              $221,267
+            <Typography variant='h6' sx={{ mr: 5 }} color={data.balance > 0 ? 'success' : 'error'}>
+              {formatCurrencyAsCompact(data.balance, Locale.EN, CurrencyType.USD)}
             </Typography>
             <CustomChip
               skin='light'
@@ -109,7 +128,7 @@ const ProjectApexLineChart = () => {
         }
       />
       <CardContent>
-        <ReactApexcharts type='line' height={400} options={options} series={series} />
+        <ReactApexcharts type='line' height={370} options={options} series={series} />
       </CardContent>
     </Card>
   )

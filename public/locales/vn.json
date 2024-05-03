@@ -163,7 +163,23 @@
             "total_budget": "Tổng định mức",
             "project_date": "Thời gian dự án"
         },
-        "dashboard": {},
+        "dashboard": {
+            "year_picker": "Chọn năm",
+            "income": "Thu",
+            "expense": "Chi tiêu",
+            "statistics": "Thống kê",
+            "total_numbers": "Số liệu",
+            "this_year": "😎 năm nay",
+            "invoices": "Hoá đơn",
+            "budgets": "Định mức",
+            "categories": "Phân loại",
+            "balance": "Số dư",
+            "total_invoice_value": "Tổng giá trị hoá đơn",
+            "expense_ratio": "Tỷ lệ chi tiêu",
+            "donut_chart_subtitle": "Chi tiêu cho nhiều hạng mục khác nhau",
+            "total_expense": "Tổng chi tiêu",
+            "last_invoices": "5 hóa đơn gần nhất"
+        },
         "invoice": {},
         "budget": {
             "filters": "Bộ lọc",

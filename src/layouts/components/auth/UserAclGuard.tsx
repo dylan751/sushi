@@ -95,7 +95,6 @@ const UserAclGuard = (props: AclGuardProps) => {
     const permissions = JSON.parse(window.localStorage.getItem('permissions')!)
     ability = buildAbilityFor(permissions)
 
-    // ability = buildAbilityFor((session.data as any).permissions)
     if (router.route === '/') {
       return <Spinner />
     }
