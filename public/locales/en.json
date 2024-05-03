@@ -68,7 +68,8 @@
         "open": "Open",
         "create_organization_header": "Create new organization 🚀",
         "create_organization_description": "Kick start your project",
-        "create": "Create"
+        "create": "Create",
+        "active": "Active"
     },
     "role_page": {
         "role": {

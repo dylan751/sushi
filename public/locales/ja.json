@@ -68,7 +68,8 @@
         "open": "選択する",
         "create_organization_header": "新規登録 🚀",
         "create_organization_description": "プロジェクトをスタートする",
-        "create": "登録"
+        "create": "登録",
+        "active": "アクティブ"
     },
     "role_page": {
         "role": {

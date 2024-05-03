@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { ReactNode } from 'react'
 import UserBlankLayoutWithAppBar from 'src/layouts/UserBlankLayoutWithAppBar'
 
@@ -12,7 +13,8 @@ import {
   FormHelperText,
   Grid,
   InputAdornment,
-  TextField
+  TextField,
+  Typography
 } from '@mui/material'
 
 // ** Types
@@ -33,9 +35,14 @@ import { $api } from 'src/utils/api'
 // ** Next Auth Imports
 import { useSession } from 'next-auth/react'
 
+// ** Utils Imports
+import { getSelectOrganizationUrl } from 'src/utils/router'
+
+const UNIQUE_NAME_FORMAT = /^([a-z][a-z0-9-]{1,})*$/
+
 const schema = yup.object().shape({
   name: yup.string().max(256).required(),
-  uniqueName: yup.string().min(2).required()
+  uniqueName: yup.string().min(2).matches(UNIQUE_NAME_FORMAT).required()
 })
 
 const defaultValues = {
@@ -47,6 +54,7 @@ const CreateOrganizationPage = () => {
   // ** Hooks
   const session = useSession()
   const { t } = useTranslation()
+  const router = useRouter()
 
   const {
     control,
@@ -65,6 +73,7 @@ const CreateOrganizationPage = () => {
       .then(async () => {
         const response = await $api(session.data?.accessToken).internal.getUserProfile()
         session.update({ organizations: response.data.organizations })
+        router.replace(getSelectOrganizationUrl())
       })
       .catch(res => {
         setError('name', {
@@ -109,8 +118,9 @@ const CreateOrganizationPage = () => {
                   {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
                 </FormControl>
               </Grid>
-              <Grid item xs={12}>
-                <FormControl fullWidth sx={{ mb: 4 }}>
+              <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <Typography variant='subtitle1'>{process.env.NEXT_PUBLIC_FRONTEND_ENDPOINT}/</Typography>
+                <FormControl fullWidth>
                   <Controller
                     name='uniqueName'
                     control={control}
@@ -139,7 +149,7 @@ const CreateOrganizationPage = () => {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sx={{ mt: 4 }}>
                 <Button type='submit' variant='contained' size='large'>
                   {t('new.create')}
                 </Button>

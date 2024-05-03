@@ -16,7 +16,6 @@ import { getAccessToken } from 'src/utils/localStorage'
 import toast from 'react-hot-toast'
 
 interface DataParams {
-  query?: string
   fromDate?: string
   toDate?: string
   type?: string
@@ -114,8 +113,8 @@ export const addInvoice = createAsyncThunk(
         }
       }).internal.createInvoicesForAProjectOfOrganization(organizationId, projectId, resData)
 
-      dispatch(fetchInvoice({ organizationId, query: '' }))
-      dispatch(fetchInvoiceForProject({ organizationId, projectId, query: '' }))
+      dispatch(fetchInvoice({ organizationId }))
+      dispatch(fetchInvoiceForProject({ organizationId, projectId }))
       toast.success('Add invoice succeed')
 
       return response.data
@@ -144,8 +143,8 @@ export const updateInvoice = createAsyncThunk(
         }
       }).internal.updateAnInvoiceForAProjectOfOrganization(organizationId, projectId, resData.invoiceId, resData)
 
-      dispatch(fetchInvoice({ organizationId, query: '' }))
-      dispatch(fetchInvoiceForProject({ organizationId, projectId, query: '' }))
+      dispatch(fetchInvoice({ organizationId }))
+      dispatch(fetchInvoiceForProject({ organizationId, projectId }))
       toast.success('Update invoice succeed')
 
       return response.data
@@ -171,10 +170,10 @@ export const deleteInvoice = createAsyncThunk(
         }
       }).internal.deleteAnInvoiceForAnOrganization(organizationId, invoiceId)
 
-      dispatch(fetchInvoice({ organizationId, query: '' }))
+      dispatch(fetchInvoice({ organizationId }))
 
       if (params.projectId) {
-        dispatch(fetchInvoiceForProject({ organizationId, projectId: params.projectId, query: '' }))
+        dispatch(fetchInvoiceForProject({ organizationId, projectId: params.projectId }))
       }
       toast.success('Delete invoice succeed')
 

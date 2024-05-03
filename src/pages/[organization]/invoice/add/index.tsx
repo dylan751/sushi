@@ -10,6 +10,7 @@ import Grid from '@mui/material/Grid'
 // ** Components Imports
 import AddCard from 'src/views/apps/invoice/add/AddCard'
 import AddActions from 'src/views/apps/invoice/add/AddActions'
+import AddCategoryDrawer from 'src/views/apps/project/category/list/AddCategoryDrawer'
 
 // ** Styled Component
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
@@ -59,6 +60,7 @@ const InvoiceAdd = () => {
   const { organizationId } = useCurrentOrganization()
 
   // ** States
+  const [addCategoryOpen, setAddCategoryOpen] = useState<boolean>(false)
   const [date, setDate] = useState<DateType>(new Date())
   const [type, setType] = useState<InvoiceType>(InvoiceType.EXPENSE)
   const [currency, setCurrency] = useState<CurrencyType>(CurrencyType.USD)
@@ -67,6 +69,8 @@ const InvoiceAdd = () => {
   const [clientName, setClientName] = useState<string>('')
   const [tax, setTax] = useState<string>('')
   const [formData, setFormData] = useState<CreateInvoiceFormData[]>([initialFormData])
+
+  const toggleAddCategoryDrawer = () => setAddCategoryOpen(!addCategoryOpen)
 
   useEffect(() => {
     // Fetch organization's projects
@@ -142,6 +146,7 @@ const InvoiceAdd = () => {
           <AddCard
             projects={projectStore.projects}
             categories={categoryStore.categories}
+            toggleAddCategoryDrawer={toggleAddCategoryDrawer}
             setFormData={setFormData}
             date={date}
             setDate={setDate}
@@ -163,6 +168,7 @@ const InvoiceAdd = () => {
           <AddActions onSubmit={onSubmit} isSubmitDisabled={isSubmitDisabled} />
         </Grid>
       </Grid>
+      <AddCategoryDrawer open={addCategoryOpen} toggle={toggleAddCategoryDrawer} projectId={projectId} />
     </DatePickerWrapper>
   )
 }

@@ -65,7 +65,8 @@
         "open": "Chọn",
         "create_organization_header": "Tạo tổ chức 🚀",
         "create_organization_description": "Khởi tạo dự án của bạn",
-        "create": "Tạo"
+        "create": "Tạo",
+        "active": "Đang hoạt động"
     },
     "role_page": {
         "role": {
@@ -222,7 +223,7 @@
             "client": "Khách hàng",
             "name": "Tên",
             "note": "Ghi chú",
-            "total": "Tổng cộng",
+            "total": "Thành tiền",
             "date": "Thời gian",
             "project": "Dự án",
             "category": "Phân loại",
@@ -250,9 +251,9 @@
             "tax": "Thuế (%)",
             "thanks_for_you_business": "Xin cảm ơn vì đã dùng dịch vụ",
             "sales_person": "Người bán hàng",
-            "subtotal": "Tổng phụ",
+            "subtotal": "Thành tiền",
             "discount": "Giảm giá",
-            "total": "Tổng cộng",
+            "total": "Thành tiền",
             "create_invoice": "Tạo hoá đơn"
         },
         "edit": {
@@ -271,9 +272,9 @@
             "tax": "Thuế (%)",
             "thanks_for_you_business": "Xin cảm ơn vì đã dùng dịch vụ",
             "sales_person": "Người bán hàng",
-            "subtotal": "Tổng phụ",
+            "subtotal": "Thành tiền",
             "discount": "Giảm giá",
-            "total": "Tổng cộng",
+            "total": "Tổng tiền",
             "update_invoice": "Cập nhật hoá đơn",
             "preview": "Xem trước"
         },
@@ -291,12 +292,12 @@
             "send_invoice": "Gửi hoá đơn",
             "download": "Tải xuống",
             "print": "In",
-            "total": "Tổng cộng",
+            "total": "Tổng tiền",
             "tax": "Thuế (%)",
             "update_invoice": "Cập nhật hoá đơn",
             "thanks_for_you_business": "Xin cảm ơn vì đã dùng dịch vụ",
             "sales_person": "Người bán hàng",
-            "subtotal": "Tổng phụ",
+            "subtotal": "Thành tiền",
             "discount": "Giảm giá"
         },
         "print": {
@@ -310,11 +311,11 @@
             "name": "Tên",
             "note": "Ghi chú",
             "price": "Đơn giá",
-            "total": "Tổng cộng",
+            "total": "Tổng tiền",
             "tax": "Thuế (%)",
             "thanks_for_you_business": "Xin cảm ơn vì đã dùng dịch vụ",
             "sales_person": "Người bán hàng",
-            "subtotal": "Tổng phụ",
+            "subtotal": "Thành tiền",
             "discount": "Giảm giá"
         }
     },
