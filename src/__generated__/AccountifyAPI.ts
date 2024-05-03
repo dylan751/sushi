@@ -1201,7 +1201,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getInvoiceListForOrganization: (
       organizationId: number,
       query?: {
-        query?: string
         /** @format date-time */
         fromDate?: string
         /** @format date-time */
@@ -1409,7 +1408,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       organizationId: number,
       projectId: number,
       query?: {
-        query?: string
         /** @format date-time */
         fromDate?: string
         /** @format date-time */

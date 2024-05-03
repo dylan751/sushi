@@ -133,7 +133,6 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
   const [dates, setDates] = useState<Date[]>([])
   const [type, setType] = useState<InvoiceType | ''>('')
   const [categoryId, setCategoryId] = useState<string>('')
-  const [value, setValue] = useState<string>('')
   const [endDateRange, setEndDateRange] = useState<DateType>(null)
   const [selectedRows, setSelectedRows] = useState<GridRowId[]>([])
   const [startDateRange, setStartDateRange] = useState<DateType>(null)
@@ -153,24 +152,19 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
       projectId: parseInt(projectId),
       fromDate: dates[0]?.toString(),
       toDate: dates[1]?.toString(),
-      query: value,
       type
     }
     if (categoryId) {
       fetchInvoiceParams.categoryId = categoryId
     }
     dispatch(fetchInvoiceForProject(fetchInvoiceParams))
-  }, [dispatch, value, dates, type, categoryId, organizationId, projectId])
+  }, [dispatch, dates, type, categoryId, organizationId, projectId])
 
   useEffect(() => {
     if (ability?.can('read', 'category')) {
       dispatch(fetchCategory({ organizationId, projectId: parseInt(projectId) }))
     }
   }, [dispatch, organizationId, projectId, ability])
-
-  const handleFilter = (val: string) => {
-    setValue(val)
-  }
 
   const handleOnChangeRange = (dates: any) => {
     const [start, end] = dates
@@ -406,7 +400,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
         </Grid>
         <Grid item xs={12}>
           <Card>
-            <TableHeader value={value} selectedRows={selectedRows} handleFilter={handleFilter} />
+            <TableHeader selectedRows={selectedRows} />
             <DataGrid
               autoHeight
               pagination
