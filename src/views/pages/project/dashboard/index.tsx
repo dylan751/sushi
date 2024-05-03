@@ -1,13 +1,20 @@
 // ** React Imports
-import { forwardRef, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 
-// ** Type Import
+// ** Store Imports
+import { useDispatch, useSelector } from 'react-redux'
+
+// ** Types Import
+import { AppDispatch, RootState } from 'src/store'
+import { fetchStatistics } from 'src/store/apps/project/statistics'
 import { CardStatsCharacterProps } from 'src/@core/components/card-statistics/types'
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
+import { Locale } from 'src/enum'
+import { CurrencyType } from 'src/__generated__/AccountifyAPI'
 
 // ** Custom Components Imports
 import CardStatisticsCharacter from 'src/@core/components/card-statistics/card-stats-with-image'
@@ -25,6 +32,11 @@ import ProjectApexDonutChart from 'src/views/dashboards/projects/ProjectApexDonu
 // ** Third Party Imports
 import DatePicker from 'react-datepicker'
 
+// ** Utils Imports
+import { useCurrentOrganization } from 'src/hooks'
+import { formatCurrencyAsCompact } from 'src/utils/currency'
+import { format } from 'date-fns'
+
 interface CustomInputProps {
   label?: string
   readOnly?: boolean
@@ -39,26 +51,42 @@ const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => {
   )
 })
 
-const DashboardTab = () => {
+export interface DashboardTabProps {
+  projectId: string
+}
+
+const DashboardTab = ({ projectId }: DashboardTabProps) => {
   // ** State
   const [year, setYear] = useState<DateType>(new Date())
 
+  // ** Hooks
+  const { organizationId } = useCurrentOrganization()
+  const dispatch = useDispatch<AppDispatch>()
+  const store = useSelector((state: RootState) => state.statistics)
+
+  useEffect(() => {
+    // Fetch organization's project's statistics
+    dispatch(fetchStatistics({ organizationId, projectId: parseInt(projectId), date: year ? year.toString() : '' }))
+  }, [dispatch, year, organizationId, projectId])
+
+  console.log('store', store.statistics)
+
   const data: CardStatsCharacterProps[] = [
     {
-      stats: '13.7k',
+      // trendNumber: '+38%',
+      stats: formatCurrencyAsCompact(store.statistics.totalIncome ?? 0, Locale.EN, CurrencyType.USD),
       title: 'Income',
-      trendNumber: '+38%',
-      chipColor: 'primary',
-      chipText: 'Year of 2024',
+      chipColor: 'success',
+      chipText: `Year of ${format(year!, 'yyyy')}`,
       src: '/images/cards/pose_f9.png'
     },
     {
-      stats: '24.5k',
-      trend: 'negative',
+      // trend: 'negative',
+      // trendNumber: '-22%',
+      stats: formatCurrencyAsCompact(store.statistics.totalExpense ?? 0, Locale.EN, CurrencyType.USD),
       title: 'Expense',
-      trendNumber: '-22%',
-      chipText: 'Last Week',
-      chipColor: 'secondary',
+      chipText: `Year of ${format(year!, 'yyyy')}`,
+      chipColor: 'error',
       src: '/images/cards/pose_m18.png'
     }
   ]
@@ -82,13 +110,13 @@ const DashboardTab = () => {
             <CardStatisticsCharacter data={data[1]} />
           </Grid>
           <Grid item xs={12} md={6}>
-            <ProjectTransactions />
+            <ProjectTransactions data={store.statistics} />
           </Grid>
           <Grid item xs={12} md={12}>
-            <ProjectApexLineChart />
+            <ProjectApexLineChart data={store.statistics} />
           </Grid>
           <Grid item xs={12} md={6}>
-            <ProjectApexDonutChart />
+            <ProjectApexDonutChart data={store.statistics} />
           </Grid>
           {/* TODO: Change this ProjectActivityTimeline to `Invoice list for this project` */}
           <Grid item xs={12} md={6}>

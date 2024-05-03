@@ -16,18 +16,18 @@ import { ApexOptions } from 'apexcharts'
 import CustomChip from 'src/@core/components/mui/chip'
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
-const series = [
-  {
-    name: 'Expense',
-    data: [280, 200, 220, 180, 270, 250, 70, 90, 200, 150, 160, 100]
-  },
-  {
-    name: 'Income',
-    data: [100, 300, 320, 150, 170, 150, 150, 300, 230, 170, 260, 200]
-  }
-]
+// ** Type Imports
+import { CurrencyType, ProjectStatisticsResponseDto } from 'src/__generated__/AccountifyAPI'
+import { Locale } from 'src/enum'
 
-const ProjectApexLineChart = () => {
+// ** Utils Imports
+import { formatCurrencyAsCompact } from 'src/utils/currency'
+
+export interface ProjectApexLineChartProps {
+  data: ProjectStatisticsResponseDto
+}
+
+const ProjectApexLineChart = ({ data }: ProjectApexLineChartProps) => {
   // ** Hook
   const theme = useTheme()
 
@@ -56,7 +56,11 @@ const ProjectApexLineChart = () => {
     tooltip: {
       custom(data: any) {
         return `<div class='bar-chart'>
-          <span>${data.series[data.seriesIndex][data.dataPointIndex]}%</span>
+          <span>${formatCurrencyAsCompact(
+            data.series[data.seriesIndex][data.dataPointIndex],
+            Locale.EN,
+            CurrencyType.USD
+          )}</span>
         </div>`
       }
     },
@@ -78,6 +82,17 @@ const ProjectApexLineChart = () => {
     }
   }
 
+  const series = [
+    {
+      name: 'Expense',
+      data: data.expensesByMonth
+    },
+    {
+      name: 'Income',
+      data: data.incomesByMonth
+    }
+  ]
+
   return (
     <Card>
       <CardHeader
@@ -91,8 +106,8 @@ const ProjectApexLineChart = () => {
         }}
         action={
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant='h6' sx={{ mr: 5 }}>
-              $221,267
+            <Typography variant='h6' sx={{ mr: 5 }} color={data.balance > 0 ? 'success' : 'error'}>
+              {formatCurrencyAsCompact(data.balance, Locale.EN, CurrencyType.USD)}
             </Typography>
             <CustomChip
               skin='light'

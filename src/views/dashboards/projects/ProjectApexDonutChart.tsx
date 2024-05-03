@@ -10,25 +10,37 @@ import { ApexOptions } from 'apexcharts'
 // ** Component Import
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
-const donutColors = {
-  series1: '#fdd835',
-  series2: '#00d4bd',
-  series3: '#826bf8',
-  series4: '#32baff',
-  series5: '#ffa1a1'
+// ** Types Imports
+import { CurrencyType, ProjectStatisticsResponseDto } from 'src/__generated__/AccountifyAPI'
+import { Locale } from 'src/enum'
+
+// ** Utils Imports
+import { formatCurrencyAsCompact } from 'src/utils/currency'
+
+export interface ProjectApexDonutChartProps {
+  data: ProjectStatisticsResponseDto
 }
 
-const ProjectApexDonutChart = () => {
+const ProjectApexDonutChart = ({ data }: ProjectApexDonutChartProps) => {
   // ** Hook
   const theme = useTheme()
 
   const options: ApexOptions = {
     stroke: { width: 0 },
-    labels: ['Operational', 'Networking', 'Hiring', 'R&D'],
-    colors: [donutColors.series1, donutColors.series5, donutColors.series3, donutColors.series2],
+    labels: data.expensesByCategory ? data.expensesByCategory.map(expense => expense.name) : [],
+
+    colors: data.expensesByCategory
+      ? data.expensesByCategory.map(expense => (theme.palette as any)[expense.color].main)
+      : [],
     dataLabels: {
       enabled: true,
       formatter: (val: string) => `${parseInt(val, 10)}%`
+    },
+    tooltip: {
+      enabled: true,
+      y: {
+        formatter: (val: number) => `${formatCurrencyAsCompact(val, Locale.EN, CurrencyType.USD)}`
+      }
     },
     legend: {
       position: 'bottom',
@@ -50,13 +62,13 @@ const ProjectApexDonutChart = () => {
             value: {
               fontSize: '1.2rem',
               color: theme.palette.text.secondary,
-              formatter: (val: string) => `${parseInt(val, 10)}`
+              formatter: (val: string) => `${formatCurrencyAsCompact(parseInt(val), Locale.EN, CurrencyType.USD)}`
             },
             total: {
               show: true,
               fontSize: '1.2rem',
-              label: 'Operational',
-              formatter: () => '31%',
+              label: 'Total Expense',
+              formatter: () => formatCurrencyAsCompact(data.totalExpense, Locale.EN, CurrencyType.USD),
               color: theme.palette.text.primary
             }
           }
@@ -104,6 +116,8 @@ const ProjectApexDonutChart = () => {
     ]
   }
 
+  const series = data.expensesByCategory ? data.expensesByCategory.map(expense => expense.total) : []
+
   return (
     <Card>
       <CardHeader
@@ -112,7 +126,7 @@ const ProjectApexDonutChart = () => {
         subheaderTypographyProps={{ sx: { color: theme => `${theme.palette.text.disabled} !important` } }}
       />
       <CardContent>
-        <ReactApexcharts type='donut' height={400} options={options} series={[85, 16, 50, 50]} />
+        <ReactApexcharts type='donut' height={400} options={options} series={series} />
       </CardContent>
     </Card>
   )

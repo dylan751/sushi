@@ -9,8 +9,9 @@ import CardContent from '@mui/material/CardContent'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-// ** Types
+// ** Types Imports
 import { ThemeColor } from 'src/@core/layouts/types'
+import { ProjectStatisticsResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Custom Components Imports
 import OptionsMenu from 'src/@core/components/option-menu'
@@ -23,28 +24,28 @@ interface DataType {
   color: ThemeColor
 }
 
-const salesData: DataType[] = [
-  {
-    stats: '245k',
-    title: 'Sales',
-    color: 'primary',
-    icon: 'mdi:trending-up'
-  },
-  {
-    stats: '12.5k',
-    color: 'success',
-    title: 'Customers',
-    icon: 'mdi:account-outline'
-  },
-  {
-    stats: '1.54k',
-    color: 'warning',
-    title: 'Products',
-    icon: 'mdi:cellphone-link'
-  }
-]
+const renderStats = (data: ProjectStatisticsResponseDto) => {
+  const salesData: DataType[] = [
+    {
+      stats: data.invoiceCount?.toString(),
+      title: 'Invoices',
+      color: 'primary',
+      icon: 'mdi:file-document-outline'
+    },
+    {
+      stats: data.budgetCount?.toString(),
+      color: 'success',
+      title: 'Budgets',
+      icon: 'mdi:trending-up'
+    },
+    {
+      stats: data.categoryCount?.toString(),
+      color: 'warning',
+      title: 'Categories',
+      icon: 'mdi:category-outline'
+    }
+  ]
 
-const renderStats = () => {
   return salesData.map((item: DataType, index: number) => (
     <Grid item xs={12} sm={4} key={index}>
       <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
@@ -60,11 +61,15 @@ const renderStats = () => {
   ))
 }
 
-const ProjectTransactions = () => {
+export interface ProjectTransactionsProps {
+  data: ProjectStatisticsResponseDto
+}
+
+const ProjectTransactions = ({ data }: ProjectTransactionsProps) => {
   return (
     <Card>
       <CardHeader
-        title='Transactions'
+        title='Statistics'
         action={
           <OptionsMenu
             options={['Refresh', 'Share', 'Update']}
@@ -74,9 +79,9 @@ const ProjectTransactions = () => {
         subheader={
           <Typography variant='body2'>
             <Box component='span' sx={{ fontWeight: 600, color: 'text.primary' }}>
-              Total 48.5% growth
+              Total numbers
             </Box>{' '}
-            😎 this month
+            😎 this year
           </Typography>
         }
         titleTypographyProps={{
@@ -89,7 +94,7 @@ const ProjectTransactions = () => {
       />
       <CardContent sx={{ pt: theme => `${theme.spacing(0.75)} !important` }}>
         <Grid container spacing={[5, 0]}>
-          {renderStats()}
+          {renderStats(data)}
         </Grid>
       </CardContent>
     </Card>

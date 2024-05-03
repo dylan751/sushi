@@ -558,6 +558,45 @@ export interface UpdateCategoryRequestDto {
   type?: InvoiceType
 }
 
+export interface IncomesAndExpensesByCategoryResponseDto {
+  /** @example "Computer Expense" */
+  name: string
+  /** @example "success" */
+  color: string
+  /** @example 1000 */
+  total: number
+}
+
+export interface ProjectStatisticsResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "HPTN083" */
+  name: string
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  created: string
+  /** @example 10 */
+  invoiceCount: number
+  /** @example 10 */
+  budgetCount: number
+  /** @example 10 */
+  categoryCount: number
+  /** @example 10000 */
+  totalIncome: number
+  /** @example 10000 */
+  totalExpense: number
+  /** @example 10000 */
+  balance: number
+  /** @example [100,300,320,150,170,150,150,300,230,170,260,200] */
+  incomesByMonth: number[]
+  /** @example [280,200,220,180,270,250,70,90,200,150,160,100] */
+  expensesByMonth: number[]
+  expensesByCategory: IncomesAndExpensesByCategoryResponseDto[]
+  incomesByCategory: IncomesAndExpensesByCategoryResponseDto[]
+}
+
 /** @example "create" */
 export enum PermissionConfigDtoActionEnum {
   MANAGE = 'manage',
@@ -1659,6 +1698,33 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<EmptyResponseDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/categories/${id}`,
         method: 'DELETE',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get statistics for project of organization
+     *
+     * @tags Organization Project Statistics
+     * @name GetStatisticsForProjectOfOrganization
+     * @summary Get statistics for project of organization
+     * @request GET:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/statistics
+     * @secure
+     */
+    getStatisticsForProjectOfOrganization: (
+      organizationId: number,
+      projectId: number,
+      query?: {
+        /** @format date-time */
+        date?: string
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<ProjectStatisticsResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/statistics`,
+        method: 'GET',
+        query: query,
         secure: true,
         format: 'json',
         ...params
