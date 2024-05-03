@@ -14,7 +14,7 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Box, { BoxProps } from '@mui/material/Box'
 import Grid, { GridProps } from '@mui/material/Grid'
-import { styled, useTheme } from '@mui/material/styles'
+import { alpha, styled, useTheme } from '@mui/material/styles'
 import CardContent, { CardContentProps } from '@mui/material/CardContent'
 
 // ** Icon Imports
@@ -34,7 +34,7 @@ import { CategoryResponseDto, CurrencyType, InvoiceType, ProjectResponseDto } fr
 // ** Custom Component Imports
 import Repeater from 'src/@core/components/repeater'
 import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
+import MenuItem, { MenuItemProps } from '@mui/material/MenuItem'
 import CustomChip from 'src/@core/components/mui/chip'
 
 const initialFormData = {
@@ -96,9 +96,16 @@ const InvoiceAction = styled(Box)<BoxProps>(({ theme }) => ({
   borderLeft: `1px solid ${theme.palette.divider}`
 }))
 
+const CustomSelectItem = styled(MenuItem)<MenuItemProps>(({ theme }) => ({
+  color: theme.palette.success.main,
+  backgroundColor: 'transparent !important',
+  '&:hover': { backgroundColor: `${alpha(theme.palette.success.main, 0.1)} !important` }
+}))
+
 export interface AddCardProps {
   projects: ProjectResponseDto[]
   categories: CategoryResponseDto[]
+  toggleAddCategoryDrawer: () => void
   setFormData: (value: any) => void
   date: DateType
   setDate: (value: DateType) => void
@@ -119,6 +126,7 @@ export interface AddCardProps {
 const AddCard = ({
   projects,
   categories,
+  toggleAddCategoryDrawer,
   setFormData,
   date,
   setDate,
@@ -180,6 +188,10 @@ const AddCard = ({
 
       return newFormData.filter(item => item.index !== i)
     })
+  }
+
+  const handleAddNewCategory = () => {
+    toggleAddCategoryDrawer()
   }
 
   return (
@@ -341,6 +353,12 @@ const AddCard = ({
                     sx={{ width: { sm: '220px', xs: '170px' } }}
                     onChange={e => setCategoryId(e.target.value)}
                   >
+                    <CustomSelectItem value='' onClick={handleAddNewCategory}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', color: 'success.main', '& svg': { mr: 2 } }}>
+                        <Icon icon='mdi:plus' fontSize={20} />
+                        Add New Category
+                      </Box>
+                    </CustomSelectItem>
                     {categories.map(
                       category =>
                         category.type === type && (
