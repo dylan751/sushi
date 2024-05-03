@@ -595,6 +595,7 @@ export interface ProjectStatisticsResponseDto {
   expensesByMonth: number[]
   expensesByCategory: IncomesAndExpensesByCategoryResponseDto[]
   incomesByCategory: IncomesAndExpensesByCategoryResponseDto[]
+  lastInvoices: InvoiceResponseDto[]
 }
 
 /** @example "create" */

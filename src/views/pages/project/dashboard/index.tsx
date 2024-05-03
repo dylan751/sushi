@@ -25,9 +25,9 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 // ** Components Imports
 import ProjectTransactions from 'src/views/dashboards/projects/ProjectTransactions'
-import ProjectActivityTimeline from 'src/views/dashboards/projects/ProjectActivityTimeline'
 import ProjectApexLineChart from 'src/views/dashboards/projects/ProjectApexLineChart'
 import ProjectApexDonutChart from 'src/views/dashboards/projects/ProjectApexDonutChart'
+import ProjectLastInvoices from 'src/views/dashboards/projects/ProjectLastInvoices'
 
 // ** Third Party Imports
 import DatePicker from 'react-datepicker'
@@ -116,15 +116,14 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
           <Grid item xs={12} md={6}>
             <ProjectTransactions data={store.statistics} />
           </Grid>
-          <Grid item xs={12} md={12}>
+          <Grid item xs={12} md={6}>
             <ProjectApexLineChart data={store.statistics} />
           </Grid>
           <Grid item xs={12} md={6}>
             <ProjectApexDonutChart data={store.statistics} />
           </Grid>
-          {/* TODO: Change this ProjectActivityTimeline to `Invoice list for this project` */}
-          <Grid item xs={12} md={6}>
-            <ProjectActivityTimeline />
+          <Grid item xs={12} md={12}>
+            <ProjectLastInvoices data={store.statistics} />
           </Grid>
         </Grid>
       </DatePickerWrapper>
