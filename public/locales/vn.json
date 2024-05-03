@@ -65,7 +65,8 @@
         "open": "Chọn",
         "create_organization_header": "Tạo tổ chức 🚀",
         "create_organization_description": "Khởi tạo dự án của bạn",
-        "create": "Tạo"
+        "create": "Tạo",
+        "active": "Đang hoạt động"
     },
     "role_page": {
         "role": {
