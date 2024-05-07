@@ -73,8 +73,6 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
     dispatch(fetchStatistics({ organizationId, projectId: parseInt(projectId), date: year ? year.toString() : '' }))
   }, [dispatch, year, organizationId, projectId])
 
-  console.log('store', store.statistics)
-
   const data: CardStatsCharacterProps[] = [
     {
       // trendNumber: '+38%',

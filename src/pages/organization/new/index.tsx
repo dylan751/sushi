@@ -42,12 +42,16 @@ const UNIQUE_NAME_FORMAT = /^([a-z][a-z0-9-]{1,})*$/
 
 const schema = yup.object().shape({
   name: yup.string().max(256).required(),
-  uniqueName: yup.string().min(2).matches(UNIQUE_NAME_FORMAT).required()
+  uniqueName: yup.string().min(2).matches(UNIQUE_NAME_FORMAT).required(),
+  phone: yup.string().min(10).max(11).required(),
+  address: yup.string().min(10).required()
 })
 
 const defaultValues = {
   name: 'Example Organization',
-  uniqueName: 'example-org'
+  uniqueName: 'example-org',
+  phone: '0339089172',
+  address: '19A Bach Khoa, Ha Noi'
 }
 
 const CreateOrganizationPage = () => {
@@ -146,6 +150,64 @@ const CreateOrganizationPage = () => {
                   />
                   {errors.uniqueName && (
                     <FormHelperText sx={{ color: 'error.main' }}>{errors.uniqueName.message}</FormHelperText>
+                  )}
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl fullWidth sx={{ mb: 4, mt: 4 }}>
+                  <Controller
+                    name='phone'
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <TextField
+                        autoFocus
+                        label={t('new.organization_phone')}
+                        value={value}
+                        onBlur={onBlur}
+                        onChange={onChange}
+                        error={Boolean(errors.phone)}
+                        placeholder={t('new.enter_new_organization_phone')!}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position='start'>
+                              <Icon icon='mdi:card-account-phone-outline' />
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+                    )}
+                  />
+                  {errors.phone && <FormHelperText sx={{ color: 'error.main' }}>{errors.phone.message}</FormHelperText>}
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl fullWidth sx={{ mb: 4 }}>
+                  <Controller
+                    name='address'
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <TextField
+                        autoFocus
+                        label={t('new.organization_address')}
+                        value={value}
+                        onBlur={onBlur}
+                        onChange={onChange}
+                        error={Boolean(errors.address)}
+                        placeholder={t('new.enter_new_organization_address')!}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position='start'>
+                              <Icon icon='mdi:address-marker-outline' />
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+                    )}
+                  />
+                  {errors.address && (
+                    <FormHelperText sx={{ color: 'error.main' }}>{errors.address.message}</FormHelperText>
                   )}
                 </FormControl>
               </Grid>

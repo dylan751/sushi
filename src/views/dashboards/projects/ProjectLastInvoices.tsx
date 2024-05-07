@@ -80,10 +80,10 @@ const ProjectLastInvoices = ({ data }: ProjectLastInvoicesProps) => {
   const columns: GridColDef[] = [
     {
       flex: 0.1,
-      field: 'id',
+      field: 'uid',
       minWidth: 50,
       headerName: '#',
-      renderCell: ({ row }: CellType) => <LinkStyled href={getInvoicePreviewUrl(row.id)}>{`#${row.id}`}</LinkStyled>
+      renderCell: ({ row }: CellType) => <LinkStyled href={getInvoicePreviewUrl(row.id)}>{`#${row.uid}`}</LinkStyled>
     },
     {
       flex: 0.2,

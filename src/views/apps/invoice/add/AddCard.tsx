@@ -37,6 +37,10 @@ import Select from '@mui/material/Select'
 import MenuItem, { MenuItemProps } from '@mui/material/MenuItem'
 import CustomChip from 'src/@core/components/mui/chip'
 
+// ** Hooks Imports
+import { useCurrentOrganization } from 'src/hooks'
+import { Table, TableBody, TableCell, TableCellBaseProps, TableRow } from '@mui/material'
+
 const initialFormData = {
   index: 0,
   name: '',
@@ -50,8 +54,16 @@ interface PickerProps {
 }
 
 const CustomInput = forwardRef(({ ...props }: PickerProps, ref: ForwardedRef<HTMLElement>) => {
-  return <TextField size='small' inputRef={ref} sx={{ width: { sm: '220px', xs: '170px' } }} {...props} />
+  return <TextField size='small' inputRef={ref} sx={{ width: { sm: '170px', xs: '170px' } }} {...props} />
 })
+
+const MUITableCell = styled(TableCell)<TableCellBaseProps>(({ theme }) => ({
+  borderBottom: 0,
+  paddingLeft: '0 !important',
+  paddingRight: '0 !important',
+  paddingTop: `${theme.spacing(1)} !important`,
+  paddingBottom: `${theme.spacing(1)} !important`
+}))
 
 const RepeatingContent = styled(Grid)<GridProps>(({ theme }) => ({
   paddingRight: 0,
@@ -149,6 +161,7 @@ const AddCard = ({
   // ** Hook
   const { t } = useTranslation()
   const session = useSession()
+  const { organization } = useCurrentOrganization()
 
   const handleChangeForm = (index: number, key: string, value: any): void => {
     setFormData((prevFormData: any[]) => {
@@ -197,7 +210,7 @@ const AddCard = ({
     <Card>
       <CardContent>
         <Grid container>
-          <Grid item xl={12} xs={12} sx={{ mb: { xl: 0, xs: 4 } }}>
+          <Grid item sm={6} xs={12} sx={{ mb: { xl: 0, xs: 4 } }}>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Box sx={{ mb: 6, display: 'flex', alignItems: 'center' }}>
                 <img src='/images/pages/tree.png' alt='logo' width='30' height='30' />
@@ -208,26 +221,51 @@ const AddCard = ({
                   {themeConfig.templateName}
                 </Typography>
               </Box>
+              <Box>
+                <Typography variant='body2' sx={{ mb: 1 }}>
+                  {organization.address}
+                </Typography>
+                <Typography variant='body2'>{organization.phone}</Typography>
+              </Box>
             </Box>
           </Grid>
+          <Grid item sm={6} xs={12}>
+            <Box sx={{ display: 'flex', justifyContent: { xs: 'flex-start', sm: 'flex-end' } }}>
+              <Table sx={{ maxWidth: '250px' }}>
+                <TableBody>
+                  <TableRow>
+                    <MUITableCell>
+                      <Typography variant='h6'>{t('invoice_page.add.invoice')}</Typography>
+                    </MUITableCell>
+                  </TableRow>
+                  <TableRow sx={{ display: 'flex', alignItems: 'center' }}>
+                    <MUITableCell>
+                      <Typography variant='body2' sx={{ mr: { sm: 0, xs: 3 }, width: { sm: '100px', xs: '125px' } }}>
+                        {t('invoice_page.add.date')}:
+                      </Typography>
+                    </MUITableCell>
+                    <MUITableCell>
+                      <DatePicker
+                        id='date'
+                        selected={date}
+                        customInput={<CustomInput />}
+                        onChange={(date: Date) => setDate(date)}
+                      />
+                    </MUITableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </Box>
+          </Grid>
+        </Grid>
+      </CardContent>
+
+      <Divider />
+
+      <CardContent>
+        <Grid container>
           <Grid item xl={12} xs={12}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xl: 'flex-start', xs: 'flex-start' } }}>
-              <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-                <Typography variant='h6' sx={{ mr: 2, width: '125px' }}>
-                  {t('invoice_page.add.invoice')}
-                </Typography>
-              </Box>
-              <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-                <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
-                  {t('invoice_page.add.date')}:
-                </Typography>
-                <DatePicker
-                  id='issue-date'
-                  selected={date}
-                  customInput={<CustomInput />}
-                  onChange={(date: Date) => setDate(date)}
-                />
-              </Box>
               <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                 <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
                   {t('invoice_page.add.type')}:
@@ -283,7 +321,7 @@ const AddCard = ({
                   ))}
                 </Select>
               </Box>
-              {projectId && categories && categories.length > 0 && (
+              {projectId && categories && (
                 <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                   <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
                     Category:

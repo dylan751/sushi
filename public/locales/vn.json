@@ -58,6 +58,10 @@
         "enter_new_organization_name": "Vui lòng nhập tên tổ chức",
         "organization_url": "URL của tổ chức",
         "enter_new_organization_unique_url": "Vui lòng nhập URL của tổ chức",
+        "organization_phone": "Số điện thoại tổ chức",
+        "enter_new_organization_phone": "Vui lòng nhập số điện thoại của tổ chức",
+        "organization_address": "Địa chỉ tổ chức",
+        "enter_new_organization_address": "Vui lòng nhập địa chỉ của tổ chức",
         "create": "Tạo"
     },
     "home": {

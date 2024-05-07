@@ -28,6 +28,7 @@ import { calculateInvoiceItemTotal, calculateInvoiceSubtotal } from 'src/utils/i
 
 // ** Hooks Imports
 import { useTranslation } from 'react-i18next'
+import { useCurrentOrganization } from 'src/hooks'
 
 // ** Enums Imports
 import { Locale } from 'src/enum'
@@ -56,6 +57,7 @@ const CalcWrapper = styled(Box)<BoxProps>(({ theme }) => ({
 const PreviewCard = ({ data }: Props) => {
   // ** Hook
   const { t } = useTranslation()
+  const { organization } = useCurrentOrganization()
 
   if (data) {
     return (
@@ -73,16 +75,12 @@ const PreviewCard = ({ data }: Props) => {
                     {themeConfig.templateName}
                   </Typography>
                 </Box>
-                {/* TODO: Change to dynamic organization information */}
-                <div>
+                <Box>
                   <Typography variant='body2' sx={{ mb: 1 }}>
-                    Office 149, 450 South Brand Brooklyn
+                    {organization.address}
                   </Typography>
-                  <Typography variant='body2' sx={{ mb: 1 }}>
-                    San Diego County, CA 91905, USA
-                  </Typography>
-                  <Typography variant='body2'>+1 (123) 456 7891, +44 (876) 543 2198</Typography>
-                </div>
+                  <Typography variant='body2'>{organization.phone}</Typography>
+                </Box>
               </Box>
             </Grid>
             <Grid item sm={6} xs={12}>
@@ -94,7 +92,7 @@ const PreviewCard = ({ data }: Props) => {
                         <Typography variant='h6'>{t('invoice_page.preview.invoice')}</Typography>
                       </MUITableCell>
                       <MUITableCell>
-                        <Typography variant='h6'>{`#${data.id}`}</Typography>
+                        <Typography variant='h6'>{`#${data.uid}`}</Typography>
                       </MUITableCell>
                     </TableRow>
                     <TableRow>
@@ -202,14 +200,6 @@ const PreviewCard = ({ data }: Props) => {
               </CalcWrapper>
             </Grid>
           </Grid>
-        </CardContent>
-
-        <Divider />
-
-        <CardContent>
-          <Typography variant='body2'>
-            <strong>{t('invoice_page.preview.note')}:</strong> Note #{data.id}
-          </Typography>
         </CardContent>
       </Card>
     )
