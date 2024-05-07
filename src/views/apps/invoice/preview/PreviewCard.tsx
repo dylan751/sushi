@@ -94,7 +94,7 @@ const PreviewCard = ({ data }: Props) => {
                         <Typography variant='h6'>{t('invoice_page.preview.invoice')}</Typography>
                       </MUITableCell>
                       <MUITableCell>
-                        <Typography variant='h6'>{`#${data.id}`}</Typography>
+                        <Typography variant='h6'>{`#${data.uid}`}</Typography>
                       </MUITableCell>
                     </TableRow>
                     <TableRow>
@@ -202,14 +202,6 @@ const PreviewCard = ({ data }: Props) => {
               </CalcWrapper>
             </Grid>
           </Grid>
-        </CardContent>
-
-        <Divider />
-
-        <CardContent>
-          <Typography variant='body2'>
-            <strong>{t('invoice_page.preview.note')}:</strong> Note #{data.id}
-          </Typography>
         </CardContent>
       </Card>
     )

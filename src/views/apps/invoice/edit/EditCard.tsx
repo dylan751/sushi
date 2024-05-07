@@ -247,7 +247,7 @@ const EditCard = ({
                   </Typography>
                   <TextField
                     size='small'
-                    value={data.id || ''}
+                    value={data.uid || ''}
                     sx={{ width: { sm: '220px', xs: '170px' } }}
                     InputProps={{
                       disabled: true,

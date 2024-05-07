@@ -385,6 +385,8 @@ export interface InvoiceResponseDto {
    * @example "2024-02-26T07:31:35.000Z"
    */
   date: string
+  /** @example "INV-EF5" */
+  uid: string
   /** @example "expense" */
   type: InvoiceType
   /** @example "vnd" */

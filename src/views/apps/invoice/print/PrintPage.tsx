@@ -14,7 +14,7 @@ import TableHead from '@mui/material/TableHead'
 import TableBody from '@mui/material/TableBody'
 import Typography from '@mui/material/Typography'
 import Box, { BoxProps } from '@mui/material/Box'
-import { styled, useTheme } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 import TableCell from '@mui/material/TableCell'
 
 // ** Third Parties Imports
@@ -60,7 +60,6 @@ export interface InvoicePrintProps {
 
 const InvoicePrint = ({ id }: InvoicePrintProps) => {
   // ** Hooks
-  const theme = useTheme()
   const { t } = useTranslation()
   const { organizationId } = useCurrentOrganization()
 
@@ -82,7 +81,7 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
     const invoice = invoiceStore.invoice as InvoiceResponseDto
 
     return (
-      <Box sx={{ p: 12, pb: 6 }}>
+      <Box sx={{ p: 12, pb: 6, width: '50%', margin: 'auto' }}>
         <Grid container>
           <Grid item xs={8} sx={{ mb: { sm: 0, xs: 4 } }}>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -110,7 +109,7 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
           <Grid item xs={4}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { sm: 'flex-end', xs: 'flex-start' } }}>
               <Typography variant='h6' sx={{ mb: 2 }}>
-                {`${t('invoice_page.print.invoice')} #${invoice.id}`}
+                {`${t('invoice_page.print.invoice')} #${invoice.uid}`}
               </Typography>
               <Box sx={{ display: 'flex' }}>
                 <Typography variant='body2' sx={{ mr: 3 }}>
@@ -207,11 +206,6 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
             </CalcWrapper>
           </Grid>
         </Grid>
-
-        <Divider sx={{ my: `${theme.spacing(6)} !important` }} />
-        <Typography variant='body2'>
-          <strong>{t('invoice_page.print.note')}:</strong> Note #{invoice.id}
-        </Typography>
       </Box>
     )
   } else {
