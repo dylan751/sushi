@@ -283,7 +283,7 @@ const AddCard = ({
                   ))}
                 </Select>
               </Box>
-              {projectId && categories && categories.length > 0 && (
+              {projectId && categories && (
                 <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                   <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
                     Category:
