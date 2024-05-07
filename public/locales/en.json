@@ -61,6 +61,10 @@
         "enter_new_organization_name": "Enter new organization name",
         "organization_url": "Organization URL",
         "enter_new_organization_unique_url": "Enter new organization unique URL",
+        "organization_phone": "Organization Phone",
+        "enter_new_organization_phone": "Enter new organization phone",
+        "organization_address": "Organization Address",
+        "enter_new_organization_address": "Enter new organization address",
         "create": "Create"
     },
     "home": {

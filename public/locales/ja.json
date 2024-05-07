@@ -61,6 +61,10 @@
         "enter_new_organization_name": "会社名を入れてください",
         "organization_url": "URLパス",
         "enter_new_organization_unique_url": "会社のURLパスを入れてください",
+        "organization_phone": "会社の電話",
+        "enter_new_organization_phone": "会社の電話を入れてください",
+        "organization_address": "会社の住所",
+        "enter_new_organization_address": "会社の住所を入れてください",
         "create": "登録"
     },
     "home": {
