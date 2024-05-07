@@ -3,6 +3,7 @@ import { useState, useEffect, forwardRef, useContext } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -15,7 +16,7 @@ import CardHeader from '@mui/material/CardHeader'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { DataGrid, GridColDef, GridRowId } from '@mui/x-data-grid'
+import { DataGrid, GridColDef, GridEventListener, GridRowId } from '@mui/x-data-grid'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -137,6 +138,7 @@ const InvoiceList = () => {
 
   // ** Hooks
   const { organizationId } = useCurrentOrganization()
+  const router = useRouter()
   const dispatch = useDispatch<AppDispatch>()
   const invoiceStore = useSelector((state: RootState) => state.invoice)
   const projectStore = useSelector((state: RootState) => state.project)
@@ -159,6 +161,12 @@ const InvoiceList = () => {
   useEffect(() => {
     dispatch(fetchProject({ organizationId }))
   }, [dispatch, organizationId])
+
+  const handleOnRowClick: GridEventListener<'rowClick'> = (
+    params: any // GridRowParams
+  ) => {
+    router.replace(getInvoicePreviewUrl(params.row.id))
+  }
 
   const handleOnChangeRange = (dates: any) => {
     const [start, end] = dates
@@ -407,10 +415,17 @@ const InvoiceList = () => {
               rows={invoiceStore.invoices}
               columns={columns}
               disableRowSelectionOnClick
+              onRowClick={handleOnRowClick}
               pageSizeOptions={[10, 25, 50]}
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
               onRowSelectionModelChange={rows => setSelectedRows(rows)}
+              sx={{
+                // pointer cursor on ALL rows
+                '& .MuiDataGrid-row:hover': {
+                  cursor: 'pointer'
+                }
+              }}
             />
           </Card>
         </Grid>

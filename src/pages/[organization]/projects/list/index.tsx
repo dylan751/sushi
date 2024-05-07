@@ -15,7 +15,7 @@ import CardContent from '@mui/material/CardContent'
 import Tooltip from '@mui/material/Tooltip'
 import IconButton from '@mui/material/IconButton'
 import TextField from '@mui/material/TextField'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { DataGrid, GridColDef, GridEventListener } from '@mui/x-data-grid'
 import { styled } from '@mui/material/styles'
 
 // ** Type Imports
@@ -138,6 +138,12 @@ const Projects = () => {
     }
     setStartDateRange(start)
     setEndDateRange(end)
+  }
+
+  const handleOnRowClick: GridEventListener<'rowClick'> = (
+    params: any // GridRowParams
+  ) => {
+    router.replace(getProjectDefaultTab(params.row.id))
   }
 
   const defaultColumns: GridColDef[] = [
@@ -317,9 +323,16 @@ const Projects = () => {
               rows={store.projects}
               columns={columns}
               disableRowSelectionOnClick
+              onRowClick={handleOnRowClick}
               pageSizeOptions={[10, 25, 50]}
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
+              sx={{
+                // pointer cursor on ALL rows
+                '& .MuiDataGrid-row:hover': {
+                  cursor: 'pointer'
+                }
+              }}
             />
           </Card>
         </Grid>
