@@ -19,9 +19,10 @@ import CircularProgress from '@mui/material/CircularProgress'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-// ** Demo Tabs Imports
+// ** Tabs Imports
 import TabAccount from 'src/views/pages/account-settings/TabAccount'
 import TabSecurity from 'src/views/pages/account-settings/TabSecurity'
+import TabOrganization from 'src/views/pages/account-settings/TabOrganization'
 
 // ** Util Imports
 import { getOrgUniqueName } from 'src/utils/organization'
@@ -73,7 +74,8 @@ const AccountSettings = ({ tab }: { tab: string }) => {
 
   const tabContentList: { [key: string]: ReactElement } = {
     account: <TabAccount />,
-    security: <TabSecurity />
+    security: <TabSecurity />,
+    organization: <TabOrganization />
   }
 
   return (
@@ -103,6 +105,15 @@ const AccountSettings = ({ tab }: { tab: string }) => {
                     <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
                       <Icon icon='mdi:lock-open-outline' />
                       {!hideText && t('account_settings_page.security.title')}
+                    </Box>
+                  }
+                />
+                <Tab
+                  value='organization'
+                  label={
+                    <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
+                      <Icon icon='mdi:office-building-outline' />
+                      {!hideText && t('account_settings_page.organization.title')}
                     </Box>
                   }
                 />

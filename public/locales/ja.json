@@ -20,7 +20,8 @@
         "account_settings_page": {
             "account_settings": "アカウント設定",
             "account": "アカウント",
-            "security": "セキュリティ"
+            "security": "セキュリティ",
+            "organization": "組織"
         }
     },
     "autocomplete": {
@@ -373,6 +374,13 @@
             "password_requirements_1": "最低 8 文字 - 多ければ多いほど良い",
             "password_requirements_2": "少なくとも 1 つの小文字と 1 つの大文字",
             "password_requirements_3": "少なくとも 1 つの数字、記号、または空白文字"
+        },
+        "organization": {
+            "title": "組織",
+            "information_settings": "情報設定",
+            "organization_name": "会社名",
+            "phone_number": "電話番号",
+            "organization_address": "会社の住所"
         }
     }
 }
