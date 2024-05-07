@@ -94,12 +94,12 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
                   {themeConfig.templateName}
                 </Typography>
               </Box>
-              <div>
+              <Box>
                 <Typography variant='body2' sx={{ mb: 1 }}>
                   {organization.address}
                 </Typography>
                 <Typography variant='body2'>{organization.phone}</Typography>
-              </div>
+              </Box>
             </Box>
           </Grid>
           <Grid item xs={4}>

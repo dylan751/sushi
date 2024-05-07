@@ -75,12 +75,12 @@ const PreviewCard = ({ data }: Props) => {
                     {themeConfig.templateName}
                   </Typography>
                 </Box>
-                <div>
+                <Box>
                   <Typography variant='body2' sx={{ mb: 1 }}>
                     {organization.address}
                   </Typography>
                   <Typography variant='body2'>{organization.phone}</Typography>
-                </div>
+                </Box>
               </Box>
             </Grid>
             <Grid item sm={6} xs={12}>

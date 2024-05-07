@@ -19,6 +19,10 @@ import { styled } from '@mui/material/styles'
 import InputAdornment from '@mui/material/InputAdornment'
 import Select from '@mui/material/Select'
 import CardContent, { CardContentProps } from '@mui/material/CardContent'
+import TableCell, { TableCellBaseProps } from '@mui/material/TableCell'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableRow from '@mui/material/TableRow'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -38,6 +42,9 @@ import { UpdateInvoiceFormData } from './Edit'
 import Repeater from 'src/@core/components/repeater'
 import CustomChip from 'src/@core/components/mui/chip'
 
+// ** Hooks Imports
+import { useCurrentOrganization } from 'src/hooks'
+
 const initialFormData = {
   index: 0,
   name: '',
@@ -51,8 +58,16 @@ interface PickerProps {
 }
 
 const CustomInput = forwardRef(({ ...props }: PickerProps, ref: ForwardedRef<HTMLElement>) => {
-  return <TextField size='small' inputRef={ref} {...props} sx={{ width: { sm: '220px', xs: '170px' } }} />
+  return <TextField size='small' inputRef={ref} {...props} sx={{ width: { sm: '170px', xs: '170px' } }} />
 })
+
+const MUITableCell = styled(TableCell)<TableCellBaseProps>(({ theme }) => ({
+  borderBottom: 0,
+  paddingLeft: '0 !important',
+  paddingRight: '0 !important',
+  paddingTop: `${theme.spacing(1)} !important`,
+  paddingBottom: `${theme.spacing(1)} !important`
+}))
 
 const RepeatingContent = styled(Grid)<GridProps>(({ theme }) => ({
   paddingRight: 0,
@@ -148,6 +163,7 @@ const EditCard = ({
   // ** Hook
   const { t } = useTranslation()
   const session = useSession()
+  const { organization } = useCurrentOrganization()
 
   useEffect(() => {
     if (data) {
@@ -224,7 +240,7 @@ const EditCard = ({
       <Card>
         <CardContent>
           <Grid container>
-            <Grid item xl={12} xs={12} sx={{ mb: { xl: 0, xs: 4 } }}>
+            <Grid item sm={6} xs={12} sx={{ mb: { xl: 0, xs: 4 } }}>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ mb: 6, display: 'flex', alignItems: 'center' }}>
                   <img src='/images/pages/tree.png' alt='logo' width='30' height='30' />
@@ -235,38 +251,66 @@ const EditCard = ({
                     {themeConfig.templateName}
                   </Typography>
                 </Box>
+                <Box>
+                  <Typography variant='body2' sx={{ mb: 1 }}>
+                    {organization.address}
+                  </Typography>
+                  <Typography variant='body2'>{organization.phone}</Typography>
+                </Box>
               </Box>
             </Grid>
+            <Grid item sm={6} xs={12}>
+              <Box sx={{ display: 'flex', justifyContent: { xs: 'flex-start', sm: 'flex-end' } }}>
+                <Table sx={{ maxWidth: '250px' }}>
+                  <TableBody>
+                    <TableRow sx={{ display: 'flex', alignItems: 'center' }}>
+                      <MUITableCell>
+                        <Typography variant='h6' sx={{ mr: { sm: 0, xs: 3 }, width: { sm: '100px', xs: '125px' } }}>
+                          {t('invoice_page.edit.invoice')}
+                        </Typography>
+                      </MUITableCell>
+                      <MUITableCell>
+                        <TextField
+                          size='small'
+                          value={data.uid || ''}
+                          sx={{ width: { sm: '170px', xs: '170px' } }}
+                          InputProps={{
+                            disabled: true,
+                            startAdornment: <InputAdornment position='start'>#</InputAdornment>
+                          }}
+                        />
+                      </MUITableCell>
+                    </TableRow>
+                    <TableRow sx={{ display: 'flex', alignItems: 'center' }}>
+                      <MUITableCell>
+                        <Typography variant='body2' sx={{ mr: { sm: 0, xs: 3 }, width: { sm: '100px', xs: '125px' } }}>
+                          {t('invoice_page.edit.date')}:
+                        </Typography>
+                      </MUITableCell>
+                      <MUITableCell>
+                        <DatePicker
+                          id='date'
+                          selected={date ?? new Date()}
+                          customInput={<CustomInput />}
+                          onChange={(date: Date) => setDate(date ? date : new Date())}
+                        />
+                      </MUITableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </Box>
+            </Grid>
+          </Grid>
+        </CardContent>
+
+        <Divider />
+
+        <CardContent>
+          <Grid container>
             <Grid item xl={12} xs={12}>
               <Box
                 sx={{ display: 'flex', flexDirection: 'column', alignItems: { xl: 'flex-start', xs: 'flex-start' } }}
               >
-                <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-                  <Typography variant='h6' sx={{ mr: 3, width: '125px' }}>
-                    {t('invoice_page.edit.invoice')}
-                  </Typography>
-                  <TextField
-                    size='small'
-                    value={data.uid || ''}
-                    sx={{ width: { sm: '220px', xs: '170px' } }}
-                    InputProps={{
-                      disabled: true,
-                      startAdornment: <InputAdornment position='start'>#</InputAdornment>
-                    }}
-                  />
-                </Box>
-                <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-                  <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
-                    {t('invoice_page.edit.date')}:
-                  </Typography>
-                  <DatePicker
-                    id='date'
-                    selected={date ?? new Date()}
-                    showDisabledMonthNavigation
-                    customInput={<CustomInput />}
-                    onChange={(date: Date) => setDate(date ? date : new Date())}
-                  />
-                </Box>
                 <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                   <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
                     {t('invoice_page.edit.type')}:
