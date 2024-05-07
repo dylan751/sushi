@@ -89,6 +89,12 @@ const navigation = (): VerticalNavItemsType => {
           subject: 'account-settings',
           title: 'navbar.account_settings_page.security',
           path: `/${uniqueName}/account-settings/security`
+        },
+        {
+          action: 'read',
+          subject: 'account-settings',
+          title: 'navbar.account_settings_page.organization',
+          path: `/${uniqueName}/account-settings/organization`
         }
       ]
     }

@@ -20,7 +20,8 @@
         "account_settings_page": {
             "account_settings": "Account Settings",
             "account": "Account",
-            "security": "Security"
+            "security": "Security",
+            "organization": "Organization"
         }
     },
     "autocomplete": {
@@ -373,6 +374,13 @@
             "password_requirements_1": "Minimum 8 characters long - the more, the better",
             "password_requirements_2": "At least one lowercase & one uppercase character",
             "password_requirements_3": "At least one number, symbol, or whitespace character"
+        },
+        "organization": {
+            "title": "Organization",
+            "information_settings": "Information Settings",
+            "organization_name": "Organization Name",
+            "phone_number": "Phone Number",
+            "organization_address": "Organization Address"
         }
     }
 }

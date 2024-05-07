@@ -2,7 +2,7 @@
 import Error404 from 'src/pages/404'
 import AccountSettings from 'src/views/pages/account-settings/AccountSettings'
 
-const tab = ['account', 'security']
+const tab = ['account', 'security', 'organization']
 
 const AccountSettingsTab = () => {
   const currentTab = window.location.pathname.split('/')[3]

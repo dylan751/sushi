@@ -20,7 +20,8 @@
         "account_settings_page": {
             "account_settings": "Cài đặt tài khoản",
             "account": "Tài khoản",
-            "security": "Bảo mật"
+            "security": "Bảo mật",
+            "organization": "Tổ chức"
         }
     },
     "user_dropdown": {
@@ -373,6 +374,13 @@
             "password_requirements_1": "Có tối thiểu 8 ký tự - càng nhiều ký tự càng an toàn",
             "password_requirements_2": "Có ít nhất một chữ cái viết thường và một chữ cái viết hoa",
             "password_requirements_3": "Có ít nhất một chữ số, ký hiệu hoặc ký tự khoảng trắng"
+        },
+        "organization": {
+            "title": "Tổ chức",
+            "information_settings": "Cài đặt thông tin",
+            "organization_name": "Tên tổ chức",
+            "phone_number": "Số điện thoại",
+            "organization_address": "Địa chỉ tổ chức"
         }
     }
 }
