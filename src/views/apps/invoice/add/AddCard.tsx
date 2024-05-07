@@ -37,6 +37,9 @@ import Select from '@mui/material/Select'
 import MenuItem, { MenuItemProps } from '@mui/material/MenuItem'
 import CustomChip from 'src/@core/components/mui/chip'
 
+// ** Hooks Imports
+import { useCurrentOrganization } from 'src/hooks'
+
 const initialFormData = {
   index: 0,
   name: '',
@@ -149,6 +152,7 @@ const AddCard = ({
   // ** Hook
   const { t } = useTranslation()
   const session = useSession()
+  const { organization } = useCurrentOrganization()
 
   const handleChangeForm = (index: number, key: string, value: any): void => {
     setFormData((prevFormData: any[]) => {
@@ -208,6 +212,12 @@ const AddCard = ({
                   {themeConfig.templateName}
                 </Typography>
               </Box>
+              <div>
+                <Typography variant='body2' sx={{ mb: 1 }}>
+                  {organization.address}
+                </Typography>
+                <Typography variant='body2'>{organization.phone}</Typography>
+              </div>
             </Box>
           </Grid>
           <Grid item xl={12} xs={12}>

@@ -32,6 +32,10 @@ export interface OrganizationProfileResponseDto {
   name: string
   /** @example "org_unique_name" */
   uniqueName: string
+  /** @example "0339089172" */
+  phone: string
+  /** @example "19A Bach Khoa, Ha Noi" */
+  address: string
   roles: UserRole[]
 }
 
@@ -186,6 +190,10 @@ export interface CreateOrganizationRequestDto {
   name: string
   /** @example "example-org" */
   uniqueName: string
+  /** @example "0339089172" */
+  phone: string
+  /** @example "19A Bach Khoa, Ha Noi" */
+  address: string
 }
 
 export interface OrganizationResponseDto {
@@ -195,6 +203,10 @@ export interface OrganizationResponseDto {
   name: string
   /** @example "test-org" */
   uniqueName: string
+  /** @example "0339089172" */
+  phone: string
+  /** @example "19A Bach Khoa, Ha Noi" */
+  address: string
   /**
    * @format date-time
    * @example "2024-02-26T07:31:35.000Z"
@@ -207,6 +219,10 @@ export interface UpdateOrganizationRequestDto {
   name?: string
   /** @example "example-org" */
   uniqueName?: string
+  /** @example "0339089172" */
+  phone?: string
+  /** @example "19A Bach Khoa, Ha Noi" */
+  address?: string
 }
 
 export interface PermissionSubjectResponseDto {

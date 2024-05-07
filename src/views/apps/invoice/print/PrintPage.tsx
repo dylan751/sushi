@@ -61,7 +61,7 @@ export interface InvoicePrintProps {
 const InvoicePrint = ({ id }: InvoicePrintProps) => {
   // ** Hooks
   const { t } = useTranslation()
-  const { organizationId } = useCurrentOrganization()
+  const { organization, organizationId } = useCurrentOrganization()
 
   // ** Store
   const dispatch = useDispatch<AppDispatch>()
@@ -94,15 +94,11 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
                   {themeConfig.templateName}
                 </Typography>
               </Box>
-              {/* TODO: Change to dynamic organization information */}
               <div>
                 <Typography variant='body2' sx={{ mb: 1 }}>
-                  Office 149, 450 South Brand Brooklyn
+                  {organization.address}
                 </Typography>
-                <Typography variant='body2' sx={{ mb: 1 }}>
-                  San Diego County, CA 91905, USA
-                </Typography>
-                <Typography variant='body2'>+1 (123) 456 7891, +44 (876) 543 2198</Typography>
+                <Typography variant='body2'>{organization.phone}</Typography>
               </div>
             </Box>
           </Grid>

@@ -28,6 +28,7 @@ import { calculateInvoiceItemTotal, calculateInvoiceSubtotal } from 'src/utils/i
 
 // ** Hooks Imports
 import { useTranslation } from 'react-i18next'
+import { useCurrentOrganization } from 'src/hooks'
 
 // ** Enums Imports
 import { Locale } from 'src/enum'
@@ -56,6 +57,7 @@ const CalcWrapper = styled(Box)<BoxProps>(({ theme }) => ({
 const PreviewCard = ({ data }: Props) => {
   // ** Hook
   const { t } = useTranslation()
+  const { organization } = useCurrentOrganization()
 
   if (data) {
     return (
@@ -73,15 +75,11 @@ const PreviewCard = ({ data }: Props) => {
                     {themeConfig.templateName}
                   </Typography>
                 </Box>
-                {/* TODO: Change to dynamic organization information */}
                 <div>
                   <Typography variant='body2' sx={{ mb: 1 }}>
-                    Office 149, 450 South Brand Brooklyn
+                    {organization.address}
                   </Typography>
-                  <Typography variant='body2' sx={{ mb: 1 }}>
-                    San Diego County, CA 91905, USA
-                  </Typography>
-                  <Typography variant='body2'>+1 (123) 456 7891, +44 (876) 543 2198</Typography>
+                  <Typography variant='body2'>{organization.phone}</Typography>
                 </div>
               </Box>
             </Grid>
