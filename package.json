@@ -37,6 +37,7 @@
     "@mui/x-data-grid": "6.0.3",
     "@popperjs/core": "2.11.7",
     "@reduxjs/toolkit": "1.9.5",
+    "@types/react-csv": "^1.1.10",
     "apexcharts-clevision": "3.28.5",
     "axios": "1.4.0",
     "axios-mock-adapter": "^1.21.4",
@@ -105,6 +106,7 @@
     "eslint-plugin-import": "2.27.5",
     "husky": "^9.0.11",
     "prettier": "2.8.4",
+    "react-csv": "^2.2.2",
     "typescript": "5.0.4"
   },
   "resolutions": {
