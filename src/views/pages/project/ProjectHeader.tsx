@@ -15,6 +15,7 @@ import { ProjectResponseDto } from 'src/__generated__/AccountifyAPI'
 // ** Util Imports
 import { getProjectListUrl } from 'src/utils/router'
 import { useTranslation } from 'react-i18next'
+import { useTheme } from '@mui/material/styles'
 
 export interface ProjectHeaderProps {
   project: ProjectResponseDto
@@ -23,12 +24,14 @@ export interface ProjectHeaderProps {
 const ProjectHeader = ({ project }: ProjectHeaderProps) => {
   const router = useRouter()
   const { t } = useTranslation()
+  const theme = useTheme()
 
   const breadcrumbs = [
     <Link underline='hover' key='1' color='inherit' onClick={() => router.replace(getProjectListUrl())}>
       {t('project_page.list.project_list')}
     </Link>,
-    <Typography key='2' color='info.main'>
+
+    <Typography key='2' variant='h6' sx={{ color: `${theme.palette.primary.main} !important` }}>
       {project.name}
     </Typography>
   ]
