@@ -15,7 +15,7 @@ import CardHeader from '@mui/material/CardHeader'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { DataGrid, GridColDef, GridRowId } from '@mui/x-data-grid'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -131,7 +131,6 @@ const InvoiceList = () => {
   const [type, setType] = useState<InvoiceType | ''>('')
   const [projectId, setProjectId] = useState<string>('')
   const [endDateRange, setEndDateRange] = useState<DateType>(null)
-  const [selectedRows, setSelectedRows] = useState<GridRowId[]>([])
   const [startDateRange, setStartDateRange] = useState<DateType>(null)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
@@ -400,7 +399,7 @@ const InvoiceList = () => {
         </Grid>
         <Grid item xs={12}>
           <Card>
-            <TableHeader selectedRows={selectedRows} />
+            <TableHeader invoices={invoiceStore.invoices} />
             <DataGrid
               autoHeight
               pagination
@@ -410,7 +409,6 @@ const InvoiceList = () => {
               pageSizeOptions={[10, 25, 50]}
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
-              onRowSelectionModelChange={rows => setSelectedRows(rows)}
             />
           </Card>
         </Grid>

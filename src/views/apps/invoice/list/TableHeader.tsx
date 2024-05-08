@@ -7,26 +7,33 @@ import { useContext } from 'react'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Select from '@mui/material/Select'
-import { GridRowId } from '@mui/x-data-grid'
-import MenuItem from '@mui/material/MenuItem'
+
+// ** Icon Imports
+import Icon from 'src/@core/components/icon'
 
 // ** Utils Imports
 import { getOrgUniqueName } from 'src/utils/organization'
+import { generateCsvFilename } from 'src/utils/csv'
 
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
+import { CSVLink } from 'react-csv'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
 
+// ** Hooks Imports
+import { useTheme } from '@mui/material/styles'
+
+// ** Types Imports
+import { InvoiceResponseDto } from 'src/__generated__/AccountifyAPI'
+
 interface TableHeaderProps {
-  selectedRows: GridRowId[]
+  invoices: InvoiceResponseDto[]
 }
 
 const TableHeader = (props: TableHeaderProps) => {
-  // ** Props
-  const { selectedRows } = props
+  const { invoices } = props
 
   // ** Utils
   const uniqueName = getOrgUniqueName()
@@ -34,6 +41,18 @@ const TableHeader = (props: TableHeaderProps) => {
   // ** Hooks
   const { t } = useTranslation()
   const ability = useContext(AbilityContext)
+  const theme = useTheme()
+
+  const exportData = invoices.map(invoice => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { category, creator, items, project, ...res } = invoice
+    const data: any = res
+    data.category = invoice.category.name
+    data.creator = invoice.creator.name
+    data.project = invoice.project.name
+
+    return data
+  })
 
   return (
     <Box
@@ -47,19 +66,16 @@ const TableHeader = (props: TableHeaderProps) => {
         justifyContent: 'space-between'
       }}
     >
-      <Select
-        size='small'
-        displayEmpty
-        defaultValue=''
-        sx={{ mr: 4, mb: 2 }}
-        disabled={selectedRows && selectedRows.length === 0}
-        renderValue={selected => (selected.length === 0 ? t('invoice_page.list.actions') : selected)}
-      >
-        <MenuItem disabled>{t('invoice_page.list.actions')}</MenuItem>
-        <MenuItem value='Delete'>Delete</MenuItem>
-        <MenuItem value='Edit'>Edit</MenuItem>
-        <MenuItem value='Send'>Send</MenuItem>
-      </Select>
+      <Button sx={{ mr: 4, mb: 2 }} color='secondary' variant='outlined' startIcon={<Icon icon='mdi:export-variant' />}>
+        <CSVLink
+          data={exportData}
+          filename={generateCsvFilename('invoices')}
+          style={{ textDecoration: 'none', color: theme.palette.text.secondary }}
+          target='_blank'
+        >
+          {t('role_page.user.export')}
+        </CSVLink>
+      </Button>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
         <Button
           sx={{ mb: 2 }}

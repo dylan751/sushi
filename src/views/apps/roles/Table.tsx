@@ -314,6 +314,7 @@ const UserList = () => {
         <Card>
           <TableHeader
             role={role}
+            users={userStore.users}
             value={value}
             allRoles={roleStore.roles}
             handleFilter={handleFilter}

@@ -361,7 +361,7 @@ const UserPage = () => {
             </Grid>
           </CardContent>
           <Divider />
-          <TableHeader value={value} handleFilter={handleFilter} toggle={toggleAddUserDrawer} />
+          <TableHeader users={userStore.users} value={value} handleFilter={handleFilter} toggle={toggleAddUserDrawer} />
           <DataGrid
             autoHeight
             rows={userStore.users}
