@@ -9,7 +9,8 @@ export const calculateInvoiceItemTotal = (price: number, quantity: number): numb
 export const calculateInvoiceSubtotal = (
   items: InvoiceItemResponseDto[] | CreateInvoiceFormData[] | UpdateInvoiceFormData[]
 ): number => {
-  return items?.reduce((accumulator, currentValue) => {
+  // We have to use any[] here since Union type with .reduce() makes `yarn build` error
+  return (items as any[])?.reduce((accumulator, currentValue) => {
     if (currentValue.price && currentValue.quantity) {
       return accumulator + currentValue.price * currentValue.quantity
     } else {
@@ -22,7 +23,8 @@ export const calculateInvoiceTotal = (
   items: InvoiceItemResponseDto[] | CreateInvoiceFormData[] | UpdateInvoiceFormData[],
   tax: string
 ): number => {
-  let total = items.reduce((accumulator, currentValue) => {
+  // We have to use any[] here since Union type with .reduce() makes `yarn build` error
+  let total = (items as any[]).reduce((accumulator, currentValue) => {
     if (currentValue.price && currentValue.quantity) {
       return accumulator + currentValue.price * currentValue.quantity
     } else {
