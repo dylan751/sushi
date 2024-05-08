@@ -147,6 +147,7 @@ const InvoiceAdd = () => {
             projects={projectStore.projects}
             categories={categoryStore.categories}
             toggleAddCategoryDrawer={toggleAddCategoryDrawer}
+            formData={formData}
             setFormData={setFormData}
             date={date}
             setDate={setDate}

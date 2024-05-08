@@ -29,7 +29,9 @@ import themeConfig from 'src/configs/themeConfig'
 
 // ** Types Imports
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
+import { Locale } from 'src/enum'
 import { CategoryResponseDto, CurrencyType, InvoiceType, ProjectResponseDto } from 'src/__generated__/AccountifyAPI'
+import { CreateInvoiceFormData } from 'src/pages/[organization]/invoice/add'
 
 // ** Custom Component Imports
 import Repeater from 'src/@core/components/repeater'
@@ -40,6 +42,10 @@ import CustomChip from 'src/@core/components/mui/chip'
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
 import { Table, TableBody, TableCell, TableCellBaseProps, TableRow } from '@mui/material'
+
+// ** Utils Imports
+import { formatCurrencyAsStandard } from 'src/utils/currency'
+import { calculateInvoiceSubtotal, calculateInvoiceTotal } from 'src/utils/invoice'
 
 const initialFormData = {
   index: 0,
@@ -118,6 +124,7 @@ export interface AddCardProps {
   projects: ProjectResponseDto[]
   categories: CategoryResponseDto[]
   toggleAddCategoryDrawer: () => void
+  formData: CreateInvoiceFormData[]
   setFormData: (value: any) => void
   date: DateType
   setDate: (value: DateType) => void
@@ -139,6 +146,7 @@ const AddCard = ({
   projects,
   categories,
   toggleAddCategoryDrawer,
+  formData,
   setFormData,
   date,
   setDate,
@@ -495,15 +503,34 @@ const AddCard = ({
           </Grid>
           <Grid item xs={12} sm={5} lg={4} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>
             <CalcWrapper>
+              <Typography variant='body2'>{t('invoice_page.preview.subtotal')}:</Typography>
+              <Typography variant='body2' sx={{ fontWeight: 600 }}>
+                {formatCurrencyAsStandard(calculateInvoiceSubtotal(formData), Locale.EN, currency)}
+              </Typography>
+            </CalcWrapper>
+            <CalcWrapper>
+              <Typography variant='body2'>{t('invoice_page.preview.discount')}:</Typography>
+              <Typography variant='body2' sx={{ fontWeight: 600 }}>
+                {formatCurrencyAsStandard(0, Locale.EN, currency)}
+              </Typography>
+            </CalcWrapper>
+            <CalcWrapper>
               <Typography variant='body2'>{t('invoice_page.add.tax')}:</Typography>
               <TextField
                 size='small'
                 type='number'
                 placeholder='10'
-                sx={{ width: '100px' }}
+                sx={{ width: '70px' }}
                 value={tax}
                 onChange={e => setTax(e.target.value)}
               />
+            </CalcWrapper>
+            <Divider />
+            <CalcWrapper>
+              <Typography variant='body2'>{t('invoice_page.preview.total')}:</Typography>
+              <Typography variant='body2' sx={{ fontWeight: 600 }}>
+                {formatCurrencyAsStandard(calculateInvoiceTotal(formData, tax), Locale.EN, currency)}
+              </Typography>
             </CalcWrapper>
           </Grid>
         </Grid>
