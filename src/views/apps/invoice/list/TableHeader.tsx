@@ -47,7 +47,7 @@ const TableHeader = (props: TableHeaderProps) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { category, creator, items, project, ...res } = invoice
     const data: any = res
-    data.category = invoice.category.name
+    data.category = invoice.category?.name
     data.creator = invoice.creator.name
     data.project = invoice.project.name
 

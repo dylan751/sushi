@@ -151,9 +151,13 @@ const ProjectLastInvoices = ({ data }: ProjectLastInvoicesProps) => {
       minWidth: 125,
       field: 'category',
       headerName: t('invoice_page.list.category') as string,
-      renderCell: ({ row }: CellType) => (
-        <CustomChip label={row.category.name} skin='light' color={row.category.color as any} />
-      )
+      renderCell: ({ row }: CellType) => {
+        return row.category?.name ? (
+          <CustomChip label={row.category?.name} skin='light' color={row.category?.color as any} />
+        ) : (
+          <Typography>-</Typography>
+        )
+      }
     }
   ]
 

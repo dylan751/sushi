@@ -180,7 +180,7 @@ const EditCard = ({
       setTax(data.tax ? data.tax.toString() : '')
       setProjectId(data.project?.id.toString())
       setProjectName(data.project?.name)
-      setCategoryId(data.category?.id.toString())
+      setCategoryId(data.category ? data.category.id.toString() : '')
       setFormData(
         data.items?.map((item, index) => {
           return { ...item, index }

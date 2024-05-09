@@ -105,7 +105,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
       }
     })
 
-    if (!projectId || !categoryId) {
+    if (!projectId) {
       isDisabled = true
     }
 
@@ -123,9 +123,6 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
         return
       }
     })
-    if (!categoryId) {
-      isError = true
-    }
     if (isError) {
       return
     }
@@ -141,8 +138,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
       date: format(date as Date, 'yyyy-MM-dd'),
       type,
       currency,
-      categoryId: parseInt(categoryId),
       clientName,
+      categoryId: parseInt(categoryId),
       tax: parseInt(tax)
     }
 
