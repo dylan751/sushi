@@ -140,7 +140,11 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
           </Typography>
           <LinearProgress
             variant='determinate'
-            value={calculateBudgetProcess(row.category.totalSpent, row.amount)}
+            value={
+              calculateBudgetProcess(row.category.totalSpent, row.amount) <= 100
+                ? calculateBudgetProcess(row.category.totalSpent, row.amount)
+                : 100
+            }
             color={renderColorBudgetProcess(row.category.totalSpent, row.amount) as any}
             sx={{ height: 6, borderRadius: '5px' }}
           />
