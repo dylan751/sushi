@@ -130,7 +130,7 @@ const ProjectApexDonutChart = ({ data }: ProjectApexDonutChartProps) => {
         subheaderTypographyProps={{ sx: { color: theme => `${theme.palette.text.disabled} !important` } }}
       />
       <CardContent>
-        <ReactApexcharts type='donut' height={400} options={options} series={series} />
+        {data.id && <ReactApexcharts type='donut' height={400} options={options} series={series} />}
       </CardContent>
     </Card>
   )

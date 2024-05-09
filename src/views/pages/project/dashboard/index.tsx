@@ -94,40 +94,38 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
   ]
 
   return (
-    store.statistics.id && (
-      <ApexChartWrapper>
-        <DatePickerWrapper>
-          <DatePicker
-            showYearPicker
-            selected={year}
-            id='year-picker'
-            dateFormat='yyyy'
-            onChange={(date: Date) => setYear(date)}
-            customInput={<CustomInput label={t('project_page.dashboard.year_picker') as string} />}
-          />
-          <Grid container spacing={6} sx={{ paddingTop: '30px' }}>
-            <Grid item xs={12} sm={6} md={3} sx={{ pt: theme => `${theme.spacing(12.25)} !important` }}>
-              <CardStatisticsCharacter data={data[0]} />
-            </Grid>
-            <Grid item xs={12} sm={6} md={3} sx={{ pt: theme => `${theme.spacing(12.25)} !important` }}>
-              <CardStatisticsCharacter data={data[1]} />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <ProjectTransactions data={store.statistics} />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <ProjectApexLineChart data={store.statistics} />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <ProjectApexDonutChart data={store.statistics} />
-            </Grid>
-            <Grid item xs={12} md={12}>
-              <ProjectLastInvoices data={store.statistics} />
-            </Grid>
+    <ApexChartWrapper>
+      <DatePickerWrapper>
+        <DatePicker
+          showYearPicker
+          selected={year}
+          id='year-picker'
+          dateFormat='yyyy'
+          onChange={(date: Date) => setYear(date)}
+          customInput={<CustomInput label={t('project_page.dashboard.year_picker') as string} />}
+        />
+        <Grid container spacing={6} sx={{ paddingTop: '30px' }}>
+          <Grid item xs={12} sm={6} md={3} sx={{ pt: theme => `${theme.spacing(12.25)} !important` }}>
+            <CardStatisticsCharacter data={data[0]} />
           </Grid>
-        </DatePickerWrapper>
-      </ApexChartWrapper>
-    )
+          <Grid item xs={12} sm={6} md={3} sx={{ pt: theme => `${theme.spacing(12.25)} !important` }}>
+            <CardStatisticsCharacter data={data[1]} />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <ProjectTransactions data={store.statistics} />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <ProjectApexLineChart data={store.statistics} />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <ProjectApexDonutChart data={store.statistics} />
+          </Grid>
+          <Grid item xs={12} md={12}>
+            <ProjectLastInvoices data={store.statistics} />
+          </Grid>
+        </Grid>
+      </DatePickerWrapper>
+    </ApexChartWrapper>
   )
 }
 

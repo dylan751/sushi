@@ -128,7 +128,7 @@ const ProjectApexLineChart = ({ data }: ProjectApexLineChartProps) => {
         }
       />
       <CardContent>
-        <ReactApexcharts type='line' height={370} options={options} series={series} />
+        {data.id && <ReactApexcharts type='line' height={370} options={options} series={series} />}
       </CardContent>
     </Card>
   )
