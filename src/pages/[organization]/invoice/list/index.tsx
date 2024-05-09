@@ -130,6 +130,7 @@ const InvoiceList = () => {
   const [dates, setDates] = useState<Date[]>([])
   const [type, setType] = useState<InvoiceType | ''>('')
   const [projectId, setProjectId] = useState<string>('')
+  const [status, setStatus] = useState<string>('')
   const [endDateRange, setEndDateRange] = useState<DateType>(null)
   const [startDateRange, setStartDateRange] = useState<DateType>(null)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
@@ -147,13 +148,14 @@ const InvoiceList = () => {
       organizationId,
       fromDate: dates[0]?.toString(),
       toDate: dates[1]?.toString(),
-      type
+      type,
+      status
     }
     if (projectId) {
       fetchInvoiceParams.projectId = parseInt(projectId)
     }
     dispatch(fetchInvoice(fetchInvoiceParams))
-  }, [dispatch, dates, type, projectId, organizationId])
+  }, [dispatch, dates, type, status, projectId, organizationId])
 
   useEffect(() => {
     dispatch(fetchProject({ organizationId }))
@@ -174,6 +176,10 @@ const InvoiceList = () => {
 
   const handleOnChangeProjectId = (value: string) => {
     setProjectId(value)
+  }
+
+  const handleOnChangeStatus = (value: string) => {
+    setStatus(value)
   }
 
   const defaultColumns: GridColDef[] = [
@@ -259,9 +265,13 @@ const InvoiceList = () => {
       minWidth: 90,
       field: 'category',
       headerName: t('invoice_page.list.category') as string,
-      renderCell: ({ row }: CellType) => (
-        <CustomChip label={row.category.name} skin='light' color={row.category.color as any} />
-      )
+      renderCell: ({ row }: CellType) => {
+        return row.category?.name ? (
+          <CustomChip label={row.category?.name} skin='light' color={row.category?.color as any} />
+        ) : (
+          <Typography>-</Typography>
+        )
+      }
     }
   ]
 
@@ -329,7 +339,7 @@ const InvoiceList = () => {
             <CardHeader title={t('invoice_page.list.filters')} />
             <CardContent>
               <Grid container spacing={6}>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <DatePicker
                     isClearable
                     selectsRange
@@ -351,7 +361,7 @@ const InvoiceList = () => {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <FormControl fullWidth>
                     <InputLabel id='invoice-type-select'>{t('invoice_page.list.invoice_type')}</InputLabel>
                     <Select
@@ -372,7 +382,7 @@ const InvoiceList = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <FormControl fullWidth>
                     <InputLabel id='invoice-project-select'>{t('invoice_page.list.project')}</InputLabel>
 
@@ -390,6 +400,23 @@ const InvoiceList = () => {
                           {project.name}
                         </MenuItem>
                       ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                  <FormControl fullWidth>
+                    <InputLabel id='invoice-status-select'>{t('invoice_page.list.status')}</InputLabel>
+                    <Select
+                      fullWidth
+                      value={status}
+                      sx={{ mr: 4, mb: 2 }}
+                      label='Invoice Status'
+                      onChange={e => handleOnChangeStatus(e.target.value)}
+                      labelId='invoice-status-select'
+                    >
+                      <MenuItem value=''>{t('invoice_page.list.all_statuses')}</MenuItem>
+                      <MenuItem value='categorized'>{t('invoice_page.list.categorized')}</MenuItem>
+                      <MenuItem value='uncategorized'>{t('invoice_page.list.uncategorized')}</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>

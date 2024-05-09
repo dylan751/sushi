@@ -180,7 +180,7 @@ const EditCard = ({
       setTax(data.tax ? data.tax.toString() : '')
       setProjectId(data.project?.id.toString())
       setProjectName(data.project?.name)
-      setCategoryId(data.category?.id.toString())
+      setCategoryId(data.category ? data.category.id.toString() : '')
       setFormData(
         data.items?.map((item, index) => {
           return { ...item, index }
@@ -399,7 +399,9 @@ const EditCard = ({
           <Grid container>
             <Grid item xs={12} sm={6} sx={{ mb: { lg: 0, xs: 4 } }}>
               <Typography variant='body2' sx={{ mb: 3.5, color: 'text.primary', fontWeight: 600 }}>
-                {t('invoice_page.edit.invoice_to')}:
+                {type === InvoiceType.EXPENSE
+                  ? `${t('invoice_page.add.invoice_to')}:`
+                  : `${t('invoice_page.add.invoice_from')}:`}
               </Typography>
               <TextField
                 rows={1}

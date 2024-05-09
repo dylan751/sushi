@@ -52,7 +52,6 @@ export interface ProfileResponseDto {
   address: string
   /** @example "https://image.com/avatar-1" */
   avatar: string
-  /** @example [{"id":1,"name":"First Organization Name","uniqueName":"first_organization_unique_name","roles":[{"id":1,"name":"Admin"}]}] */
   organizations: OrganizationProfileResponseDto[]
 }
 
@@ -499,7 +498,7 @@ export interface CreateInvoiceRequestDto {
   tax?: number
   items: CreateInvoiceItemRequest[]
   /** @example 1 */
-  categoryId: number
+  categoryId?: number
 }
 
 export interface UpdateInvoiceItemRequest {

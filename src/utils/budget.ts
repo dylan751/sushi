@@ -2,7 +2,7 @@ export const calculateBudgetProcess = (totalSpent: number, totalBudget: number):
   const budgetProcess = parseFloat(((totalSpent / totalBudget) * 100).toFixed(2))
 
   // Prevent over 100% value for linear progress UI
-  return budgetProcess <= 100 ? budgetProcess : 100
+  return budgetProcess
 }
 
 export const renderColorBudgetProcess = (totalSpent: number, totalBudget: number): string => {

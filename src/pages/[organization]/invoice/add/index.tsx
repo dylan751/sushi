@@ -90,7 +90,7 @@ const InvoiceAdd = () => {
       }
     })
 
-    if (!projectId || !categoryId || !clientName) {
+    if (!projectId || !clientName) {
       isDisabled = true
     }
 
@@ -109,7 +109,7 @@ const InvoiceAdd = () => {
       }
     })
 
-    if (!projectId || !categoryId || !clientName) {
+    if (!projectId || !clientName) {
       isError = true
     }
 
@@ -128,8 +128,8 @@ const InvoiceAdd = () => {
       date: format(date as Date, 'yyyy-MM-dd'),
       type,
       currency,
-      categoryId: parseInt(categoryId),
       clientName,
+      categoryId: parseInt(categoryId),
       tax: parseInt(tax)
     }
 

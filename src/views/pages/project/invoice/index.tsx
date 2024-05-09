@@ -133,6 +133,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
   const [dates, setDates] = useState<Date[]>([])
   const [type, setType] = useState<InvoiceType | ''>('')
   const [categoryId, setCategoryId] = useState<string>('')
+  const [status, setStatus] = useState<string>('')
   const [endDateRange, setEndDateRange] = useState<DateType>(null)
   const [startDateRange, setStartDateRange] = useState<DateType>(null)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
@@ -151,13 +152,14 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
       projectId: parseInt(projectId),
       fromDate: dates[0]?.toString(),
       toDate: dates[1]?.toString(),
-      type
+      type,
+      status
     }
     if (categoryId) {
       fetchInvoiceParams.categoryId = categoryId
     }
     dispatch(fetchInvoiceForProject(fetchInvoiceParams))
-  }, [dispatch, dates, type, categoryId, organizationId, projectId])
+  }, [dispatch, dates, type, status, categoryId, organizationId, projectId])
 
   useEffect(() => {
     if (ability?.can('read', 'category')) {
@@ -180,6 +182,10 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
 
   const handleOnChangeCategoryId = (value: string) => {
     setCategoryId(value)
+  }
+
+  const handleOnChangeStatus = (value: string) => {
+    setStatus(value)
   }
 
   const defaultColumns: GridColDef[] = [
@@ -256,9 +262,13 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
       minWidth: 125,
       field: 'category',
       headerName: t('invoice_page.list.category') as string,
-      renderCell: ({ row }: CellType) => (
-        <CustomChip label={row.category.name} skin='light' color={row.category.color as any} />
-      )
+      renderCell: ({ row }: CellType) => {
+        return row.category?.name ? (
+          <CustomChip label={row.category?.name} skin='light' color={row.category?.color as any} />
+        ) : (
+          <Typography>-</Typography>
+        )
+      }
     }
   ]
 
@@ -328,7 +338,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
             <CardHeader title={t('invoice_page.list.filters')} />
             <CardContent>
               <Grid container spacing={6}>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <DatePicker
                     isClearable
                     selectsRange
@@ -350,7 +360,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <FormControl fullWidth>
                     <InputLabel id='invoice-status-select'>{t('invoice_page.list.invoice_type')}</InputLabel>
 
@@ -372,7 +382,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <FormControl fullWidth>
                     <InputLabel id='invoice-category-select'>{t('invoice_page.list.category')}</InputLabel>
 
@@ -390,6 +400,23 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
                           <CustomChip size='small' skin='light' color={category.color as any} label={category.name} />
                         </MenuItem>
                       ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                  <FormControl fullWidth>
+                    <InputLabel id='invoice-status-select'>{t('invoice_page.list.status')}</InputLabel>
+                    <Select
+                      fullWidth
+                      value={status}
+                      sx={{ mr: 4, mb: 2 }}
+                      label='Invoice Status'
+                      onChange={e => handleOnChangeStatus(e.target.value)}
+                      labelId='invoice-status-select'
+                    >
+                      <MenuItem value=''>{t('invoice_page.list.all_statuses')}</MenuItem>
+                      <MenuItem value='categorized'>{t('invoice_page.list.categorized')}</MenuItem>
+                      <MenuItem value='uncategorized'>{t('invoice_page.list.uncategorized')}</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
