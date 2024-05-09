@@ -105,7 +105,7 @@
         "user": {
             "title": "Danh sách người dùng với vai trò của họ",
             "subtitle": "Tìm tất cả tài khoản quản trị viên của công ty bạn và vai trò tương ứng của họ.",
-            "export": "Xuất dữ ",
+            "export": "Xuất dữ liệu",
             "search_user": "Tìm người dùng",
             "select_role": "Chọn vai trò",
             "user": "Người dùng",
@@ -336,7 +336,7 @@
     "user_page": {
         "total_users": "Tổng số người dùng",
         "total_roles": "Tổng số vai trò",
-        "export": "Xuất dữ ",
+        "export": "Xuất dữ liệu",
         "search_filters": "Bộ lọc tìm kiếm",
         "search_user": "Tìm người dùng",
         "select_role": "Chọn vai trò",
