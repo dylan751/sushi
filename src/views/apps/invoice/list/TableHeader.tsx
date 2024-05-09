@@ -73,7 +73,7 @@ const TableHeader = (props: TableHeaderProps) => {
           style={{ textDecoration: 'none', color: theme.palette.text.secondary }}
           target='_blank'
         >
-          {t('role_page.user.export')}
+          {t('invoice_page.list.export')}
         </CSVLink>
       </Button>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
