@@ -110,7 +110,7 @@ const ProjectApexLineChart = ({ data }: ProjectApexLineChartProps) => {
         }}
         action={
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant='h6' sx={{ mr: 5 }} color={data.balance > 0 ? 'success' : 'error'}>
+            <Typography variant='h6' sx={{ mr: 5 }} color={data.balance > 0 ? 'success.main' : 'error.main'}>
               {formatCurrencyAsCompact(data.balance, Locale.EN, CurrencyType.USD)}
             </Typography>
             <CustomChip
