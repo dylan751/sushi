@@ -5,7 +5,10 @@ import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import Grid, { GridProps } from '@mui/material/Grid'
-import { getOrgUniqueName } from 'src/utils/organization'
+
+// ** Hooks Imports
+import { useCurrentOrganization } from 'src/hooks'
+import { useTranslation } from 'react-i18next'
 
 // Styled Grid component
 const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
@@ -29,7 +32,8 @@ const Img = styled('img')(({ theme }) => ({
 }))
 
 const EcommerceCongratulations = () => {
-  const orgUniqueName = getOrgUniqueName()
+  const { organization } = useCurrentOrganization()
+  const { t } = useTranslation()
 
   return (
     <Card sx={{ position: 'relative', overflow: 'visible', mt: { xs: 0, sm: 7.5, md: 0 } }}>
@@ -37,9 +41,9 @@ const EcommerceCongratulations = () => {
         <Grid container spacing={6}>
           <Grid item xs={12} sm={6}>
             <Typography variant='h5' sx={{ mb: 6.5 }}>
-              Congratulations{' '}
+              {t('dashboard_page.welcome')}{' '}
               <Box component='span' sx={{ fontWeight: 'bold' }}>
-                {orgUniqueName}
+                {organization.name}
               </Box>
               ! 🎉
             </Typography>
@@ -47,7 +51,10 @@ const EcommerceCongratulations = () => {
             <Typography variant='body2'>Check your new raising badge in your profile.</Typography>
           </Grid>
           <StyledGrid item xs={12} sm={6}>
-            <Img alt={`Congratulations ${orgUniqueName}`} src='/images/cards/illustration-john-2.png' />
+            <Img
+              alt={`${t('dashboard_page.welcome')} ${organization.name}`}
+              src='/images/cards/illustration-john-2.png'
+            />
           </StyledGrid>
         </Grid>
       </CardContent>

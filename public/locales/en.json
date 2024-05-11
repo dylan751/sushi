@@ -76,6 +76,9 @@
         "create": "Create",
         "active": "Active"
     },
+    "dashboard_page": {
+        "welcome": "Welcome"
+    },
     "role_page": {
         "role": {
             "title": "Roles List",
@@ -187,6 +190,8 @@
             "expense_ratio": "Expense Ratio",
             "donut_chart_subtitle": "Spending on various categories",
             "total_expense": "Total Expense",
+            "total_uncategorized_incomes": "Total Uncategorized Incomes",
+            "total_uncategorized_expenses": "Total Uncategorized Expenses",
             "last_invoices": "Last 5 Invoices"
         },
         "invoice": {},
