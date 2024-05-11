@@ -76,6 +76,9 @@
         "create": "登録",
         "active": "アクティブ"
     },
+    "dashboard_page": {
+        "welcome": "ようこそ"
+    },
     "role_page": {
         "role": {
             "title": "ロール一覧",

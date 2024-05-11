@@ -73,6 +73,9 @@
         "create": "Tạo",
         "active": "Đang hoạt động"
     },
+    "dashboard_page": {
+        "welcome": "Chào mừng"
+    },
     "role_page": {
         "role": {
             "title": "Danh sách vai trò",

@@ -76,6 +76,9 @@
         "create": "Create",
         "active": "Active"
     },
+    "dashboard_page": {
+        "welcome": "Welcome"
+    },
     "role_page": {
         "role": {
             "title": "Roles List",
