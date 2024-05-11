@@ -184,6 +184,8 @@
             "expense_ratio": "Tỷ lệ chi tiêu",
             "donut_chart_subtitle": "Chi tiêu cho nhiều hạng mục khác nhau",
             "total_expense": "Tổng chi tiêu",
+            "total_uncategorized_incomes": "Tổng thu nhập chưa hạch toán",
+            "total_uncategorized_expenses": "Tổng chi tiêu chưa hạch toán",
             "last_invoices": "5 hóa đơn gần nhất"
         },
         "invoice": {},

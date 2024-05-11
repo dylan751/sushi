@@ -7,14 +7,15 @@ import TextField from '@mui/material/TextField'
 
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
+import { fetchStatistics } from 'src/store/apps/project/statistics'
+import { fetchInvoiceForProject } from 'src/store/apps/invoice'
 
 // ** Types Import
 import { AppDispatch, RootState } from 'src/store'
-import { fetchStatistics } from 'src/store/apps/project/statistics'
 import { CardStatsCharacterProps } from 'src/@core/components/card-statistics/types'
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
 import { Locale } from 'src/enum'
-import { CurrencyType } from 'src/__generated__/AccountifyAPI'
+import { CurrencyType, InvoiceType } from 'src/__generated__/AccountifyAPI'
 
 // ** Custom Components Imports
 import CardStatisticsCharacter from 'src/@core/components/card-statistics/card-stats-with-image'
@@ -27,6 +28,7 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import ProjectTransactions from 'src/views/dashboards/projects/ProjectTransactions'
 import ProjectApexLineChart from 'src/views/dashboards/projects/ProjectApexLineChart'
 import ProjectApexDonutChart from 'src/views/dashboards/projects/ProjectApexDonutChart'
+import ProjectTotalCard from 'src/views/dashboards/projects/ProjectTotalCard'
 import ProjectLastInvoices from 'src/views/dashboards/projects/ProjectLastInvoices'
 
 // ** Third Party Imports
@@ -38,7 +40,7 @@ import { useTranslation } from 'react-i18next'
 
 // ** Utils Imports
 import { formatCurrencyAsCompact } from 'src/utils/currency'
-import { format } from 'date-fns'
+import { endOfYear, format, startOfYear } from 'date-fns'
 
 interface CustomInputProps {
   label?: string
@@ -66,17 +68,26 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
   const { organizationId } = useCurrentOrganization()
   const { t } = useTranslation()
   const dispatch = useDispatch<AppDispatch>()
-  const store = useSelector((state: RootState) => state.statistics)
+  const statisticsStore = useSelector((state: RootState) => state.statistics)
+  const invoiceStore = useSelector((state: RootState) => state.invoice)
 
   useEffect(() => {
-    // Fetch organization's project's statistics
     dispatch(fetchStatistics({ organizationId, projectId: parseInt(projectId), date: year ? year.toString() : '' }))
+    dispatch(
+      fetchInvoiceForProject({
+        organizationId,
+        projectId: parseInt(projectId),
+        status: 'uncategorized',
+        fromDate: startOfYear(year!)?.toString(),
+        toDate: endOfYear(year!)?.toString()
+      })
+    )
   }, [dispatch, year, organizationId, projectId])
 
   const data: CardStatsCharacterProps[] = [
     {
       // trendNumber: '+38%',
-      stats: formatCurrencyAsCompact(store.statistics.totalIncome ?? 0, Locale.EN, CurrencyType.USD),
+      stats: formatCurrencyAsCompact(statisticsStore.statistics.totalIncome ?? 0, Locale.EN, CurrencyType.USD),
       title: t('project_page.dashboard.income'),
       chipColor: 'success',
       chipText: `Year of ${format(year!, 'yyyy')}`,
@@ -85,7 +96,7 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
     {
       // trend: 'negative',
       // trendNumber: '-22%',
-      stats: formatCurrencyAsCompact(store.statistics.totalExpense ?? 0, Locale.EN, CurrencyType.USD),
+      stats: formatCurrencyAsCompact(statisticsStore.statistics.totalExpense ?? 0, Locale.EN, CurrencyType.USD),
       title: t('project_page.dashboard.expense'),
       chipText: `Year of ${format(year!, 'yyyy')}`,
       chipColor: 'error',
@@ -112,16 +123,32 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
             <CardStatisticsCharacter data={data[1]} />
           </Grid>
           <Grid item xs={12} md={6}>
-            <ProjectTransactions data={store.statistics} />
+            <ProjectTransactions data={statisticsStore.statistics} />
           </Grid>
           <Grid item xs={12} md={6}>
-            <ProjectApexLineChart data={store.statistics} />
+            <ProjectApexLineChart data={statisticsStore.statistics} />
           </Grid>
           <Grid item xs={12} md={6}>
-            <ProjectApexDonutChart data={store.statistics} />
+            <ProjectApexDonutChart data={statisticsStore.statistics} />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <ProjectTotalCard
+              title={t('project_page.dashboard.total_uncategorized_incomes')}
+              type={InvoiceType.INCOME}
+              invoices={invoiceStore.projectInvoices}
+              total={statisticsStore.statistics.totalUncategorizedIncome}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <ProjectTotalCard
+              title={t('project_page.dashboard.total_uncategorized_expenses')}
+              type={InvoiceType.EXPENSE}
+              invoices={invoiceStore.projectInvoices}
+              total={statisticsStore.statistics.totalUncategorizedExpense}
+            />
           </Grid>
           <Grid item xs={12} md={12}>
-            <ProjectLastInvoices data={store.statistics} />
+            <ProjectLastInvoices data={statisticsStore.statistics} />
           </Grid>
         </Grid>
       </DatePickerWrapper>

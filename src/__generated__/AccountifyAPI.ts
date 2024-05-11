@@ -612,6 +612,10 @@ export interface ProjectStatisticsResponseDto {
   expensesByMonth: number[]
   expensesByCategory: IncomesAndExpensesByCategoryResponseDto[]
   incomesByCategory: IncomesAndExpensesByCategoryResponseDto[]
+  /** @example 10000 */
+  totalUncategorizedIncome: number
+  /** @example 10000 */
+  totalUncategorizedExpense: number
   lastInvoices: InvoiceResponseDto[]
 }
 
@@ -1224,6 +1228,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         toDate?: string
         type?: string
         projectId?: number
+        status?: string
         categoryId?: number
       },
       params: RequestParams = {}
@@ -1431,6 +1436,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         toDate?: string
         type?: string
         projectId?: number
+        status?: string
         categoryId?: number
       },
       params: RequestParams = {}

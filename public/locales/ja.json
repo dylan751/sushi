@@ -187,6 +187,8 @@
             "expense_ratio": "経費率",
             "donut_chart_subtitle": "さまざまなカテゴリへの支出",
             "total_expense": "総費用",
+            "total_uncategorized_incomes": "未分類所得の合計",
+            "total_uncategorized_expenses": "未分類経費の合計",
             "last_invoices": "過去5つのインヴォイス"
         },
         "invoice": {},

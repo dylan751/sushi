@@ -20,6 +20,7 @@ interface DataParams {
   toDate?: string
   type?: string
   projectId?: number
+  status?: string
   categoryId?: number
 }
 
