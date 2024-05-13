@@ -25,7 +25,7 @@ const defineRulesFor = (permissions: CaslPermission[]) => {
       can([permission.action], permission.subject)
     })
   } else {
-    can(['read'], 'account-settings') // Default role to read essentials pages
+    can(['read'], 'settings') // Default role to read essentials pages
   }
 
   return rules
@@ -41,7 +41,7 @@ export const buildAbilityFor = (permissions: CaslPermission[]): AppAbility => {
 
 export const defaultACLObj: ACLObj = {
   action: 'read',
-  subject: 'account-settings'
+  subject: 'settings'
 }
 
 export default defineRulesFor

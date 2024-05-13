@@ -98,14 +98,14 @@ const ChangePasswordCard = () => {
 
   return (
     <Card>
-      <CardHeader title={t('account_settings_page.security.change_password')} />
+      <CardHeader title={t('settings_page.security.change_password')} />
       <CardContent>
         <form onSubmit={handleSubmit(onPasswordFormSubmit)}>
           <Grid container spacing={5} sx={{ mt: 0 }}>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel htmlFor='input-new-password' error={Boolean(errors.newPassword)}>
-                  {t('account_settings_page.security.new_password')}
+                  {t('settings_page.security.new_password')}
                 </InputLabel>
                 <Controller
                   name='newPassword'
@@ -114,7 +114,7 @@ const ChangePasswordCard = () => {
                   render={({ field: { value, onChange } }) => (
                     <OutlinedInput
                       value={value}
-                      label={t('account_settings_page.security.new_password')}
+                      label={t('settings_page.security.new_password')}
                       onChange={onChange}
                       id='input-new-password'
                       error={Boolean(errors.newPassword)}
@@ -141,7 +141,7 @@ const ChangePasswordCard = () => {
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel htmlFor='input-confirm-new-password' error={Boolean(errors.confirmNewPassword)}>
-                  {t('account_settings_page.security.confirm_new_password')}
+                  {t('settings_page.security.confirm_new_password')}
                 </InputLabel>
                 <Controller
                   name='confirmNewPassword'
@@ -150,7 +150,7 @@ const ChangePasswordCard = () => {
                   render={({ field: { value, onChange } }) => (
                     <OutlinedInput
                       value={value}
-                      label={t('account_settings_page.security.confirm_new_password')}
+                      label={t('settings_page.security.confirm_new_password')}
                       onChange={onChange}
                       id='input-confirm-new-password'
                       error={Boolean(errors.confirmNewPassword)}
@@ -176,15 +176,15 @@ const ChangePasswordCard = () => {
             </Grid>
             <Grid item xs={12}>
               <Typography sx={{ mt: 1, color: 'text.secondary' }}>
-                {t('account_settings_page.security.password_requirements')}
+                {t('settings_page.security.password_requirements')}
               </Typography>
               <Box
                 component='ul'
                 sx={{ pl: 4, mb: 0, '& li': { mb: 4, color: 'text.secondary', '&::marker': { fontSize: '1.25rem' } } }}
               >
-                <li>{t('account_settings_page.security.password_requirements_1')}</li>
-                <li>{t('account_settings_page.security.password_requirements_2')}</li>
-                <li>{t('account_settings_page.security.password_requirements_3')}</li>
+                <li>{t('settings_page.security.password_requirements_1')}</li>
+                <li>{t('settings_page.security.password_requirements_2')}</li>
+                <li>{t('settings_page.security.password_requirements_3')}</li>
               </Box>
             </Grid>
             <Grid item xs={12}>

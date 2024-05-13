@@ -33,16 +33,16 @@ mock.onGet('/app-bar/search').reply(config => {
     },
     {
       id: 23,
-      url: `/${uniqueName}/account-settings/account`,
+      url: `/${uniqueName}/settings/account`,
       icon: 'mdi:account-cog-outline',
-      title: 'Account Settings',
+      title: 'Settings',
       category: 'appsPages'
     },
     {
       id: 24,
-      url: `/${uniqueName}/account-settings/security`,
+      url: `/${uniqueName}/settings/security`,
       icon: 'mdi:lock-open-outline',
-      title: 'Account Settings - Security',
+      title: 'Settings - Security',
       category: 'appsPages'
     }
   ]

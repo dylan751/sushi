@@ -205,7 +205,7 @@ const NoResult = ({ value, setOpenDialog }: NoResultProps) => {
         <ListItem sx={{ py: 2 }} disablePadding onClick={() => setOpenDialog(false)}>
           <Box
             component={Link}
-            href={`/${uniqueName}/account-settings/account`}
+            href={`/${uniqueName}/settings/account`}
             sx={{
               display: 'flex',
               alignItems: 'center',
@@ -217,7 +217,7 @@ const NoResult = ({ value, setOpenDialog }: NoResultProps) => {
               <Icon icon='mdi:account-cog-outline' fontSize={20} />
             </Box>
             <Typography variant='body2' sx={{ color: 'text.primary' }}>
-              Account Settings
+              Settings
             </Typography>
           </Box>
         </ListItem>
@@ -250,8 +250,8 @@ const DefaultSuggestions = ({ setOpenDialog }: DefaultSuggestionsProps) => {
         },
         {
           icon: 'mdi:account-cog-outline',
-          suggestion: 'Account Settings',
-          link: `/${uniqueName}/account-settings/account`
+          suggestion: 'Settings',
+          link: `/${uniqueName}/settings/account`
         }
       ]
     },
@@ -270,13 +270,13 @@ const DefaultSuggestions = ({ setOpenDialog }: DefaultSuggestionsProps) => {
         },
         {
           icon: 'mdi:account-cog-outline',
-          suggestion: 'Account Settings',
-          link: `/${uniqueName}/account-settings/account`
+          suggestion: 'Settings',
+          link: `/${uniqueName}/settings/account`
         },
         {
           icon: 'mdi:account-cog-outline',
-          suggestion: 'Account Security',
-          link: `/${uniqueName}/account-settings/security`
+          suggestion: 'Security',
+          link: `/${uniqueName}/settings/security`
         }
       ]
     },

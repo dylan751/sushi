@@ -74,27 +74,27 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       action: 'read',
-      subject: 'account-settings',
-      title: 'navbar.account_settings_page.account_settings',
+      subject: 'settings',
+      title: 'navbar.settings_page.settings',
       icon: 'mdi:account-cog-outline',
       children: [
         {
           action: 'read',
-          subject: 'account-settings',
-          title: 'navbar.account_settings_page.account',
-          path: `/${uniqueName}/account-settings/account`
+          subject: 'settings',
+          title: 'navbar.settings_page.account',
+          path: `/${uniqueName}/settings/account`
         },
         {
           action: 'read',
-          subject: 'account-settings',
-          title: 'navbar.account_settings_page.security',
-          path: `/${uniqueName}/account-settings/security`
+          subject: 'settings',
+          title: 'navbar.settings_page.security',
+          path: `/${uniqueName}/settings/security`
         },
         {
           action: 'read',
-          subject: 'account-settings',
-          title: 'navbar.account_settings_page.organization',
-          path: `/${uniqueName}/account-settings/organization`
+          subject: 'settings',
+          title: 'navbar.settings_page.organization',
+          path: `/${uniqueName}/settings/organization`
         }
       ]
     }

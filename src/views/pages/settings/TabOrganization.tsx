@@ -2,7 +2,7 @@
 import Grid from '@mui/material/Grid'
 
 // ** Components
-import OrganizationInformationCard from 'src/views/pages/account-settings/organization/OrganizationInformationCard'
+import OrganizationInformationCard from 'src/views/pages/settings/organization/OrganizationInformationCard'
 
 const TabOrganization = () => {
   return (

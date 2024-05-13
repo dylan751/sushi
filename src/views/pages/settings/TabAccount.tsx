@@ -141,7 +141,7 @@ const TabAccount = () => {
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <ImgStyled src={imgSrc} alt='Profile Pic' />
                 <div>
-                  <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-image'>
+                  <ButtonStyled component='label' variant='contained' htmlFor='settings-upload-image'>
                     Upload New Photo
                     <input
                       hidden
@@ -149,7 +149,7 @@ const TabAccount = () => {
                       value={inputValue}
                       accept='image/png, image/jpeg'
                       onChange={handleInputImageChange}
-                      id='account-settings-upload-image'
+                      id='settings-upload-image'
                     />
                   </ButtonStyled>
                   <ResetButtonStyled color='secondary' variant='outlined' onClick={handleInputImageReset}>
@@ -166,7 +166,7 @@ const TabAccount = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     fullWidth
-                    label={t('account_settings_page.account.full_name')}
+                    label={t('settings_page.account.full_name')}
                     placeholder='John'
                     value={formData.name}
                     onChange={e => handleFormChange('name', e.target.value)}
@@ -176,7 +176,7 @@ const TabAccount = () => {
                   <TextField
                     fullWidth
                     type='email'
-                    label={t('account_settings_page.account.email')}
+                    label={t('settings_page.account.email')}
                     value={formData.email}
                     placeholder='john.doe@example.com'
                     disabled
@@ -186,7 +186,7 @@ const TabAccount = () => {
                   <TextField
                     fullWidth
                     type='phone'
-                    label={t('account_settings_page.account.phone_number')}
+                    label={t('settings_page.account.phone_number')}
                     value={formData.phone}
                     placeholder='202 555 0111'
                     onChange={e => handleFormChange('phone', e.target.value)}
@@ -196,7 +196,7 @@ const TabAccount = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     fullWidth
-                    label={t('account_settings_page.account.address')}
+                    label={t('settings_page.account.address')}
                     placeholder='Address'
                     value={formData.address}
                     onChange={e => handleFormChange('address', e.target.value)}
@@ -220,7 +220,7 @@ const TabAccount = () => {
       {/* Delete Account Card */}
       <Grid item xs={12}>
         <Card>
-          <CardHeader title={t('account_settings_page.account.delete_account')} />
+          <CardHeader title={t('settings_page.account.delete_account')} />
           <CardContent>
             <form onSubmit={handleSubmit(onDeleteAccount)}>
               <Box sx={{ mb: 4 }}>
@@ -231,7 +231,7 @@ const TabAccount = () => {
                     rules={{ required: true }}
                     render={({ field }) => (
                       <FormControlLabel
-                        label={t('account_settings_page.account.account_deactivation_checkbox')}
+                        label={t('settings_page.account.account_deactivation_checkbox')}
                         sx={errors.checkbox ? { '& .MuiTypography-root': { color: 'error.main' } } : null}
                         control={
                           <Checkbox
@@ -246,13 +246,13 @@ const TabAccount = () => {
                   />
                   {errors.checkbox && (
                     <FormHelperText sx={{ color: 'error.main' }} id='validation-basic-checkbox'>
-                      {t('account_settings_page.account.account_deactivation_warning')}
+                      {t('settings_page.account.account_deactivation_warning')}
                     </FormHelperText>
                   )}
                 </FormControl>
               </Box>
               <Button variant='contained' color='error' type='submit' disabled={errors.checkbox !== undefined}>
-                {t('account_settings_page.account.deactivate_account')}
+                {t('settings_page.account.deactivate_account')}
               </Button>
             </form>
           </CardContent>
@@ -279,7 +279,7 @@ const TabAccount = () => {
             }}
           >
             <Icon icon='mdi:alert-circle-outline' fontSize='5.5rem' />
-            <Typography>{t('account_settings_page.account.account_deactivation_confirm')}</Typography>
+            <Typography>{t('settings_page.account.account_deactivation_confirm')}</Typography>
           </Box>
         </DialogContent>
         <DialogActions
@@ -321,14 +321,12 @@ const TabAccount = () => {
               icon={userInput === 'yes' ? 'mdi:check-circle-outline' : 'mdi:close-circle-outline'}
             />
             <Typography variant='h4' sx={{ mb: 5 }}>
-              {userInput === 'yes'
-                ? t('account_settings_page.account.deleted')
-                : t('account_settings_page.account.cancelled')}
+              {userInput === 'yes' ? t('settings_page.account.deleted') : t('settings_page.account.cancelled')}
             </Typography>
             <Typography>
               {userInput === 'yes'
-                ? t('account_settings_page.account.account_deactivation_success')
-                : t('account_settings_page.account.account_deactivation_fail')}
+                ? t('settings_page.account.account_deactivation_success')
+                : t('settings_page.account.account_deactivation_fail')}
             </Typography>
           </Box>
         </DialogContent>

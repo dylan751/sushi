@@ -70,31 +70,31 @@ const navigation = (): HorizontalNavItemsType => {
       action: 'read',
       subject: 'user',
       title: 'navbar.user_page',
-      icon: 'mdi:account-outline'
+      icon: 'mdi:outline'
     },
     {
       action: 'read',
-      subject: 'account-settings',
-      title: 'navbar.account_settings_page.account_settings',
-      icon: 'mdi:account-cog-outline',
+      subject: 'settings',
+      title: 'navbar.settings_page.settings',
+      icon: 'mdi:cog-outline',
       children: [
         {
           action: 'read',
-          subject: 'account-settings',
-          title: 'navbar.account_settings_page.account',
-          path: `/${uniqueName}/account-settings/account`
+          subject: 'settings',
+          title: 'navbar.settings_page.account',
+          path: `/${uniqueName}/settings/account`
         },
         {
           action: 'read',
-          subject: 'account-settings',
-          title: 'navbar.account_settings_page.security',
-          path: `/${uniqueName}/account-settings/security`
+          subject: 'settings',
+          title: 'navbar.settings_page.security',
+          path: `/${uniqueName}/settings/security`
         },
         {
           action: 'read',
-          subject: 'account-settings',
-          title: 'navbar.account_settings_page.organization',
-          path: `/${uniqueName}/account-settings/organization`
+          subject: 'settings',
+          title: 'navbar.settings_page.organization',
+          path: `/${uniqueName}/settings/organization`
         }
       ]
     }

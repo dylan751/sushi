@@ -58,7 +58,7 @@ const OrganizationAddressCard = () => {
 
   return (
     <Card>
-      <CardHeader title={t('account_settings_page.organization.information_settings')} />
+      <CardHeader title={t('settings_page.organization.information_settings')} />
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={5}>
@@ -71,9 +71,9 @@ const OrganizationAddressCard = () => {
                   render={({ field: { value, onChange } }) => (
                     <TextField
                       value={value}
-                      label={t('account_settings_page.organization.organization_name')}
+                      label={t('settings_page.organization.organization_name')}
                       onChange={onChange}
-                      placeholder={t('account_settings_page.organization.organization_name').toString()}
+                      placeholder={t('settings_page.organization.organization_name').toString()}
                       error={Boolean(errors.name)}
                     />
                   )}
@@ -91,7 +91,7 @@ const OrganizationAddressCard = () => {
                     <TextField
                       fullWidth
                       type='number'
-                      label={t('account_settings_page.organization.phone_number')}
+                      label={t('settings_page.organization.phone_number')}
                       placeholder='202 555 0111'
                       value={value}
                       onChange={onChange}
@@ -112,9 +112,9 @@ const OrganizationAddressCard = () => {
                   render={({ field: { value, onChange } }) => (
                     <TextField
                       value={value}
-                      label={t('account_settings_page.organization.organization_address')}
+                      label={t('settings_page.organization.organization_address')}
                       onChange={onChange}
-                      placeholder={t('account_settings_page.organization.organization_address').toString()}
+                      placeholder={t('settings_page.organization.organization_address').toString()}
                       error={Boolean(errors.address)}
                     />
                   )}
