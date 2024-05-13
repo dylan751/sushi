@@ -64,6 +64,10 @@ const StyledList = styled(List)<ListProps>(({ theme }) => ({
   }
 }))
 
+const ScrollWrapper = ({ children }: { children: ReactNode }) => {
+  return <Box sx={{ maxHeight: '280px', overflowY: 'auto', overflowX: 'hidden' }}>{children}</Box>
+}
+
 const OrganizationPage = () => {
   // ** Hooks
   const session = useSession()
@@ -104,36 +108,38 @@ const OrganizationPage = () => {
             session.data.user &&
             session.data.user.organizations &&
             session.data.user.organizations.length > 0 ? (
-              session.data.user.organizations.map((organization: OrganizationProfileResponseDto) => {
-                return (
-                  <ListItem key={organization.id}>
-                    <ListItemAvatar>
-                      <Avatar src='...' alt={organization.name} />
-                    </ListItemAvatar>
-                    <div>
-                      <ListItemText primary={organization.name} />
-                      <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
-                        <Box
-                          sx={{
-                            mr: 3,
-                            display: 'flex',
-                            alignItems: 'center',
-                            '& svg': { mr: 1, color: 'success.main' }
-                          }}
-                        >
-                          <Icon icon='mdi:circle' fontSize='0.625rem' />
-                          <Typography variant='caption'>{t('home.active')}</Typography>
+              <ScrollWrapper>
+                {session.data.user.organizations.map((organization: OrganizationProfileResponseDto) => {
+                  return (
+                    <ListItem key={organization.id}>
+                      <ListItemAvatar>
+                        <Avatar src='...' alt={organization.name} />
+                      </ListItemAvatar>
+                      <div>
+                        <ListItemText primary={organization.name} />
+                        <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+                          <Box
+                            sx={{
+                              mr: 3,
+                              display: 'flex',
+                              alignItems: 'center',
+                              '& svg': { mr: 1, color: 'success.main' }
+                            }}
+                          >
+                            <Icon icon='mdi:circle' fontSize='0.625rem' />
+                            <Typography variant='caption'>{t('home.active')}</Typography>
+                          </Box>
                         </Box>
-                      </Box>
-                    </div>
-                    <ListItemSecondaryAction>
-                      <Button variant='contained' size='small' onClick={() => loginToOrganization(organization)}>
-                        {t('home.open')}
-                      </Button>
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                )
-              })
+                      </div>
+                      <ListItemSecondaryAction>
+                        <Button variant='contained' size='small' onClick={() => loginToOrganization(organization)}>
+                          {t('home.open')}
+                        </Button>
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  )
+                })}
+              </ScrollWrapper>
             ) : (
               <Box
                 sx={{
