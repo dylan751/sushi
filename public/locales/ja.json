@@ -17,8 +17,8 @@
             "add": "追加"
         },
         "user_page": "ユーザーページ",
-        "account_settings_page": {
-            "account_settings": "アカウント設定",
+        "settings_page": {
+            "settings": "アカウント設定",
             "account": "アカウント",
             "security": "セキュリティ",
             "organization": "組織"
@@ -28,7 +28,6 @@
         "search": "検索 (Ctrl+/)"
     },
     "user_dropdown": {
-        "account_settings": "アカウント設定",
         "organization": "組織選択",
         "chat": "チャット",
         "settings": "設定",
@@ -356,7 +355,7 @@
         "default_role": "デフォルトのロール",
         "custom_role_optional": "カスタムロール (オプション)"
     },
-    "account_settings_page": {
+    "settings_page": {
         "title": "アカウント設定",
         "account": {
             "title": "アカウント",

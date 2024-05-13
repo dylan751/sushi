@@ -17,15 +17,14 @@
             "add": "Thêm"
         },
         "user_page": "Trang người dùng",
-        "account_settings_page": {
-            "account_settings": "Cài đặt tài khoản",
+        "settings_page": {
+            "settings": "Cài đặt tài khoản",
             "account": "Tài khoản",
             "security": "Bảo mật",
             "organization": "Tổ chức"
         }
     },
     "user_dropdown": {
-        "account_settings": "Cài đặt tài khoản",
         "organization": "Chọn tổ chức",
         "chat": "Nhắn tin",
         "settings": "Cài đặt",
@@ -356,7 +355,7 @@
         "default_role": "Vai trò mặc định",
         "custom_role_optional": "Vai trò tùy chỉnh (Tùy chọn)"
     },
-    "account_settings_page": {
+    "settings_page": {
         "title": "Cài đặt tài khoản",
         "account": {
             "title": "Tài khoản",

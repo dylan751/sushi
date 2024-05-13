@@ -20,9 +20,9 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Icon from 'src/@core/components/icon'
 
 // ** Tabs Imports
-import TabAccount from 'src/views/pages/account-settings/TabAccount'
-import TabSecurity from 'src/views/pages/account-settings/TabSecurity'
-import TabOrganization from 'src/views/pages/account-settings/TabOrganization'
+import TabAccount from 'src/views/pages/settings/TabAccount'
+import TabSecurity from 'src/views/pages/settings/TabSecurity'
+import TabOrganization from 'src/views/pages/settings/TabOrganization'
 
 // ** Util Imports
 import { getOrgUniqueName } from 'src/utils/organization'
@@ -50,7 +50,7 @@ const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
   }
 }))
 
-const AccountSettings = ({ tab }: { tab: string }) => {
+const Settings = ({ tab }: { tab: string }) => {
   // ** State
   const [activeTab, setActiveTab] = useState<string>(tab)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -62,7 +62,7 @@ const AccountSettings = ({ tab }: { tab: string }) => {
 
   const handleChange = (event: SyntheticEvent, value: string) => {
     setIsLoading(true)
-    router.push(`/${getOrgUniqueName()}/account-settings/${value.toLowerCase()}`).then(() => setIsLoading(false))
+    router.push(`/${getOrgUniqueName()}/settings/${value.toLowerCase()}`).then(() => setIsLoading(false))
   }
 
   useEffect(() => {
@@ -95,7 +95,7 @@ const AccountSettings = ({ tab }: { tab: string }) => {
                   label={
                     <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
                       <Icon icon='mdi:account-outline' />
-                      {!hideText && t('account_settings_page.account.title')}
+                      {!hideText && t('settings_page.account.title')}
                     </Box>
                   }
                 />
@@ -104,7 +104,7 @@ const AccountSettings = ({ tab }: { tab: string }) => {
                   label={
                     <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
                       <Icon icon='mdi:lock-open-outline' />
-                      {!hideText && t('account_settings_page.security.title')}
+                      {!hideText && t('settings_page.security.title')}
                     </Box>
                   }
                 />
@@ -113,7 +113,7 @@ const AccountSettings = ({ tab }: { tab: string }) => {
                   label={
                     <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
                       <Icon icon='mdi:office-building-outline' />
-                      {!hideText && t('account_settings_page.organization.title')}
+                      {!hideText && t('settings_page.organization.title')}
                     </Box>
                   }
                 />
@@ -138,4 +138,4 @@ const AccountSettings = ({ tab }: { tab: string }) => {
   )
 }
 
-export default AccountSettings
+export default Settings

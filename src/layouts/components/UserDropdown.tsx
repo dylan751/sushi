@@ -27,7 +27,7 @@ import { useTranslation } from 'react-i18next'
 import { Settings } from 'src/@core/context/settingsContext'
 
 // ** Util Imports
-import { getAccountSettingsAccountUrl } from 'src/utils/router/account-settings'
+import { getSettingsAccountUrl } from 'src/utils/router/settings'
 import { getSelectOrganizationUrl } from 'src/utils/router/organization'
 import { useCurrentOrganization } from 'src/hooks'
 
@@ -86,8 +86,8 @@ const UserDropdown = (props: Props) => {
     }
   }
 
-  const handleAccountSettings = () => {
-    router.replace(getAccountSettingsAccountUrl())
+  const handleSettings = () => {
+    router.replace(getSettingsAccountUrl())
     handleDropdownClose()
   }
 
@@ -159,10 +159,10 @@ const UserDropdown = (props: Props) => {
           </Box>
         </Box>
         <Divider sx={{ mt: '0 !important' }} />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleAccountSettings()}>
+        <MenuItem sx={{ p: 0 }} onClick={() => handleSettings()}>
           <Box sx={styles}>
             <Icon icon='mdi:account-cog-outline' />
-            {t('user_dropdown.account_settings')}
+            {t('user_dropdown.settings')}
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleOrganization()}>

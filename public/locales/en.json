@@ -17,8 +17,8 @@
             "add": "Add"
         },
         "user_page": "User Page",
-        "account_settings_page": {
-            "account_settings": "Account Settings",
+        "settings_page": {
+            "settings": "Settings",
             "account": "Account",
             "security": "Security",
             "organization": "Organization"
@@ -28,7 +28,6 @@
         "search": "Search (Ctrl+/)"
     },
     "user_dropdown": {
-        "account_settings": "Account Settings",
         "organization": "Organizations",
         "chat": "Chat",
         "settings": "Settings",
@@ -356,8 +355,8 @@
         "default_role": "Default Role",
         "custom_role_optional": "Custom Role (Optional)"
     },
-    "account_settings_page": {
-        "title": "Account Settings",
+    "settings_page": {
+        "title": "Settings",
         "account": {
             "title": "Account",
             "full_name": "Full Name",

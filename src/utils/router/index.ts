@@ -1,4 +1,4 @@
-export * from './account-settings'
+export * from './settings'
 export * from './auth'
 export * from './dashboards'
 export * from './invoice'

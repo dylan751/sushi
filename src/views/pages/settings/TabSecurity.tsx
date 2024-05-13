@@ -2,8 +2,8 @@
 import Grid from '@mui/material/Grid'
 
 // ** Components
-import ChangePasswordCard from 'src/views/pages/account-settings/security/ChangePasswordCard'
-import TwoFactorAuthentication from 'src/views/pages/account-settings/security/TwoFactorAuthentication'
+import ChangePasswordCard from 'src/views/pages/settings/security/ChangePasswordCard'
+import TwoFactorAuthentication from 'src/views/pages/settings/security/TwoFactorAuthentication'
 
 const TabSecurity = () => {
   return (
