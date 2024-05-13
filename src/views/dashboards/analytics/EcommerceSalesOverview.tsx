@@ -1,3 +1,6 @@
+// ** React Imports
+import { ReactNode } from 'react'
+
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -21,8 +24,21 @@ import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
 // ** Util Import
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
+import { formatCurrencyAsStandard } from 'src/utils/currency'
 
-const EcommerceSalesOverview = () => {
+// ** Types Import
+import { CurrencyType, OrganizationStatisticsResponseDto } from 'src/__generated__/AccountifyAPI'
+import { Locale } from 'src/enum'
+
+const ScrollWrapper = ({ children }: { children: ReactNode }) => {
+  return <Box sx={{ height: '140px', overflowY: 'auto', overflowX: 'hidden' }}>{children}</Box>
+}
+
+export interface EcommerceSalesOverviewProps {
+  data: OrganizationStatisticsResponseDto
+}
+
+const EcommerceSalesOverview = ({ data }: EcommerceSalesOverviewProps) => {
   // ** Hook
   const theme = useTheme()
 
@@ -39,7 +55,7 @@ const EcommerceSalesOverview = () => {
     stroke: { width: 0 },
     legend: { show: false },
     dataLabels: { enabled: false },
-    labels: ['Apparel', 'Electronics', 'FMCG', 'Other Sales'],
+    labels: data.projects?.map(project => project.name),
     states: {
       hover: {
         filter: { type: 'none' }
@@ -63,7 +79,7 @@ const EcommerceSalesOverview = () => {
             value: {
               offsetY: -15,
               fontWeight: 500,
-              formatter: value => `${value}k`,
+              formatter: value => formatCurrencyAsStandard(parseFloat(value) ?? 0, Locale.EN, CurrencyType.USD),
               color: theme.palette.text.primary
             },
             total: {
@@ -71,7 +87,12 @@ const EcommerceSalesOverview = () => {
               fontSize: '0.875rem',
               label: 'Weekly Sales',
               color: theme.palette.text.secondary,
-              formatter: value => `${value.globals.seriesTotals.reduce((total: number, num: number) => total + num)}k`
+              formatter: value =>
+                formatCurrencyAsStandard(
+                  parseFloat(value.globals.seriesTotals.reduce((total: number, num: number) => total + num)) ?? 0,
+                  Locale.EN,
+                  CurrencyType.USD
+                )
             }
           }
         }
@@ -82,7 +103,7 @@ const EcommerceSalesOverview = () => {
   return (
     <Card>
       <CardHeader
-        title='Sales Overview'
+        title='Project Budget Overview'
         titleTypographyProps={{
           sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' }
         }}
@@ -96,7 +117,12 @@ const EcommerceSalesOverview = () => {
       <CardContent>
         <Grid container sx={{ my: [0, 4, 1.625] }}>
           <Grid item xs={12} sm={6} sx={{ mb: [3, 0] }}>
-            <ReactApexcharts type='donut' height={300} series={[12, 25, 13, 50]} options={options} />
+            <ReactApexcharts
+              type='donut'
+              height={300}
+              series={data.projects ? data.projects.map(project => project.totalBudget) : []}
+              options={options}
+            />
           </Grid>
           <Grid item xs={12} sm={6} sx={{ my: 'auto' }}>
             <Box sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
@@ -104,69 +130,43 @@ const EcommerceSalesOverview = () => {
                 <Icon icon='mdi:currency-usd' />
               </CustomAvatar>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography variant='body2'>Number of Sales</Typography>
-                <Typography variant='h6'>$86,400</Typography>
+                <Typography variant='body2'>Total Budget For Projects</Typography>
+                <Typography variant='h6'>
+                  {formatCurrencyAsStandard(
+                    data.projects
+                      ? data.projects.reduce((accumulator, currentValue) => {
+                          return accumulator + currentValue.totalBudget
+                        }, 0)
+                      : 0,
+                    Locale.EN,
+                    CurrencyType.USD
+                  )}
+                </Typography>
               </Box>
             </Box>
             <Divider sx={{ my: theme => `${theme.spacing(4)} !important` }} />
-            <Grid container>
-              <Grid item xs={6} sx={{ mb: 4 }}>
-                <Box
-                  sx={{
-                    mb: 1.5,
-                    display: 'flex',
-                    alignItems: 'center',
-                    '& svg': { mr: 1.5, fontSize: '0.75rem', color: 'primary.main' }
-                  }}
-                >
-                  <Icon icon='mdi:circle' />
-                  <Typography variant='body2'>Apparel</Typography>
-                </Box>
-                <Typography sx={{ fontWeight: 600 }}>$12,150</Typography>
+            <ScrollWrapper>
+              <Grid container>
+                {data.projects?.map(project => (
+                  <Grid item xs={6} sx={{ mb: 4 }} key={project.id}>
+                    <Box
+                      sx={{
+                        mb: 1.5,
+                        display: 'flex',
+                        alignItems: 'center',
+                        '& svg': { mr: 1.5, fontSize: '0.75rem', color: 'primary.main' }
+                      }}
+                    >
+                      <Icon icon='mdi:circle' />
+                      <Typography variant='body2'>{project.name}</Typography>
+                    </Box>
+                    <Typography sx={{ fontWeight: 600 }}>
+                      {formatCurrencyAsStandard(project.totalBudget ?? 0, Locale.EN, CurrencyType.USD)}
+                    </Typography>
+                  </Grid>
+                ))}
               </Grid>
-              <Grid item xs={6} sx={{ mb: 4 }}>
-                <Box
-                  sx={{
-                    mb: 1.5,
-                    display: 'flex',
-                    alignItems: 'center',
-                    '& svg': { mr: 1.5, fontSize: '0.75rem', color: hexToRGBA(theme.palette.primary.main, 0.7) }
-                  }}
-                >
-                  <Icon icon='mdi:circle' />
-                  <Typography variant='body2'>Electronic</Typography>
-                </Box>
-                <Typography sx={{ fontWeight: 600 }}>$24,900</Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Box
-                  sx={{
-                    mb: 1.5,
-                    display: 'flex',
-                    alignItems: 'center',
-                    '& svg': { mr: 1.5, fontSize: '0.75rem', color: hexToRGBA(theme.palette.primary.main, 0.5) }
-                  }}
-                >
-                  <Icon icon='mdi:circle' />
-                  <Typography variant='body2'>FMCG</Typography>
-                </Box>
-                <Typography sx={{ fontWeight: 600 }}>$12,750</Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Box
-                  sx={{
-                    mb: 1.5,
-                    display: 'flex',
-                    alignItems: 'center',
-                    '& svg': { mr: 1.5, fontSize: '0.75rem', color: 'customColors.trackBg' }
-                  }}
-                >
-                  <Icon icon='mdi:circle' />
-                  <Typography variant='body2'>Other Sales</Typography>
-                </Box>
-                <Typography sx={{ fontWeight: 600 }}>$50,200</Typography>
-              </Grid>
-            </Grid>
+            </ScrollWrapper>
           </Grid>
         </Grid>
       </CardContent>

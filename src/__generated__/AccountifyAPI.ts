@@ -229,112 +229,6 @@ export interface PermissionSubjectResponseDto {
   subject: string
 }
 
-export type Project = object
-
-export interface OrganizationStatisticsResponseDto {
-  /** @example 1 */
-  id: number
-  /** @example "HPTN083" */
-  name: string
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  created: string
-  /** @example 10 */
-  projectCount: number
-  /** @example 10 */
-  invoiceCount: number
-  /** @example 10 */
-  userCount: number
-  /** @example 10 */
-  roleCount: number
-  /** @example 10000 */
-  totalIncome: number
-  /** @example 10000 */
-  totalExpense: number
-  /** @example 10000 */
-  balance: number
-  /** @example [100,300,320,150,170,150,150,300,230,170,260,200] */
-  incomesByMonth: number[]
-  /** @example [280,200,220,180,270,250,70,90,200,150,160,100] */
-  expensesByMonth: number[]
-  projects: Project[]
-  /** @example 10000 */
-  totalUncategorizedIncome: number
-  /** @example 10000 */
-  totalUncategorizedExpense: number
-}
-
-export interface PermissionConfigDto {
-  /** @example "create" */
-  action: PermissionConfigDtoActionEnum
-  /** @example "organization" */
-  subject: PermissionConfigDtoSubjectEnum
-}
-
-export interface CreateRoleRequestDto {
-  /** @example "Developer" */
-  name: string
-  /** @example "developer" */
-  slug: string
-  permissionConfigs: PermissionConfigDto[]
-}
-
-export type Permission = object
-
-export interface RoleResponseDto {
-  /** @example 1 */
-  id: number
-  /** @example "Admin" */
-  name: string
-  /** @example "admin" */
-  slug: string
-  permissions: Permission[]
-  isCustom: boolean
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  createdAt: string
-}
-
-export interface RoleResponseListDto {
-  roles: RoleResponseDto[]
-  metadata: MetaData
-}
-
-export interface UpdateRoleRequestDto {
-  /** @example "Admin" */
-  name?: string
-  /** @example "admin" */
-  slug?: string
-  permissionConfigs: PermissionConfigDto[]
-}
-
-export enum InvoiceType {
-  EXPENSE = 'expense',
-  INCOME = 'income'
-}
-
-export enum CurrencyType {
-  VND = 'vnd',
-  USD = 'usd'
-}
-
-export interface InvoiceItemResponseDto {
-  /** @example 1 */
-  id: number
-  /** @example "Monthly bill" */
-  name: string
-  /** @example "Pay monthly internet bill" */
-  note: string
-  /** @example 10000 */
-  price: number
-  /** @example 1 */
-  quantity: number
-}
-
 export enum ColorType {
   PRIMARY = 'primary',
   SECONDARY = 'secondary',
@@ -360,6 +254,11 @@ export enum IconType {
   MDI_EXPORT = 'mdi:export',
   MDI_CREDIT_CARD_ADD = 'mdi:credit-card-add',
   MDI_EMAIL_ADD_OUTLINE = 'mdi:email-add-outline'
+}
+
+export enum InvoiceType {
+  EXPENSE = 'expense',
+  INCOME = 'income'
 }
 
 export interface CategoryResponseDto {
@@ -427,6 +326,105 @@ export interface ProjectResponseDto {
    * @example "2024-02-26T07:31:35.000Z"
    */
   createdAt: string
+}
+
+export interface OrganizationStatisticsResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "HPTN083" */
+  name: string
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  created: string
+  /** @example 10 */
+  projectCount: number
+  /** @example 10 */
+  invoiceCount: number
+  /** @example 10 */
+  userCount: number
+  /** @example 10 */
+  roleCount: number
+  /** @example 10000 */
+  totalIncome: number
+  /** @example 10000 */
+  totalExpense: number
+  /** @example 10000 */
+  balance: number
+  /** @example [100,300,320,150,170,150,150,300,230,170,260,200] */
+  incomesByMonth: number[]
+  /** @example [280,200,220,180,270,250,70,90,200,150,160,100] */
+  expensesByMonth: number[]
+  projects: ProjectResponseDto[]
+  /** @example 10000 */
+  totalUncategorizedIncome: number
+  /** @example 10000 */
+  totalUncategorizedExpense: number
+}
+
+export interface PermissionConfigDto {
+  /** @example "create" */
+  action: PermissionConfigDtoActionEnum
+  /** @example "organization" */
+  subject: PermissionConfigDtoSubjectEnum
+}
+
+export interface CreateRoleRequestDto {
+  /** @example "Developer" */
+  name: string
+  /** @example "developer" */
+  slug: string
+  permissionConfigs: PermissionConfigDto[]
+}
+
+export type Permission = object
+
+export interface RoleResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "Admin" */
+  name: string
+  /** @example "admin" */
+  slug: string
+  permissions: Permission[]
+  isCustom: boolean
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
+export interface RoleResponseListDto {
+  roles: RoleResponseDto[]
+  metadata: MetaData
+}
+
+export interface UpdateRoleRequestDto {
+  /** @example "Admin" */
+  name?: string
+  /** @example "admin" */
+  slug?: string
+  permissionConfigs: PermissionConfigDto[]
+}
+
+export enum CurrencyType {
+  VND = 'vnd',
+  USD = 'usd'
+}
+
+export interface InvoiceItemResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "Monthly bill" */
+  name: string
+  /** @example "Pay monthly internet bill" */
+  note: string
+  /** @example 10000 */
+  price: number
+  /** @example 1 */
+  quantity: number
 }
 
 export interface InvoiceResponseDto {

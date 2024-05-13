@@ -135,9 +135,7 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
       headerName: t('project_page.budget.progress') as string,
       renderCell: ({ row }: CellType) => (
         <Box sx={{ width: '100%' }}>
-          <Typography variant='body2' sx={{ color: `text.${row.category.color}` }}>
-            {calculateBudgetProcess(row.category.totalSpent, row.amount)}%
-          </Typography>
+          <Typography variant='body2'>{calculateBudgetProcess(row.category.totalSpent, row.amount)}%</Typography>
           <LinearProgress
             variant='determinate'
             value={

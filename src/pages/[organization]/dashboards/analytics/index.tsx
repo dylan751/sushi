@@ -132,7 +132,7 @@ const EcommerceDashboard = () => {
             <EcommerceTotalProfit data={statisticsStore.statistics} />
           </Grid>
           <Grid item xs={12} md={8}>
-            <EcommerceSalesOverview />
+            <EcommerceSalesOverview data={statisticsStore.statistics} />
           </Grid>
           <Grid item xs={12} md={4} sx={{ order: 0 }}>
             <Grid container spacing={6}>
@@ -191,8 +191,8 @@ const EcommerceDashboard = () => {
             />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={4} sx={{ order: 0 }}>
-            <EcommerceTransactions />
+          <Grid item xs={12} md={4} sx={{ order: 0 }}>
+            <EcommerceTransactions data={statisticsStore.statistics} />
           </Grid>
         </Grid>
       </DatePickerWrapper>

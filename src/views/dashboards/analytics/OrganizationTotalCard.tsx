@@ -43,7 +43,6 @@ export interface OrganizationTotalCardProps {
 
 const OrganizationTotalCard = ({ title, type, invoices, total }: OrganizationTotalCardProps) => {
   const data = invoices.filter(invoice => invoice.type === type)
-  console.log(invoices)
 
   return (
     <Card>
