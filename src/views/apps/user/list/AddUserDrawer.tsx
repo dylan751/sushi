@@ -22,7 +22,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** Store Imports
 import { useDispatch } from 'react-redux'
-import { addUser } from 'src/store/apps/user'
+import { addUser } from 'src/store/apps/organization/user'
 
 // ** Types Imports
 import { AppDispatch } from 'src/store'

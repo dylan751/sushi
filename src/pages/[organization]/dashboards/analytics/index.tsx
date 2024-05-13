@@ -39,7 +39,7 @@ import { CurrencyType, InvoiceType } from 'src/__generated__/AccountifyAPI'
 // ** Utils Imports
 import { endOfYear, format, startOfYear } from 'date-fns'
 import { formatCurrencyAsCompact } from 'src/utils/currency'
-import { fetchInvoice } from 'src/store/apps/invoice'
+import { fetchInvoice } from 'src/store/apps/organization/invoice'
 
 // ** Third Party Imports
 import DatePicker from 'react-datepicker'

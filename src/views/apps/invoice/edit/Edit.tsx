@@ -13,7 +13,7 @@ import Alert from '@mui/material/Alert'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Actions Imports
-import { fetchAnInvoice, updateInvoice } from 'src/store/apps/invoice'
+import { fetchAnInvoice, updateInvoice } from 'src/store/apps/organization/invoice'
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
@@ -40,7 +40,7 @@ import toast from 'react-hot-toast'
 
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
-import { fetchCategory } from 'src/store/apps/category'
+import { fetchCategory } from 'src/store/apps/organization/project/category'
 
 export interface InvoiceEditProps {
   id: string

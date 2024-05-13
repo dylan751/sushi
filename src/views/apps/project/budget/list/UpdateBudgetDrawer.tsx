@@ -19,7 +19,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** Store Imports
 import { useDispatch } from 'react-redux'
-import { updateBudget } from 'src/store/apps/budget'
+import { updateBudget } from 'src/store/apps/organization/project/budget'
 
 // ** Types Imports
 import { AppDispatch } from 'src/store'

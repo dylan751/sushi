@@ -29,8 +29,8 @@ import { getInitials } from 'src/@core/utils/get-initials'
 import { isAdmin } from 'src/utils/role'
 
 // ** Actions Imports
-import { deleteUser, fetchAdminCount, fetchUser, updateUser } from 'src/store/apps/user'
-import { fetchRole } from 'src/store/apps/role'
+import { deleteUser, fetchAdminCount, fetchUser, updateUser } from 'src/store/apps/organization/user'
+import { fetchRole } from 'src/store/apps/organization/role'
 
 // ** Types Imports
 import { RootState, AppDispatch } from 'src/store'

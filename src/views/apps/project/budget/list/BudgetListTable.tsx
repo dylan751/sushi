@@ -25,8 +25,8 @@ import { AbilityContext } from 'src/layouts/components/acl/Can'
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'src/store'
-import { deleteBudget, fetchBudget } from 'src/store/apps/budget'
-import { fetchCategory } from 'src/store/apps/category'
+import { deleteBudget, fetchBudget } from 'src/store/apps/organization/project/budget'
+import { fetchCategory } from 'src/store/apps/organization/project/category'
 
 // ** Type Imports
 import { BudgetResponseDto, CurrencyType, InvoiceType } from 'src/__generated__/AccountifyAPI'
