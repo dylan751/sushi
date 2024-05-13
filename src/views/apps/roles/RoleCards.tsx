@@ -49,7 +49,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
-import { addRole, deleteRole, fetchRole, updateRole } from 'src/store/apps/role'
+import { addRole, deleteRole, fetchRole, updateRole } from 'src/store/apps/organization/role'
 
 // ** Third Party Imports
 import { Controller, FieldValues, useForm } from 'react-hook-form'

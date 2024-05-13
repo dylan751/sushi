@@ -31,7 +31,7 @@ import { useCurrentOrganization } from 'src/hooks'
 // ** Store Imports
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from 'src/store'
-import { addProject } from 'src/store/apps/project'
+import { addProject } from 'src/store/apps/organization/project'
 
 // ** Util Imports
 import { getProjectListUrl } from 'src/utils/router'

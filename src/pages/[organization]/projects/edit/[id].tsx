@@ -22,7 +22,7 @@ import Icon from 'src/@core/components/icon'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Actions Imports
-import { fetchAProject, updateProject } from 'src/store/apps/project'
+import { fetchAProject, updateProject } from 'src/store/apps/organization/project'
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'

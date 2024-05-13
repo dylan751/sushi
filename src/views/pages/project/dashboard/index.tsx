@@ -9,8 +9,8 @@ import CardContent from '@mui/material/CardContent'
 
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchStatistics } from 'src/store/apps/project/statistics'
-import { fetchInvoiceForProject } from 'src/store/apps/invoice'
+import { fetchStatistics } from 'src/store/apps/organization/project/statistics'
+import { fetchInvoiceForProject } from 'src/store/apps/organization/invoice'
 
 // ** Types Import
 import { AppDispatch, RootState } from 'src/store'

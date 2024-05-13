@@ -27,7 +27,7 @@ import { useTranslation } from 'react-i18next'
 
 // ** Store & Actions Imports
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteInvoice, fetchInvoiceForProject } from 'src/store/apps/invoice'
+import { deleteInvoice, fetchInvoiceForProject } from 'src/store/apps/organization/invoice'
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
@@ -60,7 +60,7 @@ import { Locale } from 'src/enum'
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
-import { fetchCategory } from 'src/store/apps/category'
+import { fetchCategory } from 'src/store/apps/organization/project/category'
 
 interface CustomInputProps {
   dates: Date[]

@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
-import { addInvoice } from 'src/store/apps/invoice'
+import { addInvoice } from 'src/store/apps/organization/invoice'
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
 import {
   CreateInvoiceItemRequest,
@@ -38,8 +38,8 @@ import { getInvoiceListUrl } from 'src/utils/router/invoice'
 
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
-import { fetchProject } from 'src/store/apps/project'
-import { fetchCategory } from 'src/store/apps/category'
+import { fetchProject } from 'src/store/apps/organization/project'
+import { fetchCategory } from 'src/store/apps/organization/project/category'
 
 export type CreateInvoiceFormData = CreateInvoiceItemRequest & { index: number }
 

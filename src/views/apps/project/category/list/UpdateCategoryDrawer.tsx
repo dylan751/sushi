@@ -25,7 +25,7 @@ import CustomChip from 'src/@core/components/mui/chip'
 
 // ** Store Imports
 import { useDispatch } from 'react-redux'
-import { updateCategory } from 'src/store/apps/category'
+import { updateCategory } from 'src/store/apps/organization/project/category'
 
 // ** Types Imports
 import { AppDispatch } from 'src/store'

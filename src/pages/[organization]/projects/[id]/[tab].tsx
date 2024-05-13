@@ -14,7 +14,7 @@ import { ProjectResponseDto } from 'src/__generated__/AccountifyAPI'
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'src/store'
-import { fetchAProject } from 'src/store/apps/project'
+import { fetchAProject } from 'src/store/apps/organization/project'
 import { useCurrentOrganization } from 'src/hooks'
 
 const tab = ['dashboard', 'invoice', 'budget', 'category']

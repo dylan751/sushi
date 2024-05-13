@@ -43,7 +43,7 @@ import { useCurrentOrganization } from 'src/hooks'
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'src/store'
-import { deleteProject, fetchProject } from 'src/store/apps/project'
+import { deleteProject, fetchProject } from 'src/store/apps/organization/project'
 
 // ** Third Party Imports
 import { format } from 'date-fns'

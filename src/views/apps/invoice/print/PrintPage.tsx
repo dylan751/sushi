@@ -24,7 +24,7 @@ import { format } from 'date-fns'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Actions Imports
-import { fetchAnInvoice } from 'src/store/apps/invoice'
+import { fetchAnInvoice } from 'src/store/apps/organization/invoice'
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
