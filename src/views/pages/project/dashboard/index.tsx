@@ -91,7 +91,7 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
       stats: formatCurrencyAsCompact(statisticsStore.statistics.totalIncome ?? 0, Locale.EN, CurrencyType.USD),
       title: t('project_page.dashboard.income'),
       chipColor: 'success',
-      chipText: `Year of ${format(year ?? new Date(), 'yyyy')}`,
+      chipText: `${t('dashboard_page.year_of')} ${format(year ?? new Date(), 'yyyy')}`,
       src: '/images/cards/pose_f9.png'
     },
     {
@@ -99,7 +99,7 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
       // trendNumber: '-22%',
       stats: formatCurrencyAsCompact(statisticsStore.statistics.totalExpense ?? 0, Locale.EN, CurrencyType.USD),
       title: t('project_page.dashboard.expense'),
-      chipText: `Year of ${format(year ?? new Date(), 'yyyy')}`,
+      chipText: `${t('dashboard_page.year_of')} ${format(year ?? new Date(), 'yyyy')}`,
       chipColor: 'error',
       src: '/images/cards/pose_m18.png'
     }

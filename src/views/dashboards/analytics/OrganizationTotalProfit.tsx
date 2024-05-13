@@ -34,6 +34,9 @@ import ReactApexcharts from 'src/@core/components/react-apexcharts'
 import { formatCurrencyAsCompact, formatCurrencyAsStandard } from 'src/utils/currency'
 import { getInvoiceListUrl } from 'src/utils/router'
 
+// ** Hooks Imports
+import { useTranslation } from 'react-i18next'
+
 interface DataType {
   title: string
   icon: ReactNode
@@ -59,24 +62,25 @@ const OrganizationTotalProfit = ({ data }: OrganizationTotalProfitProps) => {
   // ** Hook
   const theme = useTheme()
   const router = useRouter()
+  const { t } = useTranslation()
 
   const dataFormat: DataType[] = [
     {
       title: formatCurrencyAsStandard(data.totalIncome - data.totalExpense ?? 0, Locale.EN, CurrencyType.USD),
       avatarColor: 'primary',
-      subtitle: 'Total Profit',
+      subtitle: t('dashboard_page.total_profit'),
       icon: <Icon icon='mdi:trending-up' fontSize='1.875rem' />
     },
     {
       title: formatCurrencyAsStandard(data.totalIncome ?? 0, Locale.EN, CurrencyType.USD),
       avatarColor: 'success',
-      subtitle: 'Total Income',
+      subtitle: t('dashboard_page.total_income'),
       icon: <Icon icon='mdi:currency-usd' fontSize='1.875rem' />
     },
     {
       title: formatCurrencyAsStandard(data.totalExpense ?? 0, Locale.EN, CurrencyType.USD),
       avatarColor: 'error',
-      subtitle: 'Total Expense',
+      subtitle: t('dashboard_page.total_expense'),
       icon: <Icon icon='mdi:poll' />
     }
   ]
@@ -201,7 +205,7 @@ const OrganizationTotalProfit = ({ data }: OrganizationTotalProfitProps) => {
       <Grid container>
         <StyledGrid item xs={12} sm={8}>
           <CardContent sx={{ height: '100%', '& .apexcharts-xcrosshairs.apexcharts-active': { opacity: 0 } }}>
-            <Typography variant='h6'>Total Profit</Typography>
+            <Typography variant='h6'>{t('dashboard_page.total_profit')}</Typography>
             {data.id && <ReactApexcharts type='bar' height={282} series={series} options={options} />}
           </CardContent>
         </StyledGrid>
@@ -246,7 +250,7 @@ const OrganizationTotalProfit = ({ data }: OrganizationTotalProfitProps) => {
               )
             })}
             <Button fullWidth variant='contained' onClick={() => router.replace(getInvoiceListUrl())}>
-              View Invoices
+              {t('dashboard_page.view_invoices')}
             </Button>
           </CardContent>
         </Grid>

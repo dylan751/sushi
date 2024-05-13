@@ -30,6 +30,9 @@ import { formatCurrencyAsStandard } from 'src/utils/currency'
 import { CurrencyType, OrganizationStatisticsResponseDto } from 'src/__generated__/AccountifyAPI'
 import { Locale } from 'src/enum'
 
+// ** Hooks Imports
+import { useTranslation } from 'react-i18next'
+
 const ScrollWrapper = ({ children }: { children: ReactNode }) => {
   return <Box sx={{ height: '140px', overflowY: 'auto', overflowX: 'hidden' }}>{children}</Box>
 }
@@ -41,6 +44,7 @@ export interface OrganizationBudgetOverviewProps {
 const OrganizationBudgetOverview = ({ data }: OrganizationBudgetOverviewProps) => {
   // ** Hook
   const theme = useTheme()
+  const { t } = useTranslation()
 
   const options: ApexOptions = {
     chart: {
@@ -85,7 +89,7 @@ const OrganizationBudgetOverview = ({ data }: OrganizationBudgetOverviewProps) =
             total: {
               show: true,
               fontSize: '0.875rem',
-              label: 'Weekly Sales',
+              label: t('dashboard_page.total_budget').toString(),
               color: theme.palette.text.secondary,
               formatter: value =>
                 formatCurrencyAsStandard(
@@ -103,7 +107,7 @@ const OrganizationBudgetOverview = ({ data }: OrganizationBudgetOverviewProps) =
   return (
     <Card>
       <CardHeader
-        title='Project Budget Overview'
+        title={t('dashboard_page.project_budget_overview')}
         titleTypographyProps={{
           sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' }
         }}
@@ -132,7 +136,7 @@ const OrganizationBudgetOverview = ({ data }: OrganizationBudgetOverviewProps) =
                 <Icon icon='mdi:currency-usd' />
               </CustomAvatar>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography variant='body2'>Total Budget For Projects</Typography>
+                <Typography variant='body2'>{t('dashboard_page.total_budget_for_projects')}</Typography>
                 <Typography variant='h6'>
                   {formatCurrencyAsStandard(
                     data.projects

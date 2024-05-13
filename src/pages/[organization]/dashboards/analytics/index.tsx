@@ -111,20 +111,20 @@ const Dashboard = () => {
           <Grid item xs={12} sm={6} md={2} sx={{ order: 0 }}>
             <CardStatisticsVerticalComponent
               stats={formatCurrencyAsCompact(statisticsStore.statistics.totalIncome ?? 0, Locale.EN, CurrencyType.USD)}
-              color='info'
+              color='success'
               trendNumber='+38%'
-              title='Income'
-              subtitle={`Year of ${format(year ?? new Date(), 'yyyy')}`}
+              title={t('dashboard_page.income')}
+              subtitle={`${t('dashboard_page.year_of')} ${format(year ?? new Date(), 'yyyy')}`}
               icon={<Icon icon='mdi:trending-up' />}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={2} sx={{ order: 0 }}>
             <CardStatisticsVerticalComponent
               stats={formatCurrencyAsCompact(statisticsStore.statistics.totalExpense ?? 0, Locale.EN, CurrencyType.USD)}
-              color='success'
-              title='Expense'
+              color='error'
+              title={t('dashboard_page.expense')}
               trendNumber='+16%'
-              subtitle={`Year of ${format(year ?? new Date(), 'yyyy')}`}
+              subtitle={`${t('dashboard_page.year_of')} ${format(year ?? new Date(), 'yyyy')}`}
               icon={<Icon icon='mdi:currency-usd' />}
             />
           </Grid>
@@ -140,8 +140,8 @@ const Dashboard = () => {
                 <CardStatisticsVerticalComponent
                   stats={statisticsStore.statistics.projectCount?.toString()}
                   color='success'
-                  title='Projects'
-                  subtitle={`Year of ${format(year ?? new Date(), 'yyyy')}`}
+                  title={t('dashboard_page.projects')}
+                  subtitle={`${t('dashboard_page.year_of')} ${format(year ?? new Date(), 'yyyy')}`}
                   icon={<Icon icon='mdi:cube-outline' />}
                 />
               </Grid>
@@ -149,8 +149,8 @@ const Dashboard = () => {
                 <CardStatisticsVerticalComponent
                   stats={statisticsStore.statistics.invoiceCount?.toString()}
                   color='error'
-                  title='Invoices'
-                  subtitle={`Year of ${format(year ?? new Date(), 'yyyy')}`}
+                  title={t('dashboard_page.invoices')}
+                  subtitle={`${t('dashboard_page.year_of')} ${format(year ?? new Date(), 'yyyy')}`}
                   icon={<Icon icon='mdi:file-document-outline' />}
                 />
               </Grid>
@@ -158,8 +158,8 @@ const Dashboard = () => {
                 <CardStatisticsVerticalComponent
                   stats={statisticsStore.statistics.userCount?.toString()}
                   color='warning'
-                  title='Users'
-                  subtitle='In total'
+                  title={t('dashboard_page.users')}
+                  subtitle={t('dashboard_page.in_total')}
                   icon={<Icon icon='mdi:account-outline' />}
                 />
               </Grid>
@@ -167,8 +167,8 @@ const Dashboard = () => {
                 <CardStatisticsVerticalComponent
                   stats={statisticsStore.statistics.roleCount?.toString()}
                   color='info'
-                  title='Roles'
-                  subtitle='In total'
+                  title={t('dashboard_page.roles')}
+                  subtitle={t('dashboard_page.in_total')}
                   icon={<Icon icon='mdi:shield-outline' />}
                 />
               </Grid>

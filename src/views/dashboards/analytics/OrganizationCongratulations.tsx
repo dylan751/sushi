@@ -60,9 +60,10 @@ const OrganizationCongratulations = () => {
               </Box>
               ! 🎉
             </Typography>
-            <Typography variant='body2'>All-in-one accounting website for you.</Typography>
+            <Typography variant='body2'>{t('dashboard_page.welcome_message')}</Typography>
             <Typography variant='body2'>
-              Start with <LinkStyled href={getProjectAddUrl()}>creating your first Project</LinkStyled> 🤩.
+              {t('dashboard_page.start_with')}{' '}
+              <LinkStyled href={getProjectAddUrl()}>{t('dashboard_page.create_project')}</LinkStyled>
             </Typography>
           </Grid>
           <StyledGrid item xs={12} sm={6}>

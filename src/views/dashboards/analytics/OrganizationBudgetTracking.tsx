@@ -21,6 +21,9 @@ import { ReactNode } from 'react'
 import { calculateBudgetProcess, renderColorBudgetProcess } from 'src/utils/budget'
 import { getProjectDefaultTab } from 'src/utils/router'
 
+// ** Hooks Imports
+import { useTranslation } from 'react-i18next'
+
 // ** Styled component for the link
 const LinkStyled = styled(Link)(({ theme }) => ({
   textDecoration: 'none',
@@ -37,10 +40,13 @@ export interface OrganizationBudgetTrackingProps {
 }
 
 const OrganizationBudgetTracking = ({ data }: OrganizationBudgetTrackingProps) => {
+  // ** Hooks
+  const { t } = useTranslation()
+
   return (
     <Card>
       <CardHeader
-        title='Budget Tracking'
+        title={t('dashboard_page.budget_tracking')}
         titleTypographyProps={{ sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' } }}
         action={
           <OptionsMenu
