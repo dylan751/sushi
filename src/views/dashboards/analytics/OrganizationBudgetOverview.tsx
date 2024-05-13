@@ -37,6 +37,17 @@ const ScrollWrapper = ({ children }: { children: ReactNode }) => {
   return <Box sx={{ height: '140px', overflowY: 'auto', overflowX: 'hidden' }}>{children}</Box>
 }
 
+const colorPalette = [
+  'primary.main',
+  'success.main',
+  'info.main',
+  'warning.main',
+  'error.main',
+  'secondary.main',
+  'primary.mail',
+  'primary.mail'
+]
+
 export interface OrganizationBudgetOverviewProps {
   data: OrganizationStatisticsResponseDto
 }
@@ -52,9 +63,13 @@ const OrganizationBudgetOverview = ({ data }: OrganizationBudgetOverviewProps) =
     },
     colors: [
       theme.palette.primary.main,
+      theme.palette.success.main,
+      theme.palette.info.main,
+      theme.palette.warning.main,
+      theme.palette.error.main,
+      theme.palette.secondary.main,
       hexToRGBA(theme.palette.primary.main, 0.7),
-      hexToRGBA(theme.palette.primary.main, 0.5),
-      theme.palette.customColors.trackBg
+      hexToRGBA(theme.palette.primary.main, 0.5)
     ],
     stroke: { width: 0 },
     legend: { show: false },
@@ -154,14 +169,14 @@ const OrganizationBudgetOverview = ({ data }: OrganizationBudgetOverviewProps) =
             <ScrollWrapper>
               <Grid container>
                 {data.projects &&
-                  data.projects.map(project => (
+                  data.projects.map((project, index) => (
                     <Grid item xs={6} sx={{ mb: 4 }} key={project.id}>
                       <Box
                         sx={{
                           mb: 1.5,
                           display: 'flex',
                           alignItems: 'center',
-                          '& svg': { mr: 1.5, fontSize: '0.75rem', color: 'primary.main' }
+                          '& svg': { mr: 1.5, fontSize: '0.75rem', color: colorPalette[index] }
                         }}
                       >
                         <Icon icon='mdi:circle' />
