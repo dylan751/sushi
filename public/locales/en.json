@@ -76,7 +76,28 @@
         "active": "Active"
     },
     "dashboard_page": {
-        "welcome": "Welcome"
+        "welcome": "Welcome",
+        "welcome_message": "All-in-one accounting website for you.",
+        "start_with": "Start with",
+        "create_project": "creating your first Project 🤩.",
+        "income": "Income",
+        "expense": "Expense",
+        "total_profit": "Total Profit",
+        "total_income": "Total Income",
+        "total_expense": "Total Expense",
+        "view_invoices": "View Invoices",
+        "project_budget_overview": "Project Budget Overview",
+        "total_budget": "Total Budget",
+        "total_budget_for_projects": "Total Budget For Projects",
+        "projects": "Projects",
+        "invoices": "Invoices",
+        "users": "Users",
+        "roles": "Roles",
+        "year_of": "Year Of",
+        "in_total": "In Total",
+        "budget_tracking": "Budget Tracking",
+        "total_uncategorized_incomes": "Total Uncategorized Incomes",
+        "total_uncategorized_expenses": "Total Uncategorized Expenses"
     },
     "role_page": {
         "role": {

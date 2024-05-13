@@ -9,25 +9,13 @@ const navigation = (): HorizontalNavItemsType => {
 
   return [
     {
+      path: `/${uniqueName}/dashboards/analytics`,
+      action: 'read',
+      subject: 'dashboard',
       title: 'navbar.dashboards_page.dashboards',
       icon: 'mdi:home-outline',
       badgeContent: 'new',
-      badgeColor: 'error',
-      children: [
-        {
-          action: 'read',
-          subject: 'dashboard',
-          title: 'navbar.dashboards_page.analytics',
-          path: `/${uniqueName}/dashboards/analytics`
-        }
-      ]
-    },
-    {
-      path: `/${uniqueName}/roles`,
-      action: 'read',
-      subject: 'role',
-      title: 'navbar.role_page',
-      icon: 'mdi:shield-outline'
+      badgeColor: 'error'
     },
     {
       title: 'navbar.project_page.project',
@@ -64,6 +52,13 @@ const navigation = (): HorizontalNavItemsType => {
           path: `/${uniqueName}/invoice/add`
         }
       ]
+    },
+    {
+      path: `/${uniqueName}/roles`,
+      action: 'read',
+      subject: 'role',
+      title: 'navbar.role_page',
+      icon: 'mdi:shield-outline'
     },
     {
       path: `/${uniqueName}/users`,

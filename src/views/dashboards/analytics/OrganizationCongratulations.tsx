@@ -1,3 +1,6 @@
+// ** Next Imports
+import Link from 'next/link'
+
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -10,6 +13,9 @@ import Grid, { GridProps } from '@mui/material/Grid'
 import { useCurrentOrganization } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 
+// ** Util Imports
+import { getProjectAddUrl } from 'src/utils/router'
+
 // Styled Grid component
 const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
@@ -17,6 +23,13 @@ const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center'
   }
+}))
+
+// ** Styled component for the link
+const LinkStyled = styled(Link)(({ theme }) => ({
+  textDecoration: 'none',
+  color: theme.palette.primary.main,
+  fontWeight: 600
 }))
 
 // Styled component for the image
@@ -31,7 +44,7 @@ const Img = styled('img')(({ theme }) => ({
   }
 }))
 
-const EcommerceCongratulations = () => {
+const OrganizationCongratulations = () => {
   const { organization } = useCurrentOrganization()
   const { t } = useTranslation()
 
@@ -47,8 +60,11 @@ const EcommerceCongratulations = () => {
               </Box>
               ! 🎉
             </Typography>
-            <Typography variant='body2'>You have done 72% 🤩 more sales today.</Typography>
-            <Typography variant='body2'>Check your new raising badge in your profile.</Typography>
+            <Typography variant='body2'>{t('dashboard_page.welcome_message')}</Typography>
+            <Typography variant='body2'>
+              {t('dashboard_page.start_with')}{' '}
+              <LinkStyled href={getProjectAddUrl()}>{t('dashboard_page.create_project')}</LinkStyled>
+            </Typography>
           </Grid>
           <StyledGrid item xs={12} sm={6}>
             <Img
@@ -62,4 +78,4 @@ const EcommerceCongratulations = () => {
   )
 }
 
-export default EcommerceCongratulations
+export default OrganizationCongratulations

@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 // ** Types
-import { Api, ProjectStatisticsResponseDto } from 'src/__generated__/AccountifyAPI'
+import { Api, OrganizationStatisticsResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Utils
 import { getAccessToken } from 'src/utils/localStorage'
@@ -14,12 +14,12 @@ interface DataParams {
   date?: string
 }
 
-// ** Fetch Statisics
+// ** Fetch Organization Statisics
 export const fetchStatistics = createAsyncThunk(
-  'appProjectStatistics/fetchStatistics',
-  async (params: DataParams & { organizationId: number; projectId: number }) => {
+  'appOrganizationStatistics/fetchStatistics',
+  async (params: DataParams & { organizationId: number }) => {
     const storedToken = getAccessToken()
-    const { organizationId, projectId, ...restParams } = params
+    const { organizationId, ...restParams } = params
 
     try {
       const response = await new Api({
@@ -28,7 +28,7 @@ export const fetchStatistics = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${storedToken}`
         }
-      }).internal.getStatisticsForProjectOfOrganization(organizationId, projectId, restParams)
+      }).internal.getStatisticsForOrganization(organizationId, restParams)
 
       return response.data
     } catch (error: any) {
@@ -37,17 +37,17 @@ export const fetchStatistics = createAsyncThunk(
   }
 )
 
-export const appProjectStatisticsSlice = createSlice({
-  name: 'appProjectStatistics',
+export const appOrganizationStatisticsSlice = createSlice({
+  name: 'appOrganizationStatistics',
   initialState: {
-    statistics: {} as ProjectStatisticsResponseDto
+    statistics: {} as OrganizationStatisticsResponseDto
   },
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchStatistics.fulfilled, (state, action) => {
-      state.statistics = action.payload || ({} as ProjectStatisticsResponseDto)
+      state.statistics = action.payload || ({} as OrganizationStatisticsResponseDto)
     })
   }
 })
 
-export default appProjectStatisticsSlice.reducer
+export default appOrganizationStatisticsSlice.reducer

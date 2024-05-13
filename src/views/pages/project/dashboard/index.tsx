@@ -4,6 +4,8 @@ import { forwardRef, useEffect, useState } from 'react'
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
 
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,7 +15,6 @@ import { fetchInvoiceForProject } from 'src/store/apps/invoice'
 // ** Types Import
 import { AppDispatch, RootState } from 'src/store'
 import { CardStatsCharacterProps } from 'src/@core/components/card-statistics/types'
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
 import { Locale } from 'src/enum'
 import { CurrencyType, InvoiceType } from 'src/__generated__/AccountifyAPI'
 
@@ -62,13 +63,13 @@ export interface DashboardTabProps {
 
 const DashboardTab = ({ projectId }: DashboardTabProps) => {
   // ** State
-  const [year, setYear] = useState<DateType>(new Date())
+  const [year, setYear] = useState<Date>(new Date())
 
   // ** Hooks
   const { organizationId } = useCurrentOrganization()
   const { t } = useTranslation()
   const dispatch = useDispatch<AppDispatch>()
-  const statisticsStore = useSelector((state: RootState) => state.statistics)
+  const statisticsStore = useSelector((state: RootState) => state.projectStatistics)
   const invoiceStore = useSelector((state: RootState) => state.invoice)
 
   useEffect(() => {
@@ -78,8 +79,8 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
         organizationId,
         projectId: parseInt(projectId),
         status: 'uncategorized',
-        fromDate: startOfYear(year!)?.toString(),
-        toDate: endOfYear(year!)?.toString()
+        fromDate: startOfYear(year ?? new Date())?.toString(),
+        toDate: endOfYear(year ?? new Date())?.toString()
       })
     )
   }, [dispatch, year, organizationId, projectId])
@@ -90,7 +91,7 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
       stats: formatCurrencyAsCompact(statisticsStore.statistics.totalIncome ?? 0, Locale.EN, CurrencyType.USD),
       title: t('project_page.dashboard.income'),
       chipColor: 'success',
-      chipText: `Year of ${format(year!, 'yyyy')}`,
+      chipText: `${t('dashboard_page.year_of')} ${format(year ?? new Date(), 'yyyy')}`,
       src: '/images/cards/pose_f9.png'
     },
     {
@@ -98,7 +99,7 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
       // trendNumber: '-22%',
       stats: formatCurrencyAsCompact(statisticsStore.statistics.totalExpense ?? 0, Locale.EN, CurrencyType.USD),
       title: t('project_page.dashboard.expense'),
-      chipText: `Year of ${format(year!, 'yyyy')}`,
+      chipText: `${t('dashboard_page.year_of')} ${format(year ?? new Date(), 'yyyy')}`,
       chipColor: 'error',
       src: '/images/cards/pose_m18.png'
     }
@@ -107,15 +108,23 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
   return (
     <ApexChartWrapper>
       <DatePickerWrapper>
-        <DatePicker
-          showYearPicker
-          selected={year}
-          id='year-picker'
-          dateFormat='yyyy'
-          onChange={(date: Date) => setYear(date)}
-          customInput={<CustomInput label={t('project_page.dashboard.year_picker') as string} />}
-        />
         <Grid container spacing={6} sx={{ paddingTop: '30px' }}>
+          <Grid item xs={12}>
+            <Card>
+              <CardContent>
+                <Grid item xs={12}>
+                  <DatePicker
+                    showYearPicker
+                    selected={year}
+                    id='year-picker'
+                    dateFormat='yyyy'
+                    onChange={(date: Date) => setYear(date)}
+                    customInput={<CustomInput label={t('project_page.dashboard.year_picker') as string} />}
+                  />
+                </Grid>
+              </CardContent>
+            </Card>
+          </Grid>
           <Grid item xs={12} sm={6} md={3} sx={{ pt: theme => `${theme.spacing(12.25)} !important` }}>
             <CardStatisticsCharacter data={data[0]} />
           </Grid>

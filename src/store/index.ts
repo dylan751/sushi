@@ -9,7 +9,8 @@ import category from 'src/store/apps/category'
 import invoice from 'src/store/apps/invoice'
 import organization from 'src/store/apps/organization'
 import project from 'src/store/apps/project'
-import statistics from 'src/store/apps/project/statistics'
+import projectStatistics from 'src/store/apps/project/statistics'
+import organizationStatistics from 'src/store/apps/organization/statistics'
 import permission from 'src/store/auth/permission'
 import profile from 'src/store/auth/profile'
 
@@ -22,7 +23,8 @@ export const store = configureStore({
     invoice,
     organization,
     project,
-    statistics,
+    projectStatistics,
+    organizationStatistics,
     permission,
     profile
   },

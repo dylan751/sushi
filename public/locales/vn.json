@@ -73,7 +73,28 @@
         "active": "Đang hoạt động"
     },
     "dashboard_page": {
-        "welcome": "Chào mừng"
+        "welcome": "Chào mừng",
+        "welcome_message": "Trang web kế toán tất-cả-trong-một dành cho bạn.",
+        "start_with": "Bắt đầu với việc",
+        "create_project": "Tạo dự án đầu tiên 🤩.",
+        "income": "Thu",
+        "expense": "Chi tiêu",
+        "total_profit": "Tổng lợi nhuận",
+        "total_income": "Tổng thu",
+        "total_expense": "Tổng chi tiêu",
+        "view_invoices": "Danh sách hoá đơn",
+        "project_budget_overview": "Tổng quan về ngân sách dự án",
+        "total_budget": "Tổng ngân sách",
+        "total_budget_for_projects": "Tổng ngân sách cho các dự án",
+        "projects": "Dự án",
+        "invoices": "Hoá đơn",
+        "users": "Người dùng",
+        "roles": "Vai trò",
+        "year_of": "Trong năm",
+        "in_total": "Tổng cộng",
+        "budget_tracking": "Theo dõi ngân sách",
+        "total_uncategorized_incomes": "Tổng thu nhập chưa hạch toán",
+        "total_uncategorized_expenses": "Tổng chi tiêu chưa hạch toán"
     },
     "role_page": {
         "role": {

@@ -12,6 +12,10 @@ export const getProjectListUrl = (): string => {
   return `/${getOrgUniqueName()}/projects/list`
 }
 
+export const getProjectAddUrl = (): string => {
+  return `/${getOrgUniqueName()}/projects/add`
+}
+
 export const getProjectEditUrl = (id: string | number | undefined): string => {
   return `/${getOrgUniqueName()}/projects/edit/${id}`
 }
