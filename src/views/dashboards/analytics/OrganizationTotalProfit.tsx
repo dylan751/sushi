@@ -51,16 +51,16 @@ const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
   }
 }))
 
-export interface EcommerceTotalProfitProps {
+export interface OrganizationTotalProfitProps {
   data: OrganizationStatisticsResponseDto
 }
 
-const EcommerceTotalProfit = ({ data }: EcommerceTotalProfitProps) => {
+const OrganizationTotalProfit = ({ data }: OrganizationTotalProfitProps) => {
   // ** Hook
   const theme = useTheme()
   const router = useRouter()
 
-  const dummyData: DataType[] = [
+  const dataFormat: DataType[] = [
     {
       title: formatCurrencyAsStandard(data.totalIncome - data.totalExpense ?? 0, Locale.EN, CurrencyType.USD),
       avatarColor: 'primary',
@@ -192,7 +192,7 @@ const EcommerceTotalProfit = ({ data }: EcommerceTotalProfitProps) => {
     },
     {
       name: 'Profit',
-      data: data.incomesByMonth?.map((income, index) => income - data.expensesByMonth[index])
+      data: data.incomesByMonth ? data.incomesByMonth.map((income, index) => income - data.expensesByMonth[index]) : []
     }
   ]
 
@@ -202,7 +202,7 @@ const EcommerceTotalProfit = ({ data }: EcommerceTotalProfitProps) => {
         <StyledGrid item xs={12} sm={8}>
           <CardContent sx={{ height: '100%', '& .apexcharts-xcrosshairs.apexcharts-active': { opacity: 0 } }}>
             <Typography variant='h6'>Total Profit</Typography>
-            <ReactApexcharts type='bar' height={282} series={series} options={options} />
+            {data.id && <ReactApexcharts type='bar' height={282} series={series} options={options} />}
           </CardContent>
         </StyledGrid>
         <Grid item xs={12} sm={4}>
@@ -227,7 +227,7 @@ const EcommerceTotalProfit = ({ data }: EcommerceTotalProfitProps) => {
           <CardContent
             sx={{ pt: theme => `${theme.spacing(4)} !important`, pb: theme => `${theme.spacing(5.5)} !important` }}
           >
-            {dummyData.map((item: DataType, index: number) => {
+            {dataFormat.map((item: DataType, index: number) => {
               return (
                 <Box key={index} sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                   <CustomAvatar
@@ -255,4 +255,4 @@ const EcommerceTotalProfit = ({ data }: EcommerceTotalProfitProps) => {
   )
 }
 
-export default EcommerceTotalProfit
+export default OrganizationTotalProfit

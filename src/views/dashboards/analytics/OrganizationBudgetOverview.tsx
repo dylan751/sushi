@@ -34,11 +34,11 @@ const ScrollWrapper = ({ children }: { children: ReactNode }) => {
   return <Box sx={{ height: '140px', overflowY: 'auto', overflowX: 'hidden' }}>{children}</Box>
 }
 
-export interface EcommerceSalesOverviewProps {
+export interface OrganizationBudgetOverviewProps {
   data: OrganizationStatisticsResponseDto
 }
 
-const EcommerceSalesOverview = ({ data }: EcommerceSalesOverviewProps) => {
+const OrganizationBudgetOverview = ({ data }: OrganizationBudgetOverviewProps) => {
   // ** Hook
   const theme = useTheme()
 
@@ -55,7 +55,7 @@ const EcommerceSalesOverview = ({ data }: EcommerceSalesOverviewProps) => {
     stroke: { width: 0 },
     legend: { show: false },
     dataLabels: { enabled: false },
-    labels: data.projects?.map(project => project.name),
+    labels: data.projects ? data.projects.map(project => project.name) : [],
     states: {
       hover: {
         filter: { type: 'none' }
@@ -117,12 +117,14 @@ const EcommerceSalesOverview = ({ data }: EcommerceSalesOverviewProps) => {
       <CardContent>
         <Grid container sx={{ my: [0, 4, 1.625] }}>
           <Grid item xs={12} sm={6} sx={{ mb: [3, 0] }}>
-            <ReactApexcharts
-              type='donut'
-              height={300}
-              series={data.projects ? data.projects.map(project => project.totalBudget) : []}
-              options={options}
-            />
+            {data.id && (
+              <ReactApexcharts
+                type='donut'
+                height={300}
+                series={data.projects ? data.projects.map(project => project.totalBudget) : []}
+                options={options}
+              />
+            )}
           </Grid>
           <Grid item xs={12} sm={6} sx={{ my: 'auto' }}>
             <Box sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
@@ -147,24 +149,25 @@ const EcommerceSalesOverview = ({ data }: EcommerceSalesOverviewProps) => {
             <Divider sx={{ my: theme => `${theme.spacing(4)} !important` }} />
             <ScrollWrapper>
               <Grid container>
-                {data.projects?.map(project => (
-                  <Grid item xs={6} sx={{ mb: 4 }} key={project.id}>
-                    <Box
-                      sx={{
-                        mb: 1.5,
-                        display: 'flex',
-                        alignItems: 'center',
-                        '& svg': { mr: 1.5, fontSize: '0.75rem', color: 'primary.main' }
-                      }}
-                    >
-                      <Icon icon='mdi:circle' />
-                      <Typography variant='body2'>{project.name}</Typography>
-                    </Box>
-                    <Typography sx={{ fontWeight: 600 }}>
-                      {formatCurrencyAsStandard(project.totalBudget ?? 0, Locale.EN, CurrencyType.USD)}
-                    </Typography>
-                  </Grid>
-                ))}
+                {data.projects &&
+                  data.projects.map(project => (
+                    <Grid item xs={6} sx={{ mb: 4 }} key={project.id}>
+                      <Box
+                        sx={{
+                          mb: 1.5,
+                          display: 'flex',
+                          alignItems: 'center',
+                          '& svg': { mr: 1.5, fontSize: '0.75rem', color: 'primary.main' }
+                        }}
+                      >
+                        <Icon icon='mdi:circle' />
+                        <Typography variant='body2'>{project.name}</Typography>
+                      </Box>
+                      <Typography sx={{ fontWeight: 600 }}>
+                        {formatCurrencyAsStandard(project.totalBudget ?? 0, Locale.EN, CurrencyType.USD)}
+                      </Typography>
+                    </Grid>
+                  ))}
               </Grid>
             </ScrollWrapper>
           </Grid>
@@ -174,4 +177,4 @@ const EcommerceSalesOverview = ({ data }: EcommerceSalesOverviewProps) => {
   )
 }
 
-export default EcommerceSalesOverview
+export default OrganizationBudgetOverview

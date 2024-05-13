@@ -44,7 +44,7 @@ const Img = styled('img')(({ theme }) => ({
   }
 }))
 
-const EcommerceCongratulations = () => {
+const OrganizationCongratulations = () => {
   const { organization } = useCurrentOrganization()
   const { t } = useTranslation()
 
@@ -77,4 +77,4 @@ const EcommerceCongratulations = () => {
   )
 }
 
-export default EcommerceCongratulations
+export default OrganizationCongratulations

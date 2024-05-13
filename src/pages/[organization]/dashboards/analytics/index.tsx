@@ -17,11 +17,11 @@ import CardStatisticsVerticalComponent from 'src/@core/components/card-statistic
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 
 // ** Demo Components Imports
-import EcommerceTotalProfit from 'src/views/dashboards/analytics/EcommerceTotalProfit'
-import EcommerceSalesOverview from 'src/views/dashboards/analytics/EcommerceSalesOverview'
+import OrganizationTotalProfit from 'src/views/dashboards/analytics/OrganizationTotalProfit'
+import OrganizationBudgetOverview from 'src/views/dashboards/analytics/OrganizationBudgetOverview'
 import OrganizationTotalCard from 'src/views/dashboards/analytics/OrganizationTotalCard'
-import EcommerceTransactions from 'src/views/dashboards/analytics/EcommerceTransactions'
-import EcommerceCongratulations from 'src/views/dashboards/analytics/EcommerceCongratulations'
+import OrganizationBudgetTracking from 'src/views/dashboards/analytics/OrganizationBudgetTracking'
+import OrganizationCongratulations from 'src/views/dashboards/analytics/OrganizationCongratulations'
 
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
@@ -61,7 +61,7 @@ const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => {
   )
 })
 
-const EcommerceDashboard = () => {
+const Dashboard = () => {
   // ** State
   const [year, setYear] = useState<Date>(new Date())
 
@@ -106,7 +106,7 @@ const EcommerceDashboard = () => {
             </Card>
           </Grid>
           <Grid item xs={12} md={8} sx={{ order: 0, alignSelf: 'flex-end' }}>
-            <EcommerceCongratulations />
+            <OrganizationCongratulations />
           </Grid>
           <Grid item xs={12} sm={6} md={2} sx={{ order: 0 }}>
             <CardStatisticsVerticalComponent
@@ -129,10 +129,10 @@ const EcommerceDashboard = () => {
             />
           </Grid>
           <Grid item xs={12} md={12} sx={{ order: 0 }}>
-            <EcommerceTotalProfit data={statisticsStore.statistics} />
+            <OrganizationTotalProfit data={statisticsStore.statistics} />
           </Grid>
           <Grid item xs={12} md={8}>
-            <EcommerceSalesOverview data={statisticsStore.statistics} />
+            <OrganizationBudgetOverview data={statisticsStore.statistics} />
           </Grid>
           <Grid item xs={12} md={4} sx={{ order: 0 }}>
             <Grid container spacing={6}>
@@ -192,7 +192,7 @@ const EcommerceDashboard = () => {
           </Grid>
 
           <Grid item xs={12} md={4} sx={{ order: 0 }}>
-            <EcommerceTransactions data={statisticsStore.statistics} />
+            <OrganizationBudgetTracking data={statisticsStore.statistics} />
           </Grid>
         </Grid>
       </DatePickerWrapper>
@@ -200,9 +200,9 @@ const EcommerceDashboard = () => {
   )
 }
 
-EcommerceDashboard.acl = {
+Dashboard.acl = {
   action: 'read',
   subject: 'dashboard'
 }
 
-export default EcommerceDashboard
+export default Dashboard
