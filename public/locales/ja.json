@@ -76,7 +76,9 @@
         "active": "アクティブ"
     },
     "dashboard_page": {
-        "welcome": "ようこそ"
+        "welcome": "ようこそ",
+        "total_uncategorized_incomes": "未分類所得の合計",
+        "total_uncategorized_expenses": "未分類経費の合計"
     },
     "role_page": {
         "role": {

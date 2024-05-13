@@ -229,6 +229,43 @@ export interface PermissionSubjectResponseDto {
   subject: string
 }
 
+export type Project = object
+
+export interface OrganizationStatisticsResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "HPTN083" */
+  name: string
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  created: string
+  /** @example 10 */
+  projectCount: number
+  /** @example 10 */
+  invoiceCount: number
+  /** @example 10 */
+  userCount: number
+  /** @example 10 */
+  roleCount: number
+  /** @example 10000 */
+  totalIncome: number
+  /** @example 10000 */
+  totalExpense: number
+  /** @example 10000 */
+  balance: number
+  /** @example [100,300,320,150,170,150,150,300,230,170,260,200] */
+  incomesByMonth: number[]
+  /** @example [280,200,220,180,270,250,70,90,200,150,160,100] */
+  expensesByMonth: number[]
+  projects: Project[]
+  /** @example 10000 */
+  totalUncategorizedIncome: number
+  /** @example 10000 */
+  totalUncategorizedExpense: number
+}
+
 export interface PermissionConfigDto {
   /** @example "create" */
   action: PermissionConfigDtoActionEnum
@@ -1099,6 +1136,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<PermissionSubjectResponseDto[], any>({
         path: `/internal/api/v1/permissions`,
         method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get statistics for organization
+     *
+     * @tags Organization Statistics
+     * @name GetStatisticsForOrganization
+     * @summary Get statistics for organization
+     * @request GET:/internal/api/v1/organizations/{organizationId}/statistics
+     * @secure
+     */
+    getStatisticsForOrganization: (
+      organizationId: number,
+      query?: {
+        /** @format date-time */
+        date?: string
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<OrganizationStatisticsResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/statistics`,
+        method: 'GET',
+        query: query,
         secure: true,
         format: 'json',
         ...params

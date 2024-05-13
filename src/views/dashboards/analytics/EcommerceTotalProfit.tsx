@@ -1,3 +1,6 @@
+// ** Next Imports
+import { useRouter } from 'next/router'
+
 // ** React Imports
 import { ReactNode } from 'react'
 
@@ -19,11 +22,17 @@ import { ApexOptions } from 'apexcharts'
 
 // ** Types
 import { ThemeColor } from 'src/@core/layouts/types'
+import { CurrencyType, OrganizationStatisticsResponseDto } from 'src/__generated__/AccountifyAPI'
+import { Locale } from 'src/enum'
 
 // ** Custom Components Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import OptionsMenu from 'src/@core/components/option-menu'
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
+
+// ** Utils Imports
+import { formatCurrencyAsCompact, formatCurrencyAsStandard } from 'src/utils/currency'
+import { getInvoiceListUrl } from 'src/utils/router'
 
 interface DataType {
   title: string
@@ -31,42 +40,6 @@ interface DataType {
   subtitle: string
   avatarColor: ThemeColor
 }
-
-const data: DataType[] = [
-  {
-    title: '$48,568.20',
-    avatarColor: 'success',
-    subtitle: 'Total Profit',
-    icon: <Icon icon='mdi:trending-up' fontSize='1.875rem' />
-  },
-  {
-    title: '$38,453.25',
-    avatarColor: 'primary',
-    subtitle: 'Total Income',
-    icon: <Icon icon='mdi:currency-usd' fontSize='1.875rem' />
-  },
-  {
-    title: '$2,453.45',
-    avatarColor: 'secondary',
-    subtitle: 'Total Expense',
-    icon: <Icon icon='mdi:poll' />
-  }
-]
-
-const series = [
-  {
-    name: 'Product A',
-    data: [29000, 22000, 25000, 18500, 29000, 20000, 34500]
-  },
-  {
-    name: 'Product B',
-    data: [0, 16000, 11000, 15500, 0, 12500, 9500]
-  },
-  {
-    name: 'Product C',
-    data: [0, 0, 0, 14000, 0, 11500, 12000]
-  }
-]
 
 // Styled Grid component
 const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
@@ -78,9 +51,35 @@ const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
   }
 }))
 
-const EcommerceTotalProfit = () => {
+export interface EcommerceTotalProfitProps {
+  data: OrganizationStatisticsResponseDto
+}
+
+const EcommerceTotalProfit = ({ data }: EcommerceTotalProfitProps) => {
   // ** Hook
   const theme = useTheme()
+  const router = useRouter()
+
+  const dummyData: DataType[] = [
+    {
+      title: formatCurrencyAsStandard(data.totalIncome - data.totalExpense ?? 0, Locale.EN, CurrencyType.USD),
+      avatarColor: 'primary',
+      subtitle: 'Total Profit',
+      icon: <Icon icon='mdi:trending-up' fontSize='1.875rem' />
+    },
+    {
+      title: formatCurrencyAsStandard(data.totalIncome ?? 0, Locale.EN, CurrencyType.USD),
+      avatarColor: 'success',
+      subtitle: 'Total Income',
+      icon: <Icon icon='mdi:currency-usd' fontSize='1.875rem' />
+    },
+    {
+      title: formatCurrencyAsStandard(data.totalExpense ?? 0, Locale.EN, CurrencyType.USD),
+      avatarColor: 'error',
+      subtitle: 'Total Expense',
+      icon: <Icon icon='mdi:poll' />
+    }
+  ]
 
   const options: ApexOptions = {
     chart: {
@@ -96,7 +95,7 @@ const EcommerceTotalProfit = () => {
         startingShape: 'rounded'
       }
     },
-    colors: [theme.palette.primary.main, theme.palette.success.main, theme.palette.secondary.main],
+    colors: [theme.palette.error.main, theme.palette.success.main, theme.palette.primary.main],
     grid: {
       strokeDashArray: 7,
       borderColor: theme.palette.divider,
@@ -124,7 +123,7 @@ const EcommerceTotalProfit = () => {
     xaxis: {
       axisTicks: { show: false },
       axisBorder: { show: false },
-      categories: [2016, 2017, 2018, 2019, 2020, 2021, 2022],
+      categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
       labels: {
         style: { colors: theme.palette.text.disabled }
       }
@@ -133,7 +132,8 @@ const EcommerceTotalProfit = () => {
       labels: {
         offsetY: 2,
         offsetX: -10,
-        formatter: (value: number) => (value > 999 ? `${(value / 1000).toFixed(0)}k` : `${value}`),
+        formatter: (value: number) =>
+          value >= 0 ? `${(value / 1000).toFixed(0)}k` : `-${(Math.abs(value) / 1000).toFixed(0)}k`,
         style: { colors: theme.palette.text.disabled }
       }
     },
@@ -181,19 +181,34 @@ const EcommerceTotalProfit = () => {
     ]
   }
 
+  const series = [
+    {
+      name: 'Expense',
+      data: data.expensesByMonth
+    },
+    {
+      name: 'Income',
+      data: data.incomesByMonth
+    },
+    {
+      name: 'Profit',
+      data: data.incomesByMonth?.map((income, index) => income - data.expensesByMonth[index])
+    }
+  ]
+
   return (
     <Card>
       <Grid container>
-        <StyledGrid item xs={12} sm={7}>
+        <StyledGrid item xs={12} sm={8}>
           <CardContent sx={{ height: '100%', '& .apexcharts-xcrosshairs.apexcharts-active': { opacity: 0 } }}>
             <Typography variant='h6'>Total Profit</Typography>
             <ReactApexcharts type='bar' height={282} series={series} options={options} />
           </CardContent>
         </StyledGrid>
-        <Grid item xs={12} sm={5}>
+        <Grid item xs={12} sm={4}>
           <CardHeader
-            title='$482.85k'
-            subheader='Last month balance $234.40k'
+            title={formatCurrencyAsCompact(data.balance ?? 0, Locale.EN, CurrencyType.USD)}
+            subheader='Last year balance $234.40k'
             subheaderTypographyProps={{ sx: { lineHeight: '1.25rem', fontSize: '0.875rem !important' } }}
             titleTypographyProps={{
               sx: {
@@ -212,7 +227,7 @@ const EcommerceTotalProfit = () => {
           <CardContent
             sx={{ pt: theme => `${theme.spacing(4)} !important`, pb: theme => `${theme.spacing(5.5)} !important` }}
           >
-            {data.map((item: DataType, index: number) => {
+            {dummyData.map((item: DataType, index: number) => {
               return (
                 <Box key={index} sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                   <CustomAvatar
@@ -230,8 +245,8 @@ const EcommerceTotalProfit = () => {
                 </Box>
               )
             })}
-            <Button fullWidth variant='contained'>
-              View Report
+            <Button fullWidth variant='contained' onClick={() => router.replace(getInvoiceListUrl())}>
+              View Invoices
             </Button>
           </CardContent>
         </Grid>

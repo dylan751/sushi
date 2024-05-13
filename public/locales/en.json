@@ -76,7 +76,9 @@
         "active": "Active"
     },
     "dashboard_page": {
-        "welcome": "Welcome"
+        "welcome": "Welcome",
+        "total_uncategorized_incomes": "Total Uncategorized Incomes",
+        "total_uncategorized_expenses": "Total Uncategorized Expenses"
     },
     "role_page": {
         "role": {

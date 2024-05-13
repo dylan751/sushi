@@ -1,3 +1,6 @@
+// ** Next Imports
+import Link from 'next/link'
+
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -10,6 +13,9 @@ import Grid, { GridProps } from '@mui/material/Grid'
 import { useCurrentOrganization } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 
+// ** Util Imports
+import { getProjectAddUrl } from 'src/utils/router'
+
 // Styled Grid component
 const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
@@ -17,6 +23,13 @@ const StyledGrid = styled(Grid)<GridProps>(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center'
   }
+}))
+
+// ** Styled component for the link
+const LinkStyled = styled(Link)(({ theme }) => ({
+  textDecoration: 'none',
+  color: theme.palette.primary.main,
+  fontWeight: 600
 }))
 
 // Styled component for the image
@@ -47,8 +60,10 @@ const EcommerceCongratulations = () => {
               </Box>
               ! 🎉
             </Typography>
-            <Typography variant='body2'>You have done 72% 🤩 more sales today.</Typography>
-            <Typography variant='body2'>Check your new raising badge in your profile.</Typography>
+            <Typography variant='body2'>All-in-one accounting website for you.</Typography>
+            <Typography variant='body2'>
+              Start with <LinkStyled href={getProjectAddUrl()}>creating your first Project</LinkStyled> 🤩.
+            </Typography>
           </Grid>
           <StyledGrid item xs={12} sm={6}>
             <Img

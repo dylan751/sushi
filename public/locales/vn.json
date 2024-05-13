@@ -73,7 +73,9 @@
         "active": "Đang hoạt động"
     },
     "dashboard_page": {
-        "welcome": "Chào mừng"
+        "welcome": "Chào mừng",
+        "total_uncategorized_incomes": "Tổng thu nhập chưa hạch toán",
+        "total_uncategorized_expenses": "Tổng chi tiêu chưa hạch toán"
     },
     "role_page": {
         "role": {
