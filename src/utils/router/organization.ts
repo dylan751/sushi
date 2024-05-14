@@ -7,5 +7,5 @@ export const getCreateOrganizationUrl = (): string => {
 }
 
 export const getOrganizationDefaultHomeUrl = (orgUniqueName: string | undefined): string => {
-  return `/${orgUniqueName}/dashboards/analytics`
+  return `/${orgUniqueName}/dashboards`
 }

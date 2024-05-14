@@ -9,7 +9,7 @@ const navigation = (): VerticalNavItemsType => {
 
   return [
     {
-      path: `/${uniqueName}/dashboards/analytics`,
+      path: `/${uniqueName}/dashboards`,
       action: 'read',
       subject: 'dashboard',
       title: 'navbar.dashboards_page.dashboards',
