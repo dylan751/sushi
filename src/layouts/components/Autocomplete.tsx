@@ -63,9 +63,8 @@ interface DefaultSuggestionsType {
 const categoryTitle: { [k: string]: string } = {
   dashboards: 'Dashboards',
   appsPages: 'Apps & Pages',
-  userInterface: 'User Interface',
-  formsTables: 'Forms & Tables',
-  chartsMisc: 'Charts & Misc'
+  settingsPages: 'Settings Pages',
+  utilities: 'Utilities'
 }
 
 // ** Styled Autocomplete component
@@ -167,7 +166,7 @@ const NoResult = ({ value, setOpenDialog }: NoResultProps) => {
         <ListItem sx={{ py: 2 }} disablePadding onClick={() => setOpenDialog(false)}>
           <Box
             component={Link}
-            href={`/${uniqueName}/dashboards/analytics`}
+            href={`/${uniqueName}/dashboards`}
             sx={{
               display: 'flex',
               alignItems: 'center',
@@ -235,8 +234,8 @@ const DefaultSuggestions = ({ setOpenDialog }: DefaultSuggestionsProps) => {
       suggestions: [
         {
           icon: 'mdi:home-outline',
-          suggestion: 'Analytics Dashboard',
-          link: `/${uniqueName}/dashboards/analytics`
+          suggestion: 'Dashboard',
+          link: `/${uniqueName}/dashboards`
         },
         {
           icon: 'mdi:shield-outline',
@@ -250,7 +249,7 @@ const DefaultSuggestions = ({ setOpenDialog }: DefaultSuggestionsProps) => {
         },
         {
           icon: 'mdi:account-cog-outline',
-          suggestion: 'Settings',
+          suggestion: 'Settings - Account',
           link: `/${uniqueName}/settings/account`
         }
       ]
@@ -259,6 +258,16 @@ const DefaultSuggestions = ({ setOpenDialog }: DefaultSuggestionsProps) => {
       category: 'Apps & Pages',
       suggestions: [
         {
+          icon: 'mdi:cube-outline',
+          suggestion: 'Project',
+          link: `/${uniqueName}/projects/list`
+        },
+        {
+          icon: 'mdi:file-document-outline',
+          suggestion: 'Invoice',
+          link: `/${uniqueName}/invoice/list`
+        },
+        {
           icon: 'mdi:shield-outline',
           suggestion: 'Role Page',
           link: `/${uniqueName}/roles`
@@ -267,26 +276,43 @@ const DefaultSuggestions = ({ setOpenDialog }: DefaultSuggestionsProps) => {
           icon: 'mdi:account-outline',
           suggestion: 'User Page',
           link: `/${uniqueName}/users`
-        },
-        {
-          icon: 'mdi:account-cog-outline',
-          suggestion: 'Settings',
-          link: `/${uniqueName}/settings/account`
-        },
-        {
-          icon: 'mdi:account-cog-outline',
-          suggestion: 'Security',
-          link: `/${uniqueName}/settings/security`
         }
       ]
     },
     {
-      category: 'User Interface',
-      suggestions: []
+      category: 'Settings Pages',
+      suggestions: [
+        {
+          icon: 'mdi:account-cog-outline',
+          suggestion: 'Settings - Account',
+          link: `/${uniqueName}/settings/account`
+        },
+        {
+          icon: 'mdi:account-security-outline',
+          suggestion: 'Settings - Security',
+          link: `/${uniqueName}/settings/security`
+        },
+        {
+          icon: 'mdi:map-marker-account-outline',
+          suggestion: 'Settings - Organization',
+          link: `/${uniqueName}/settings/organization`
+        }
+      ]
     },
     {
-      category: 'Forms & Tables',
-      suggestions: []
+      category: 'Utilities',
+      suggestions: [
+        {
+          icon: 'mdi:cube-outline',
+          suggestion: 'Project - Add',
+          link: `/${uniqueName}/projects/add`
+        },
+        {
+          icon: 'mdi:file-document-outline',
+          suggestion: 'Invoice - Add',
+          link: `/${uniqueName}/invoice/add`
+        }
+      ]
     }
   ]
 
