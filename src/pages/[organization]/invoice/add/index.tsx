@@ -68,6 +68,7 @@ const InvoiceAdd = () => {
   const [categoryId, setCategoryId] = useState<string>('')
   const [clientName, setClientName] = useState<string>('')
   const [tax, setTax] = useState<string>('')
+  const [exchangeRate, setExchangeRate] = useState<string>('')
   const [formData, setFormData] = useState<CreateInvoiceFormData[]>([initialFormData])
 
   const toggleAddCategoryDrawer = () => setAddCategoryOpen(!addCategoryOpen)
@@ -90,7 +91,7 @@ const InvoiceAdd = () => {
       }
     })
 
-    if (!projectId || !clientName) {
+    if (!projectId || !clientName || (currency === CurrencyType.VND && !exchangeRate)) {
       isDisabled = true
     }
 
@@ -130,7 +131,8 @@ const InvoiceAdd = () => {
       currency,
       clientName,
       categoryId: parseInt(categoryId),
-      tax: parseInt(tax)
+      tax: parseInt(tax),
+      exchangeRate: parseInt(exchangeRate)
     }
 
     // Call api
@@ -163,6 +165,8 @@ const InvoiceAdd = () => {
             setClientName={setClientName}
             tax={tax}
             setTax={setTax}
+            exchangeRate={exchangeRate}
+            setExchangeRate={setExchangeRate}
           />
         </Grid>
         <Grid item xl={3} md={4} xs={12}>

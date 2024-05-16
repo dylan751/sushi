@@ -140,6 +140,8 @@ export interface AddCardProps {
   setClientName: (value: string) => void
   tax: string
   setTax: (value: string) => void
+  exchangeRate: string
+  setExchangeRate: (value: string) => void
 }
 
 const AddCard = ({
@@ -161,7 +163,9 @@ const AddCard = ({
   clientName,
   setClientName,
   tax,
-  setTax
+  setTax,
+  exchangeRate,
+  setExchangeRate
 }: AddCardProps) => {
   // ** States
   const [count, setCount] = useState<number>(1)
@@ -295,19 +299,43 @@ const AddCard = ({
                   </MenuItem>
                 </Select>
               </Box>
-              <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-                <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
-                  {t('invoice_page.add.currency')}:
-                </Typography>
-                <Select
-                  size='small'
-                  value={currency}
-                  sx={{ width: { sm: '220px', xs: '170px' } }}
-                  onChange={e => setCurrency(e.target.value as CurrencyType)}
-                >
-                  <MenuItem value={CurrencyType.USD}>USD</MenuItem>
-                  <MenuItem value={CurrencyType.VND}>VND</MenuItem>
-                </Select>
+              <Box
+                sx={{
+                  mb: 4,
+                  display: 'flex',
+                  gap: { lg: '20px', xs: '10px' },
+                  alignItems: { lg: 'center', xs: 'flex-end' },
+                  flexDirection: { lg: 'row', xs: 'column' }
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
+                    {t('invoice_page.add.currency')}:
+                  </Typography>
+                  <Select
+                    size='small'
+                    value={currency}
+                    sx={{ width: { sm: '220px', xs: '170px' } }}
+                    onChange={e => setCurrency(e.target.value as CurrencyType)}
+                  >
+                    <MenuItem value={CurrencyType.USD}>USD</MenuItem>
+                    <MenuItem value={CurrencyType.VND}>VND</MenuItem>
+                  </Select>
+                </Box>
+                {currency === CurrencyType.VND && (
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Typography variant='body2'>1 USD = </Typography>
+                    <TextField
+                      size='small'
+                      type='number'
+                      placeholder='25400'
+                      sx={{ width: '100px' }}
+                      value={exchangeRate}
+                      onChange={e => setExchangeRate(e.target.value)}
+                    />
+                    <Typography variant='body2'>VND</Typography>
+                  </Box>
+                )}
               </Box>
               <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                 <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>

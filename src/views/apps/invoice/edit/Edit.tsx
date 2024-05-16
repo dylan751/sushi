@@ -69,6 +69,11 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   const [tax, setTax] = useState<string>(
     (invoiceStore.invoice as InvoiceResponseDto).tax ? (invoiceStore.invoice as InvoiceResponseDto).tax.toString() : ''
   )
+  const [exchangeRate, setExchangeRate] = useState<string>(
+    (invoiceStore.invoice as InvoiceResponseDto).tax
+      ? (invoiceStore.invoice as InvoiceResponseDto).exchangeRate.toString()
+      : ''
+  )
   const [projectId, setProjectId] = useState<string>(
     (invoiceStore.invoice as InvoiceResponseDto).project?.id.toString() || ''
   )
@@ -105,7 +110,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
       }
     })
 
-    if (!projectId) {
+    if (!projectId || (currency === CurrencyType.VND && !exchangeRate)) {
       isDisabled = true
     }
 
@@ -140,7 +145,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
       currency,
       clientName,
       categoryId: parseInt(categoryId),
-      tax: parseInt(tax)
+      tax: parseInt(tax),
+      exchangeRate: parseInt(exchangeRate)
     }
 
     // Call api
@@ -181,6 +187,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
               setClientName={setClientName}
               tax={tax}
               setTax={setTax}
+              exchangeRate={exchangeRate}
+              setExchangeRate={setExchangeRate}
             />
           </Grid>
           <Grid item xl={3} md={4} xs={12}>

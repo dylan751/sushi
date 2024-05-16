@@ -95,8 +95,8 @@ const OrganizationTotalProfit = ({ data }: OrganizationTotalProfitProps) => {
       bar: {
         borderRadius: 10,
         columnWidth: '35%',
-        endingShape: 'rounded',
-        startingShape: 'rounded'
+        endingShape: 'flat',
+        startingShape: 'flat'
       }
     },
     colors: [theme.palette.error.main, theme.palette.success.main, theme.palette.primary.main],
@@ -113,7 +113,7 @@ const OrganizationTotalProfit = ({ data }: OrganizationTotalProfitProps) => {
     stroke: {
       width: 6,
       curve: 'smooth',
-      lineCap: 'round',
+      lineCap: 'square',
       colors: [theme.palette.background.paper]
     },
     states: {

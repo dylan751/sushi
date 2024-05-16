@@ -447,6 +447,8 @@ export interface InvoiceResponseDto {
   tax: number
   /** @example 10 */
   total: number
+  /** @example 10 */
+  exchangeRate: number
   items: InvoiceItemResponseDto[]
   project: ProjectResponseDto
   category: CategoryResponseDto
@@ -531,6 +533,8 @@ export interface CreateInvoiceRequestDto {
   clientName: string
   /** @example 10 */
   tax?: number
+  /** @example 24.35 */
+  exchangeRate?: number
   items: CreateInvoiceItemRequest[]
   /** @example 1 */
   categoryId?: number
@@ -561,6 +565,8 @@ export interface UpdateInvoiceRequestDto {
   clientName?: string
   /** @example 10 */
   tax?: number
+  /** @example 24.35 */
+  exchangeRate?: number
   items: UpdateInvoiceItemRequest[]
   /** @example 1 */
   categoryId?: number
