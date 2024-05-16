@@ -138,6 +138,8 @@ export interface EditCardProps {
   setClientName: (value: string) => void
   tax: string
   setTax: (value: string) => void
+  exchangeRate: string
+  setExchangeRate: (value: string) => void
 }
 
 const EditCard = ({
@@ -160,7 +162,9 @@ const EditCard = ({
   clientName,
   setClientName,
   tax,
-  setTax
+  setTax,
+  exchangeRate,
+  setExchangeRate
 }: EditCardProps) => {
   // ** States
   const [count, setCount] = useState<number>(data.items?.length || 1)
@@ -178,6 +182,7 @@ const EditCard = ({
       setCurrency(data.currency)
       setClientName(data.clientName)
       setTax(data.tax ? data.tax.toString() : '')
+      setExchangeRate(data.exchangeRate ? data.exchangeRate.toString() : '')
       setProjectId(data.project?.id.toString())
       setProjectName(data.project?.name)
       setCategoryId(data.category ? data.category.id.toString() : '')
@@ -195,6 +200,7 @@ const EditCard = ({
     setCurrency,
     setClientName,
     setTax,
+    setExchangeRate,
     setProjectId,
     setProjectName,
     setCategoryId,
@@ -337,19 +343,43 @@ const EditCard = ({
                     </MenuItem>
                   </Select>
                 </Box>
-                <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-                  <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
-                    {t('invoice_page.edit.currency')}:
-                  </Typography>
-                  <Select
-                    size='small'
-                    value={currency}
-                    sx={{ width: { sm: '220px', xs: '170px' } }}
-                    onChange={e => setCurrency(e.target.value as CurrencyType)}
-                  >
-                    <MenuItem value={CurrencyType.USD}>USD</MenuItem>
-                    <MenuItem value={CurrencyType.VND}>VND</MenuItem>
-                  </Select>
+                <Box
+                  sx={{
+                    mb: 4,
+                    display: 'flex',
+                    gap: { lg: '20px', xs: '10px' },
+                    alignItems: { lg: 'center', xs: 'flex-end' },
+                    flexDirection: { lg: 'row', xs: 'column' }
+                  }}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
+                      {t('invoice_page.edit.currency')}:
+                    </Typography>
+                    <Select
+                      size='small'
+                      value={currency}
+                      sx={{ width: { sm: '220px', xs: '170px' } }}
+                      onChange={e => setCurrency(e.target.value as CurrencyType)}
+                    >
+                      <MenuItem value={CurrencyType.USD}>USD</MenuItem>
+                      <MenuItem value={CurrencyType.VND}>VND</MenuItem>
+                    </Select>
+                  </Box>
+                  {currency === CurrencyType.VND && (
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Typography variant='body2'>1 USD = </Typography>
+                      <TextField
+                        size='small'
+                        type='number'
+                        placeholder='25400'
+                        sx={{ width: '100px' }}
+                        value={exchangeRate}
+                        onChange={e => setExchangeRate(e.target.value)}
+                      />
+                      <Typography variant='body2'>VND</Typography>
+                    </Box>
+                  )}
                 </Box>
                 <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                   <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
