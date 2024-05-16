@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { ReactNode } from 'react'
 import UserBlankLayoutWithAppBar from 'src/layouts/UserBlankLayoutWithAppBar'
 
@@ -12,7 +13,8 @@ import {
   FormHelperText,
   Grid,
   InputAdornment,
-  TextField
+  TextField,
+  Typography
 } from '@mui/material'
 
 // ** Types
@@ -33,20 +35,30 @@ import { $api } from 'src/utils/api'
 // ** Next Auth Imports
 import { useSession } from 'next-auth/react'
 
+// ** Utils Imports
+import { getSelectOrganizationUrl } from 'src/utils/router'
+
+const UNIQUE_NAME_FORMAT = /^([a-z][a-z0-9-]{1,})*$/
+
 const schema = yup.object().shape({
   name: yup.string().max(256).required(),
-  uniqueName: yup.string().min(2).required()
+  uniqueName: yup.string().min(2).matches(UNIQUE_NAME_FORMAT).required(),
+  phone: yup.string().min(10).max(11).required(),
+  address: yup.string().min(10).required()
 })
 
 const defaultValues = {
   name: 'Example Organization',
-  uniqueName: 'example-org'
+  uniqueName: 'example-org',
+  phone: '0339089172',
+  address: '19A Bach Khoa, Ha Noi'
 }
 
 const CreateOrganizationPage = () => {
   // ** Hooks
   const session = useSession()
   const { t } = useTranslation()
+  const router = useRouter()
 
   const {
     control,
@@ -65,6 +77,7 @@ const CreateOrganizationPage = () => {
       .then(async () => {
         const response = await $api(session.data?.accessToken).internal.getUserProfile()
         session.update({ organizations: response.data.organizations })
+        router.replace(getSelectOrganizationUrl())
       })
       .catch(res => {
         setError('name', {
@@ -76,7 +89,7 @@ const CreateOrganizationPage = () => {
 
   return (
     <Box className='content-center'>
-      <Card sx={{ width: 1 / 2 }}>
+      <Card sx={{ width: { lg: '40%', md: '50%', sm: '70%', xs: '100%' } }}>
         <CardHeader title={t('new.create_organization')} />
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -109,8 +122,9 @@ const CreateOrganizationPage = () => {
                   {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
                 </FormControl>
               </Grid>
-              <Grid item xs={12}>
-                <FormControl fullWidth sx={{ mb: 4 }}>
+              <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <Typography variant='subtitle1'>{process.env.NEXT_PUBLIC_FRONTEND_ENDPOINT}/</Typography>
+                <FormControl fullWidth>
                   <Controller
                     name='uniqueName'
                     control={control}
@@ -140,6 +154,64 @@ const CreateOrganizationPage = () => {
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
+                <FormControl fullWidth sx={{ mb: 4, mt: 4 }}>
+                  <Controller
+                    name='phone'
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <TextField
+                        autoFocus
+                        label={t('new.organization_phone')}
+                        value={value}
+                        onBlur={onBlur}
+                        onChange={onChange}
+                        error={Boolean(errors.phone)}
+                        placeholder={t('new.enter_new_organization_phone')!}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position='start'>
+                              <Icon icon='mdi:card-account-phone-outline' />
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+                    )}
+                  />
+                  {errors.phone && <FormHelperText sx={{ color: 'error.main' }}>{errors.phone.message}</FormHelperText>}
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl fullWidth sx={{ mb: 4 }}>
+                  <Controller
+                    name='address'
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <TextField
+                        autoFocus
+                        label={t('new.organization_address')}
+                        value={value}
+                        onBlur={onBlur}
+                        onChange={onChange}
+                        error={Boolean(errors.address)}
+                        placeholder={t('new.enter_new_organization_address')!}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position='start'>
+                              <Icon icon='mdi:address-marker-outline' />
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+                    )}
+                  />
+                  {errors.address && (
+                    <FormHelperText sx={{ color: 'error.main' }}>{errors.address.message}</FormHelperText>
+                  )}
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sx={{ mt: 4 }}>
                 <Button type='submit' variant='contained' size='large'>
                   {t('new.create')}
                 </Button>

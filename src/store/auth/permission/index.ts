@@ -5,11 +5,10 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { Api, CaslPermission } from 'src/__generated__/AccountifyAPI'
 
 // ** Utils
-import { getAccessToken, getOrgId } from 'src/utils/localStorage'
+import { getAccessToken } from 'src/utils/localStorage'
 
 // ** Fetch User permissions
-export const fetchPermissions = createAsyncThunk('authPermissions/fetchPermissions', async () => {
-  const organizationId = getOrgId()
+export const fetchPermissions = createAsyncThunk('authPermissions/fetchPermissions', async (organizationId: number) => {
   const storedToken = getAccessToken()
 
   if (organizationId) {
@@ -28,12 +27,12 @@ export const fetchPermissions = createAsyncThunk('authPermissions/fetchPermissio
 export const authPermissionsSlice = createSlice({
   name: 'authPermissions',
   initialState: {
-    data: [] as CaslPermission[]
+    permissions: [] as CaslPermission[]
   },
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchPermissions.fulfilled, (state, action) => {
-      state.data = action.payload?.permissions || []
+      state.permissions = action.payload?.permissions || []
     })
   }
 })

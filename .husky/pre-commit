@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+# 👆 ignored by husky, but leave it here so IDE and Shellcheck will be happy
+set -e # implicitly set by husky, leave it here so we can debug this command if needed with the right settings in the future
+
+valid_branch_regex='^(((epic|demo|release)/[a-zA-Z0-9_-]+)|((feat|fix|hotfix|refactor|perf|chore|docs|test)\/[0-9]+[_-][a-zA-Z0-9_-]+))$'
+local_branch_name="$(git rev-parse --abbrev-ref HEAD)"
+message="$(cat <<MSG
+There is something wrong with your branch name. 
+Branch names in this project must adhere to this regex: $valid_branch_regex
+
+Quick tip: please use the Github issue number and describe the content of the branch in few words:
+{feat,fix,hotfix,refactor,perf,chore,docs}/{github issue number}_{custom branch name}
+E.g.: feat/1234-super-duper-feature (you can use underscore as well feat/1234_super_duper_feature)
+
+For epic branch please use the format: epic/{custom branch name} (e.g.: epic/cost-insight)
+For demo branch please use the format: demo/{custom branch name} (e.g.: demo/cost-insight)
+
+If you still want to use this branch name ($local_branch_name), please set the env variable HUSKY_IGNORE_BRANCH_NAMING and try again.
+MSG
+)"
+
+if [ -z "$HUSKY_IGNORE_BRANCH_NAMING" ] && ! echo "$local_branch_name" | grep -Eq "$valid_branch_regex"; then
+    echo "$message"
+    exit 1
+fi
+
+yarn lint

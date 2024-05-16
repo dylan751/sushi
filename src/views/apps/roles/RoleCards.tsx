@@ -49,7 +49,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
-import { addRole, deleteRole, fetchRole, updateRole } from 'src/store/apps/role'
+import { addRole, deleteRole, fetchRole, updateRole } from 'src/store/apps/organization/role'
 
 // ** Third Party Imports
 import { Controller, FieldValues, useForm } from 'react-hook-form'
@@ -67,6 +67,9 @@ import { $api } from 'src/utils/api'
 // ** Next Auth
 import { useSession } from 'next-auth/react'
 
+// ** Hooks Imports
+import { useCurrentOrganization } from 'src/hooks'
+
 const cardDummyData = {
   totalUsers: 5,
   avatars: ['4.png', '5.png', '6.png', '7.png', '8.png']
@@ -75,10 +78,9 @@ const cardDummyData = {
 const RolesCards = () => {
   // ** Hooks
   const session = useSession()
+  const { organizationId } = useCurrentOrganization()
   const ability = useContext(AbilityContext)
   const { t } = useTranslation()
-
-  // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
   const store = useSelector((state: RootState) => state.role)
 
@@ -99,7 +101,7 @@ const RolesCards = () => {
   const handleClickOpenAdd = () => setOpen(true)
 
   const handleClickOpenEdit = (roleId: number) => {
-    const role = store.data.find(role => role.id === roleId)!
+    const role = store.roles.find(role => role.id === roleId)!
     role.permissions.forEach((permission: any) => {
       if (permission.action === 'manage' && permission.subject === 'all') {
         handleSelectAllCheckbox()
@@ -113,7 +115,7 @@ const RolesCards = () => {
   }
 
   const handleDelete = (roleId: number) => {
-    dispatch(deleteRole(roleId))
+    dispatch(deleteRole({ organizationId, roleId }))
 
     setShowDialogDeleteRole(false)
     setSelectedRole(null)
@@ -142,9 +144,9 @@ const RolesCards = () => {
 
     // Call api
     if (!selectedRole) {
-      dispatch(addRole(createOrUpdateRoleRequest))
+      dispatch(addRole({ organizationId, ...createOrUpdateRoleRequest }))
     } else if (selectedRole) {
-      dispatch(updateRole({ ...createOrUpdateRoleRequest, roleId: selectedRole.id }))
+      dispatch(updateRole({ ...createOrUpdateRoleRequest, roleId: selectedRole.id, organizationId }))
     }
 
     setOpen(false)
@@ -189,17 +191,17 @@ const RolesCards = () => {
   useEffect(() => {
     const fetchPermissionSubjects = async () => {
       const response = await $api(session.data?.accessToken).internal.getPermissionSubjectList()
-      const subjects = response.data.filter(item => item.subject !== 'all' && item.subject !== 'account-settings') // Exclude 'all' and 'account-settings' from permission subjects response list
+      const subjects = response.data.filter(item => item.subject !== 'all' && item.subject !== 'settings') // Exclude 'all' and 'settings' from permission subjects response list
       const filteredSubjects = subjects.map(item => item.subject.charAt(0).toUpperCase() + item.subject.slice(1)) // Uppercase the first letter
       setPermissionSubjects(filteredSubjects)
     }
 
     // Fetch organization's roles
-    dispatch(fetchRole({ query: '' }))
+    dispatch(fetchRole({ organizationId, query: '' }))
 
     // Fetch all permission subjects
     fetchPermissionSubjects()
-  }, [dispatch, session.data])
+  }, [dispatch, session.data, organizationId])
 
   useEffect(() => {
     if (selectedCheckbox.length > 0 && selectedCheckbox.length < permissionSubjects.length * 3) {
@@ -210,7 +212,7 @@ const RolesCards = () => {
   }, [selectedCheckbox, permissionSubjects.length])
 
   const renderCards = () =>
-    (store.data as RoleResponseDto[]).map((item, index: number) => (
+    (store.roles as RoleResponseDto[]).map((item, index: number) => (
       <Grid item xs={12} sm={6} lg={4} key={index}>
         <Card>
           <CardContent>
@@ -263,7 +265,7 @@ const RolesCards = () => {
   return (
     <Grid container spacing={6} className='match-height'>
       {renderCards()}
-      {ability?.can('create', 'role') && store.data.length < MAX_ROLES_PER_ORGANIZATION && (
+      {ability?.can('create', 'role') && store.roles.length < MAX_ROLES_PER_ORGANIZATION && (
         <Grid item xs={12} sm={6} lg={4}>
           <Card
             sx={{ cursor: 'pointer' }}

@@ -24,18 +24,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Utils Import
+import { getOrganizationDefaultHomeUrl } from 'src/utils/router/organization'
 import { getInitials } from 'src/@core/utils/get-initials'
-import { getOrgId } from 'src/utils/localStorage'
 import { isAdmin } from 'src/utils/role'
-import { defaultHomeRoute } from 'src/layouts/components/acl/getUserHomeRoute'
 
 // ** Actions Imports
-import { deleteUser, fetchAdminCount, fetchUser, updateUser } from 'src/store/apps/user'
-import { fetchRole } from 'src/store/apps/role'
+import { deleteUser, fetchAdminCount, fetchUser, updateUser } from 'src/store/apps/organization/user'
+import { fetchRole } from 'src/store/apps/organization/role'
 
 // ** Types Imports
 import { RootState, AppDispatch } from 'src/store'
-import { OrganizationProfileResponseDto, OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
+import { OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Custom Components Imports
 import TableHeader from 'src/views/apps/roles/TableHeader'
@@ -45,6 +44,7 @@ import AddUserDrawer from '../user/list/AddUserDrawer'
 
 // ** Hook Imports
 import { useTranslation } from 'react-i18next'
+import { useCurrentOrganization } from 'src/hooks'
 
 // ** Next Auth Imports
 import { useSession } from 'next-auth/react'
@@ -83,6 +83,7 @@ const UserList = () => {
 
   // ** Hooks
   const session = useSession()
+  const { organization, organizationId } = useCurrentOrganization()
   const dispatch = useDispatch<AppDispatch>()
   const userStore = useSelector((state: RootState) => state.user)
   const roleStore = useSelector((state: RootState) => state.role)
@@ -92,13 +93,14 @@ const UserList = () => {
   useEffect(() => {
     dispatch(
       fetchUser({
+        organizationId,
         role: role,
         query: value
       })
     )
-    dispatch(fetchAdminCount())
-    dispatch(fetchRole({ query: '' }))
-  }, [dispatch, role, value])
+    dispatch(fetchAdminCount(organizationId))
+    dispatch(fetchRole({ organizationId, query: '' }))
+  }, [dispatch, role, value, organizationId])
 
   const hasOnlyOneAdmin = (): boolean => {
     return userStore.totalAdmins <= 1
@@ -142,25 +144,22 @@ const UserList = () => {
 
   const onSubmitEditUserRole = () => {
     if (!selectedOrganizationUser) return
-    const orgId = getOrgId()
     const data = {
       userId: selectedOrganizationUser.id,
       roleIds: selectedCheckbox.map(roleId => parseInt(roleId))
     }
-    dispatch(updateUser(data))
+    dispatch(updateUser({ organizationId, ...data }))
     if (session.data && selectedOrganizationUser.id !== session.data.user.id) {
       setShowDialogEditUserRole(false)
       setSelectedCheckbox([])
 
       return
     }
-    const organization =
-      session.data && session.data.user.organizations.find((org: OrganizationProfileResponseDto) => org.id === orgId)!
-    window.location.assign(`/${organization?.uniqueName}/${defaultHomeRoute}`)
+    window.location.assign(getOrganizationDefaultHomeUrl(organization?.uniqueName))
   }
 
   const handleDeleteUser = (userId: number) => {
-    dispatch(deleteUser(userId))
+    dispatch(deleteUser({ organizationId, userId }))
 
     setShowDialogDeleteUser(false)
     setSelectedOrganizationUser(null)
@@ -315,17 +314,17 @@ const UserList = () => {
         <Card>
           <TableHeader
             role={role}
+            users={userStore.users}
             value={value}
-            allRoles={roleStore.data}
+            allRoles={roleStore.roles}
             handleFilter={handleFilter}
             handleRoleChange={handleRoleChange}
             toggleAddUserDrawer={toggleAddUserDrawer}
           />
           <DataGrid
             autoHeight
-            rows={userStore.data}
+            rows={userStore.users}
             columns={columns}
-            checkboxSelection
             disableRowSelectionOnClick
             pageSizeOptions={[10, 25, 50]}
             paginationModel={paginationModel}
@@ -337,7 +336,7 @@ const UserList = () => {
       <DialogEditUserRole
         show={showDialogEditUserRole}
         setShow={setShowDialogEditUserRole}
-        allRoles={roleStore.data}
+        allRoles={roleStore.roles}
         selectedCheckbox={selectedCheckbox}
         setSelectedCheckbox={setSelectedCheckbox}
         isUserOnlyAdmin={isUserOnlyAdmin}
@@ -353,7 +352,7 @@ const UserList = () => {
       <AddUserDrawer
         open={addUserOpen}
         toggle={toggleAddUserDrawer}
-        allRoles={roleStore.data}
+        allRoles={roleStore.roles}
         isSelectAdmin={isSelectAdmin}
         setIsSelectAdmin={setIsSelectAdmin}
       />

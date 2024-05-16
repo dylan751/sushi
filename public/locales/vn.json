@@ -6,15 +6,25 @@
         },
         "home": "Trang chủ",
         "role_page": "Trang phân quyền",
+        "project_page": {
+            "project": "Dự án",
+            "list": "Danh sách",
+            "add": "Thêm"
+        },
+        "invoice_page": {
+            "invoice": "Hoá đơn",
+            "list": "Danh sách",
+            "add": "Thêm"
+        },
         "user_page": "Trang người dùng",
-        "account_settings_page": {
-            "account_settings": "Cài đặt tài khoản",
+        "settings_page": {
+            "settings": "Cài đặt tài khoản",
             "account": "Tài khoản",
-            "security": "Bảo mật"
+            "security": "Bảo mật",
+            "organization": "Tổ chức"
         }
     },
     "user_dropdown": {
-        "account_settings": "Cài đặt tài khoản",
         "organization": "Chọn tổ chức",
         "chat": "Nhắn tin",
         "settings": "Cài đặt",
@@ -48,6 +58,10 @@
         "enter_new_organization_name": "Vui lòng nhập tên tổ chức",
         "organization_url": "URL của tổ chức",
         "enter_new_organization_unique_url": "Vui lòng nhập URL của tổ chức",
+        "organization_phone": "Số điện thoại tổ chức",
+        "enter_new_organization_phone": "Vui lòng nhập số điện thoại của tổ chức",
+        "organization_address": "Địa chỉ tổ chức",
+        "enter_new_organization_address": "Vui lòng nhập địa chỉ của tổ chức",
         "create": "Tạo"
     },
     "home": {
@@ -55,7 +69,32 @@
         "open": "Chọn",
         "create_organization_header": "Tạo tổ chức 🚀",
         "create_organization_description": "Khởi tạo dự án của bạn",
-        "create": "Tạo"
+        "create": "Tạo",
+        "active": "Đang hoạt động"
+    },
+    "dashboard_page": {
+        "welcome": "Chào mừng",
+        "welcome_message": "Trang web kế toán tất-cả-trong-một dành cho bạn.",
+        "start_with": "Bắt đầu với việc",
+        "create_project": "Tạo dự án đầu tiên 🤩.",
+        "income": "Thu",
+        "expense": "Chi tiêu",
+        "total_profit": "Tổng lợi nhuận",
+        "total_income": "Tổng thu",
+        "total_expense": "Tổng chi tiêu",
+        "view_invoices": "Danh sách hoá đơn",
+        "project_budget_overview": "Tổng quan về ngân sách dự án",
+        "total_budget": "Tổng ngân sách",
+        "total_budget_for_projects": "Tổng ngân sách cho các dự án",
+        "projects": "Dự án",
+        "invoices": "Hoá đơn",
+        "users": "Người dùng",
+        "roles": "Vai trò",
+        "year_of": "Trong năm",
+        "in_total": "Tổng cộng",
+        "budget_tracking": "Theo dõi ngân sách",
+        "total_uncategorized_incomes": "Tổng thu nhập chưa hạch toán",
+        "total_uncategorized_expenses": "Tổng chi tiêu chưa hạch toán"
     },
     "role_page": {
         "role": {
@@ -89,7 +128,7 @@
         "user": {
             "title": "Danh sách người dùng với vai trò của họ",
             "subtitle": "Tìm tất cả tài khoản quản trị viên của công ty bạn và vai trò tương ứng của họ.",
-            "export": "Export",
+            "export": "Xuất dữ liệu",
             "search_user": "Tìm người dùng",
             "select_role": "Chọn vai trò",
             "user": "Người dùng",
@@ -114,10 +153,215 @@
             "max_of_roles_can_be_selected": "Chỉ được chọn một số lượng vai trò giới hạn"
         }
     },
+    "project_page": {
+        "tab": {
+            "dashboard": "Bảng thống kê",
+            "invoice": "Hoá đơn",
+            "budget": "định mức",
+            "category": "Phân loại"
+        },
+        "list": {
+            "project_list": "Danh sách dự án",
+            "filters": "Bộ lọc",
+            "project_start_date": "Ngày bắt đầu dự án",
+            "actions": "Hành động",
+            "search_project_name": "Tìm theo tên dự án",
+            "create_project": "Tạo dự án",
+            "creator": "Người tạo",
+            "client": "Khách hàng",
+            "name": "Tên",
+            "description": "Mô tả",
+            "total_budget": "Tổng định mức",
+            "start_date": "Ngày bắt đầu",
+            "end_date": "Ngày kết thúc",
+            "delete_project": "Xoá dự án",
+            "view": "Xem",
+            "edit_project": "Cập nhật dự án"
+        },
+        "add": {
+            "create_project": "Tạo một dự án mới",
+            "project_name": "Tên dự án",
+            "description": "Mô tả",
+            "total_budget": "Tổng định mức",
+            "project_date": "Thời gian dự án"
+        },
+        "edit": {
+            "update_project": "Cập nhật một dự án",
+            "project_name": "Tên dự án",
+            "description": "Mô tả",
+            "total_budget": "Tổng định mức",
+            "project_date": "Thời gian dự án"
+        },
+        "dashboard": {
+            "year_picker": "Chọn năm",
+            "income": "Thu",
+            "expense": "Chi tiêu",
+            "statistics": "Thống kê",
+            "total_numbers": "Số liệu",
+            "this_year": "😎 năm nay",
+            "invoices": "Hoá đơn",
+            "budgets": "Định mức",
+            "categories": "Phân loại",
+            "balance": "Số dư",
+            "total_invoice_value": "Tổng giá trị hoá đơn",
+            "expense_ratio": "Tỷ lệ chi tiêu",
+            "donut_chart_subtitle": "Chi tiêu cho nhiều hạng mục khác nhau",
+            "total_expense": "Tổng chi tiêu",
+            "total_uncategorized_incomes": "Tổng thu nhập chưa hạch toán",
+            "total_uncategorized_expenses": "Tổng chi tiêu chưa hạch toán",
+            "last_invoices": "5 hóa đơn gần nhất"
+        },
+        "invoice": {},
+        "budget": {
+            "filters": "Bộ lọc",
+            "category_type": "Chọn phân loại",
+            "category": "Phân loại",
+            "category_only_expense": "Phân loại (chỉ loại chi phí)",
+            "progress": "Tiến độ",
+            "amount": "Định mức",
+            "actions": "Hành động",
+            "add_budget": "Thêm định mức",
+            "update_budget": "Cập nhật định mức",
+            "delete_budget": "Xoá định mức"
+        },
+        "category": {
+            "filters": "Bộ lọc",
+            "search_category": "Tìm phân loại",
+            "category_type": "Chọn phân loại",
+            "select_type": "Chọn loại",
+            "category": "Phân loại",
+            "name": "Tên",
+            "icon": "Biểu tượng",
+            "color": "Màu sắc",
+            "created_date": "Ngày tạo",
+            "type": "Loại",
+            "actions": "Hành động",
+            "add_category": "Thêm phân loại",
+            "update_category": "Cập nhật phân loại",
+            "delete_category": "Xoá phân loại"
+        }
+    },
+    "invoice_page": {
+        "list": {
+            "filters": "Bộ lọc",
+            "invoice_date": "Ngày tháng",
+            "invoice_type": "Loại hoá đơn",
+            "export": "Xuất dữ liệu",
+            "actions": "Hành động",
+            "search_invoice": "Tìm hoá đơn",
+            "create_invoice": "Tạo hoá đơn",
+            "creator": "Người tạo",
+            "client": "Khách hàng",
+            "name": "Tên",
+            "note": "Ghi chú",
+            "total": "Thành tiền",
+            "date": "Thời gian",
+            "project": "Dự án",
+            "status": "Trạng thái",
+            "all_statuses": "Tất cả trạng thái",
+            "categorized": "Đã hạch toán",
+            "uncategorized": "Chưa hạch toán",
+            "category": "Phân loại",
+            "amount": "Giá",
+            "type": "Loại",
+            "delete_invoice": "Xoá hoá đơn",
+            "view": "Xem",
+            "download": "Tải xuống",
+            "edit": "Cập nhật",
+            "duplicate": "Sao chép"
+        },
+        "add": {
+            "invoice": "Hoá đơn",
+            "date": "Thời gian",
+            "item": "Tên",
+            "type": "Loại",
+            "quantity": "Số lượng",
+            "currency": "Tiền tệ",
+            "invoice_to": "Người nhận",
+            "invoice_from": "Người chuyển",
+            "client_name": "Tên khách hàng",
+            "name": "Tên",
+            "note": "Ghi chú",
+            "price": "Giá",
+            "add_item": "Thêm hoá đơn",
+            "tax": "Thuế (%)",
+            "thanks_for_you_business": "Xin cảm ơn vì đã dùng dịch vụ",
+            "sales_person": "Người bán hàng",
+            "subtotal": "Thành tiền",
+            "discount": "Giảm giá",
+            "total": "Thành tiền",
+            "create_invoice": "Tạo hoá đơn"
+        },
+        "edit": {
+            "invoice": "Hoá đơn",
+            "date": "Thời gian",
+            "item": "Tên",
+            "type": "Loại",
+            "quantity": "Số lượng",
+            "currency": "Tiền tệ",
+            "invoice_to": "Người nhận",
+            "client_name": "Tên khách hàng",
+            "name": "Tên",
+            "note": "Ghi chú",
+            "price": "Giá",
+            "add_item": "Thêm hoá đơn",
+            "tax": "Thuế (%)",
+            "thanks_for_you_business": "Xin cảm ơn vì đã dùng dịch vụ",
+            "sales_person": "Người bán hàng",
+            "subtotal": "Thành tiền",
+            "discount": "Giảm giá",
+            "total": "Tổng tiền",
+            "update_invoice": "Cập nhật hoá đơn",
+            "preview": "Xem trước"
+        },
+        "preview": {
+            "invoice_to": "Người nhận",
+            "invoice": "Hoá đơn",
+            "date": "Thời gian",
+            "item": "Tên",
+            "type": "Loại",
+            "quantity": "Số lượng",
+            "currency": "Tiền tệ",
+            "name": "Tên",
+            "note": "Ghi chú",
+            "price": "Đơn giá",
+            "send_invoice": "Gửi hoá đơn",
+            "download": "Tải xuống",
+            "print": "In",
+            "total": "Tổng tiền",
+            "tax": "Thuế (%)",
+            "update_invoice": "Cập nhật hoá đơn",
+            "thanks_for_you_business": "Xin cảm ơn vì đã dùng dịch vụ",
+            "sales_person": "Người bán hàng",
+            "subtotal": "Thành tiền",
+            "discount": "Giảm giá"
+        },
+        "print": {
+            "invoice_to": "Người nhận",
+            "invoice": "Hoá đơn",
+            "date": "Thời gian",
+            "item": "Tên",
+            "type": "Loại",
+            "quantity": "Số lượng",
+            "currency": "Tiền tệ",
+            "name": "Tên",
+            "note": "Ghi chú",
+            "price": "Đơn giá",
+            "total": "Tổng tiền",
+            "tax": "Thuế (%)",
+            "thanks_for_you_business": "Xin cảm ơn vì đã dùng dịch vụ",
+            "sales_person": "Người bán hàng",
+            "subtotal": "Thành tiền",
+            "discount": "Giảm giá"
+        }
+    },
+    "autocomplete": {
+        "search": "Tìm kiếm (Ctrl+/)"
+    },
     "user_page": {
         "total_users": "Tổng số người dùng",
         "total_roles": "Tổng số vai trò",
-        "export": "Export",
+        "export": "Xuất dữ liệu",
         "search_filters": "Bộ lọc tìm kiếm",
         "search_user": "Tìm người dùng",
         "select_role": "Chọn vai trò",
@@ -132,7 +376,7 @@
         "default_role": "Vai trò mặc định",
         "custom_role_optional": "Vai trò tùy chỉnh (Tùy chọn)"
     },
-    "account_settings_page": {
+    "settings_page": {
         "title": "Cài đặt tài khoản",
         "account": {
             "title": "Tài khoản",
@@ -161,6 +405,13 @@
             "password_requirements_1": "Có tối thiểu 8 ký tự - càng nhiều ký tự càng an toàn",
             "password_requirements_2": "Có ít nhất một chữ cái viết thường và một chữ cái viết hoa",
             "password_requirements_3": "Có ít nhất một chữ số, ký hiệu hoặc ký tự khoảng trắng"
+        },
+        "organization": {
+            "title": "Tổ chức",
+            "information_settings": "Cài đặt thông tin",
+            "organization_name": "Tên tổ chức",
+            "phone_number": "Số điện thoại",
+            "organization_address": "Địa chỉ tổ chức"
         }
     }
 }

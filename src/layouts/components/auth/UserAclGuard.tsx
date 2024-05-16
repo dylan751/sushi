@@ -20,11 +20,11 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Hooks
 import { useSession } from 'next-auth/react'
+import { useCurrentOrganization } from 'src/hooks'
 
 // ** Util Imports
 import getUserHomeRoute from 'src/layouts/components/acl/getUserHomeRoute'
-import { getOrgUniqueName } from 'src/utils/organization'
-import { getAccessToken, getOrganization } from 'src/utils/localStorage'
+import { getAccessToken } from 'src/utils/localStorage'
 
 // ** Axios Imports
 import { $api } from 'src/utils/api'
@@ -49,6 +49,7 @@ const UserAclGuard = (props: AclGuardProps) => {
   // ** Hooks
   const session = useSession()
   const router = useRouter()
+  const { organization, organizationId } = useCurrentOrganization()
   const dispatch = useDispatch<AppDispatch>()
 
   // ** Vars
@@ -62,13 +63,10 @@ const UserAclGuard = (props: AclGuardProps) => {
       }
 
       if (session.data && session.data.user) {
-        const orgUniqueName = getOrgUniqueName()
-        const organization = session.data.user.organizations.find(org => org.uniqueName === orgUniqueName)
         if (organization) {
           const response = await $api(session.data.accessToken).internal.getOrganizationUsersPermissions(
             organization.id
           )
-          localStorage.setItem('organization', JSON.stringify(organization))
           localStorage.setItem('permissions', JSON.stringify(response.data.permissions))
         }
 
@@ -84,21 +82,19 @@ const UserAclGuard = (props: AclGuardProps) => {
 
   useEffect(() => {
     const storedToken = getAccessToken()
-    const organization = getOrganization()
     if (session.data && session.data.user && storedToken) {
       dispatch(fetchProfile())
       if (organization) {
-        dispatch(fetchPermissions())
+        dispatch(fetchPermissions(organizationId))
       }
     }
-  }, [dispatch, session.data])
+  }, [dispatch, organization, session.data, organizationId])
 
   // User is logged in, build ability for the user based on his role
   if (session.data && session.data.user && !ability) {
     const permissions = JSON.parse(window.localStorage.getItem('permissions')!)
     ability = buildAbilityFor(permissions)
 
-    // ability = buildAbilityFor((session.data as any).permissions)
     if (router.route === '/') {
       return <Spinner />
     }

@@ -12,49 +12,88 @@ mock.onGet('/app-bar/search').reply(config => {
   const searchData: AppBarSearchType[] = [
     {
       id: 1,
-      url: `/${uniqueName}/dashboards/analytics`,
+      url: `/${uniqueName}/dashboards`,
       icon: 'mdi:home-outline',
-      title: 'Analytics Dashboard',
+      title: 'Dashboard',
       category: 'dashboards'
     },
     {
       id: 2,
-      url: `/${uniqueName}/roles`,
-      icon: 'mdi:shield-outline',
-      title: 'Role Page',
+      url: `/${uniqueName}/projects/list`,
+      icon: 'mdi:cube-outline',
+      title: 'Project',
       category: 'appsPages'
     },
     {
       id: 3,
+      url: `/${uniqueName}/invoice/list`,
+      icon: 'mdi:file-document-outline',
+      title: 'Invoice',
+      category: 'appsPages'
+    },
+    {
+      id: 4,
+      url: `/${uniqueName}/projects/add`,
+      icon: 'mdi:cube-outline',
+      title: 'Project - Add',
+      category: 'utilities'
+    },
+    {
+      id: 5,
+      url: `/${uniqueName}/invoice/add`,
+      icon: 'mdi:file-document-outline',
+      title: 'Invoice - Add',
+      category: 'utilities'
+    },
+    {
+      id: 6,
       url: `/${uniqueName}/users`,
       icon: 'mdi:account-outline',
       title: 'User Page',
       category: 'appsPages'
     },
     {
-      id: 23,
-      url: `/${uniqueName}/account-settings/account`,
-      icon: 'mdi:account-cog-outline',
-      title: 'Account Settings',
+      id: 7,
+      url: `/${uniqueName}/users`,
+      icon: 'mdi:account-outline',
+      title: 'User Page',
       category: 'appsPages'
     },
     {
-      id: 24,
-      url: `/${uniqueName}/account-settings/security`,
-      icon: 'mdi:lock-open-outline',
-      title: 'Account Settings - Security',
-      category: 'appsPages'
+      id: 8,
+      url: `/${uniqueName}/settings/account`,
+      icon: 'mdi:account-cog-outline',
+      title: 'Settings - Account',
+      category: 'settingsPages'
+    },
+    {
+      id: 9,
+      url: `/${uniqueName}/settings/security`,
+      icon: 'mdi:account-security-outline',
+      title: 'Settings - Security',
+      category: 'settingsPages'
+    },
+    {
+      id: 10,
+      url: `/${uniqueName}/settings/organization`,
+      icon: 'mdi:map-marker-account-outline',
+      title: 'Settings - Organization',
+      category: 'settingsPages'
     }
   ]
 
   const exactData: { [k: string]: AppBarSearchType[] } = {
     dashboards: [],
-    appsPages: []
+    appsPages: [],
+    settingsPages: [],
+    utilities: []
   }
 
   const includeData: { [k: string]: AppBarSearchType[] } = {
     dashboards: [],
-    appsPages: []
+    appsPages: [],
+    settingsPages: [],
+    utilities: []
   }
 
   searchData.forEach(obj => {
@@ -93,7 +132,9 @@ mock.onGet('/app-bar/search').reply(config => {
     200,
     [
       ...exactData.dashboards.concat(includeData.dashboards).slice(0, resultsLength),
-      ...exactData.appsPages.concat(includeData.appsPages).slice(0, resultsLength)
+      ...exactData.appsPages.concat(includeData.appsPages).slice(0, resultsLength),
+      ...exactData.settingsPages.concat(includeData.settingsPages).slice(0, resultsLength),
+      ...exactData.utilities.concat(includeData.utilities).slice(0, resultsLength)
     ]
   ]
 })

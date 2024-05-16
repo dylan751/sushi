@@ -3,15 +3,16 @@
   "version": "2.2.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 8080",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 8080",
     "export": "next export",
     "lint": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "build:icons": "tsc -b src/iconify-bundle && node src/iconify-bundle/bundle-icons-react.js",
     "new-release": "./scripts/create-release-branch.sh",
-    "api-gen": "node scripts/swagger-gen.js"
+    "api-gen": "node scripts/swagger-gen.js",
+    "prepare": "husky"
   },
   "dependencies": {
     "@casl/ability": "6.5.0",
@@ -36,6 +37,7 @@
     "@mui/x-data-grid": "6.0.3",
     "@popperjs/core": "2.11.7",
     "@reduxjs/toolkit": "1.9.5",
+    "@types/react-csv": "^1.1.10",
     "apexcharts-clevision": "3.28.5",
     "axios": "1.4.0",
     "axios-mock-adapter": "^1.21.4",
@@ -76,6 +78,8 @@
     "yup": "1.1.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.2.1",
+    "@commitlint/config-conventional": "^19.1.0",
     "@iconify/iconify": "3.1.0",
     "@iconify/json": "2.2.58",
     "@iconify/tools": "2.2.6",
@@ -100,7 +104,9 @@
     "eslint-import-resolver-alias": "1.1.2",
     "eslint-import-resolver-typescript": "3.5.3",
     "eslint-plugin-import": "2.27.5",
+    "husky": "^9.0.11",
     "prettier": "2.8.4",
+    "react-csv": "^2.2.2",
     "typescript": "5.0.4"
   },
   "resolutions": {

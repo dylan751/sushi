@@ -6,15 +6,28 @@
         },
         "home": "ホームページ",
         "role_page": "役割ページ",
+        "project_page": {
+            "project": "プロジェクト",
+            "list": "リスト",
+            "add": "追加"
+        },
+        "invoice_page": {
+            "invoice": "インヴォイス",
+            "list": "リスト",
+            "add": "追加"
+        },
         "user_page": "ユーザーページ",
-        "account_settings_page": {
-            "account_settings": "アカウント設定",
+        "settings_page": {
+            "settings": "アカウント設定",
             "account": "アカウント",
-            "security": "セキュリティ"
+            "security": "セキュリティ",
+            "organization": "組織"
         }
     },
+    "autocomplete": {
+        "search": "検索 (Ctrl+/)"
+    },
     "user_dropdown": {
-        "account_settings": "アカウント設定",
         "organization": "組織選択",
         "chat": "チャット",
         "settings": "設定",
@@ -48,6 +61,10 @@
         "enter_new_organization_name": "会社名を入れてください",
         "organization_url": "URLパス",
         "enter_new_organization_unique_url": "会社のURLパスを入れてください",
+        "organization_phone": "会社の電話",
+        "enter_new_organization_phone": "会社の電話を入れてください",
+        "organization_address": "会社の住所",
+        "enter_new_organization_address": "会社の住所を入れてください",
         "create": "登録"
     },
     "home": {
@@ -55,7 +72,32 @@
         "open": "選択する",
         "create_organization_header": "新規登録 🚀",
         "create_organization_description": "プロジェクトをスタートする",
-        "create": "登録"
+        "create": "登録",
+        "active": "アクティブ"
+    },
+    "dashboard_page": {
+        "welcome": "ようこそ",
+        "welcome_message": "あなたのためのオールインワン会計ウェブサイト。",
+        "start_with": "最初のプロジェクトを",
+        "create_project": "作成することから始めます 🤩。",
+        "income": "所得",
+        "expense": "経費",
+        "total_profit": "利益総額",
+        "total_income": "総所得",
+        "total_expense": "総経費",
+        "view_invoices": "インヴォイスを表示する",
+        "project_budget_overview": "プロジェクト予算の概要",
+        "total_budget": "総予算",
+        "total_budget_for_projects": "プロジェクトの総予算",
+        "projects": "プロジェクト",
+        "invoices": "インヴォイス",
+        "users": "ユーザー",
+        "roles": "ロール",
+        "year_of": "年",
+        "in_total": "合計で",
+        "budget_tracking": "予算の追跡",
+        "total_uncategorized_incomes": "未分類所得の合計",
+        "total_uncategorized_expenses": "未分類経費の合計"
     },
     "role_page": {
         "role": {
@@ -114,6 +156,208 @@
             "max_of_roles_can_be_selected": "最大ロール個のみ選択できます"
         }
     },
+    "project_page": {
+        "tab": {
+            "dashboard": "ダッシュボード",
+            "invoice": "インヴォイス",
+            "budget": "予算",
+            "category": "カテゴリー"
+        },
+        "list": {
+            "project_list": "プロジェクトリスト",
+            "filters": "フィルター",
+            "project_start_date": "プロジェクトの開始日",
+            "actions": "行動",
+            "search_project_name": "プロジェクトの名前での検索",
+            "create_project": "プロジェクトの作成",
+            "creator": "創造者",
+            "client": "クライアント",
+            "name": "名前",
+            "description": "説明",
+            "total_budget": "総予算",
+            "start_date": "開始日",
+            "end_date": "締め切り",
+            "delete_project": "プロジェクトの削除",
+            "view": "ビュー",
+            "edit_project": "プロジェクトの編集"
+        },
+        "add": {
+            "create_project": "新しいプロジェクトを作成する",
+            "project_name": "プロジェクトの名前",
+            "description": "説明",
+            "total_budget": "総予算",
+            "project_date": "プロジェクトの日付"
+        },
+        "edit": {
+            "update_project": "プロジェクトを更新する",
+            "project_name": "プロジェクトの名前",
+            "description": "説明",
+            "total_budget": "総予算",
+            "project_date": "プロジェクトの日付"
+        },
+        "dashboard": {
+            "year_picker": "年ピッカー",
+            "income": "所得",
+            "expense": "経費",
+            "statistics": "統計",
+            "total_numbers": "総数",
+            "this_year": "😎 今年",
+            "invoices": "インヴォイス",
+            "budgets": "予算",
+            "categories": "カテゴリー",
+            "balance": "バランス",
+            "total_invoice_value": "インヴォイスの合計",
+            "expense_ratio": "経費率",
+            "donut_chart_subtitle": "さまざまなカテゴリへの支出",
+            "total_expense": "総費用",
+            "total_uncategorized_incomes": "未分類所得の合計",
+            "total_uncategorized_expenses": "未分類経費の合計",
+            "last_invoices": "過去5つのインヴォイス"
+        },
+        "invoice": {},
+        "budget": {
+            "filters": "フィルター",
+            "category_type": "カテゴリーのタイプ",
+            "category": "カテゴリー",
+            "category_only_expense": "カテゴリー（経費型のみ）",
+            "progress": "進捗",
+            "amount": "価格",
+            "actions": "行動",
+            "add_budget": "予算の追加",
+            "update_budget": "予算の編集",
+            "delete_budget": "予算の削除"
+        },
+        "category": {
+            "filters": "フィルター",
+            "search_category": "カテゴリーの検索",
+            "category_type": "カテゴリーのタイプ",
+            "select_type": "タイプの選択",
+            "category": "カテゴリー",
+            "name": "名前",
+            "icon": "アイコン",
+            "color": "色",
+            "created_date": "作成日",
+            "type": "タイプ",
+            "actions": "行動",
+            "add_category": "カテゴリーの追加",
+            "update_category": "カテゴリーの編集",
+            "delete_category": "カテゴリーの削除"
+        }
+    },
+    "invoice_page": {
+        "list": {
+            "filters": "フィルター",
+            "invoice_date": "インヴォイスの日付",
+            "invoice_type": "インヴォイスのタイプ",
+            "export": "エクスポート",
+            "actions": "行動",
+            "search_invoice": "インヴォイスの検索",
+            "create_invoice": "インヴォイスの作成",
+            "creator": "創造者",
+            "client": "クライアント",
+            "name": "名前",
+            "note": "メモ",
+            "total": "合計",
+            "date": "日付",
+            "project": "プロジェクト",
+            "status": "ステータス",
+            "all_statuses": "すべてのステータス",
+            "categorized": "分類された",
+            "uncategorized": "未分類",
+            "category": "カテゴリー",
+            "amount": "価格",
+            "type": "タイプ",
+            "delete_invoice": "インヴォイスの削除",
+            "view": "ビュー",
+            "download": "ダウンロード",
+            "edit": "編集",
+            "duplicate": "重複"
+        },
+        "add": {
+            "invoice": "インヴォイス",
+            "date": "日付",
+            "item": "アイテム",
+            "type": "タイプ",
+            "quantity": "量",
+            "currency": "通貨",
+            "invoice_to": "インヴォイス先",
+            "invoice_from": "インヴォイス元",
+            "client_name": "クライアントの名前",
+            "name": "名前",
+            "note": "メモ",
+            "price": "価格",
+            "add_item": "アイテムの追加",
+            "tax": "税 (%)",
+            "thanks_for_you_business": "お取引ありがとうございます",
+            "sales_person": "販売員",
+            "subtotal": "小計",
+            "discount": "割引",
+            "total": "合計",
+            "create_invoice": "インヴォイスの作成"
+        },
+        "edit": {
+            "invoice": "インヴォイス",
+            "date": "日付",
+            "item": "アイテム",
+            "type": "タイプ",
+            "quantity": "量",
+            "currency": "通貨",
+            "invoice_to": "インヴォイス先",
+            "client_name": "クライアントの名前",
+            "name": "名前",
+            "note": "メモ",
+            "price": "価格",
+            "add_item": "アイテムの追加",
+            "tax": "税 (%)",
+            "thanks_for_you_business": "お取引ありがとうございます",
+            "sales_person": "販売員",
+            "subtotal": "小計",
+            "discount": "割引",
+            "total": "合計",
+            "update_invoice": "インヴォイスの編集",
+            "preview": "プレビュー"
+        },
+        "preview": {
+            "invoice_to": "インヴォイス先",
+            "invoice": "インヴォイス",
+            "date": "日付",
+            "item": "アイテム",
+            "type": "タイプ",
+            "quantity": "量",
+            "currency": "通貨",
+            "name": "名前",
+            "note": "メモ",
+            "price": "価格",
+            "send_invoice": "インヴォイスの送信",
+            "download": "ダウンロード",
+            "print": "印刷",
+            "total": "合計",
+            "tax": "税 (%)",
+            "update_invoice": "インヴォイスの編集",
+            "thanks_for_you_business": "お取引ありがとうございます",
+            "sales_person": "販売員",
+            "subtotal": "小計",
+            "discount": "割引"
+        },
+        "print": {
+            "invoice_to": "インヴォイス先",
+            "invoice": "インヴォイス",
+            "date": "日付",
+            "item": "アイテム",
+            "type": "タイプ",
+            "quantity": "量",
+            "currency": "通貨",
+            "name": "名前",
+            "note": "メモ",
+            "price": "価格",
+            "total": "合計",
+            "tax": "税 (%)",
+            "thanks_for_you_business": "お取引ありがとうございます",
+            "sales_person": "販売員",
+            "subtotal": "小計",
+            "discount": "割引"
+        }
+    },
     "user_page": {
         "total_users": "ユーザー数",
         "total_roles": "ロール数",
@@ -132,7 +376,7 @@
         "default_role": "デフォルトのロール",
         "custom_role_optional": "カスタムロール (オプション)"
     },
-    "account_settings_page": {
+    "settings_page": {
         "title": "アカウント設定",
         "account": {
             "title": "アカウント",
@@ -161,6 +405,13 @@
             "password_requirements_1": "最低 8 文字 - 多ければ多いほど良い",
             "password_requirements_2": "少なくとも 1 つの小文字と 1 つの大文字",
             "password_requirements_3": "少なくとも 1 つの数字、記号、または空白文字"
+        },
+        "organization": {
+            "title": "組織",
+            "information_settings": "情報設定",
+            "organization_name": "会社名",
+            "phone_number": "電話番号",
+            "organization_address": "会社の住所"
         }
     }
 }

@@ -6,15 +6,28 @@
         },
         "home": "Home",
         "role_page": "Role Page",
+        "project_page": {
+            "project": "Project",
+            "list": "List",
+            "add": "Add"
+        },
+        "invoice_page": {
+            "invoice": "Invoice",
+            "list": "List",
+            "add": "Add"
+        },
         "user_page": "User Page",
-        "account_settings_page": {
-            "account_settings": "Account Settings",
+        "settings_page": {
+            "settings": "Settings",
             "account": "Account",
-            "security": "Security"
+            "security": "Security",
+            "organization": "Organization"
         }
     },
+    "autocomplete": {
+        "search": "Search (Ctrl+/)"
+    },
     "user_dropdown": {
-        "account_settings": "Account Settings",
         "organization": "Organizations",
         "chat": "Chat",
         "settings": "Settings",
@@ -48,6 +61,10 @@
         "enter_new_organization_name": "Enter new organization name",
         "organization_url": "Organization URL",
         "enter_new_organization_unique_url": "Enter new organization unique URL",
+        "organization_phone": "Organization Phone",
+        "enter_new_organization_phone": "Enter new organization phone",
+        "organization_address": "Organization Address",
+        "enter_new_organization_address": "Enter new organization address",
         "create": "Create"
     },
     "home": {
@@ -55,7 +72,32 @@
         "open": "Open",
         "create_organization_header": "Create new organization 🚀",
         "create_organization_description": "Kick start your project",
-        "create": "Create"
+        "create": "Create",
+        "active": "Active"
+    },
+    "dashboard_page": {
+        "welcome": "Welcome",
+        "welcome_message": "All-in-one accounting website for you.",
+        "start_with": "Start with",
+        "create_project": "creating your first Project 🤩.",
+        "income": "Income",
+        "expense": "Expense",
+        "total_profit": "Total Profit",
+        "total_income": "Total Income",
+        "total_expense": "Total Expense",
+        "view_invoices": "View Invoices",
+        "project_budget_overview": "Project Budget Overview",
+        "total_budget": "Total Budget",
+        "total_budget_for_projects": "Total Budget For Projects",
+        "projects": "Projects",
+        "invoices": "Invoices",
+        "users": "Users",
+        "roles": "Roles",
+        "year_of": "Year Of",
+        "in_total": "In Total",
+        "budget_tracking": "Budget Tracking",
+        "total_uncategorized_incomes": "Total Uncategorized Incomes",
+        "total_uncategorized_expenses": "Total Uncategorized Expenses"
     },
     "role_page": {
         "role": {
@@ -114,6 +156,208 @@
             "max_of_roles_can_be_selected": "Only a maximum of roles can be selected"
         }
     },
+    "project_page": {
+        "tab": {
+            "dashboard": "Dashboard",
+            "invoice": "Invoice",
+            "budget": "Budget",
+            "category": "Category"
+        },
+        "list": {
+            "project_list": "Project List",
+            "filters": "Filters",
+            "project_start_date": "Project Start Date",
+            "actions": "Actions",
+            "search_project_name": "Search Project Name",
+            "create_project": "Create Project",
+            "creator": "Creator",
+            "client": "Client",
+            "name": "Name",
+            "description": "Description",
+            "total_budget": "Total Budget",
+            "start_date": "Start Date",
+            "end_date": "Deadline",
+            "delete_project": "Delete Project",
+            "view": "View",
+            "edit_project": "Edit Project"
+        },
+        "add": {
+            "create_project": "Create A New Project",
+            "project_name": "Project Name",
+            "description": "Description",
+            "total_budget": "Total Budget",
+            "project_date": "Project Date"
+        },
+        "edit": {
+            "update_project": "Update A Project",
+            "project_name": "Project Name",
+            "description": "Description",
+            "total_budget": "Total Budget",
+            "project_date": "Project Date"
+        },
+        "dashboard": {
+            "year_picker": "Year Picker",
+            "income": "Income",
+            "expense": "Expense",
+            "statistics": "Statistics",
+            "total_numbers": "Total numbers",
+            "this_year": "😎 this year",
+            "invoices": "Invoices",
+            "budgets": "Budgets",
+            "categories": "Categories",
+            "balance": "Balance",
+            "total_invoice_value": "Total invoice value",
+            "expense_ratio": "Expense Ratio",
+            "donut_chart_subtitle": "Spending on various categories",
+            "total_expense": "Total Expense",
+            "total_uncategorized_incomes": "Total Uncategorized Incomes",
+            "total_uncategorized_expenses": "Total Uncategorized Expenses",
+            "last_invoices": "Last 5 Invoices"
+        },
+        "invoice": {},
+        "budget": {
+            "filters": "Filters",
+            "category_type": "Category Type",
+            "category": "Category",
+            "category_only_expense": "Category (Only Expense type)",
+            "progress": "Progress",
+            "amount": "Amount",
+            "actions": "Actions",
+            "add_budget": "Add budget",
+            "update_budget": "Update budget",
+            "delete_budget": "Delete budget"
+        },
+        "category": {
+            "filters": "Filters",
+            "search_category": "Search Category",
+            "category_type": "Category Type",
+            "select_type": "Select Type",
+            "category": "Category",
+            "name": "Name",
+            "icon": "Icon",
+            "color": "Color",
+            "created_date": "Created Date",
+            "type": "Type",
+            "actions": "Actions",
+            "add_category": "Add Category",
+            "update_category": "Update Category",
+            "delete_category": "Delete Category"
+        }
+    },
+    "invoice_page": {
+        "list": {
+            "filters": "Filters",
+            "invoice_date": "Invoice Date",
+            "invoice_type": "Invoice Type",
+            "export": "Export",
+            "actions": "Actions",
+            "search_invoice": "Search Invoice",
+            "create_invoice": "Create Invoice",
+            "creator": "Creator",
+            "client": "Client",
+            "name": "Name",
+            "note": "Note",
+            "total": "Total",
+            "date": "Date",
+            "project": "Project",
+            "status": "Status",
+            "all_statuses": "All Statuses",
+            "categorized": "Categorized",
+            "uncategorized": "Uncategorized",
+            "category": "Category",
+            "amount": "Amount",
+            "type": "Type",
+            "delete_invoice": "Delete Invoice",
+            "view": "View",
+            "download": "Download",
+            "edit": "Edit",
+            "duplicate": "Duplicate"
+        },
+        "add": {
+            "invoice": "Invoice",
+            "date": "Date",
+            "item": "Item",
+            "type": "Type",
+            "quantity": "Quantity",
+            "currency": "Currency",
+            "invoice_to": "Invoice To",
+            "invoice_from": "Invoice From",
+            "client_name": "Client Name",
+            "name": "Name",
+            "note": "Note",
+            "price": "Price",
+            "add_item": "Add Item",
+            "tax": "Tax (%)",
+            "thanks_for_you_business": "Thanks for your business",
+            "sales_person": "Salesperson",
+            "subtotal": "Subtotal",
+            "discount": "Discount",
+            "total": "Total",
+            "create_invoice": "Create Invoice"
+        },
+        "edit": {
+            "invoice": "Invoice",
+            "date": "Date",
+            "item": "Item",
+            "type": "Type",
+            "quantity": "Quantity",
+            "currency": "Currency",
+            "invoice_to": "Invoice To",
+            "client_name": "Client Name",
+            "name": "Name",
+            "note": "Note",
+            "price": "Price",
+            "add_item": "Add Item",
+            "tax": "Tax (%)",
+            "thanks_for_you_business": "Thanks for your business",
+            "sales_person": "Salesperson",
+            "subtotal": "Subtotal",
+            "discount": "Discount",
+            "total": "Total",
+            "update_invoice": "Update Invoice",
+            "preview": "Preview"
+        },
+        "preview": {
+            "invoice_to": "Invoice To",
+            "invoice": "Invoice",
+            "date": "Date",
+            "item": "Item",
+            "type": "Type",
+            "quantity": "Quantity",
+            "currency": "Currency",
+            "name": "Name",
+            "note": "Note",
+            "price": "Price",
+            "send_invoice": "Send Invoice",
+            "download": "Download",
+            "print": "Print",
+            "total": "Total",
+            "tax": "Tax (%)",
+            "update_invoice": "Update Invoice",
+            "thanks_for_you_business": "Thanks for your business",
+            "sales_person": "Salesperson",
+            "subtotal": "Subtotal",
+            "discount": "Discount"
+        },
+        "print": {
+            "invoice_to": "Invoice To",
+            "invoice": "Invoice",
+            "date": "Date",
+            "item": "Item",
+            "type": "Type",
+            "quantity": "Quantity",
+            "currency": "Currency",
+            "name": "Name",
+            "note": "Note",
+            "price": "Price",
+            "total": "Total",
+            "tax": "Tax (%)",
+            "thanks_for_you_business": "Thanks for your business",
+            "sales_person": "Salesperson",
+            "subtotal": "Subtotal",
+            "discount": "Discount"
+        }
+    },
     "user_page": {
         "total_users": "Total Users",
         "total_roles": "Total Roles",
@@ -132,8 +376,8 @@
         "default_role": "Default Role",
         "custom_role_optional": "Custom Role (Optional)"
     },
-    "account_settings_page": {
-        "title": "Account Settings",
+    "settings_page": {
+        "title": "Settings",
         "account": {
             "title": "Account",
             "full_name": "Full Name",
@@ -161,6 +405,13 @@
             "password_requirements_1": "Minimum 8 characters long - the more, the better",
             "password_requirements_2": "At least one lowercase & one uppercase character",
             "password_requirements_3": "At least one number, symbol, or whitespace character"
+        },
+        "organization": {
+            "title": "Organization",
+            "information_settings": "Information Settings",
+            "organization_name": "Organization Name",
+            "phone_number": "Phone Number",
+            "organization_address": "Organization Address"
         }
     }
 }

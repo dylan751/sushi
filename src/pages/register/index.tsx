@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactNode, useState } from 'react'
+import { ReactNode, useState, MouseEvent } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
@@ -40,12 +40,18 @@ import toast from 'react-hot-toast'
 import { useSettings } from 'src/@core/hooks/useSettings'
 import { useRouter } from 'next/router'
 
-// ** Demo Imports
+// ** Next Auth Imports
+import { signIn } from 'next-auth/react'
+
+// ** Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import { RegisterRequestDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Axios Imports
 import { $api } from 'src/utils/api'
+
+// ** Utils Imports
+import { getLoginUrl } from 'src/utils/router/auth'
 
 // ** Styled Components
 const RegisterIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -139,7 +145,7 @@ const Register = () => {
       .internal.register(data)
       .then(() => {
         toast.success('Register succeed')
-        router.replace('/login')
+        router.replace(getLoginUrl())
       })
       .catch(() => {
         setError('email', {
@@ -147,6 +153,13 @@ const Register = () => {
           message: 'This email has been used'
         })
       })
+  }
+
+  const registerWithGoogle = (e: MouseEvent<HTMLElement>) => {
+    e.preventDefault()
+    const returnUrl = router.query.returnUrl
+    const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
+    signIn('google', { callbackUrl: redirectURL as string })
   }
 
   const imageSource = skin === 'bordered' ? 'auth-v2-register-illustration-bordered' : 'auth-v2-register-illustration'
@@ -365,23 +378,23 @@ const Register = () => {
               </Box>
               <Divider sx={{ my: theme => `${theme.spacing(5)} !important` }}>or</Divider>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <IconButton href='/' component={Link} sx={{ color: '#497ce2' }} onClick={e => e.preventDefault()}>
-                  <Icon icon='mdi:facebook' />
-                </IconButton>
-                <IconButton href='/' component={Link} sx={{ color: '#1da1f2' }} onClick={e => e.preventDefault()}>
-                  <Icon icon='mdi:twitter' />
-                </IconButton>
-                <IconButton
+                <Button
                   href='/'
                   component={Link}
-                  onClick={e => e.preventDefault()}
-                  sx={{ color: theme => (theme.palette.mode === 'light' ? '#272727' : 'grey.300') }}
+                  onClick={(e: MouseEvent<HTMLElement>) => registerWithGoogle(e)}
+                  sx={{
+                    display: 'flex',
+                    gap: '8px',
+                    background: '#4081ec',
+                    '&:hover': { backgroundColor: '#4081ec' }
+                  }}
+                  variant='contained'
                 >
-                  <Icon icon='mdi:github' />
-                </IconButton>
-                <IconButton href='/' component={Link} sx={{ color: '#db4437' }} onClick={e => e.preventDefault()}>
-                  <Icon icon='mdi:google' />
-                </IconButton>
+                  <Icon icon='mdi:google' color='#db4437' />
+                  <Typography variant='body2' sx={{ color: '#fff', textTransform: 'none' }}>
+                    Sign in with Google
+                  </Typography>
+                </Button>
               </Box>
             </form>
           </BoxWrapper>

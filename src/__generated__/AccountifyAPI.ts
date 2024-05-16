@@ -32,6 +32,10 @@ export interface OrganizationProfileResponseDto {
   name: string
   /** @example "org_unique_name" */
   uniqueName: string
+  /** @example "0339089172" */
+  phone: string
+  /** @example "19A Bach Khoa, Ha Noi" */
+  address: string
   roles: UserRole[]
 }
 
@@ -48,7 +52,6 @@ export interface ProfileResponseDto {
   address: string
   /** @example "https://image.com/avatar-1" */
   avatar: string
-  /** @example [{"id":1,"name":"First Organization Name","uniqueName":"first_organization_unique_name","roles":[{"id":1,"name":"Admin"}]}] */
   organizations: OrganizationProfileResponseDto[]
 }
 
@@ -165,7 +168,11 @@ export enum PermissionSubject {
   ALL = 'all',
   ORGANIZATION = 'organization',
   USER = 'user',
-  ROLE = 'role'
+  ROLE = 'role',
+  INVOICE = 'invoice',
+  PROJECT = 'project',
+  BUDGET = 'budget',
+  CATEGORY = 'category'
 }
 
 export interface CaslPermission {
@@ -182,6 +189,10 @@ export interface CreateOrganizationRequestDto {
   name: string
   /** @example "example-org" */
   uniqueName: string
+  /** @example "0339089172" */
+  phone: string
+  /** @example "19A Bach Khoa, Ha Noi" */
+  address: string
 }
 
 export interface OrganizationResponseDto {
@@ -191,9 +202,13 @@ export interface OrganizationResponseDto {
   name: string
   /** @example "test-org" */
   uniqueName: string
+  /** @example "0339089172" */
+  phone: string
+  /** @example "19A Bach Khoa, Ha Noi" */
+  address: string
   /**
    * @format date-time
-   * @example "2020/01/01 15:00:00"
+   * @example "2024-02-26T07:31:35.000Z"
    */
   createdAt: string
 }
@@ -203,11 +218,149 @@ export interface UpdateOrganizationRequestDto {
   name?: string
   /** @example "example-org" */
   uniqueName?: string
+  /** @example "0339089172" */
+  phone?: string
+  /** @example "19A Bach Khoa, Ha Noi" */
+  address?: string
 }
 
 export interface PermissionSubjectResponseDto {
   /** @example "organization" */
   subject: string
+}
+
+export enum ColorType {
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary',
+  ERROR = 'error',
+  INFO = 'info',
+  SUCCESS = 'success',
+  WARNING = 'warning'
+}
+
+export enum IconType {
+  MDI_INVOICE_ADD = 'mdi:invoice-add',
+  MDI_INVOICE_MINUS = 'mdi:invoice-minus',
+  MDI_INVOICE_TEXT_CHECK_OUTLINE = 'mdi:invoice-text-check-outline',
+  MDI_INVOICE_TEXT_SEND_OUTLINE = 'mdi:invoice-text-send-outline',
+  MDI_CATEGORY_OUTLINE = 'mdi:category-outline',
+  MDI_CATEGORY_PLUS_OUTLINE = 'mdi:category-plus-outline',
+  MDI_COMPUTER = 'mdi:computer',
+  MDI_ACCOUNT_BADGE_OUTLINE = 'mdi:account-badge-outline',
+  MDI_MEDICINE_BOTTLE_OUTLINE = 'mdi:medicine-bottle-outline',
+  MDI_AIRPLANE = 'mdi:airplane',
+  MDI_CAR_OUTLINE = 'mdi:car-outline',
+  MDI_IMPORT = 'mdi:import',
+  MDI_EXPORT = 'mdi:export',
+  MDI_CREDIT_CARD_ADD = 'mdi:credit-card-add',
+  MDI_EMAIL_ADD_OUTLINE = 'mdi:email-add-outline'
+}
+
+export enum InvoiceType {
+  EXPENSE = 'expense',
+  INCOME = 'income'
+}
+
+export interface CategoryResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "Computer Expense" */
+  name: string
+  /** @example "primary" */
+  color: ColorType
+  /** @example "mdi:airplane" */
+  icon: IconType
+  /** @example "expense" */
+  type: InvoiceType
+  /** @example 1000 */
+  totalSpent: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
+export interface BudgetResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example 1 */
+  categoryId: number
+  /** @example 100000 */
+  amount: number
+  category: CategoryResponseDto
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
+export interface ProjectResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "Technology Investment" */
+  name: string
+  /** @example "A project to improve school technology" */
+  description: string
+  /** @example 100000 */
+  totalBudget: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  startDate: string
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  endDate: string
+  creator: OrganizationUserResponseDto
+  invoices: any[][]
+  budgets: BudgetResponseDto[]
+  categories: CategoryResponseDto[]
+  /** @example 1000 */
+  totalSpent: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
+export interface OrganizationStatisticsResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "HPTN083" */
+  name: string
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  created: string
+  /** @example 10 */
+  projectCount: number
+  /** @example 10 */
+  invoiceCount: number
+  /** @example 10 */
+  userCount: number
+  /** @example 10 */
+  roleCount: number
+  /** @example 10000 */
+  totalIncome: number
+  /** @example 10000 */
+  totalExpense: number
+  /** @example 10000 */
+  balance: number
+  /** @example [100,300,320,150,170,150,150,300,230,170,260,200] */
+  incomesByMonth: number[]
+  /** @example [280,200,220,180,270,250,70,90,200,150,160,100] */
+  expensesByMonth: number[]
+  projects: ProjectResponseDto[]
+  /** @example 10000 */
+  totalUncategorizedIncome: number
+  /** @example 10000 */
+  totalUncategorizedExpense: number
 }
 
 export interface PermissionConfigDto {
@@ -238,7 +391,7 @@ export interface RoleResponseDto {
   isCustom: boolean
   /**
    * @format date-time
-   * @example "2020/01/01 15:00:00"
+   * @example "2024-02-26T07:31:35.000Z"
    */
   createdAt: string
 }
@@ -256,6 +409,257 @@ export interface UpdateRoleRequestDto {
   permissionConfigs: PermissionConfigDto[]
 }
 
+export enum CurrencyType {
+  VND = 'vnd',
+  USD = 'usd'
+}
+
+export interface InvoiceItemResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "Monthly bill" */
+  name: string
+  /** @example "Pay monthly internet bill" */
+  note: string
+  /** @example 10000 */
+  price: number
+  /** @example 1 */
+  quantity: number
+}
+
+export interface InvoiceResponseDto {
+  /** @example 1 */
+  id: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  date: string
+  /** @example "INV-EF5" */
+  uid: string
+  /** @example "expense" */
+  type: InvoiceType
+  /** @example "vnd" */
+  currency: CurrencyType
+  /** @example "John Doe" */
+  clientName: string
+  /** @example 10 */
+  tax: number
+  /** @example 10 */
+  total: number
+  /** @example 10 */
+  exchangeRate: number
+  items: InvoiceItemResponseDto[]
+  project: ProjectResponseDto
+  category: CategoryResponseDto
+  creator: OrganizationUserResponseDto
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
+export interface InvoiceResponseListDto {
+  invoices: InvoiceResponseDto[]
+  metadata: MetaData
+}
+
+export interface CreateProjectRequestDto {
+  /** @example "Technology Investment" */
+  name: string
+  /** @example "A project to improve school technology" */
+  description: string
+  /** @example 100000 */
+  totalBudget: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  startDate: string
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  endDate: string
+}
+
+export interface ProjectResponseListDto {
+  projects: ProjectResponseDto[]
+  metadata: MetaData
+}
+
+export interface UpdateProjectRequestDto {
+  /** @example "Technology Investment" */
+  name?: string
+  /** @example "A project to improve school technology" */
+  description?: string
+  /** @example 100000 */
+  totalBudget?: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  startDate?: string
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  endDate?: string
+}
+
+export interface CreateInvoiceItemRequest {
+  /** @example "Monthly bill" */
+  name: string
+  /** @example "Pay monthly internet bill" */
+  note?: string
+  /** @example 100000 */
+  price: number
+  /** @example 1 */
+  quantity: number
+}
+
+export interface CreateInvoiceRequestDto {
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  date: string
+  /** @example "expense" */
+  type: InvoiceType
+  /** @example "vnd" */
+  currency: CurrencyType
+  /** @example "John Doe" */
+  clientName: string
+  /** @example 10 */
+  tax?: number
+  /** @example 24.35 */
+  exchangeRate?: number
+  items: CreateInvoiceItemRequest[]
+  /** @example 1 */
+  categoryId?: number
+}
+
+export interface UpdateInvoiceItemRequest {
+  /** @example "Monthly bill" */
+  name?: string
+  /** @example "Pay monthly internet bill" */
+  note?: string
+  /** @example 100000 */
+  price?: number
+  /** @example 1 */
+  quantity?: number
+}
+
+export interface UpdateInvoiceRequestDto {
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  date?: string
+  /** @example "expense" */
+  type?: InvoiceType
+  /** @example "vnd" */
+  currency?: CurrencyType
+  /** @example "John Doe" */
+  clientName?: string
+  /** @example 10 */
+  tax?: number
+  /** @example 24.35 */
+  exchangeRate?: number
+  items: UpdateInvoiceItemRequest[]
+  /** @example 1 */
+  categoryId?: number
+}
+
+export interface CreateBudgetRequestDto {
+  /** @example 1 */
+  categoryId: number
+  /** @example 100000 */
+  amount: number
+}
+
+export interface BudgetResponseListDto {
+  budgets: BudgetResponseDto[]
+  metadata: MetaData
+}
+
+export interface UpdateBudgetRequestDto {
+  /** @example 100000 */
+  amount?: number
+}
+
+export interface CreateCategoryRequestDto {
+  /** @example "Computer Expense" */
+  name: string
+  /** @example "primary" */
+  color: ColorType
+  /** @example "mdi:airplane" */
+  icon: IconType
+  /** @example "expense" */
+  type: InvoiceType
+}
+
+export interface CategoryResponseListDto {
+  categories: CategoryResponseDto[]
+  metadata: MetaData
+}
+
+export interface UpdateCategoryRequestDto {
+  /** @example "Computer Expense" */
+  name?: string
+  /** @example "primary" */
+  color?: ColorType
+  /** @example "mdi:airplane" */
+  icon?: IconType
+  /** @example "expense" */
+  type?: InvoiceType
+}
+
+export interface IncomesAndExpensesByCategoryResponseDto {
+  /** @example "Computer Expense" */
+  name: string
+  /** @example "success" */
+  color: string
+  /** @example 1000 */
+  total: number
+}
+
+export interface ProjectStatisticsResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "HPTN083" */
+  name: string
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  created: string
+  /** @example 10 */
+  invoiceCount: number
+  /** @example 10 */
+  budgetCount: number
+  /** @example 10 */
+  categoryCount: number
+  /** @example 10000 */
+  totalIncome: number
+  /** @example 10000 */
+  totalExpense: number
+  /** @example 10000 */
+  balance: number
+  /** @example [100,300,320,150,170,150,150,300,230,170,260,200] */
+  incomesByMonth: number[]
+  /** @example [280,200,220,180,270,250,70,90,200,150,160,100] */
+  expensesByMonth: number[]
+  expensesByCategory: IncomesAndExpensesByCategoryResponseDto[]
+  incomesByCategory: IncomesAndExpensesByCategoryResponseDto[]
+  /** @example 10000 */
+  totalUncategorizedIncome: number
+  /** @example 10000 */
+  totalUncategorizedExpense: number
+  lastInvoices: InvoiceResponseDto[]
+}
+
 /** @example "create" */
 export enum PermissionConfigDtoActionEnum {
   MANAGE = 'manage',
@@ -270,7 +674,11 @@ export enum PermissionConfigDtoSubjectEnum {
   ALL = 'all',
   ORGANIZATION = 'organization',
   USER = 'user',
-  ROLE = 'role'
+  ROLE = 'role',
+  INVOICE = 'invoice',
+  PROJECT = 'project',
+  BUDGET = 'budget',
+  CATEGORY = 'category'
 }
 
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType } from 'axios'
@@ -738,6 +1146,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
+     * @description Get statistics for organization
+     *
+     * @tags Organization Statistics
+     * @name GetStatisticsForOrganization
+     * @summary Get statistics for organization
+     * @request GET:/internal/api/v1/organizations/{organizationId}/statistics
+     * @secure
+     */
+    getStatisticsForOrganization: (
+      organizationId: number,
+      query?: {
+        /** @format date-time */
+        date?: string
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<OrganizationStatisticsResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/statistics`,
+        method: 'GET',
+        query: query,
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
      * @description Create roles for an organization
      *
      * @tags Organization Role
@@ -838,6 +1272,548 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<EmptyResponseDto, any>({
         path: `/internal/api/v1/organizations/${organizationId}/roles/${id}`,
         method: 'DELETE',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get invoice list for organization
+     *
+     * @tags Organization Invoice
+     * @name GetInvoiceListForOrganization
+     * @summary Get invoice list for organization
+     * @request GET:/internal/api/v1/organizations/{organizationId}/invoices
+     * @secure
+     */
+    getInvoiceListForOrganization: (
+      organizationId: number,
+      query?: {
+        /** @format date-time */
+        fromDate?: string
+        /** @format date-time */
+        toDate?: string
+        type?: string
+        projectId?: number
+        status?: string
+        categoryId?: number
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<InvoiceResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/invoices`,
+        method: 'GET',
+        query: query,
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get invoice by ID for an org
+     *
+     * @tags Organization Invoice
+     * @name GetInvoiceByIdForAnOrg
+     * @summary Get invoice by ID for an org
+     * @request GET:/internal/api/v1/organizations/{organizationId}/invoices/{id}
+     * @secure
+     */
+    getInvoiceByIdForAnOrg: (organizationId: number, id: number, params: RequestParams = {}) =>
+      this.request<InvoiceResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/invoices/${id}`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Delete an invoice for an organization
+     *
+     * @tags Organization Invoice
+     * @name DeleteAnInvoiceForAnOrganization
+     * @summary Delete an invoice for an organization
+     * @request DELETE:/internal/api/v1/organizations/{organizationId}/invoices/{id}
+     * @secure
+     */
+    deleteAnInvoiceForAnOrganization: (organizationId: number, id: number, params: RequestParams = {}) =>
+      this.request<EmptyResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/invoices/${id}`,
+        method: 'DELETE',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Create projects for an organization
+     *
+     * @tags Organization Project
+     * @name CreateProjectsForAnOrganization
+     * @summary Create projects for an organization
+     * @request POST:/internal/api/v1/organizations/{organizationId}/projects
+     * @secure
+     */
+    createProjectsForAnOrganization: (
+      organizationId: number,
+      data: CreateProjectRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<ProjectResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get project list for organization
+     *
+     * @tags Organization Project
+     * @name GetProjectListForOrganization
+     * @summary Get project list for organization
+     * @request GET:/internal/api/v1/organizations/{organizationId}/projects
+     * @secure
+     */
+    getProjectListForOrganization: (
+      organizationId: number,
+      query?: {
+        query?: string
+        /** @format date-time */
+        fromDate?: string
+        /** @format date-time */
+        toDate?: string
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<ProjectResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects`,
+        method: 'GET',
+        query: query,
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get project by ID for an org
+     *
+     * @tags Organization Project
+     * @name GetProjectByIdForAnOrg
+     * @summary Get project by ID for an org
+     * @request GET:/internal/api/v1/organizations/{organizationId}/projects/{id}
+     * @secure
+     */
+    getProjectByIdForAnOrg: (organizationId: number, id: number, params: RequestParams = {}) =>
+      this.request<ProjectResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${id}`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Update a project for an organization
+     *
+     * @tags Organization Project
+     * @name UpdateAProjectForAnOrganization
+     * @summary Update a project for an organization
+     * @request PATCH:/internal/api/v1/organizations/{organizationId}/projects/{id}
+     * @secure
+     */
+    updateAProjectForAnOrganization: (
+      organizationId: number,
+      id: number,
+      data: UpdateProjectRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<ProjectResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${id}`,
+        method: 'PATCH',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Delete a project for an organization
+     *
+     * @tags Organization Project
+     * @name DeleteAProjectForAnOrganization
+     * @summary Delete a project for an organization
+     * @request DELETE:/internal/api/v1/organizations/{organizationId}/projects/{id}
+     * @secure
+     */
+    deleteAProjectForAnOrganization: (organizationId: number, id: number, params: RequestParams = {}) =>
+      this.request<EmptyResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${id}`,
+        method: 'DELETE',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Create invoices for a project of organization
+     *
+     * @tags Organization Project Invoice
+     * @name CreateInvoicesForAProjectOfOrganization
+     * @summary Create invoices for a project of organization
+     * @request POST:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/invoices
+     * @secure
+     */
+    createInvoicesForAProjectOfOrganization: (
+      organizationId: number,
+      projectId: number,
+      data: CreateInvoiceRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<InvoiceResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/invoices`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get invoice list for a project of organization
+     *
+     * @tags Organization Project Invoice
+     * @name GetInvoiceListForAProjectOfOrganization
+     * @summary Get invoice list for a project of organization
+     * @request GET:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/invoices
+     * @secure
+     */
+    getInvoiceListForAProjectOfOrganization: (
+      organizationId: number,
+      projectId: number,
+      query?: {
+        /** @format date-time */
+        fromDate?: string
+        /** @format date-time */
+        toDate?: string
+        type?: string
+        projectId?: number
+        status?: string
+        categoryId?: number
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<InvoiceResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/invoices`,
+        method: 'GET',
+        query: query,
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Update an invoice for a project of organization
+     *
+     * @tags Organization Project Invoice
+     * @name UpdateAnInvoiceForAProjectOfOrganization
+     * @summary Update an invoice for a project of organization
+     * @request PATCH:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/invoices/{id}
+     * @secure
+     */
+    updateAnInvoiceForAProjectOfOrganization: (
+      organizationId: number,
+      projectId: number,
+      id: number,
+      data: UpdateInvoiceRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<InvoiceResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/invoices/${id}`,
+        method: 'PATCH',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Create project's budget for an organization
+     *
+     * @tags Organization Project Budget
+     * @name CreateProjectsBudgetForAnOrganization
+     * @summary Create project's budget for an organization
+     * @request POST:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/budgets
+     * @secure
+     */
+    createProjectsBudgetForAnOrganization: (
+      organizationId: number,
+      projectId: number,
+      data: CreateBudgetRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<BudgetResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/budgets`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get budget list for project of organization
+     *
+     * @tags Organization Project Budget
+     * @name GetBudgetListForProjectOfOrganization
+     * @summary Get budget list for project of organization
+     * @request GET:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/budgets
+     * @secure
+     */
+    getBudgetListForProjectOfOrganization: (
+      organizationId: number,
+      projectId: number,
+      query?: {
+        categoryId?: number
+        fromAmount?: number
+        toAmount?: number
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<BudgetResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/budgets`,
+        method: 'GET',
+        query: query,
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get project's budget by ID for an org
+     *
+     * @tags Organization Project Budget
+     * @name GetProjectsBudgetByIdForAnOrg
+     * @summary Get project's budget by ID for an org
+     * @request GET:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/budgets/{id}
+     * @secure
+     */
+    getProjectsBudgetByIdForAnOrg: (
+      organizationId: number,
+      projectId: number,
+      id: number,
+      params: RequestParams = {}
+    ) =>
+      this.request<BudgetResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/budgets/${id}`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Update a budget for a project of organization
+     *
+     * @tags Organization Project Budget
+     * @name UpdateABudgetForAProjectOfOrganization
+     * @summary Update a budget for a project of organization
+     * @request PATCH:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/budgets/{id}
+     * @secure
+     */
+    updateABudgetForAProjectOfOrganization: (
+      organizationId: number,
+      projectId: number,
+      id: number,
+      data: UpdateBudgetRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<BudgetResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/budgets/${id}`,
+        method: 'PATCH',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Delete a project's budget for an organization
+     *
+     * @tags Organization Project Budget
+     * @name DeleteAProjectsBudgetForAnOrganization
+     * @summary Delete a project's budget for an organization
+     * @request DELETE:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/budgets/{id}
+     * @secure
+     */
+    deleteAProjectsBudgetForAnOrganization: (
+      organizationId: number,
+      projectId: number,
+      id: number,
+      params: RequestParams = {}
+    ) =>
+      this.request<EmptyResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/budgets/${id}`,
+        method: 'DELETE',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Create project's category for an organization
+     *
+     * @tags Organization Project Category
+     * @name CreateProjectsCategoryForAnOrganization
+     * @summary Create project's category for an organization
+     * @request POST:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/categories
+     * @secure
+     */
+    createProjectsCategoryForAnOrganization: (
+      organizationId: number,
+      projectId: number,
+      data: CreateCategoryRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<CategoryResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/categories`,
+        method: 'POST',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get category list for project of organization
+     *
+     * @tags Organization Project Category
+     * @name GetCategoryListForProjectOfOrganization
+     * @summary Get category list for project of organization
+     * @request GET:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/categories
+     * @secure
+     */
+    getCategoryListForProjectOfOrganization: (
+      organizationId: number,
+      projectId: number,
+      query?: {
+        query?: string
+        type?: string
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<CategoryResponseListDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/categories`,
+        method: 'GET',
+        query: query,
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get project's category by ID for an org
+     *
+     * @tags Organization Project Category
+     * @name GetProjectsCategoryByIdForAnOrg
+     * @summary Get project's category by ID for an org
+     * @request GET:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/categories/{id}
+     * @secure
+     */
+    getProjectsCategoryByIdForAnOrg: (
+      organizationId: number,
+      projectId: number,
+      id: number,
+      params: RequestParams = {}
+    ) =>
+      this.request<CategoryResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/categories/${id}`,
+        method: 'GET',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Update a category for a project of organization
+     *
+     * @tags Organization Project Category
+     * @name UpdateACategoryForAProjectOfOrganization
+     * @summary Update a category for a project of organization
+     * @request PATCH:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/categories/{id}
+     * @secure
+     */
+    updateACategoryForAProjectOfOrganization: (
+      organizationId: number,
+      projectId: number,
+      id: number,
+      data: UpdateCategoryRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<CategoryResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/categories/${id}`,
+        method: 'PATCH',
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Delete a project's category for an organization
+     *
+     * @tags Organization Project Category
+     * @name DeleteAProjectsCategoryForAnOrganization
+     * @summary Delete a project's category for an organization
+     * @request DELETE:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/categories/{id}
+     * @secure
+     */
+    deleteAProjectsCategoryForAnOrganization: (
+      organizationId: number,
+      projectId: number,
+      id: number,
+      params: RequestParams = {}
+    ) =>
+      this.request<EmptyResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/categories/${id}`,
+        method: 'DELETE',
+        secure: true,
+        format: 'json',
+        ...params
+      }),
+
+    /**
+     * @description Get statistics for project of organization
+     *
+     * @tags Organization Project Statistics
+     * @name GetStatisticsForProjectOfOrganization
+     * @summary Get statistics for project of organization
+     * @request GET:/internal/api/v1/organizations/{organizationId}/projects/{projectId}/statistics
+     * @secure
+     */
+    getStatisticsForProjectOfOrganization: (
+      organizationId: number,
+      projectId: number,
+      query?: {
+        /** @format date-time */
+        date?: string
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<ProjectStatisticsResponseDto, any>({
+        path: `/internal/api/v1/organizations/${organizationId}/projects/${projectId}/statistics`,
+        method: 'GET',
+        query: query,
         secure: true,
         format: 'json',
         ...params

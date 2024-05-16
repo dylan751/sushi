@@ -22,7 +22,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** Store Imports
 import { useDispatch } from 'react-redux'
-import { addUser } from 'src/store/apps/user'
+import { addUser } from 'src/store/apps/organization/user'
 
 // ** Types Imports
 import { AppDispatch } from 'src/store'
@@ -33,6 +33,9 @@ import { ADMIN_ROLE_ID } from 'src/utils/role'
 
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
+
+// ** Hooks Imports
+import { useCurrentOrganization } from 'src/hooks'
 
 interface SidebarAddUserType {
   open: boolean
@@ -74,6 +77,7 @@ const SidebarAddUser = (props: SidebarAddUserType) => {
 
   // ** Hooks
   const { t } = useTranslation()
+  const { organizationId } = useCurrentOrganization()
   const dispatch = useDispatch<AppDispatch>()
   const {
     reset,
@@ -95,7 +99,7 @@ const SidebarAddUser = (props: SidebarAddUserType) => {
       roleIds
     }
 
-    dispatch(addUser(inviteUsersRequest))
+    dispatch(addUser({ organizationId, ...inviteUsersRequest }))
     toggle()
     reset()
   }

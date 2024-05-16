@@ -15,15 +15,23 @@ import Icon from 'src/@core/components/icon'
 
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
+import { CSVLink } from 'react-csv'
 
 // ** Type Imports
-import { RoleResponseDto } from 'src/__generated__/AccountifyAPI'
+import { OrganizationUserResponseDto, RoleResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
 
+// ** Utils Imports
+import { generateCsvFilename } from 'src/utils/csv'
+
+// ** Hook Imports
+import { useTheme } from '@mui/material/styles'
+
 interface TableHeaderProps {
   role: string
+  users: OrganizationUserResponseDto[]
   value: string
   allRoles: RoleResponseDto[]
   handleFilter: (val: string) => void
@@ -33,11 +41,21 @@ interface TableHeaderProps {
 
 const TableHeader = (props: TableHeaderProps) => {
   // ** Props
-  const { role, handleRoleChange, allRoles, handleFilter, value, toggleAddUserDrawer } = props
+  const { role, users, handleRoleChange, allRoles, handleFilter, value, toggleAddUserDrawer } = props
 
   // ** Hooks
   const { t } = useTranslation()
   const ability = useContext(AbilityContext)
+  const theme = useTheme()
+
+  const exportData = users.map(user => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { roles, ...res } = user
+    const data: any = res
+    data.roles = user.roles.map(role => role.name)
+
+    return data
+  })
 
   return (
     <Box sx={{ p: 5, pb: 3, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -48,7 +66,14 @@ const TableHeader = (props: TableHeaderProps) => {
           variant='outlined'
           startIcon={<Icon icon='mdi:export-variant' />}
         >
-          {t('role_page.user.export')}
+          <CSVLink
+            data={exportData}
+            filename={generateCsvFilename('users')}
+            style={{ textDecoration: 'none', color: theme.palette.text.secondary }}
+            target='_blank'
+          >
+            {t('role_page.user.export')}
+          </CSVLink>
         </Button>
         {ability?.can('create', 'user') && (
           <Button

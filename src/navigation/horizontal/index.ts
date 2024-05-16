@@ -9,16 +9,47 @@ const navigation = (): HorizontalNavItemsType => {
 
   return [
     {
+      path: `/${uniqueName}/dashboards`,
+      action: 'read',
+      subject: 'dashboard',
       title: 'navbar.dashboards_page.dashboards',
       icon: 'mdi:home-outline',
       badgeContent: 'new',
-      badgeColor: 'error',
+      badgeColor: 'error'
+    },
+    {
+      title: 'navbar.project_page.project',
+      icon: 'mdi:cube-outline',
       children: [
         {
           action: 'read',
-          subject: 'dashboard',
-          title: 'navbar.dashboards_page.analytics',
-          path: `/${uniqueName}/dashboards/analytics`
+          subject: 'project',
+          title: 'navbar.project_page.list',
+          path: `/${uniqueName}/projects/list`
+        },
+        {
+          action: 'create',
+          subject: 'project',
+          title: 'navbar.project_page.add',
+          path: `/${uniqueName}/projects/add`
+        }
+      ]
+    },
+    {
+      title: 'navbar.invoice_page.invoice',
+      icon: 'mdi:file-document-outline',
+      children: [
+        {
+          action: 'read',
+          subject: 'invoice',
+          title: 'navbar.invoice_page.list',
+          path: `/${uniqueName}/invoice/list`
+        },
+        {
+          action: 'create',
+          subject: 'invoice',
+          title: 'navbar.invoice_page.add',
+          path: `/${uniqueName}/invoice/add`
         }
       ]
     },
@@ -34,25 +65,31 @@ const navigation = (): HorizontalNavItemsType => {
       action: 'read',
       subject: 'user',
       title: 'navbar.user_page',
-      icon: 'mdi:account-outline'
+      icon: 'mdi:outline'
     },
     {
       action: 'read',
-      subject: 'account-settings',
-      title: 'navbar.account_settings_page.account_settings',
-      icon: 'mdi:account-cog-outline',
+      subject: 'settings',
+      title: 'navbar.settings_page.settings',
+      icon: 'mdi:cog-outline',
       children: [
         {
           action: 'read',
-          subject: 'account-settings',
-          title: 'navbar.account_settings_page.account',
-          path: `/${uniqueName}/account-settings/account`
+          subject: 'settings',
+          title: 'navbar.settings_page.account',
+          path: `/${uniqueName}/settings/account`
         },
         {
           action: 'read',
-          subject: 'account-settings',
-          title: 'navbar.account_settings_page.security',
-          path: `/${uniqueName}/account-settings/security`
+          subject: 'settings',
+          title: 'navbar.settings_page.security',
+          path: `/${uniqueName}/settings/security`
+        },
+        {
+          action: 'read',
+          subject: 'settings',
+          title: 'navbar.settings_page.organization',
+          path: `/${uniqueName}/settings/organization`
         }
       ]
     }

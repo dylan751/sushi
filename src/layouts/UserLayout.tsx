@@ -24,6 +24,7 @@ import HorizontalAppBarContent from './components/horizontal/AppBarContent'
 // ** Hook Import
 import { useSettings } from 'src/@core/hooks/useSettings'
 import { Box, Typography } from '@mui/material'
+import UserFooterContent from './footer/UserFooterContent'
 
 interface Props {
   children: ReactNode
@@ -101,6 +102,9 @@ const UserLayout = ({ children, contentHeightFixed }: Props) => {
           }
         }
       })}
+      footerProps={{
+        content: () => <UserFooterContent />
+      }}
     >
       {children}
     </Layout>
