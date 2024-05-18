@@ -21,4 +21,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
       - run: yarn install
-      - run: yarn build --if-present
+      - run: yarn build
+      - name: Change Directory
+        run: cd /home/duongnh/actions-runner/_work/sushi/sushi
+      - run: pm2 restart 0
