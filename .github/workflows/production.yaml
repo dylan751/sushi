@@ -22,5 +22,6 @@ jobs:
           cache: 'yarn'
       - run: yarn install
       - run: yarn build
-      - run: cd /home/duongnh/actions-runner/_work/sushi/sushi
+      - name: Change Directory
+        run: cd /home/duongnh/actions-runner/_work/sushi/sushi
       - run: pm2 restart 0
