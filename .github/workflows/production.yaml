@@ -24,4 +24,4 @@ jobs:
       - run: yarn build
       - name: Change Directory
         run: cd /home/duongnh/actions-runner/_work/sushi/sushi
-      - run: pm2 restart 0
+      - run: pm2 restart sushi
