@@ -1,0 +1,48 @@
+name: Sushi CI
+
+on:
+  push:
+    branches: ['develop']
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    # env:
+    # NEXT_PUBLIC_FRONTEND_ENDPOINT: ${{secrets.NEXT_PUBLIC_FRONTEND_ENDPOINT}}
+    # NEXT_PUBLIC_API_ENDPOINT: ${{secrets.NEXT_PUBLIC_API_ENDPOINT}}
+    # GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
+    # GOOGLE_CLIENT_SECRET: ${{secrets.GOOGLE_CLIENT_SECRET}}
+    # NEXTAUTH_URL: ${{secrets.NEXTAUTH_URL}}
+    # NEXTAUTH_SECRET: ${{secrets.NEXTAUTH_SECRET}}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+      - id: node-modules-cache
+        name: Node modules cache
+        uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-modules-
+
+      - name: Install 🔧
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: yarn install
+
+      - name: Lint 🧐
+        run: yarn lint
+
+      - name: Build 🏗️
+        run: yarn build
