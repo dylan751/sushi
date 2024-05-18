@@ -1,4 +1,4 @@
-name: Sushi CI
+name: Sushi Production CI/CD
 
 on:
   push:
