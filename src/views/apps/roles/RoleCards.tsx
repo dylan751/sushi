@@ -236,7 +236,7 @@ const RolesCards = () => {
                   variant='body2'
                   component={Link}
                   sx={{ color: 'primary.main', textDecoration: 'none' }}
-                  onClick={e => {
+                  onClick={(e: any) => {
                     e.preventDefault()
                     handleClickOpenEdit(item.id)
                     setDialogTitle(t('role_page.role.edit'))

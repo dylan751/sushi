@@ -61,7 +61,7 @@ const TwoFactorAuthenticationCard = () => {
             <Box
               href='/'
               component={'a'}
-              onClick={e => e.preventDefault()}
+              onClick={(e: any) => e.preventDefault()}
               sx={{ textDecoration: 'none', color: 'primary.main' }}
             >
               Learn more.
