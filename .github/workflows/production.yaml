@@ -13,14 +13,6 @@ jobs:
         node-version: [20.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
-    env:
-      NEXT_PUBLIC_API_ENDPOINT: ${{secrets.NEXT_PUBLIC_API_ENDPOINT}}
-      NEXT_PUBLIC_FRONTEND_ENDPOINT: ${{secrets.NEXT_PUBLIC_FRONTEND_ENDPOINT}}
-      GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
-      GOOGLE_CLIENT_SECRET: ${{secrets.GOOGLE_CLIENT_SECRET}}
-      NEXTAUTH_URL: ${{secrets.NEXTAUTH_URL}}
-      NEXTAUTH_SECRET: ${{secrets.NEXTAUTH_SECRET}}
-
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
@@ -36,6 +28,18 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-modules-
+
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo NEXT_PUBLIC_API_ENDPOINT=${{ secrets.NEXT_PUBLIC_API_ENDPOINT }} >> .env
+          echo NEXT_PUBLIC_FRONTEND_ENDPOINT=${{ secrets.NEXT_PUBLIC_FRONTEND_ENDPOINT }} >> .env
+          echo GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} >> .env
+          echo GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} >> .env
+          echo NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }} >> .env
+          echo NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} >> .env
+          cat .env
+
       - name: Install 🔧
         if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: yarn install
@@ -46,6 +50,6 @@ jobs:
       - name: Build 🏗️
         run: yarn build
 
-      # - name: Change Directory
-      #   run: cd /home/duongnh/sushi/actions-runner/_work/sushi/sushi
-      # - run: pm2 restart sushi
+      - name: Change Directory
+        run: cd /home/duongnh/sushi-ci/actions-runner/_work/sushi/sushi
+      - run: pm2 restart sushi
