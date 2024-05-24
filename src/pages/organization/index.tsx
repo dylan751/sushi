@@ -23,7 +23,7 @@ import {
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-// ** Types
+// ** Types Imports
 import { CaslPermission, OrganizationProfileResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Third Party Imports
