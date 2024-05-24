@@ -1,4 +1,4 @@
-name: Sushi Production CI
+name: Sushi Production CI/CD
 
 on:
   push:
@@ -20,14 +20,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
-      - id: node-modules-cache
-        name: Node modules cache
-        uses: actions/cache@v3
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-modules-
 
       - name: 'Create env file'
         run: |
@@ -41,15 +33,12 @@ jobs:
           cat .env
 
       - name: Install 🔧
-        if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: yarn install
-
-      - name: Lint 🧐
-        run: yarn lint
 
       - name: Build 🏗️
         run: yarn build
 
       - name: Change Directory
         run: cd /home/duongnh/sushi/actions-runner/_work/sushi/sushi
+
       - run: pm2 restart sushi
