@@ -25,6 +25,7 @@ import HorizontalAppBarContent from './components/horizontal/AppBarContent'
 import { useSettings } from 'src/@core/hooks/useSettings'
 import { Box, Typography } from '@mui/material'
 import UserFooterContent from './footer/UserFooterContent'
+import { useCurrentOrganization } from 'src/hooks'
 
 interface Props {
   children: ReactNode
@@ -34,6 +35,7 @@ interface Props {
 const UserLayout = ({ children, contentHeightFixed }: Props) => {
   // ** Hooks
   const { settings, saveSettings } = useSettings()
+  const { organization } = useCurrentOrganization()
 
   // ** Vars for server side navigation
   // const { menuItems: verticalMenuItems } = ServerSideVerticalNavItems()
@@ -58,7 +60,7 @@ const UserLayout = ({ children, contentHeightFixed }: Props) => {
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <img src='/images/pages/tree.png' alt='logo' width='30' height='30' />
         <Typography variant='h6' sx={{ ml: 2 }}>
-          Accountify
+          {organization.name}
         </Typography>
       </Box>
     )
