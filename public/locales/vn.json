@@ -17,6 +17,7 @@
             "add": "Thêm"
         },
         "user_page": "Trang người dùng",
+        "exchange_rates": "Tỷ giá hối đoái",
         "settings_page": {
             "settings": "Cài đặt tài khoản",
             "account": "Tài khoản",
@@ -376,6 +377,14 @@
         "default_role": "Vai trò mặc định",
         "custom_role_optional": "Vai trò tùy chỉnh (Tùy chọn)"
     },
+    "exchange_rates": {
+        "title": "Tỷ giá hối đoái",
+        "bidv_bank": "Ngân hàng BIDV",
+        "currency": "Tiền tệ",
+        "buy_tm": "Mua TM",
+        "buy_ck": "Mua CK",
+        "sell": "Bán"
+    },
     "settings_page": {
         "title": "Cài đặt tài khoản",
         "account": {
@@ -411,7 +420,16 @@
             "information_settings": "Cài đặt thông tin",
             "organization_name": "Tên tổ chức",
             "phone_number": "Số điện thoại",
-            "organization_address": "Địa chỉ tổ chức"
+            "organization_address": "Địa chỉ tổ chức",
+            "delete_organization": "Xóa tổ chức",
+            "deactivate_organization": "Vô hiệu hóa tổ chức",
+            "organization_deactivation_checkbox": "Xác nhận vô hiệu hóa tổ chức",
+            "organization_deactivation_warning": "Vui lòng xác nhận rằng bạn muốn xóa tổ chức của mình",
+            "organization_deactivation_confirm": "Bạn có chắc chắn muốn hủy đăng ký của mình không?",
+            "organization_deactivation_success": "Đăng ký đã được hủy thành công.",
+            "organization_deactivation_fail": "Đăng ký của bạn đã bị hủy!!",
+            "deleted": "Đã bị xóa",
+            "cancelled": "Đã bị hủy"
         }
     }
 }

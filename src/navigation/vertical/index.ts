@@ -68,6 +68,13 @@ const navigation = (): VerticalNavItemsType => {
       icon: 'mdi:account-outline'
     },
     {
+      path: `/${uniqueName}/exchange-rates`,
+      action: 'read',
+      subject: 'settings',
+      title: 'navbar.exchange_rates',
+      icon: 'mdi:exchange'
+    },
+    {
       action: 'read',
       subject: 'settings',
       title: 'navbar.settings_page.settings',
