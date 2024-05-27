@@ -17,6 +17,7 @@
             "add": "Add"
         },
         "user_page": "User Page",
+        "exchange_rates": "Exchange Rates",
         "settings_page": {
             "settings": "Settings",
             "account": "Account",
@@ -375,6 +376,14 @@
         "add_user": "Add User",
         "default_role": "Default Role",
         "custom_role_optional": "Custom Role (Optional)"
+    },
+    "exchange_rates": {
+        "title": "Exchange Rates",
+        "bidv_bank": "BIDV Bank",
+        "currency": "Currency",
+        "buy_tm": "Buy TM",
+        "buy_ck": "Buy CK",
+        "sell": "Sell"
     },
     "settings_page": {
         "title": "Settings",

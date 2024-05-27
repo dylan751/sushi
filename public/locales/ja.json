@@ -17,6 +17,7 @@
             "add": "追加"
         },
         "user_page": "ユーザーページ",
+        "exchange_rates": "為替レート",
         "settings_page": {
             "settings": "アカウント設定",
             "account": "アカウント",
@@ -375,6 +376,14 @@
         "add_user": "ユーザーの追加",
         "default_role": "デフォルトのロール",
         "custom_role_optional": "カスタムロール (オプション)"
+    },
+    "exchange_rates": {
+        "title": "為替レート",
+        "bidv_bank": "BIDV銀行",
+        "currency": "通貨",
+        "buy_tm": "TM買う",
+        "buy_ck": "CK買う",
+        "sell": "売る"
     },
     "settings_page": {
         "title": "アカウント設定",

@@ -17,6 +17,7 @@
             "add": "Thêm"
         },
         "user_page": "Trang người dùng",
+        "exchange_rates": "Tỷ giá hối đoái",
         "settings_page": {
             "settings": "Cài đặt tài khoản",
             "account": "Tài khoản",
@@ -375,6 +376,14 @@
         "add_user": "Thêm người dùng",
         "default_role": "Vai trò mặc định",
         "custom_role_optional": "Vai trò tùy chỉnh (Tùy chọn)"
+    },
+    "exchange_rates": {
+        "title": "Tỷ giá hối đoái",
+        "bidv_bank": "Ngân hàng BIDV",
+        "currency": "Tiền tệ",
+        "buy_tm": "Mua TM",
+        "buy_ck": "Mua CK",
+        "sell": "Bán"
     },
     "settings_page": {
         "title": "Cài đặt tài khoản",
