@@ -411,7 +411,16 @@
             "information_settings": "情報設定",
             "organization_name": "会社名",
             "phone_number": "電話番号",
-            "organization_address": "会社の住所"
+            "organization_address": "会社の住所",
+            "delete_organization": "組織の削除",
+            "deactivate_organization": "組織の無効化",
+            "organization_deactivation_checkbox": "組織の無効化を確認します",
+            "organization_deactivation_warning": "組織を削除することを確認してください",
+            "organization_deactivation_confirm": "サブスクリプションをキャンセルしてもよろしいですか?",
+            "organization_deactivation_success": "サブスクリプションは成功にキャンセルされました。",
+            "organization_deactivation_fail": "サブスクリプションがキャンセルされました!!",
+            "deleted": "削除されました",
+            "cancelled": "キャンセルされました"
         }
     }
 }

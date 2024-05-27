@@ -411,7 +411,16 @@
             "information_settings": "Information Settings",
             "organization_name": "Organization Name",
             "phone_number": "Phone Number",
-            "organization_address": "Organization Address"
+            "organization_address": "Organization Address",
+            "delete_organization": "Delete Organization",
+            "deactivate_organization": "Deactivate Organization",
+            "organization_deactivation_checkbox": "I confirm my organization deactivation",
+            "organization_deactivation_warning": "Please confirm you want to delete organization",
+            "organization_deactivation_confirm": "Are you sure you would like to cancel your subscription?",
+            "organization_deactivation_success": "Your subscription cancelled successfully.",
+            "organization_deactivation_fail": "Unsubscription Cancelled!!",
+            "deleted": "Deleted",
+            "cancelled": "Cancelled"
         }
     }
 }

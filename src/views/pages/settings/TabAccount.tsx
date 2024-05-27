@@ -5,26 +5,18 @@ import { useState, ElementType, ChangeEvent } from 'react'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
-import Dialog from '@mui/material/Dialog'
 import { styled } from '@mui/material/styles'
-import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import CardHeader from '@mui/material/CardHeader'
-import FormControl from '@mui/material/FormControl'
 import CardContent from '@mui/material/CardContent'
-import DialogContent from '@mui/material/DialogContent'
-import DialogActions from '@mui/material/DialogActions'
-import FormHelperText from '@mui/material/FormHelperText'
 import InputAdornment from '@mui/material/InputAdornment'
 import Button, { ButtonProps } from '@mui/material/Button'
-import FormControlLabel from '@mui/material/FormControlLabel'
 
 // ** Third Party Imports
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
 // ** Icon Imports
-import Icon from 'src/@core/components/icon'
 import { updateProfile } from 'src/store/auth/profile'
 
 // ** Store Imports
@@ -33,9 +25,6 @@ import { AppDispatch, RootState } from 'src/store'
 
 // ** Type Imports
 import { UpdateProfileRequestDto } from 'src/__generated__/AccountifyAPI'
-
-// ** Third Party Imports
-import { useTranslation } from 'react-i18next'
 
 type FormDataType = UpdateProfileRequestDto & { email: string }
 
@@ -77,34 +66,17 @@ const TabAccount = () => {
   }
 
   // ** State
-  const [open, setOpen] = useState<boolean>(false)
   const [inputValue, setInputValue] = useState<string>('')
-  const [userInput, setUserInput] = useState<string>('yes')
   const [formData, setFormData] = useState<FormDataType>(initialData)
   const [imgSrc, setImgSrc] = useState<string>(store.data.avatar || '/images/avatars/1.png')
-  const [secondDialogOpen, setSecondDialogOpen] = useState<boolean>(false)
 
   // ** Hooks
   const {
-    control,
-    handleSubmit,
-    formState: { errors }
+    formState: {}
   } = useForm({ defaultValues: { checkbox: false } })
-
-  const handleClose = () => setOpen(false)
-
-  const handleSecondDialogClose = () => setSecondDialogOpen(false)
 
   const onUpdateAccount = () => {
     dispatch(updateProfile(formData))
-  }
-
-  const onDeleteAccount = () => setOpen(true)
-
-  const handleConfirmation = (value: string) => {
-    handleClose()
-    setUserInput(value)
-    setSecondDialogOpen(true)
   }
 
   const handleInputImageChange = (file: ChangeEvent) => {
@@ -216,132 +188,6 @@ const TabAccount = () => {
           </form>
         </Card>
       </Grid>
-
-      {/* Delete Account Card */}
-      <Grid item xs={12}>
-        <Card>
-          <CardHeader title={t('settings_page.account.delete_account')} />
-          <CardContent>
-            <form onSubmit={handleSubmit(onDeleteAccount)}>
-              <Box sx={{ mb: 4 }}>
-                <FormControl>
-                  <Controller
-                    name='checkbox'
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <FormControlLabel
-                        label={t('settings_page.account.account_deactivation_checkbox')}
-                        sx={errors.checkbox ? { '& .MuiTypography-root': { color: 'error.main' } } : null}
-                        control={
-                          <Checkbox
-                            {...field}
-                            size='small'
-                            name='validation-basic-checkbox'
-                            sx={errors.checkbox ? { color: 'error.main' } : null}
-                          />
-                        }
-                      />
-                    )}
-                  />
-                  {errors.checkbox && (
-                    <FormHelperText sx={{ color: 'error.main' }} id='validation-basic-checkbox'>
-                      {t('settings_page.account.account_deactivation_warning')}
-                    </FormHelperText>
-                  )}
-                </FormControl>
-              </Box>
-              <Button variant='contained' color='error' type='submit' disabled={errors.checkbox !== undefined}>
-                {t('settings_page.account.deactivate_account')}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
-      </Grid>
-
-      {/* Deactivate Account Dialogs */}
-      <Dialog fullWidth maxWidth='xs' open={open} onClose={handleClose}>
-        <DialogContent
-          sx={{
-            pb: theme => `${theme.spacing(6)} !important`,
-            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-            pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              textAlign: 'center',
-              alignItems: 'center',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              '& svg': { mb: 6, color: 'warning.main' }
-            }}
-          >
-            <Icon icon='mdi:alert-circle-outline' fontSize='5.5rem' />
-            <Typography>{t('settings_page.account.account_deactivation_confirm')}</Typography>
-          </Box>
-        </DialogContent>
-        <DialogActions
-          sx={{
-            justifyContent: 'center',
-            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-            pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
-          }}
-        >
-          <Button variant='contained' sx={{ mr: 2 }} onClick={() => handleConfirmation('yes')}>
-            {t('button.yes')}
-          </Button>
-          <Button variant='outlined' color='secondary' onClick={() => handleConfirmation('cancel')}>
-            {t('button.cancel')}
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Dialog fullWidth maxWidth='xs' open={secondDialogOpen} onClose={handleSecondDialogClose}>
-        <DialogContent
-          sx={{
-            pb: theme => `${theme.spacing(6)} !important`,
-            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-            pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              flexDirection: 'column',
-              '& svg': {
-                mb: 8,
-                color: userInput === 'yes' ? 'success.main' : 'error.main'
-              }
-            }}
-          >
-            <Icon
-              fontSize='5.5rem'
-              icon={userInput === 'yes' ? 'mdi:check-circle-outline' : 'mdi:close-circle-outline'}
-            />
-            <Typography variant='h4' sx={{ mb: 5 }}>
-              {userInput === 'yes' ? t('settings_page.account.deleted') : t('settings_page.account.cancelled')}
-            </Typography>
-            <Typography>
-              {userInput === 'yes'
-                ? t('settings_page.account.account_deactivation_success')
-                : t('settings_page.account.account_deactivation_fail')}
-            </Typography>
-          </Box>
-        </DialogContent>
-        <DialogActions
-          sx={{
-            justifyContent: 'center',
-            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-            pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
-          }}
-        >
-          <Button variant='contained' color='success' onClick={handleSecondDialogClose}>
-            {t('button.ok')}
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Grid>
   )
 }
