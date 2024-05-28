@@ -38,7 +38,7 @@ jobs:
       - name: Build 🏗️
         run: yarn build
 
-      # - name: Change Directory
-      #   run: cd /home/duongnh/sushi/actions-runner/_work/sushi/sushi
+      - name: Change Directory
+        run: cd /home/duongnh/sushi/actions-runner/_work/sushi/sushi
 
-      # - run: pm2 restart sushi
+      - run: pm2 restart sushi
