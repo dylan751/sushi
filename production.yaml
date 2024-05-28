@@ -1,0 +1,44 @@
+name: Sushi Production CI/CD
+
+on:
+  push:
+    branches: ['develop']
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo NEXT_PUBLIC_API_ENDPOINT=${{ secrets.NEXT_PUBLIC_API_ENDPOINT }} >> .env
+          echo NEXT_PUBLIC_FRONTEND_ENDPOINT=${{ secrets.NEXT_PUBLIC_FRONTEND_ENDPOINT }} >> .env
+          echo GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} >> .env
+          echo GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} >> .env
+          echo NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }} >> .env
+          echo NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} >> .env
+          cat .env
+
+      - name: Install 🔧
+        run: yarn install
+
+      - name: Build 🏗️
+        run: yarn build
+
+      - name: Change Directory
+        run: cd /home/duongnh/sushi/actions-runner/_work/sushi/sushi
+
+      - run: pm2 restart sushi
