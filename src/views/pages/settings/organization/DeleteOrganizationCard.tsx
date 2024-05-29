@@ -2,7 +2,7 @@
 import { useRouter } from 'next/router'
 
 // ** React Imports
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -36,6 +36,9 @@ import { deleteOrganization } from 'src/store/apps/organization'
 import { useCurrentOrganization } from 'src/hooks'
 import { signOut } from 'next-auth/react'
 
+// ** Context Imports
+import { AbilityContext } from 'src/layouts/components/acl/Can'
+
 const DeleteOrganizationCard = () => {
   // ** State
   const [open, setOpen] = useState<boolean>(false)
@@ -44,6 +47,7 @@ const DeleteOrganizationCard = () => {
 
   // ** Hooks
   const { t } = useTranslation()
+  const ability = useContext(AbilityContext)
   const router = useRouter()
   const { organizationId } = useCurrentOrganization()
   const dispatch = useDispatch<AppDispatch>()
@@ -114,7 +118,12 @@ const DeleteOrganizationCard = () => {
                   )}
                 </FormControl>
               </Box>
-              <Button variant='contained' color='error' type='submit' disabled={errors.checkbox !== undefined}>
+              <Button
+                variant='contained'
+                color='error'
+                type='submit'
+                disabled={errors.checkbox !== undefined || !ability?.can('delete', 'organization')}
+              >
                 {t('settings_page.organization.deactivate_organization')}
               </Button>
             </form>
