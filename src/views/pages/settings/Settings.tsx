@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactElement, useState, useEffect, SyntheticEvent } from 'react'
+import { ReactElement, useState, useEffect, SyntheticEvent, useContext } from 'react'
 
 // ** Next Import
 import { useRouter } from 'next/router'
@@ -30,6 +30,9 @@ import { getOrgUniqueName } from 'src/utils/organization'
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
 
+// ** Context Imports
+import { AbilityContext } from 'src/layouts/components/acl/Can'
+
 const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
   '& .MuiTabs-indicator': {
     display: 'none'
@@ -56,6 +59,7 @@ const Settings = ({ tab }: { tab: string }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   // ** Hooks
+  const ability = useContext(AbilityContext)
   const { t } = useTranslation()
   const router = useRouter()
   const hideText = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
@@ -108,15 +112,17 @@ const Settings = ({ tab }: { tab: string }) => {
                     </Box>
                   }
                 />
-                <Tab
-                  value='organization'
-                  label={
-                    <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
-                      <Icon icon='mdi:office-building-outline' />
-                      {!hideText && t('settings_page.organization.title')}
-                    </Box>
-                  }
-                />
+                {ability?.can('read', 'organization') && (
+                  <Tab
+                    value='organization'
+                    label={
+                      <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
+                        <Icon icon='mdi:office-building-outline' />
+                        {!hideText && t('settings_page.organization.title')}
+                      </Box>
+                    }
+                  />
+                )}
               </TabList>
             </Grid>
             <Grid item xs={12} sx={{ pt: theme => `${theme.spacing(4)} !important` }}>
