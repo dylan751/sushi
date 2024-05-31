@@ -5,6 +5,7 @@ import { useState, SyntheticEvent, Fragment, ReactNode } from 'react'
 import Box from '@mui/material/Box'
 import Badge from '@mui/material/Badge'
 import Button from '@mui/material/Button'
+import Tooltip from '@mui/material/Tooltip'
 import IconButton from '@mui/material/IconButton'
 import { styled, Theme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
@@ -204,7 +205,9 @@ const NotificationDropdown = (props: Props) => {
                 <RenderAvatar notification={notification} />
                 <Box sx={{ mx: 4, flex: '1 1', display: 'flex', overflow: 'hidden', flexDirection: 'column' }}>
                   <MenuItemTitle>{notification.title}</MenuItemTitle>
-                  <MenuItemSubtitle variant='body2'>{notification.subtitle}</MenuItemSubtitle>
+                  <Tooltip title={notification.subtitle} placement='top'>
+                    <MenuItemSubtitle variant='body2'>{notification.subtitle}</MenuItemSubtitle>
+                  </Tooltip>
                 </Box>
                 <Typography variant='caption' sx={{ color: 'text.disabled' }}>
                   {notification.meta}

@@ -24,7 +24,7 @@ export const calculateInvoiceTotal = (
   tax: string
 ): number => {
   // We have to use any[] here since Union type with .reduce() makes `yarn build` error
-  let total = (items as any[]).reduce((accumulator, currentValue) => {
+  let total = (items as any[])?.reduce((accumulator, currentValue) => {
     if (currentValue.price && currentValue.quantity) {
       return accumulator + currentValue.price * currentValue.quantity
     } else {
