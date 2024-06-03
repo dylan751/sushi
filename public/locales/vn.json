@@ -177,7 +177,9 @@
             "end_date": "Ngày kết thúc",
             "delete_project": "Xoá dự án",
             "view": "Xem",
-            "edit_project": "Cập nhật dự án"
+            "edit_project": "Cập nhật dự án",
+            "remove_user_dialog_title": "Xác nhận xóa dự án",
+            "remove_user_dialog_subtitle": "Hành động này sẽ xóa vĩnh viễn dự án này"
         },
         "add": {
             "create_project": "Tạo một dự án mới",
