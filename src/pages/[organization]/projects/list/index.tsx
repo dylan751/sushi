@@ -119,7 +119,7 @@ const Projects = () => {
   const [searchValue, setSearchValue] = useState<string>('')
   const [endDateRange, setEndDateRange] = useState<DateType>(null)
   const [startDateRange, setStartDateRange] = useState<DateType>(null)
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 25 })
 
   const [showDialogDeleteProject, setShowDialogDeleteProject] = useState<boolean>(false)
   const [selectedProject, setSelectedProject] = useState<ProjectResponseDto | null>(null)
@@ -331,7 +331,7 @@ const Projects = () => {
               rows={store.projects}
               columns={columns}
               disableRowSelectionOnClick
-              pageSizeOptions={[10, 25, 50]}
+              pageSizeOptions={[25, 50, 100]}
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
             />

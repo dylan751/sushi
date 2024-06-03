@@ -133,7 +133,7 @@ const InvoiceList = () => {
   const [status, setStatus] = useState<string>('')
   const [endDateRange, setEndDateRange] = useState<DateType>(null)
   const [startDateRange, setStartDateRange] = useState<DateType>(null)
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 25 })
 
   // ** Hooks
   const { organizationId } = useCurrentOrganization()
@@ -433,7 +433,7 @@ const InvoiceList = () => {
               rows={invoiceStore.invoices}
               columns={columns}
               disableRowSelectionOnClick
-              pageSizeOptions={[10, 25, 50]}
+              pageSizeOptions={[25, 50, 100]}
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
             />

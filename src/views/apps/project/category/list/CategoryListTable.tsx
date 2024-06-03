@@ -64,7 +64,7 @@ const CategoryListTable = ({ projectId }: CategoryTabProps) => {
   const [addCategoryOpen, setAddCategoryOpen] = useState<boolean>(false)
   const [updateCategoryOpen, setUpdateCategoryOpen] = useState<boolean>(false)
   const [selectedCategory, setSelectedCategory] = useState<CategoryResponseDto | null>(null)
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 25 })
 
   // ** Hooks
   const { t } = useTranslation()
@@ -245,7 +245,7 @@ const CategoryListTable = ({ projectId }: CategoryTabProps) => {
             rows={categoryStore.categories}
             columns={columns}
             disableRowSelectionOnClick
-            pageSizeOptions={[10, 25, 50]}
+            pageSizeOptions={[25, 50, 100]}
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}
           />

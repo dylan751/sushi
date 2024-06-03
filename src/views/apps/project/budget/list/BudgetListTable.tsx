@@ -59,7 +59,7 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
   const [addBudgetOpen, setAddBudgetOpen] = useState<boolean>(false)
   const [updateBudgetOpen, setUpdateBudgetOpen] = useState<boolean>(false)
   const [selectedBudget, setSelectedBudget] = useState<BudgetResponseDto | null>(null)
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 25 })
 
   // ** Hooks
   const { organizationId } = useCurrentOrganization()
@@ -242,7 +242,7 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
             rows={budgetStore.budgets}
             columns={columns}
             disableRowSelectionOnClick
-            pageSizeOptions={[7, 10, 25, 50]}
+            pageSizeOptions={[25, 50, 100]}
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}
           />

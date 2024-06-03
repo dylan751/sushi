@@ -166,7 +166,7 @@ const UserPage = () => {
   const [role, setRole] = useState<string>('')
   const [value, setValue] = useState<string>('')
   const [addUserOpen, setAddUserOpen] = useState<boolean>(false)
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 25 })
   const [isSelectAdmin, setIsSelectAdmin] = useState(false)
 
   // ** Hooks
@@ -367,7 +367,7 @@ const UserPage = () => {
             rows={userStore.users}
             columns={columns}
             disableRowSelectionOnClick
-            pageSizeOptions={[10, 25, 50]}
+            pageSizeOptions={[25, 50, 100]}
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}
           />
