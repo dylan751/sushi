@@ -180,7 +180,9 @@
             "end_date": "Deadline",
             "delete_project": "Delete Project",
             "view": "View",
-            "edit_project": "Edit Project"
+            "edit_project": "Edit Project",
+            "remove_project_dialog_title": "Remove Project Confirmation",
+            "remove_project_dialog_subtitle": "This will permanently remove this project"
         },
         "add": {
             "create_project": "Create A New Project",
