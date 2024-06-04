@@ -178,8 +178,8 @@
             "delete_project": "Xoá dự án",
             "view": "Xem",
             "edit_project": "Cập nhật dự án",
-            "remove_user_dialog_title": "Xác nhận xóa dự án",
-            "remove_user_dialog_subtitle": "Hành động này sẽ xóa vĩnh viễn dự án này"
+            "remove_project_dialog_title": "Xác nhận xóa dự án",
+            "remove_project_dialog_subtitle": "Hành động này sẽ xóa vĩnh viễn dự án này"
         },
         "add": {
             "create_project": "Tạo một dự án mới",
@@ -272,7 +272,9 @@
             "view": "Xem",
             "download": "Tải xuống",
             "edit": "Cập nhật",
-            "duplicate": "Sao chép"
+            "duplicate": "Sao chép",
+            "remove_invoice_dialog_title": "Xác nhận xóa hoá đơn",
+            "remove_invoice_dialog_subtitle": "Hành động này sẽ xóa vĩnh viễn hoá đơn này"
         },
         "add": {
             "invoice": "Hoá đơn",
