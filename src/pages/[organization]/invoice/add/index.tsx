@@ -67,6 +67,7 @@ const InvoiceAdd = () => {
   const [projectId, setProjectId] = useState<string>('')
   const [categoryId, setCategoryId] = useState<string>('')
   const [clientName, setClientName] = useState<string>('')
+  const [uid, setUid] = useState<string>('')
   const [tax, setTax] = useState<string>('')
   const [exchangeRate, setExchangeRate] = useState<string>('')
   const [formData, setFormData] = useState<CreateInvoiceFormData[]>([initialFormData])
@@ -91,7 +92,7 @@ const InvoiceAdd = () => {
       }
     })
 
-    if (!projectId || !clientName || (currency === CurrencyType.VND && !exchangeRate)) {
+    if (!projectId || !clientName || !uid || (currency === CurrencyType.VND && !exchangeRate)) {
       isDisabled = true
     }
 
@@ -110,7 +111,7 @@ const InvoiceAdd = () => {
       }
     })
 
-    if (!projectId || !clientName) {
+    if (!projectId || !clientName || !uid) {
       isError = true
     }
 
@@ -131,6 +132,7 @@ const InvoiceAdd = () => {
       currency,
       clientName,
       categoryId: parseInt(categoryId),
+      uid,
       tax: parseInt(tax),
       exchangeRate: parseInt(exchangeRate)
     }
@@ -163,6 +165,8 @@ const InvoiceAdd = () => {
             setCategoryId={setCategoryId}
             clientName={clientName}
             setClientName={setClientName}
+            uid={uid}
+            setUid={setUid}
             tax={tax}
             setTax={setTax}
             exchangeRate={exchangeRate}
