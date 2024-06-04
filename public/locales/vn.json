@@ -76,11 +76,13 @@
     "dashboard_page": {
         "welcome": "Chào mừng",
         "welcome_message": "Trang web kế toán tất-cả-trong-một dành cho bạn.",
+        "good": "Tốt",
         "start_with": "Bắt đầu với việc",
         "create_project": "Tạo dự án đầu tiên 🤩.",
         "income": "Thu",
         "expense": "Chi tiêu",
         "total_profit": "Tổng lợi nhuận",
+        "total_profit_subheader": "Số dư hiện tại",
         "total_income": "Tổng thu",
         "total_expense": "Tổng chi tiêu",
         "view_invoices": "Danh sách hoá đơn",
@@ -172,7 +174,7 @@
             "client": "Khách hàng",
             "name": "Tên",
             "description": "Mô tả",
-            "total_budget": "Tổng định mức",
+            "total_budget": "Tổng ngân sách",
             "start_date": "Ngày bắt đầu",
             "end_date": "Ngày kết thúc",
             "delete_project": "Xoá dự án",
@@ -185,14 +187,14 @@
             "create_project": "Tạo một dự án mới",
             "project_name": "Tên dự án",
             "description": "Mô tả",
-            "total_budget": "Tổng định mức",
+            "total_budget": "Tổng ngân sách",
             "project_date": "Thời gian dự án"
         },
         "edit": {
             "update_project": "Cập nhật một dự án",
             "project_name": "Tên dự án",
             "description": "Mô tả",
-            "total_budget": "Tổng định mức",
+            "total_budget": "Tổng ngân sách",
             "project_date": "Thời gian dự án"
         },
         "dashboard": {

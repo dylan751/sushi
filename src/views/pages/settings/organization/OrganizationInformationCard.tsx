@@ -129,12 +129,6 @@ const OrganizationAddressCard = () => {
                 {errors.address && <FormHelperText sx={{ color: 'error.main' }}>This field is required</FormHelperText>}
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label='TAX ID' placeholder='Enter TAX ID' />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label='VAT Number' placeholder='Enter VAT Number' />
-            </Grid>
             <Grid item xs={12}>
               <Button
                 type='submit'
