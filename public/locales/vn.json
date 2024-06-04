@@ -259,6 +259,7 @@
             "note": "Ghi chú",
             "total": "Thành tiền",
             "date": "Thời gian",
+            "search_uid": "Tìm kiếm UID",
             "project": "Dự án",
             "status": "Trạng thái",
             "all_statuses": "Tất cả trạng thái",

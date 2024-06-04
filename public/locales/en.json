@@ -262,6 +262,7 @@
             "note": "Note",
             "total": "Total",
             "date": "Date",
+            "search_uid": "Seach UID",
             "project": "Project",
             "status": "Status",
             "all_statuses": "All Statuses",

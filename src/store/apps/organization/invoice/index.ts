@@ -18,6 +18,7 @@ import toast from 'react-hot-toast'
 interface DataParams {
   fromDate?: string
   toDate?: string
+  uid?: string
   type?: string
   projectId?: number
   status?: string

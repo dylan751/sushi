@@ -131,6 +131,7 @@ export interface InvoiceTabProps {
 const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
   // ** State
   const [dates, setDates] = useState<Date[]>([])
+  const [uid, setUid] = useState<string>('')
   const [type, setType] = useState<InvoiceType | ''>('')
   const [categoryId, setCategoryId] = useState<string>('')
   const [status, setStatus] = useState<string>('')
@@ -152,6 +153,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
       projectId: parseInt(projectId),
       fromDate: dates[0]?.toString(),
       toDate: dates[1]?.toString(),
+      uid,
       type,
       status
     }
@@ -159,7 +161,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
       fetchInvoiceParams.categoryId = categoryId
     }
     dispatch(fetchInvoiceForProject(fetchInvoiceParams))
-  }, [dispatch, dates, type, status, categoryId, organizationId, projectId])
+  }, [dispatch, dates, uid, type, status, categoryId, organizationId, projectId])
 
   useEffect(() => {
     if (ability?.can('read', 'category')) {
@@ -174,6 +176,10 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
     }
     setStartDateRange(start)
     setEndDateRange(end)
+  }
+
+  const handleOnChangeUid = (value: string) => {
+    setUid(value)
   }
 
   const handleOnChangeType = (value: InvoiceType | '') => {
@@ -338,7 +344,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
             <CardHeader title={t('invoice_page.list.filters')} />
             <CardContent>
               <Grid container spacing={6}>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={2.4}>
                   <DatePicker
                     isClearable
                     selectsRange
@@ -360,9 +366,19 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={2.4}>
                   <FormControl fullWidth>
-                    <InputLabel id='invoice-status-select'>{t('invoice_page.list.invoice_type')}</InputLabel>
+                    <TextField
+                      fullWidth
+                      value={uid}
+                      onChange={e => handleOnChangeUid(e.target.value)}
+                      label={t('invoice_page.list.search_uid')}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={2.4}>
+                  <FormControl fullWidth>
+                    <InputLabel id='invoice-type-select'>{t('invoice_page.list.invoice_type')}</InputLabel>
 
                     <Select
                       fullWidth
@@ -370,7 +386,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
                       sx={{ mr: 4, mb: 2 }}
                       label='Invoice Status'
                       onChange={e => handleOnChangeType(e.target.value as InvoiceType | '')}
-                      labelId='invoice-status-select'
+                      labelId='invoice-type-select'
                     >
                       <MenuItem value=''>All Types</MenuItem>
                       <MenuItem value={InvoiceType.EXPENSE}>
@@ -382,7 +398,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={2.4}>
                   <FormControl fullWidth>
                     <InputLabel id='invoice-category-select'>{t('invoice_page.list.category')}</InputLabel>
 
@@ -403,7 +419,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={2.4}>
                   <FormControl fullWidth>
                     <InputLabel id='invoice-status-select'>{t('invoice_page.list.status')}</InputLabel>
                     <Select
