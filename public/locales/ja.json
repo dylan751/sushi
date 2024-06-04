@@ -181,8 +181,8 @@
             "delete_project": "プロジェクトの削除",
             "view": "ビュー",
             "edit_project": "プロジェクトの編集",
-            "remove_user_dialog_title": "プロジェクト削除の確​​認",
-            "remove_user_dialog_subtitle": "これにより、このプロジェクトは完全に削除されます"
+            "remove_project_dialog_title": "プロジェクト削除の確​​認",
+            "remove_project_dialog_subtitle": "これにより、このプロジェクトは完全に削除されます"
         },
         "add": {
             "create_project": "新しいプロジェクトを作成する",
@@ -275,7 +275,9 @@
             "view": "ビュー",
             "download": "ダウンロード",
             "edit": "編集",
-            "duplicate": "重複"
+            "duplicate": "重複",
+            "remove_invoice_dialog_title": "インヴォイス削除の確​​認",
+            "remove_invoice_dialog_subtitle": "これにより、このインヴォイスは完全に削除されます"
         },
         "add": {
             "invoice": "インヴォイス",

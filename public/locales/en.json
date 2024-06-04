@@ -275,7 +275,9 @@
             "view": "View",
             "download": "Download",
             "edit": "Edit",
-            "duplicate": "Duplicate"
+            "duplicate": "Duplicate",
+            "remove_invoice_dialog_title": "Remove Invoice Confirmation",
+            "remove_invoice_dialog_subtitle": "This will permanently remove this Invoice"
         },
         "add": {
             "invoice": "Invoice",
