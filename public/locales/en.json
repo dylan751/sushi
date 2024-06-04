@@ -79,11 +79,13 @@
     "dashboard_page": {
         "welcome": "Welcome",
         "welcome_message": "All-in-one accounting website for you.",
+        "good": "Good",
         "start_with": "Start with",
         "create_project": "creating your first Project 🤩.",
         "income": "Income",
         "expense": "Expense",
         "total_profit": "Total Profit",
+        "total_profit_subheader": "This year's current balance",
         "total_income": "Total Income",
         "total_expense": "Total Expense",
         "view_invoices": "View Invoices",

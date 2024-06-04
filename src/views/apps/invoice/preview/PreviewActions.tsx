@@ -44,9 +44,6 @@ const PreviewActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }:
         >
           {t('invoice_page.preview.send_invoice')}
         </Button>
-        <Button fullWidth sx={{ mb: 3.5 }} color='secondary' variant='outlined'>
-          {t('invoice_page.preview.download')}
-        </Button>
         <Button
           fullWidth
           target='_blank'

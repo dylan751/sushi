@@ -6,14 +6,10 @@ import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 
-// ** Icon Imports
-import Icon from 'src/@core/components/icon'
-
 // ** Third Party Imports
 import { ApexOptions } from 'apexcharts'
 
 // ** Custom Components Imports
-import CustomChip from 'src/@core/components/mui/chip'
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
 // ** Type Imports
@@ -113,17 +109,6 @@ const ProjectApexLineChart = ({ data }: ProjectApexLineChartProps) => {
             <Typography variant='h6' sx={{ mr: 5 }} color={data.balance > 0 ? 'success.main' : 'error.main'}>
               {formatCurrencyAsCompact(data.balance, Locale.EN, CurrencyType.USD)}
             </Typography>
-            <CustomChip
-              skin='light'
-              color='success'
-              sx={{ fontWeight: 500, borderRadius: 1, fontSize: '0.875rem' }}
-              label={
-                <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 1 } }}>
-                  <Icon icon='mdi:arrow-up' fontSize='1rem' />
-                  <span>22%</span>
-                </Box>
-              }
-            />
           </Box>
         }
       />

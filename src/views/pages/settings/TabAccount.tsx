@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, ElementType, ChangeEvent } from 'react'
+import { useState } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -7,10 +7,9 @@ import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import InputAdornment from '@mui/material/InputAdornment'
-import Button, { ButtonProps } from '@mui/material/Button'
+import Button from '@mui/material/Button'
 
 // ** Third Party Imports
 import { useForm } from 'react-hook-form'
@@ -35,23 +34,6 @@ const ImgStyled = styled('img')(({ theme }) => ({
   marginRight: theme.spacing(5)
 }))
 
-const ButtonStyled = styled(Button)<ButtonProps & { component?: ElementType; htmlFor?: string }>(({ theme }) => ({
-  [theme.breakpoints.down('sm')]: {
-    width: '100%',
-    textAlign: 'center'
-  }
-}))
-
-const ResetButtonStyled = styled(Button)<ButtonProps>(({ theme }) => ({
-  marginLeft: theme.spacing(4),
-  [theme.breakpoints.down('sm')]: {
-    width: '100%',
-    marginLeft: 0,
-    textAlign: 'center',
-    marginTop: theme.spacing(4)
-  }
-}))
-
 const TabAccount = () => {
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
@@ -66,9 +48,7 @@ const TabAccount = () => {
   }
 
   // ** State
-  const [inputValue, setInputValue] = useState<string>('')
   const [formData, setFormData] = useState<FormDataType>(initialData)
-  const [imgSrc, setImgSrc] = useState<string>(store.data.avatar || '/images/avatars/1.png')
 
   // ** Hooks
   const {
@@ -77,23 +57,6 @@ const TabAccount = () => {
 
   const onUpdateAccount = () => {
     dispatch(updateProfile(formData))
-  }
-
-  const handleInputImageChange = (file: ChangeEvent) => {
-    const reader = new FileReader()
-    const { files } = file.target as HTMLInputElement
-    if (files && files.length !== 0) {
-      reader.onload = () => setImgSrc(reader.result as string)
-      reader.readAsDataURL(files[0])
-
-      if (reader.result !== null) {
-        setInputValue(reader.result as string)
-      }
-    }
-  }
-  const handleInputImageReset = () => {
-    setInputValue('')
-    setImgSrc(store.data.avatar || '/images/avatars/1.png')
   }
 
   const handleFormChange = (
@@ -111,26 +74,7 @@ const TabAccount = () => {
           <form>
             <CardContent sx={{ pb: theme => `${theme.spacing(10)}` }}>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <ImgStyled src={imgSrc} alt='Profile Pic' />
-                <div>
-                  <ButtonStyled component='label' variant='contained' htmlFor='settings-upload-image'>
-                    Upload New Photo
-                    <input
-                      hidden
-                      type='file'
-                      value={inputValue}
-                      accept='image/png, image/jpeg'
-                      onChange={handleInputImageChange}
-                      id='settings-upload-image'
-                    />
-                  </ButtonStyled>
-                  <ResetButtonStyled color='secondary' variant='outlined' onClick={handleInputImageReset}>
-                    {t('button.reset')}
-                  </ResetButtonStyled>
-                  <Typography variant='caption' sx={{ mt: 4, display: 'block', color: 'text.disabled' }}>
-                    Allowed PNG or JPEG. Max size of 800K.
-                  </Typography>
-                </div>
+                <ImgStyled src={store.data.avatar || '/images/avatars/1.png'} alt='Profile Pic' />
               </Box>
             </CardContent>
             <CardContent>
