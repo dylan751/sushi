@@ -41,7 +41,7 @@ import CustomChip from 'src/@core/components/mui/chip'
 
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
-import { Table, TableBody, TableCell, TableCellBaseProps, TableRow } from '@mui/material'
+import { InputAdornment, Table, TableBody, TableCell, TableCellBaseProps, TableRow } from '@mui/material'
 
 // ** Utils Imports
 import { formatCurrencyAsStandard } from 'src/utils/currency'
@@ -138,6 +138,8 @@ export interface AddCardProps {
   setCategoryId: (value: string) => void
   clientName: string
   setClientName: (value: string) => void
+  uid: string
+  setUid: (value: string) => void
   tax: string
   setTax: (value: string) => void
   exchangeRate: string
@@ -162,6 +164,8 @@ const AddCard = ({
   setCategoryId,
   clientName,
   setClientName,
+  uid,
+  setUid,
   tax,
   setTax,
   exchangeRate,
@@ -245,9 +249,23 @@ const AddCard = ({
             <Box sx={{ display: 'flex', justifyContent: { xs: 'flex-start', sm: 'flex-end' } }}>
               <Table sx={{ maxWidth: '250px' }}>
                 <TableBody>
-                  <TableRow>
+                  <TableRow sx={{ display: 'flex', alignItems: 'center' }}>
                     <MUITableCell>
-                      <Typography variant='h6'>{t('invoice_page.add.invoice')}</Typography>
+                      <Typography variant='h6' sx={{ mr: { sm: 0, xs: 3 }, width: { sm: '100px', xs: '125px' } }}>
+                        {t('invoice_page.add.invoice')}
+                      </Typography>
+                    </MUITableCell>
+                    <MUITableCell>
+                      <TextField
+                        rows={1}
+                        placeholder='INV-F1A'
+                        size='small'
+                        value={uid}
+                        onChange={e => setUid(e.target.value)}
+                        InputProps={{
+                          startAdornment: <InputAdornment position='start'>#</InputAdornment>
+                        }}
+                      />
                     </MUITableCell>
                   </TableRow>
                   <TableRow sx={{ display: 'flex', alignItems: 'center' }}>

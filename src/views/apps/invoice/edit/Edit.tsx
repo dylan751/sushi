@@ -66,6 +66,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   const [type, setType] = useState<InvoiceType>((invoiceStore.invoice as InvoiceResponseDto).type || '')
   const [currency, setCurrency] = useState<CurrencyType>((invoiceStore.invoice as InvoiceResponseDto).currency || '')
   const [clientName, setClientName] = useState<string>((invoiceStore.invoice as InvoiceResponseDto).clientName || '')
+  const [uid, setUid] = useState<string>((invoiceStore.invoice as InvoiceResponseDto).uid || '')
   const [tax, setTax] = useState<string>(
     (invoiceStore.invoice as InvoiceResponseDto).tax ? (invoiceStore.invoice as InvoiceResponseDto).tax.toString() : ''
   )
@@ -144,6 +145,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
       type,
       currency,
       clientName,
+      uid,
       categoryId: parseInt(categoryId),
       tax: parseInt(tax),
       exchangeRate: parseInt(exchangeRate)
@@ -185,6 +187,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
               setCategoryId={setCategoryId}
               clientName={clientName}
               setClientName={setClientName}
+              uid={uid}
+              setUid={setUid}
               tax={tax}
               setTax={setTax}
               exchangeRate={exchangeRate}

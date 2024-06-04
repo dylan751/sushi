@@ -531,6 +531,8 @@ export interface CreateInvoiceRequestDto {
   currency: CurrencyType
   /** @example "John Doe" */
   clientName: string
+  /** @example "INV-F1A" */
+  uid: string
   /** @example 10 */
   tax?: number
   /** @example 24.35 */
@@ -563,6 +565,8 @@ export interface UpdateInvoiceRequestDto {
   currency?: CurrencyType
   /** @example "John Doe" */
   clientName?: string
+  /** @example "INV-F1A" */
+  uid?: string
   /** @example 10 */
   tax?: number
   /** @example 24.35 */

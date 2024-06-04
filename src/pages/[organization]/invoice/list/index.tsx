@@ -128,6 +128,7 @@ const CustomInput = forwardRef((props: CustomInputProps, ref) => {
 const InvoiceList = () => {
   // ** State
   const [dates, setDates] = useState<Date[]>([])
+  const [uid, setUid] = useState<string>('')
   const [type, setType] = useState<InvoiceType | ''>('')
   const [projectId, setProjectId] = useState<string>('')
   const [status, setStatus] = useState<string>('')
@@ -148,6 +149,7 @@ const InvoiceList = () => {
       organizationId,
       fromDate: dates[0]?.toString(),
       toDate: dates[1]?.toString(),
+      uid,
       type,
       status
     }
@@ -155,7 +157,7 @@ const InvoiceList = () => {
       fetchInvoiceParams.projectId = parseInt(projectId)
     }
     dispatch(fetchInvoice(fetchInvoiceParams))
-  }, [dispatch, dates, type, status, projectId, organizationId])
+  }, [dispatch, dates, uid, type, status, projectId, organizationId])
 
   useEffect(() => {
     dispatch(fetchProject({ organizationId }))
@@ -168,6 +170,10 @@ const InvoiceList = () => {
     }
     setStartDateRange(start)
     setEndDateRange(end)
+  }
+
+  const handleOnChangeUid = (value: string) => {
+    setUid(value)
   }
 
   const handleOnChangeType = (value: InvoiceType | '') => {
@@ -339,7 +345,7 @@ const InvoiceList = () => {
             <CardHeader title={t('invoice_page.list.filters')} />
             <CardContent>
               <Grid container spacing={6}>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={2.4}>
                   <DatePicker
                     isClearable
                     selectsRange
@@ -361,7 +367,17 @@ const InvoiceList = () => {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={2.4}>
+                  <FormControl fullWidth>
+                    <TextField
+                      fullWidth
+                      value={uid}
+                      onChange={e => handleOnChangeUid(e.target.value)}
+                      label={t('invoice_page.list.search_uid')}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={2.4}>
                   <FormControl fullWidth>
                     <InputLabel id='invoice-type-select'>{t('invoice_page.list.invoice_type')}</InputLabel>
                     <Select
@@ -382,7 +398,7 @@ const InvoiceList = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={2.4}>
                   <FormControl fullWidth>
                     <InputLabel id='invoice-project-select'>{t('invoice_page.list.project')}</InputLabel>
 
@@ -403,7 +419,7 @@ const InvoiceList = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={2.4}>
                   <FormControl fullWidth>
                     <InputLabel id='invoice-status-select'>{t('invoice_page.list.status')}</InputLabel>
                     <Select

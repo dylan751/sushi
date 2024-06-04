@@ -136,6 +136,8 @@ export interface EditCardProps {
   setCategoryId: (value: string) => void
   clientName: string
   setClientName: (value: string) => void
+  uid: string
+  setUid: (value: string) => void
   tax: string
   setTax: (value: string) => void
   exchangeRate: string
@@ -161,6 +163,8 @@ const EditCard = ({
   setCategoryId,
   clientName,
   setClientName,
+  uid,
+  setUid,
   tax,
   setTax,
   exchangeRate,
@@ -181,6 +185,7 @@ const EditCard = ({
       setType(data.type)
       setCurrency(data.currency)
       setClientName(data.clientName)
+      setUid(data.uid)
       setTax(data.tax ? data.tax.toString() : '')
       setExchangeRate(data.exchangeRate ? data.exchangeRate.toString() : '')
       setProjectId(data.project?.id.toString())
@@ -199,6 +204,7 @@ const EditCard = ({
     setType,
     setCurrency,
     setClientName,
+    setUid,
     setTax,
     setExchangeRate,
     setProjectId,
@@ -283,10 +289,10 @@ const EditCard = ({
                       <MUITableCell>
                         <TextField
                           size='small'
-                          value={data.uid || ''}
                           sx={{ width: { sm: '170px', xs: '170px' } }}
+                          value={uid}
+                          onChange={e => setUid(e.target.value)}
                           InputProps={{
-                            disabled: true,
                             startAdornment: <InputAdornment position='start'>#</InputAdornment>
                           }}
                         />
@@ -328,7 +334,7 @@ const EditCard = ({
                   </Typography>
                   <Select
                     size='small'
-                    value={type}
+                    value={type ?? InvoiceType.EXPENSE}
                     sx={{ width: { sm: '220px', xs: '170px' } }}
                     onChange={e => {
                       setType(e.target.value as InvoiceType)
@@ -358,7 +364,7 @@ const EditCard = ({
                     </Typography>
                     <Select
                       size='small'
-                      value={currency}
+                      value={currency ?? CurrencyType.USD}
                       sx={{ width: { sm: '220px', xs: '170px' } }}
                       onChange={e => setCurrency(e.target.value as CurrencyType)}
                     >
@@ -385,7 +391,7 @@ const EditCard = ({
                   <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
                     Project:
                   </Typography>
-                  <Select size='small' value={projectId} sx={{ width: { sm: '220px', xs: '170px' } }} disabled>
+                  <Select size='small' value={projectId ?? ''} sx={{ width: { sm: '220px', xs: '170px' } }} disabled>
                     <MenuItem value={projectId} key={projectId}>
                       {projectName}
                     </MenuItem>
@@ -398,7 +404,7 @@ const EditCard = ({
                     </Typography>
                     <Select
                       size='small'
-                      value={categoryId}
+                      value={categoryId ?? ''}
                       sx={{ width: { sm: '220px', xs: '170px' } }}
                       onChange={e => setCategoryId(e.target.value)}
                     >

@@ -262,6 +262,7 @@
             "note": "メモ",
             "total": "合計",
             "date": "日付",
+            "search_uid": "UIDの検索",
             "project": "プロジェクト",
             "status": "ステータス",
             "all_statuses": "すべてのステータス",
