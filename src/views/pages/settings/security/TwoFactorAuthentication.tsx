@@ -58,14 +58,6 @@ const TwoFactorAuthenticationCard = () => {
           <Typography sx={{ mb: 6, color: 'text.secondary' }}>
             Two-factor authentication adds an additional layer of security to your account by requiring more than just a
             password to log in.{' '}
-            <Box
-              href='/'
-              component={'a'}
-              onClick={e => e.preventDefault()}
-              sx={{ textDecoration: 'none', color: 'primary.main' }}
-            >
-              Learn more.
-            </Box>
           </Typography>
           <Button variant='contained' onClick={toggle2FADialog}>
             Enable two-factor authentication
@@ -121,14 +113,19 @@ const TwoFactorAuthenticationCard = () => {
                 <FormHelperText sx={{ color: 'error.main' }}>Please enter a valid phone number</FormHelperText>
               )}
             </FormControl>
-            <div>
-              <Button variant='contained' type='submit' sx={{ mr: 3.5 }}>
-                Submit
-              </Button>
-              <Button type='reset' variant='outlined' color='secondary' onClick={close2FADialog}>
-                Cancel
-              </Button>
-            </div>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography sx={{ mb: 4 }} color='error.main'>
+                Sorry, this function is still in develop
+              </Typography>
+              <Box>
+                <Button variant='contained' type='submit' sx={{ mr: 3.5 }} disabled>
+                  Submit
+                </Button>
+                <Button type='reset' variant='outlined' color='secondary' onClick={close2FADialog}>
+                  Cancel
+                </Button>
+              </Box>
+            </Box>
           </form>
         </DialogContent>
       </Dialog>

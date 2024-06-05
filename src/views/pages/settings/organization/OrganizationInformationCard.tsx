@@ -1,3 +1,6 @@
+// ** React Imports
+import { useContext } from 'react'
+
 // ** MUI Imports
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
@@ -29,12 +32,16 @@ import { useSession } from 'next-auth/react'
 import { $api } from 'src/utils/api'
 import { useTranslation } from 'react-i18next'
 
+// ** Context Imports
+import { AbilityContext } from 'src/layouts/components/acl/Can'
+
 const OrganizationAddressCard = () => {
   // ** Hooks
   const session = useSession()
   const { organizationId, organization } = useCurrentOrganization()
   const dispatch = useDispatch<AppDispatch>()
   const { t } = useTranslation()
+  const ability = useContext(AbilityContext)
 
   const defaultValues = {
     name: organization.name || '',
@@ -122,14 +129,13 @@ const OrganizationAddressCard = () => {
                 {errors.address && <FormHelperText sx={{ color: 'error.main' }}>This field is required</FormHelperText>}
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label='TAX ID' placeholder='Enter TAX ID' />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label='VAT Number' placeholder='Enter VAT Number' />
-            </Grid>
             <Grid item xs={12}>
-              <Button type='submit' variant='contained' sx={{ mr: 4 }}>
+              <Button
+                type='submit'
+                variant='contained'
+                sx={{ mr: 4 }}
+                disabled={!ability?.can('update', 'organization')}
+              >
                 {t('button.save_changes')}
               </Button>
             </Grid>

@@ -92,7 +92,7 @@ const OrganizationTotalCard = ({ title, type, invoices, total }: OrganizationTot
 
                   <Box sx={{ minWidth: 85, display: 'flex', flexDirection: 'column' }}>
                     <Typography variant='body2' sx={{ mb: 2, fontWeight: 600, color: 'text.primary' }}>
-                      {formatCurrencyAsStandard(item.total, Locale.EN, CurrencyType.USD)}
+                      {formatCurrencyAsStandard(item.total, Locale.EN, item.currency)}
                     </Typography>
                   </Box>
                 </Box>

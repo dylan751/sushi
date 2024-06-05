@@ -12,7 +12,18 @@ import { Settings } from 'src/@core/context/settingsContext'
 import Autocomplete from 'src/layouts/components/Autocomplete'
 import ModeToggler from 'src/@core/layouts/components/shared-components/ModeToggler'
 import UserLanguageDropdown from '../UserLanguageDropdown'
+import NotificationDropdown, {
+  NotificationsType
+} from 'src/@core/layouts/components/shared-components/NotificationDropdown'
 import UserDropdown from 'src/layouts/components/UserDropdown'
+
+// ** Context Imports
+import { useSelector } from 'react-redux'
+import { RootState } from 'src/store'
+import { calculateBudgetProcess } from 'src/utils/budget'
+
+// ** Utils Imports
+import { format } from 'date-fns'
 
 interface Props {
   hidden: boolean
@@ -24,6 +35,32 @@ interface Props {
 const AppBarContent = (props: Props) => {
   // ** Props
   const { hidden, settings, saveSettings, toggleNavVisibility } = props
+
+  const statisticsStore = useSelector((state: RootState) => state.organizationStatistics)
+
+  const notifications: NotificationsType[] = []
+
+  statisticsStore.statistics.projects?.map(project => {
+    const budgetProcess = calculateBudgetProcess(project.totalSpent, project.totalBudget)
+
+    if (budgetProcess > 100) {
+      notifications.push({
+        meta: format(new Date(), 'dd MMM'),
+        avatarColor: 'error',
+        subtitle: `Project's budget exceeded at ${budgetProcess}%`,
+        avatarText: project.name,
+        title: `${project.name} Budget Exceeded!`
+      })
+    } else if (budgetProcess > 75) {
+      notifications.push({
+        meta: format(new Date(), 'dd MMM'),
+        avatarColor: 'warning',
+        subtitle: `Project's budget has reached over ${budgetProcess}%, please be careful!`,
+        avatarText: project.name,
+        title: `${project.name} Budget Warning!`
+      })
+    }
+  })
 
   return (
     <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -38,6 +75,7 @@ const AppBarContent = (props: Props) => {
       <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>
         <UserLanguageDropdown settings={settings} />
         <ModeToggler settings={settings} saveSettings={saveSettings} />
+        <NotificationDropdown settings={settings} notifications={notifications} />
         <UserDropdown settings={settings} />
       </Box>
     </Box>

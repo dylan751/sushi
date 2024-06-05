@@ -17,6 +17,7 @@
             "add": "Thêm"
         },
         "user_page": "Trang người dùng",
+        "exchange_rates": "Tỷ giá hối đoái",
         "settings_page": {
             "settings": "Cài đặt tài khoản",
             "account": "Tài khoản",
@@ -75,11 +76,13 @@
     "dashboard_page": {
         "welcome": "Chào mừng",
         "welcome_message": "Trang web kế toán tất-cả-trong-một dành cho bạn.",
+        "good": "Tốt",
         "start_with": "Bắt đầu với việc",
         "create_project": "Tạo dự án đầu tiên 🤩.",
         "income": "Thu",
         "expense": "Chi tiêu",
         "total_profit": "Tổng lợi nhuận",
+        "total_profit_subheader": "Số dư hiện tại",
         "total_income": "Tổng thu",
         "total_expense": "Tổng chi tiêu",
         "view_invoices": "Danh sách hoá đơn",
@@ -171,25 +174,27 @@
             "client": "Khách hàng",
             "name": "Tên",
             "description": "Mô tả",
-            "total_budget": "Tổng định mức",
+            "total_budget": "Tổng ngân sách",
             "start_date": "Ngày bắt đầu",
             "end_date": "Ngày kết thúc",
             "delete_project": "Xoá dự án",
             "view": "Xem",
-            "edit_project": "Cập nhật dự án"
+            "edit_project": "Cập nhật dự án",
+            "remove_project_dialog_title": "Xác nhận xóa dự án",
+            "remove_project_dialog_subtitle": "Hành động này sẽ xóa vĩnh viễn dự án này"
         },
         "add": {
             "create_project": "Tạo một dự án mới",
             "project_name": "Tên dự án",
             "description": "Mô tả",
-            "total_budget": "Tổng định mức",
+            "total_budget": "Tổng ngân sách",
             "project_date": "Thời gian dự án"
         },
         "edit": {
             "update_project": "Cập nhật một dự án",
             "project_name": "Tên dự án",
             "description": "Mô tả",
-            "total_budget": "Tổng định mức",
+            "total_budget": "Tổng ngân sách",
             "project_date": "Thời gian dự án"
         },
         "dashboard": {
@@ -256,6 +261,7 @@
             "note": "Ghi chú",
             "total": "Thành tiền",
             "date": "Thời gian",
+            "search_uid": "Tìm kiếm UID",
             "project": "Dự án",
             "status": "Trạng thái",
             "all_statuses": "Tất cả trạng thái",
@@ -268,7 +274,9 @@
             "view": "Xem",
             "download": "Tải xuống",
             "edit": "Cập nhật",
-            "duplicate": "Sao chép"
+            "duplicate": "Sao chép",
+            "remove_invoice_dialog_title": "Xác nhận xóa hoá đơn",
+            "remove_invoice_dialog_subtitle": "Hành động này sẽ xóa vĩnh viễn hoá đơn này"
         },
         "add": {
             "invoice": "Hoá đơn",
@@ -376,6 +384,14 @@
         "default_role": "Vai trò mặc định",
         "custom_role_optional": "Vai trò tùy chỉnh (Tùy chọn)"
     },
+    "exchange_rates": {
+        "title": "Tỷ giá hối đoái",
+        "bidv_bank": "Ngân hàng BIDV",
+        "currency": "Tiền tệ",
+        "buy_tm": "Mua TM",
+        "buy_ck": "Mua CK",
+        "sell": "Bán"
+    },
     "settings_page": {
         "title": "Cài đặt tài khoản",
         "account": {
@@ -411,7 +427,16 @@
             "information_settings": "Cài đặt thông tin",
             "organization_name": "Tên tổ chức",
             "phone_number": "Số điện thoại",
-            "organization_address": "Địa chỉ tổ chức"
+            "organization_address": "Địa chỉ tổ chức",
+            "delete_organization": "Xóa tổ chức",
+            "deactivate_organization": "Vô hiệu hóa tổ chức",
+            "organization_deactivation_checkbox": "Xác nhận vô hiệu hóa tổ chức",
+            "organization_deactivation_warning": "Vui lòng xác nhận rằng bạn muốn xóa tổ chức của mình",
+            "organization_deactivation_confirm": "Bạn có chắc chắn muốn hủy đăng ký của mình không?",
+            "organization_deactivation_success": "Đăng ký đã được hủy thành công.",
+            "organization_deactivation_fail": "Đăng ký của bạn đã bị hủy!!",
+            "deleted": "Đã bị xóa",
+            "cancelled": "Đã bị hủy"
         }
     }
 }

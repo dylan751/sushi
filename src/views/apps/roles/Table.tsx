@@ -77,7 +77,7 @@ const UserList = () => {
   const [isSelectAdmin, setIsSelectAdmin] = useState(false)
   const [role, setRole] = useState<string>('')
   const [value, setValue] = useState<string>('')
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 25 })
   const [selectedOrganizationUser, setSelectedOrganizationUser] = useState<OrganizationUserResponseDto | null>(null)
   const [selectedCheckbox, setSelectedCheckbox] = useState<string[]>([])
 
@@ -326,7 +326,7 @@ const UserList = () => {
             rows={userStore.users}
             columns={columns}
             disableRowSelectionOnClick
-            pageSizeOptions={[10, 25, 50]}
+            pageSizeOptions={[25, 50, 100]}
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}
             getRowHeight={() => 'auto'}

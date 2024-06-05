@@ -17,6 +17,7 @@
             "add": "追加"
         },
         "user_page": "ユーザーページ",
+        "exchange_rates": "為替レート",
         "settings_page": {
             "settings": "アカウント設定",
             "account": "アカウント",
@@ -78,11 +79,13 @@
     "dashboard_page": {
         "welcome": "ようこそ",
         "welcome_message": "あなたのためのオールインワン会計ウェブサイト。",
+        "good": "良い",
         "start_with": "最初のプロジェクトを",
         "create_project": "作成することから始めます 🤩。",
         "income": "所得",
         "expense": "経費",
         "total_profit": "利益総額",
+        "total_profit_subheader": "現在の残高",
         "total_income": "総所得",
         "total_expense": "総経費",
         "view_invoices": "インヴォイスを表示する",
@@ -179,7 +182,9 @@
             "end_date": "締め切り",
             "delete_project": "プロジェクトの削除",
             "view": "ビュー",
-            "edit_project": "プロジェクトの編集"
+            "edit_project": "プロジェクトの編集",
+            "remove_project_dialog_title": "プロジェクト削除の確​​認",
+            "remove_project_dialog_subtitle": "これにより、このプロジェクトは完全に削除されます"
         },
         "add": {
             "create_project": "新しいプロジェクトを作成する",
@@ -259,6 +264,7 @@
             "note": "メモ",
             "total": "合計",
             "date": "日付",
+            "search_uid": "UIDの検索",
             "project": "プロジェクト",
             "status": "ステータス",
             "all_statuses": "すべてのステータス",
@@ -271,7 +277,9 @@
             "view": "ビュー",
             "download": "ダウンロード",
             "edit": "編集",
-            "duplicate": "重複"
+            "duplicate": "重複",
+            "remove_invoice_dialog_title": "インヴォイス削除の確​​認",
+            "remove_invoice_dialog_subtitle": "これにより、このインヴォイスは完全に削除されます"
         },
         "add": {
             "invoice": "インヴォイス",
@@ -376,6 +384,14 @@
         "default_role": "デフォルトのロール",
         "custom_role_optional": "カスタムロール (オプション)"
     },
+    "exchange_rates": {
+        "title": "為替レート",
+        "bidv_bank": "BIDV銀行",
+        "currency": "通貨",
+        "buy_tm": "TM買う",
+        "buy_ck": "CK買う",
+        "sell": "売る"
+    },
     "settings_page": {
         "title": "アカウント設定",
         "account": {
@@ -411,7 +427,16 @@
             "information_settings": "情報設定",
             "organization_name": "会社名",
             "phone_number": "電話番号",
-            "organization_address": "会社の住所"
+            "organization_address": "会社の住所",
+            "delete_organization": "組織の削除",
+            "deactivate_organization": "組織の無効化",
+            "organization_deactivation_checkbox": "組織の無効化を確認します",
+            "organization_deactivation_warning": "組織を削除することを確認してください",
+            "organization_deactivation_confirm": "サブスクリプションをキャンセルしてもよろしいですか?",
+            "organization_deactivation_success": "サブスクリプションは成功にキャンセルされました。",
+            "organization_deactivation_fail": "サブスクリプションがキャンセルされました!!",
+            "deleted": "削除されました",
+            "cancelled": "キャンセルされました"
         }
     }
 }

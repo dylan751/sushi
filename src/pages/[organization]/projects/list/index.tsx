@@ -36,6 +36,7 @@ import { renderColorBudgetProcess } from 'src/utils/budget'
 // ** Custom Components Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import Icon from 'src/@core/components/icon'
+import DialogDeleteProject from 'src/views/apps/project/dialogs/DialogDeleteProject'
 
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
@@ -118,7 +119,10 @@ const Projects = () => {
   const [searchValue, setSearchValue] = useState<string>('')
   const [endDateRange, setEndDateRange] = useState<DateType>(null)
   const [startDateRange, setStartDateRange] = useState<DateType>(null)
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 25 })
+
+  const [showDialogDeleteProject, setShowDialogDeleteProject] = useState<boolean>(false)
+  const [selectedProject, setSelectedProject] = useState<ProjectResponseDto | null>(null)
 
   useEffect(() => {
     // Fetch organization's projects
@@ -138,6 +142,13 @@ const Projects = () => {
     }
     setStartDateRange(start)
     setEndDateRange(end)
+  }
+
+  const handleDeleteProject = (projectId: number) => {
+    dispatch(deleteProject({ organizationId, projectId }))
+
+    setShowDialogDeleteProject(false)
+    setSelectedProject(null)
   }
 
   const defaultColumns: GridColDef[] = [
@@ -234,7 +245,10 @@ const Projects = () => {
               <IconButton
                 size='small'
                 color='error'
-                onClick={() => dispatch(deleteProject({ organizationId, projectId: row.id }))}
+                onClick={() => {
+                  setShowDialogDeleteProject(true)
+                  setSelectedProject(row)
+                }}
                 disabled={!ability?.can('delete', 'project')}
               >
                 <Icon icon='mdi:delete-outline' fontSize={20} />
@@ -317,13 +331,20 @@ const Projects = () => {
               rows={store.projects}
               columns={columns}
               disableRowSelectionOnClick
-              pageSizeOptions={[10, 25, 50]}
+              pageSizeOptions={[25, 50, 100]}
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
             />
           </Card>
         </Grid>
       </Grid>
+      <DialogDeleteProject
+        show={showDialogDeleteProject}
+        setShow={setShowDialogDeleteProject}
+        projectId={selectedProject?.id || 0}
+        handleDelete={handleDeleteProject}
+        setSelectedProject={setSelectedProject}
+      />
     </DatePickerWrapper>
   )
 }

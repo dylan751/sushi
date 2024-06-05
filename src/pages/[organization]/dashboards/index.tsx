@@ -112,7 +112,7 @@ const Dashboard = () => {
             <CardStatisticsVerticalComponent
               stats={formatCurrencyAsCompact(statisticsStore.statistics.totalIncome ?? 0, Locale.EN, CurrencyType.USD)}
               color='success'
-              trendNumber='+38%'
+              trendNumber={t('dashboard_page.good') as string}
               title={t('dashboard_page.income')}
               subtitle={`${t('dashboard_page.year_of')} ${format(year ?? new Date(), 'yyyy')}`}
               icon={<Icon icon='mdi:trending-up' />}
@@ -123,7 +123,7 @@ const Dashboard = () => {
               stats={formatCurrencyAsCompact(statisticsStore.statistics.totalExpense ?? 0, Locale.EN, CurrencyType.USD)}
               color='error'
               title={t('dashboard_page.expense')}
-              trendNumber='+16%'
+              trendNumber={t('dashboard_page.good') as string}
               subtitle={`${t('dashboard_page.year_of')} ${format(year ?? new Date(), 'yyyy')}`}
               icon={<Icon icon='mdi:currency-usd' />}
             />

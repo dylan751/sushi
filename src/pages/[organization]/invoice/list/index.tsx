@@ -62,6 +62,7 @@ import { Locale } from 'src/enum'
 import { useCurrentOrganization } from 'src/hooks'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import { fetchProject } from 'src/store/apps/organization/project'
+import DialogDeleteInvoice from 'src/views/apps/invoice/dialogs/DialogDeleteInvoice'
 
 interface CustomInputProps {
   dates: Date[]
@@ -128,12 +129,16 @@ const CustomInput = forwardRef((props: CustomInputProps, ref) => {
 const InvoiceList = () => {
   // ** State
   const [dates, setDates] = useState<Date[]>([])
+  const [uid, setUid] = useState<string>('')
   const [type, setType] = useState<InvoiceType | ''>('')
   const [projectId, setProjectId] = useState<string>('')
   const [status, setStatus] = useState<string>('')
   const [endDateRange, setEndDateRange] = useState<DateType>(null)
   const [startDateRange, setStartDateRange] = useState<DateType>(null)
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 25 })
+
+  const [showDialogDeleteInvoice, setShowDialogDeleteInvoice] = useState<boolean>(false)
+  const [selectedInvoice, setSelectedInvoice] = useState<InvoiceResponseDto | null>(null)
 
   // ** Hooks
   const { organizationId } = useCurrentOrganization()
@@ -148,6 +153,7 @@ const InvoiceList = () => {
       organizationId,
       fromDate: dates[0]?.toString(),
       toDate: dates[1]?.toString(),
+      uid,
       type,
       status
     }
@@ -155,7 +161,7 @@ const InvoiceList = () => {
       fetchInvoiceParams.projectId = parseInt(projectId)
     }
     dispatch(fetchInvoice(fetchInvoiceParams))
-  }, [dispatch, dates, type, status, projectId, organizationId])
+  }, [dispatch, dates, uid, type, status, projectId, organizationId])
 
   useEffect(() => {
     dispatch(fetchProject({ organizationId }))
@@ -170,6 +176,10 @@ const InvoiceList = () => {
     setEndDateRange(end)
   }
 
+  const handleOnChangeUid = (value: string) => {
+    setUid(value)
+  }
+
   const handleOnChangeType = (value: InvoiceType | '') => {
     setType(value)
   }
@@ -180,6 +190,13 @@ const InvoiceList = () => {
 
   const handleOnChangeStatus = (value: string) => {
     setStatus(value)
+  }
+
+  const handleDeleteInvoice = (invoiceId: number) => {
+    dispatch(deleteInvoice({ organizationId, invoiceId }))
+
+    setShowDialogDeleteInvoice(false)
+    setSelectedInvoice(null)
   }
 
   const defaultColumns: GridColDef[] = [
@@ -290,7 +307,10 @@ const InvoiceList = () => {
               <IconButton
                 size='small'
                 color='error'
-                onClick={() => dispatch(deleteInvoice({ organizationId, invoiceId: row.id }))}
+                onClick={() => {
+                  setShowDialogDeleteInvoice(true)
+                  setSelectedInvoice(row)
+                }}
                 disabled={!ability?.can('delete', 'invoice')}
               >
                 <Icon icon='mdi:delete-outline' fontSize={20} />
@@ -339,7 +359,7 @@ const InvoiceList = () => {
             <CardHeader title={t('invoice_page.list.filters')} />
             <CardContent>
               <Grid container spacing={6}>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={2.4}>
                   <DatePicker
                     isClearable
                     selectsRange
@@ -361,7 +381,17 @@ const InvoiceList = () => {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={2.4}>
+                  <FormControl fullWidth>
+                    <TextField
+                      fullWidth
+                      value={uid}
+                      onChange={e => handleOnChangeUid(e.target.value)}
+                      label={t('invoice_page.list.search_uid')}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={2.4}>
                   <FormControl fullWidth>
                     <InputLabel id='invoice-type-select'>{t('invoice_page.list.invoice_type')}</InputLabel>
                     <Select
@@ -382,7 +412,7 @@ const InvoiceList = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={2.4}>
                   <FormControl fullWidth>
                     <InputLabel id='invoice-project-select'>{t('invoice_page.list.project')}</InputLabel>
 
@@ -403,7 +433,7 @@ const InvoiceList = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={2.4}>
                   <FormControl fullWidth>
                     <InputLabel id='invoice-status-select'>{t('invoice_page.list.status')}</InputLabel>
                     <Select
@@ -433,13 +463,20 @@ const InvoiceList = () => {
               rows={invoiceStore.invoices}
               columns={columns}
               disableRowSelectionOnClick
-              pageSizeOptions={[10, 25, 50]}
+              pageSizeOptions={[25, 50, 100]}
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
             />
           </Card>
         </Grid>
       </Grid>
+      <DialogDeleteInvoice
+        show={showDialogDeleteInvoice}
+        setShow={setShowDialogDeleteInvoice}
+        invoiceId={selectedInvoice?.id || 0}
+        handleDelete={handleDeleteInvoice}
+        setSelectedInvoice={setSelectedInvoice}
+      />
     </DatePickerWrapper>
   )
 }

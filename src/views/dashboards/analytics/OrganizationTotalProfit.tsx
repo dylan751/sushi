@@ -212,7 +212,7 @@ const OrganizationTotalProfit = ({ data }: OrganizationTotalProfitProps) => {
         <Grid item xs={12} sm={4}>
           <CardHeader
             title={formatCurrencyAsCompact(data.balance ?? 0, Locale.EN, CurrencyType.USD)}
-            subheader='Last year balance $234.40k'
+            subheader={t('dashboard_page.total_profit_subheader')}
             subheaderTypographyProps={{ sx: { lineHeight: '1.25rem', fontSize: '0.875rem !important' } }}
             titleTypographyProps={{
               sx: {
