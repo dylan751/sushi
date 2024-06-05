@@ -125,7 +125,7 @@ const CustomInput = forwardRef((props: CustomInputProps, ref) => {
 /* eslint-enable */
 
 export interface InvoiceTabProps {
-  projectId: string
+  projectId: number
 }
 
 const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
@@ -150,7 +150,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
   useEffect(() => {
     const fetchInvoiceParams: any = {
       organizationId,
-      projectId: parseInt(projectId),
+      projectId,
       fromDate: dates[0]?.toString(),
       toDate: dates[1]?.toString(),
       uid,
@@ -165,7 +165,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
 
   useEffect(() => {
     if (ability?.can('read', 'category')) {
-      dispatch(fetchCategory({ organizationId, projectId: parseInt(projectId) }))
+      dispatch(fetchCategory({ organizationId, projectId }))
     }
   }, [dispatch, organizationId, projectId, ability])
 
@@ -293,9 +293,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
               <IconButton
                 size='small'
                 color='error'
-                onClick={() =>
-                  dispatch(deleteInvoice({ organizationId, projectId: parseInt(projectId), invoiceId: row.id }))
-                }
+                onClick={() => dispatch(deleteInvoice({ organizationId, projectId, invoiceId: row.id }))}
                 disabled={!ability?.can('delete', 'invoice')}
               >
                 <Icon icon='mdi:delete-outline' fontSize={20} />

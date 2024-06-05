@@ -1,9 +1,10 @@
 // ** React Imports
-import { useState, useEffect, forwardRef } from 'react'
+import { useState, forwardRef } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
@@ -19,18 +20,19 @@ import InputAdornment from '@mui/material/InputAdornment'
 import Icon from 'src/@core/components/icon'
 
 // ** Store Imports
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 // ** Actions Imports
-import { fetchAProject, updateProject } from 'src/store/apps/organization/project'
+import { updateProject } from 'src/store/apps/organization/project'
 
 // ** Types Imports
-import { AppDispatch, RootState } from 'src/store'
+import { AppDispatch } from 'src/store'
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
-import { ProjectResponseDto, UpdateProjectRequestDto } from 'src/__generated__/AccountifyAPI'
+import { UpdateProjectRequestDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Utils Imports
 import { getProjectListUrl } from 'src/utils/router'
+import { $api } from 'src/utils/api'
 
 // ** Third Party Imports
 import { format } from 'date-fns'
@@ -81,78 +83,26 @@ const CustomInput = forwardRef((props: CustomInputProps, ref) => {
 
 const ProjectEdit = () => {
   const router = useRouter()
-  const id = router.query.id as string
+  const name = router.query.name as string
+  const session = useSession()
 
   // ** Store
   const dispatch = useDispatch<AppDispatch>()
-  const projectStore = useSelector((state: RootState) => state.project)
 
-  const { organizationId } = useCurrentOrganization()
+  const { organizationId, project, projectId } = useCurrentOrganization(name)
   const { t } = useTranslation()
 
   // ** States
-  const [dates, setDates] = useState<Date[]>([
-    (projectStore.project as ProjectResponseDto).startDate
-      ? new Date((projectStore.project as ProjectResponseDto).startDate)
-      : new Date(),
-    (projectStore.project as ProjectResponseDto).endDate
-      ? new Date((projectStore.project as ProjectResponseDto).endDate)
-      : new Date()
-  ])
-  const [endDateRange, setEndDateRange] = useState<DateType>(
-    (projectStore.project as ProjectResponseDto).endDate
-      ? new Date((projectStore.project as ProjectResponseDto).endDate)
-      : new Date()
-  )
-  const [startDateRange, setStartDateRange] = useState<DateType>(
-    (projectStore.project as ProjectResponseDto).startDate
-      ? new Date((projectStore.project as ProjectResponseDto).startDate)
-      : new Date()
-  )
+  const [dates, setDates] = useState<Date[]>([new Date(project!.startDate), new Date(project!.endDate)])
+  const [endDateRange, setEndDateRange] = useState<DateType>(new Date(project!.endDate))
+  const [startDateRange, setStartDateRange] = useState<DateType>(new Date(project!.startDate))
   const [formData, setFormData] = useState<UpdateProjectRequestDto>({
-    name: (projectStore.project as ProjectResponseDto).name,
-    description: (projectStore.project as ProjectResponseDto).description,
-    totalBudget: (projectStore.project as ProjectResponseDto).totalBudget,
+    name: project!.name,
+    description: project!.description,
+    totalBudget: project!.totalBudget,
     startDate: format(dates[0] ? dates[0] : new Date(), 'yyyy-MM-dd'),
     endDate: format(dates[1] ? dates[1] : new Date(), 'yyyy-MM-dd')
   })
-
-  useEffect(() => {
-    if (projectStore.project) {
-      setDates([
-        (projectStore.project as ProjectResponseDto).startDate
-          ? new Date((projectStore.project as ProjectResponseDto).startDate)
-          : new Date(),
-        (projectStore.project as ProjectResponseDto).endDate
-          ? new Date((projectStore.project as ProjectResponseDto).endDate)
-          : new Date()
-      ])
-      setEndDateRange(
-        (projectStore.project as ProjectResponseDto).endDate
-          ? new Date((projectStore.project as ProjectResponseDto).endDate)
-          : new Date()
-      )
-      setStartDateRange(
-        (projectStore.project as ProjectResponseDto).startDate
-          ? new Date((projectStore.project as ProjectResponseDto).startDate)
-          : new Date()
-      )
-      setFormData({
-        name: (projectStore.project as ProjectResponseDto).name,
-        description: (projectStore.project as ProjectResponseDto).description,
-        totalBudget: (projectStore.project as ProjectResponseDto).totalBudget,
-        startDate: format(dates[0] ? dates[0] : new Date(), 'yyyy-MM-dd'),
-        endDate: format(dates[1] ? dates[1] : new Date(), 'yyyy-MM-dd')
-      })
-    }
-
-    // Note: This useEffect only for re-render after the first time to wait for the data from BE
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectStore.project])
-
-  useEffect(() => {
-    dispatch(fetchAProject({ organizationId, id: parseInt(id!) }))
-  }, [dispatch, id, organizationId])
 
   const handleOnChangeRange = (dates: any) => {
     const [start, end] = dates
@@ -178,11 +128,15 @@ const ProjectEdit = () => {
     }
 
     // Call api
-    dispatch(updateProject({ ...updateProjectRequest, projectId: parseInt(id!), organizationId }))
+    dispatch(updateProject({ ...updateProjectRequest, projectId: projectId!, organizationId })).then(async () => {
+      // Update current organization's session
+      const response = await $api(session.data?.accessToken).internal.getUserProfile()
+      session.update({ organizations: response.data.organizations })
+    })
     router.replace(getProjectListUrl())
   }
 
-  if (projectStore.project) {
+  if (project) {
     return (
       <DatePickerWrapper>
         <Card>
@@ -293,7 +247,7 @@ const ProjectEdit = () => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <Alert severity='error'>
-            Project with the id: {id} does not exist. Please check the list of projects:{' '}
+            Project with the id: {projectId} does not exist. Please check the list of projects:{' '}
             <Link href={getProjectListUrl()}>Project List</Link>
           </Alert>
         </Grid>

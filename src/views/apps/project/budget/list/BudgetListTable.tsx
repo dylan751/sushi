@@ -50,7 +50,7 @@ interface CellType {
 }
 
 export interface BudgetListTableProps {
-  projectId: string
+  projectId: number
 }
 
 const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
@@ -74,7 +74,7 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
   }
 
   const handleDeleteBudget = (budgetId: number) => {
-    dispatch(deleteBudget({ organizationId, projectId: parseInt(projectId), budgetId }))
+    dispatch(deleteBudget({ organizationId, projectId, budgetId }))
   }
 
   const toggleAddBudgetDrawer = () => {
@@ -95,7 +95,7 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
   useEffect(() => {
     const fetchBudgetParams: any = {
       organizationId,
-      projectId: parseInt(projectId)
+      projectId
     }
     if (categoryId) {
       fetchBudgetParams.categoryId = parseInt(categoryId)
@@ -105,7 +105,7 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
 
   useEffect(() => {
     if (ability?.can('read', 'category')) {
-      dispatch(fetchCategory({ organizationId, projectId: parseInt(projectId) }))
+      dispatch(fetchCategory({ organizationId, projectId }))
     }
   }, [dispatch, organizationId, projectId, ability])
 

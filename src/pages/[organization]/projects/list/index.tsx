@@ -158,7 +158,7 @@ const Projects = () => {
       field: 'name',
       headerName: `${t('project_page.list.name')}`,
       renderCell: ({ row }: CellType) => {
-        return <LinkStyled href={getProjectDefaultTab(row.id)}>{`${row.name}` || '-'}</LinkStyled>
+        return <LinkStyled href={getProjectDefaultTab(row.name)}>{`${row.name}` || '-'}</LinkStyled>
       }
     },
     {
@@ -257,7 +257,7 @@ const Projects = () => {
           </Tooltip>
           <Tooltip title={t('invoice_page.list.view')}>
             <span>
-              <IconButton size='small' component={Link} href={getProjectDefaultTab(row.id)}>
+              <IconButton size='small' component={Link} href={getProjectDefaultTab(row.name)}>
                 <Icon icon='mdi:eye-outline' fontSize={20} />
               </IconButton>
             </span>
@@ -267,7 +267,7 @@ const Projects = () => {
               <IconButton
                 size='small'
                 color='info'
-                onClick={() => router.replace(getProjectEditUrl(row.id))}
+                onClick={() => router.replace(getProjectEditUrl(row.name))}
                 disabled={!ability?.can('update', 'project')}
               >
                 <Icon icon='mdi:pencil-outline' fontSize={20} />

@@ -1,11 +1,11 @@
 import { getOrgUniqueName } from '../organization'
 
-export const getProjectDefaultTab = (id: number): string => {
-  return `/${getOrgUniqueName()}/projects/${id}/dashboard`
+export const getProjectDefaultTab = (projectName: string | undefined): string => {
+  return `/${getOrgUniqueName()}/projects/${projectName}/dashboard`
 }
 
-export const getProjectInvoiceTab = (id: number): string => {
-  return `/${getOrgUniqueName()}/projects/${id}/invoice`
+export const getProjectInvoiceTab = (projectName: string | undefined): string => {
+  return `/${getOrgUniqueName()}/projects/${projectName}/invoice`
 }
 
 export const getProjectListUrl = (): string => {
@@ -16,6 +16,6 @@ export const getProjectAddUrl = (): string => {
   return `/${getOrgUniqueName()}/projects/add`
 }
 
-export const getProjectEditUrl = (id: string | number | undefined): string => {
-  return `/${getOrgUniqueName()}/projects/edit/${id}`
+export const getProjectEditUrl = (projectName: string | undefined): string => {
+  return `/${getOrgUniqueName()}/projects/edit/${projectName}`
 }

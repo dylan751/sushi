@@ -43,7 +43,7 @@ import { capitalizeFirstLetter } from 'src/utils/string'
 interface SidebarAddCategoryInterface {
   open: boolean
   toggle: () => void
-  projectId: string
+  projectId: number
 }
 
 const Header = styled(Box)<BoxProps>(({ theme }) => ({
@@ -112,7 +112,7 @@ const SidebarAddCategory = (props: SidebarAddCategoryInterface) => {
       type: data.type
     }
 
-    dispatch(addCategory({ organizationId, projectId: parseInt(projectId), ...createCategoryRequest }))
+    dispatch(addCategory({ organizationId, projectId, ...createCategoryRequest }))
     toggle()
     reset()
   }

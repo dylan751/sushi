@@ -40,7 +40,7 @@ import CustomChip from 'src/@core/components/mui/chip'
 interface SidebarAddBudgetInterface {
   open: boolean
   toggle: () => void
-  projectId: string
+  projectId: number
   categories: CategoryResponseDto[]
 }
 
@@ -102,7 +102,7 @@ const SidebarAddBudget = (props: SidebarAddBudgetInterface) => {
       categoryId: parseInt(data.categoryId)
     }
 
-    dispatch(addBudget({ organizationId, projectId: parseInt(projectId), ...createBudgetRequest }))
+    dispatch(addBudget({ organizationId, projectId, ...createBudgetRequest }))
     toggle()
     reset()
   }

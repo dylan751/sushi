@@ -52,7 +52,17 @@ const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
   }
 }))
 
-const Project = ({ tab, id, project }: { tab: string; id: string; project: ProjectResponseDto }) => {
+const Project = ({
+  tab,
+  name,
+  id,
+  project
+}: {
+  tab: string
+  name: string
+  id: number
+  project: ProjectResponseDto
+}) => {
   // ** State
   const [activeTab, setActiveTab] = useState<string>(tab)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -68,7 +78,7 @@ const Project = ({ tab, id, project }: { tab: string; id: string; project: Proje
     setActiveTab(value)
     router
       .push({
-        pathname: `/${getOrgUniqueName()}/projects/${id}/${value.toLowerCase()}`
+        pathname: `/${getOrgUniqueName()}/projects/${name}/${value.toLowerCase()}`
       })
       .then(() => setIsLoading(false))
   }
