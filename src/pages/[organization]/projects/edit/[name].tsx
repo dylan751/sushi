@@ -40,7 +40,7 @@ import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 // ** Hooks Imports
-import { useCurrentOrganization, useCurrentProject } from 'src/hooks'
+import { useCurrentOrganization } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 
 interface CustomInputProps {
@@ -89,23 +89,17 @@ const ProjectEdit = () => {
   // ** Store
   const dispatch = useDispatch<AppDispatch>()
 
-  const { organizationId } = useCurrentOrganization()
-  const { project, projectId } = useCurrentProject(name)
+  const { organizationId, project, projectId } = useCurrentOrganization(name)
   const { t } = useTranslation()
 
   // ** States
-  const [dates, setDates] = useState<Date[]>([
-    project.startDate ? new Date(project.startDate) : new Date(),
-    project.endDate ? new Date(project.endDate) : new Date()
-  ])
-  const [endDateRange, setEndDateRange] = useState<DateType>(project.endDate ? new Date(project.endDate) : new Date())
-  const [startDateRange, setStartDateRange] = useState<DateType>(
-    project.startDate ? new Date(project.startDate) : new Date()
-  )
+  const [dates, setDates] = useState<Date[]>([new Date(project!.startDate), new Date(project!.endDate)])
+  const [endDateRange, setEndDateRange] = useState<DateType>(new Date(project!.endDate))
+  const [startDateRange, setStartDateRange] = useState<DateType>(new Date(project!.startDate))
   const [formData, setFormData] = useState<UpdateProjectRequestDto>({
-    name: project.name,
-    description: project.description,
-    totalBudget: project.totalBudget,
+    name: project!.name,
+    description: project!.description,
+    totalBudget: project!.totalBudget,
     startDate: format(dates[0] ? dates[0] : new Date(), 'yyyy-MM-dd'),
     endDate: format(dates[1] ? dates[1] : new Date(), 'yyyy-MM-dd')
   })
@@ -134,7 +128,7 @@ const ProjectEdit = () => {
     }
 
     // Call api
-    dispatch(updateProject({ ...updateProjectRequest, projectId, organizationId })).then(async () => {
+    dispatch(updateProject({ ...updateProjectRequest, projectId: projectId!, organizationId })).then(async () => {
       // Update current organization's session
       const response = await $api(session.data?.accessToken).internal.getUserProfile()
       session.update({ organizations: response.data.organizations })
