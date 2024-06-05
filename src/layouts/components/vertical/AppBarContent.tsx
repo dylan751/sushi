@@ -12,9 +12,6 @@ import { Settings } from 'src/@core/context/settingsContext'
 import Autocomplete from 'src/layouts/components/Autocomplete'
 import ModeToggler from 'src/@core/layouts/components/shared-components/ModeToggler'
 import UserLanguageDropdown from '../UserLanguageDropdown'
-import NotificationDropdown, {
-  NotificationsType
-} from 'src/@core/layouts/components/shared-components/NotificationDropdown'
 import UserDropdown from 'src/layouts/components/UserDropdown'
 
 // ** Context Imports
@@ -24,6 +21,7 @@ import { calculateBudgetProcess } from 'src/utils/budget'
 
 // ** Utils Imports
 import { format } from 'date-fns'
+import NotificationDropdown, { NotificationsType } from '../shared-components/UserNotificationDropdown'
 
 interface Props {
   hidden: boolean
@@ -38,7 +36,7 @@ const AppBarContent = (props: Props) => {
 
   const statisticsStore = useSelector((state: RootState) => state.organizationStatistics)
 
-  const notifications: NotificationsType[] = []
+  const notifications: (NotificationsType & { projectName: string })[] = []
 
   statisticsStore.statistics.projects?.map(project => {
     const budgetProcess = calculateBudgetProcess(project.totalSpent, project.totalBudget)
@@ -49,7 +47,8 @@ const AppBarContent = (props: Props) => {
         avatarColor: 'error',
         subtitle: `Project's budget exceeded at ${budgetProcess}%`,
         avatarText: project.name,
-        title: `${project.name} Budget Exceeded!`
+        title: `${project.name} Budget Exceeded!`,
+        projectName: project.name
       })
     } else if (budgetProcess > 75) {
       notifications.push({
@@ -57,7 +56,8 @@ const AppBarContent = (props: Props) => {
         avatarColor: 'warning',
         subtitle: `Project's budget has reached over ${budgetProcess}%, please be careful!`,
         avatarText: project.name,
-        title: `${project.name} Budget Warning!`
+        title: `${project.name} Budget Warning!`,
+        projectName: project.name
       })
     }
   })
