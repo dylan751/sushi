@@ -25,6 +25,121 @@ export interface UserRole {
   slug: string
 }
 
+export interface OrganizationUserResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "robin@moneyforward.co.jp" */
+  email: string
+  /** @example "robin" */
+  name: string
+  /** @example "0339089172" */
+  phone: string
+  /** @example "19A Bach Khoa, Ha Noi" */
+  address: string
+  /** @example "https://image.com/avatar-1" */
+  avatar: string
+  roles: UserRole[]
+}
+
+export enum ColorType {
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary',
+  ERROR = 'error',
+  INFO = 'info',
+  SUCCESS = 'success',
+  WARNING = 'warning'
+}
+
+export enum IconType {
+  MDI_INVOICE_ADD = 'mdi:invoice-add',
+  MDI_INVOICE_MINUS = 'mdi:invoice-minus',
+  MDI_INVOICE_TEXT_CHECK_OUTLINE = 'mdi:invoice-text-check-outline',
+  MDI_INVOICE_TEXT_SEND_OUTLINE = 'mdi:invoice-text-send-outline',
+  MDI_CATEGORY_OUTLINE = 'mdi:category-outline',
+  MDI_CATEGORY_PLUS_OUTLINE = 'mdi:category-plus-outline',
+  MDI_COMPUTER = 'mdi:computer',
+  MDI_ACCOUNT_BADGE_OUTLINE = 'mdi:account-badge-outline',
+  MDI_MEDICINE_BOTTLE_OUTLINE = 'mdi:medicine-bottle-outline',
+  MDI_AIRPLANE = 'mdi:airplane',
+  MDI_CAR_OUTLINE = 'mdi:car-outline',
+  MDI_IMPORT = 'mdi:import',
+  MDI_EXPORT = 'mdi:export',
+  MDI_CREDIT_CARD_ADD = 'mdi:credit-card-add',
+  MDI_EMAIL_ADD_OUTLINE = 'mdi:email-add-outline'
+}
+
+export enum InvoiceType {
+  EXPENSE = 'expense',
+  INCOME = 'income'
+}
+
+export interface CategoryResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "Computer Expense" */
+  name: string
+  /** @example "primary" */
+  color: ColorType
+  /** @example "mdi:airplane" */
+  icon: IconType
+  /** @example "expense" */
+  type: InvoiceType
+  /** @example 1000 */
+  totalSpent: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
+export interface BudgetResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example 1 */
+  categoryId: number
+  /** @example 100000 */
+  amount: number
+  category: CategoryResponseDto
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
+export interface ProjectResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "Technology Investment" */
+  name: string
+  /** @example "A project to improve school technology" */
+  description: string
+  /** @example 100000 */
+  totalBudget: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  startDate: string
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  endDate: string
+  creator: OrganizationUserResponseDto
+  invoices: any[][]
+  budgets: BudgetResponseDto[]
+  categories: CategoryResponseDto[]
+  /** @example 1000 */
+  totalSpent: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
 export interface OrganizationProfileResponseDto {
   /** @example 1 */
   id: number
@@ -36,6 +151,7 @@ export interface OrganizationProfileResponseDto {
   phone: string
   /** @example "19A Bach Khoa, Ha Noi" */
   address: string
+  projects: ProjectResponseDto[]
   roles: UserRole[]
 }
 
@@ -97,22 +213,6 @@ export interface UpdateProfileRequestDto {
   address?: string
   /** @example "password" */
   password?: string
-}
-
-export interface OrganizationUserResponseDto {
-  /** @example 1 */
-  id: number
-  /** @example "robin@moneyforward.co.jp" */
-  email: string
-  /** @example "robin" */
-  name: string
-  /** @example "0339089172" */
-  phone: string
-  /** @example "19A Bach Khoa, Ha Noi" */
-  address: string
-  /** @example "https://image.com/avatar-1" */
-  avatar: string
-  roles: UserRole[]
 }
 
 export interface UserSearchRequestDto {
@@ -227,105 +327,6 @@ export interface UpdateOrganizationRequestDto {
 export interface PermissionSubjectResponseDto {
   /** @example "organization" */
   subject: string
-}
-
-export enum ColorType {
-  PRIMARY = 'primary',
-  SECONDARY = 'secondary',
-  ERROR = 'error',
-  INFO = 'info',
-  SUCCESS = 'success',
-  WARNING = 'warning'
-}
-
-export enum IconType {
-  MDI_INVOICE_ADD = 'mdi:invoice-add',
-  MDI_INVOICE_MINUS = 'mdi:invoice-minus',
-  MDI_INVOICE_TEXT_CHECK_OUTLINE = 'mdi:invoice-text-check-outline',
-  MDI_INVOICE_TEXT_SEND_OUTLINE = 'mdi:invoice-text-send-outline',
-  MDI_CATEGORY_OUTLINE = 'mdi:category-outline',
-  MDI_CATEGORY_PLUS_OUTLINE = 'mdi:category-plus-outline',
-  MDI_COMPUTER = 'mdi:computer',
-  MDI_ACCOUNT_BADGE_OUTLINE = 'mdi:account-badge-outline',
-  MDI_MEDICINE_BOTTLE_OUTLINE = 'mdi:medicine-bottle-outline',
-  MDI_AIRPLANE = 'mdi:airplane',
-  MDI_CAR_OUTLINE = 'mdi:car-outline',
-  MDI_IMPORT = 'mdi:import',
-  MDI_EXPORT = 'mdi:export',
-  MDI_CREDIT_CARD_ADD = 'mdi:credit-card-add',
-  MDI_EMAIL_ADD_OUTLINE = 'mdi:email-add-outline'
-}
-
-export enum InvoiceType {
-  EXPENSE = 'expense',
-  INCOME = 'income'
-}
-
-export interface CategoryResponseDto {
-  /** @example 1 */
-  id: number
-  /** @example "Computer Expense" */
-  name: string
-  /** @example "primary" */
-  color: ColorType
-  /** @example "mdi:airplane" */
-  icon: IconType
-  /** @example "expense" */
-  type: InvoiceType
-  /** @example 1000 */
-  totalSpent: number
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  createdAt: string
-}
-
-export interface BudgetResponseDto {
-  /** @example 1 */
-  id: number
-  /** @example 1 */
-  categoryId: number
-  /** @example 100000 */
-  amount: number
-  category: CategoryResponseDto
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  createdAt: string
-}
-
-export interface ProjectResponseDto {
-  /** @example 1 */
-  id: number
-  /** @example "Technology Investment" */
-  name: string
-  /** @example "A project to improve school technology" */
-  description: string
-  /** @example 100000 */
-  totalBudget: number
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  startDate: string
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  endDate: string
-  creator: OrganizationUserResponseDto
-  invoices: any[][]
-  budgets: BudgetResponseDto[]
-  categories: CategoryResponseDto[]
-  /** @example 1000 */
-  totalSpent: number
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  createdAt: string
 }
 
 export interface OrganizationStatisticsResponseDto {
@@ -1297,6 +1298,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         fromDate?: string
         /** @format date-time */
         toDate?: string
+        uid?: string
         type?: string
         projectId?: number
         status?: string
@@ -1505,6 +1507,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         fromDate?: string
         /** @format date-time */
         toDate?: string
+        uid?: string
         type?: string
         projectId?: number
         status?: string

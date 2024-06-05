@@ -54,7 +54,7 @@ interface CellType {
 }
 
 export interface CategoryTabProps {
-  projectId: string
+  projectId: number
 }
 
 const CategoryListTable = ({ projectId }: CategoryTabProps) => {
@@ -77,7 +77,7 @@ const CategoryListTable = ({ projectId }: CategoryTabProps) => {
     dispatch(
       fetchCategory({
         organizationId,
-        projectId: parseInt(projectId),
+        projectId,
         query: value,
         type: type
       })
@@ -93,7 +93,7 @@ const CategoryListTable = ({ projectId }: CategoryTabProps) => {
   }, [])
 
   const handleDeleteCategory = (categoryId: number) => {
-    dispatch(deleteCategory({ organizationId, projectId: parseInt(projectId), categoryId }))
+    dispatch(deleteCategory({ organizationId, projectId, categoryId }))
   }
 
   const toggleAddCategoryDrawer = () => {

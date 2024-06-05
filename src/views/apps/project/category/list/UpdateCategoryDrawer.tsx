@@ -49,7 +49,7 @@ import { capitalizeFirstLetter } from 'src/utils/string'
 interface SidebarUpdateCategoryInterface {
   open: boolean
   toggle: (categoryId: number | null) => void
-  projectId: string
+  projectId: number
   selectedCategory: CategoryResponseDto | null
   setSelectedCategory: (category: CategoryResponseDto | null) => void
 }
@@ -125,7 +125,7 @@ const SidebarUpdateCategory = (props: SidebarUpdateCategoryInterface) => {
     dispatch(
       updateCategory({
         organizationId,
-        projectId: parseInt(projectId),
+        projectId,
         categoryId: selectedCategory.id,
         ...updateCategoryRequest
       })

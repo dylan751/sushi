@@ -274,7 +274,7 @@ const InvoiceList = () => {
       field: 'project',
       headerName: t('invoice_page.list.project') as string,
       renderCell: ({ row }: CellType) => (
-        <LinkStyled href={getProjectInvoiceTab(row.project.id)}>{`${row.project.name}`}</LinkStyled>
+        <LinkStyled href={getProjectInvoiceTab(row.project.name)}>{`${row.project.name}`}</LinkStyled>
       )
     },
     {
