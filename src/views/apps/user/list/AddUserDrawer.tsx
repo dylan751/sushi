@@ -37,6 +37,9 @@ import { useTranslation } from 'react-i18next'
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
 
+// ** Constant Imports
+import { MenuProps } from 'src/constants'
+
 interface SidebarAddUserType {
   open: boolean
   toggle: () => void
@@ -201,6 +204,7 @@ const SidebarAddUser = (props: SidebarAddUserType) => {
                       labelId='custom-role'
                       onChange={onChange}
                       inputProps={{ placeholder: t('role_page.user.custom_role_optional').toString() }}
+                      MenuProps={MenuProps}
                     >
                       {allRoles.map(
                         role =>

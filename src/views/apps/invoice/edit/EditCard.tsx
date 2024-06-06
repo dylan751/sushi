@@ -50,6 +50,9 @@ import { useCurrentOrganization } from 'src/hooks'
 import { formatCurrencyAsStandard } from 'src/utils/currency'
 import { calculateInvoiceSubtotal, calculateInvoiceTotal } from 'src/utils/invoice'
 
+// ** Constant Imports
+import { MenuProps } from 'src/constants'
+
 const initialFormData = {
   index: 0,
   name: '',
@@ -419,6 +422,7 @@ const EditCard = ({
                       value={categoryId ?? ''}
                       sx={{ width: { sm: '220px', xs: '170px' } }}
                       onChange={e => setCategoryId(e.target.value)}
+                      MenuProps={MenuProps}
                     >
                       {categories.map(
                         category =>
