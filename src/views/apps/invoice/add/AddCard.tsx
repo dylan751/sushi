@@ -142,6 +142,10 @@ export interface AddCardProps {
   setUid: (value: string) => void
   tax: string
   setTax: (value: string) => void
+  discount: string
+  setDiscount: (value: string) => void
+  note: string
+  setNote: (value: string) => void
   exchangeRate: string
   setExchangeRate: (value: string) => void
 }
@@ -168,6 +172,10 @@ const AddCard = ({
   setUid,
   tax,
   setTax,
+  discount,
+  setDiscount,
+  note,
+  setNote,
   exchangeRate,
   setExchangeRate
 }: AddCardProps) => {
@@ -426,6 +434,21 @@ const AddCard = ({
               onChange={e => setClientName(e.target.value)}
             />
           </Grid>
+          <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: ['flex-start', 'flex-end'] }}>
+            <div>
+              <Typography variant='body2' sx={{ mb: 3.5, color: 'text.primary', fontWeight: 600 }}>
+                {t('invoice_page.add.note')}:
+              </Typography>
+              <TextField
+                rows={2}
+                placeholder={t('invoice_page.add.note') as string}
+                fullWidth
+                multiline
+                value={note}
+                onChange={e => setNote(e.target.value)}
+              />
+            </div>
+          </Grid>
         </Grid>
       </CardContent>
 
@@ -551,16 +574,21 @@ const AddCard = ({
           </Grid>
           <Grid item xs={12} sm={5} lg={4} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>
             <CalcWrapper>
-              <Typography variant='body2'>{t('invoice_page.preview.subtotal')}:</Typography>
+              <Typography variant='body2'>{t('invoice_page.add.subtotal')}:</Typography>
               <Typography variant='body2' sx={{ fontWeight: 600 }}>
                 {formatCurrencyAsStandard(calculateInvoiceSubtotal(formData), Locale.EN, currency)}
               </Typography>
             </CalcWrapper>
             <CalcWrapper>
-              <Typography variant='body2'>{t('invoice_page.preview.discount')}:</Typography>
-              <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                {formatCurrencyAsStandard(0, Locale.EN, currency)}
-              </Typography>
+              <Typography variant='body2'>{t('invoice_page.add.discount')}:</Typography>
+              <TextField
+                size='small'
+                type='number'
+                placeholder='100'
+                sx={{ width: '70px' }}
+                value={discount}
+                onChange={e => setDiscount(e.target.value)}
+              />
             </CalcWrapper>
             <CalcWrapper>
               <Typography variant='body2'>{t('invoice_page.add.tax')}:</Typography>
@@ -575,9 +603,9 @@ const AddCard = ({
             </CalcWrapper>
             <Divider />
             <CalcWrapper>
-              <Typography variant='body2'>{t('invoice_page.preview.total')}:</Typography>
+              <Typography variant='body2'>{t('invoice_page.add.total')}:</Typography>
               <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                {formatCurrencyAsStandard(calculateInvoiceTotal(formData, tax), Locale.EN, currency)}
+                {formatCurrencyAsStandard(calculateInvoiceTotal(formData, tax, discount), Locale.EN, currency)}
               </Typography>
             </CalcWrapper>
           </Grid>

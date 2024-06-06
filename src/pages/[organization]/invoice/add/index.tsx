@@ -69,6 +69,8 @@ const InvoiceAdd = () => {
   const [clientName, setClientName] = useState<string>('')
   const [uid, setUid] = useState<string>('')
   const [tax, setTax] = useState<string>('')
+  const [discount, setDiscount] = useState<string>('0')
+  const [note, setNote] = useState<string>('')
   const [exchangeRate, setExchangeRate] = useState<string>('')
   const [formData, setFormData] = useState<CreateInvoiceFormData[]>([initialFormData])
 
@@ -134,6 +136,8 @@ const InvoiceAdd = () => {
       categoryId: parseInt(categoryId),
       uid,
       tax: parseInt(tax),
+      discount: parseInt(discount) ?? 0,
+      note,
       exchangeRate: parseInt(exchangeRate)
     }
 
@@ -169,7 +173,11 @@ const InvoiceAdd = () => {
             setUid={setUid}
             tax={tax}
             setTax={setTax}
+            discount={discount}
+            setDiscount={setDiscount}
             exchangeRate={exchangeRate}
+            note={note}
+            setNote={setNote}
             setExchangeRate={setExchangeRate}
           />
         </Grid>
@@ -177,7 +185,7 @@ const InvoiceAdd = () => {
           <AddActions onSubmit={onSubmit} isSubmitDisabled={isSubmitDisabled} />
         </Grid>
       </Grid>
-      <AddCategoryDrawer open={addCategoryOpen} toggle={toggleAddCategoryDrawer} projectId={projectId} />
+      <AddCategoryDrawer open={addCategoryOpen} toggle={toggleAddCategoryDrawer} projectId={parseInt(projectId)} />
     </DatePickerWrapper>
   )
 }

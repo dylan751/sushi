@@ -447,6 +447,10 @@ export interface InvoiceResponseDto {
   /** @example 10 */
   tax: number
   /** @example 10 */
+  discount: number
+  /** @example "Pay monthly internet bill" */
+  note: string
+  /** @example 10 */
   total: number
   /** @example 10 */
   exchangeRate: number
@@ -536,6 +540,10 @@ export interface CreateInvoiceRequestDto {
   uid: string
   /** @example 10 */
   tax?: number
+  /** @example 10 */
+  discount: number
+  /** @example "Pay monthly internet bill" */
+  note?: string
   /** @example 24.35 */
   exchangeRate?: number
   items: CreateInvoiceItemRequest[]
@@ -570,6 +578,10 @@ export interface UpdateInvoiceRequestDto {
   uid?: string
   /** @example 10 */
   tax?: number
+  /** @example 10 */
+  discount?: number
+  /** @example "Pay monthly internet bill" */
+  note?: string
   /** @example 24.35 */
   exchangeRate?: number
   items: UpdateInvoiceItemRequest[]

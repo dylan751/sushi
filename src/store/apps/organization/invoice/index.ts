@@ -146,6 +146,7 @@ export const updateInvoice = createAsyncThunk(
       }).internal.updateAnInvoiceForAProjectOfOrganization(organizationId, projectId, resData.invoiceId, resData)
 
       dispatch(fetchInvoice({ organizationId }))
+      dispatch(fetchAnInvoice({ organizationId, id: resData.invoiceId }))
       dispatch(fetchInvoiceForProject({ organizationId, projectId }))
       toast.success('Update invoice succeed')
 
