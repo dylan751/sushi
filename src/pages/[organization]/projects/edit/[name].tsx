@@ -121,8 +121,8 @@ const ProjectEdit = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (formData.description && formData.description.length > 500) {
-      toast.error('Project description must be less than 500 characters!')
+    if (formData.description && formData.description.length > 2000) {
+      toast.error('Project description must be less than 2000 characters!')
 
       return
     }
