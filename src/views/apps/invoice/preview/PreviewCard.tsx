@@ -124,6 +124,16 @@ const PreviewCard = ({ data }: Props) => {
                 {data.clientName}
               </Typography>
             </Grid>
+            <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: ['flex-start', 'flex-end'] }}>
+              <div>
+                <Typography variant='body2' sx={{ mb: 3.5, fontWeight: 600 }}>
+                  {t('invoice_page.preview.note')}:
+                </Typography>
+                <Typography variant='body2' sx={{ mb: 2 }}>
+                  {data.note}
+                </Typography>
+              </div>
+            </Grid>
           </Grid>
         </CardContent>
 
@@ -182,7 +192,7 @@ const PreviewCard = ({ data }: Props) => {
               <CalcWrapper>
                 <Typography variant='body2'>{t('invoice_page.preview.discount')}:</Typography>
                 <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                  {formatCurrencyAsStandard(0, Locale.EN, data.currency)}
+                  {formatCurrencyAsStandard(data.discount, Locale.EN, data.currency)}
                 </Typography>
               </CalcWrapper>
               <CalcWrapper>

@@ -122,13 +122,23 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
         <Divider sx={{ my: theme => `${theme.spacing(6)} !important` }} />
 
         <Grid container>
-          <Grid item xs={7} sm={8} sx={{ mb: { lg: 0, xs: 4 } }}>
+          <Grid item xs={12} sm={6} sx={{ mb: { lg: 0, xs: 4 } }}>
             <Typography variant='body2' sx={{ mb: 3.5, fontWeight: 600 }}>
-              {t('invoice_page.preview.invoice_to')}:
+              {t('invoice_page.print.invoice_to')}:
             </Typography>
             <Typography variant='body2' sx={{ mb: 2 }}>
               {invoice.clientName}
             </Typography>
+          </Grid>
+          <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: ['flex-start', 'flex-end'] }}>
+            <div>
+              <Typography variant='body2' sx={{ mb: 3.5, fontWeight: 600 }}>
+                {t('invoice_page.print.note')}:
+              </Typography>
+              <Typography variant='body2' sx={{ mb: 2 }}>
+                {invoice.note}
+              </Typography>
+            </div>
           </Grid>
         </Grid>
 
@@ -184,7 +194,7 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
             <CalcWrapper>
               <Typography variant='body2'>{t('invoice_page.print.discount')}:</Typography>
               <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                {formatCurrencyAsStandard(0, Locale.EN, invoice.currency)}
+                {formatCurrencyAsStandard(invoice.discount, Locale.EN, invoice.currency)}
               </Typography>
             </CalcWrapper>
             <CalcWrapper>

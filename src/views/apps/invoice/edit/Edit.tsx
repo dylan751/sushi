@@ -70,8 +70,18 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   const [tax, setTax] = useState<string>(
     (invoiceStore.invoice as InvoiceResponseDto).tax ? (invoiceStore.invoice as InvoiceResponseDto).tax.toString() : ''
   )
+  const [discount, setDiscount] = useState<string>(
+    (invoiceStore.invoice as InvoiceResponseDto).discount
+      ? (invoiceStore.invoice as InvoiceResponseDto).discount.toString()
+      : '0'
+  )
+  const [note, setNote] = useState<string>(
+    (invoiceStore.invoice as InvoiceResponseDto).note
+      ? (invoiceStore.invoice as InvoiceResponseDto).note.toString()
+      : ''
+  )
   const [exchangeRate, setExchangeRate] = useState<string>(
-    (invoiceStore.invoice as InvoiceResponseDto).tax
+    (invoiceStore.invoice as InvoiceResponseDto).exchangeRate
       ? (invoiceStore.invoice as InvoiceResponseDto).exchangeRate.toString()
       : ''
   )
@@ -148,6 +158,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
       uid,
       categoryId: parseInt(categoryId),
       tax: parseInt(tax),
+      discount: parseInt(discount) ?? 0,
+      note,
       exchangeRate: parseInt(exchangeRate)
     }
 
@@ -191,6 +203,10 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
               setUid={setUid}
               tax={tax}
               setTax={setTax}
+              discount={discount}
+              setDiscount={setDiscount}
+              note={note}
+              setNote={setNote}
               exchangeRate={exchangeRate}
               setExchangeRate={setExchangeRate}
             />
