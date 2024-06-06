@@ -365,7 +365,7 @@ const AddCard = ({
               </Box>
               <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                 <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
-                  Project:
+                  {t('invoice_page.add.project')}:
                 </Typography>
                 <Select
                   size='small'
@@ -386,7 +386,7 @@ const AddCard = ({
               {projectId && categories && (
                 <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                   <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
-                    Category:
+                    {t('invoice_page.add.category')}:
                   </Typography>
                   <Select
                     size='small'
@@ -397,7 +397,7 @@ const AddCard = ({
                     <CustomSelectItem value='' onClick={handleAddNewCategory}>
                       <Box sx={{ display: 'flex', alignItems: 'center', color: 'success.main', '& svg': { mr: 2 } }}>
                         <Icon icon='mdi:plus' fontSize={20} />
-                        Add New Category
+                        {t('invoice_page.add.add_new_category')}
                       </Box>
                     </CustomSelectItem>
                     {categories.map(

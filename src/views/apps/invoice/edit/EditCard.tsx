@@ -401,7 +401,7 @@ const EditCard = ({
                 </Box>
                 <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                   <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
-                    Project:
+                    {t('invoice_page.edit.project')}:
                   </Typography>
                   <Select size='small' value={projectId ?? ''} sx={{ width: { sm: '220px', xs: '170px' } }} disabled>
                     <MenuItem value={projectId} key={projectId}>
@@ -412,7 +412,7 @@ const EditCard = ({
                 {projectId && categories && categories.length > 0 && (
                   <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                     <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
-                      Category:
+                      {t('invoice_page.edit.category')}:
                     </Typography>
                     <Select
                       size='small'
