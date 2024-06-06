@@ -38,7 +38,7 @@ export const fetchRole = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -64,7 +64,7 @@ export const addRole = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -90,7 +90,7 @@ export const updateRole = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -117,7 +117,7 @@ export const deleteRole = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )

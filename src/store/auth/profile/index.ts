@@ -29,7 +29,7 @@ export const fetchProfile = createAsyncThunk('authProfile/fetchProfile', async (
 
     return response.data
   } catch (error: any) {
-    toast.error(error.message)
+    toast.error(error.response.data.message)
   }
 })
 
@@ -53,7 +53,7 @@ export const updateProfile = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )

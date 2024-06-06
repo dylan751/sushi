@@ -43,7 +43,7 @@ export const fetchCategory = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -66,7 +66,7 @@ export const fetchACategory = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -92,7 +92,8 @@ export const addCategory = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      console.log(error)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -121,7 +122,7 @@ export const updateCategory = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -147,7 +148,7 @@ export const deleteCategory = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
