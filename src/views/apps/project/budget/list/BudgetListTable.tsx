@@ -45,6 +45,9 @@ import TableHeader from './TableHeader'
 import AddBudgetDrawer from './AddBudgetDrawer'
 import UpdateBudgetDrawer from './UpdateBudgetDrawer'
 
+// ** Constant Imports
+import { MenuProps } from 'src/constants'
+
 interface CellType {
   row: BudgetResponseDto
 }
@@ -217,6 +220,7 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
                     label='Category Type'
                     onChange={e => handleOnChangeCategory(e.target.value)}
                     labelId='category-type-select'
+                    MenuProps={MenuProps}
                   >
                     <MenuItem value=''>All Categories</MenuItem>
                     {categoryStore.categories.map(

@@ -44,7 +44,7 @@ export const fetchProject = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -67,7 +67,7 @@ export const fetchAProject = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -93,7 +93,7 @@ export const addProject = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -119,7 +119,7 @@ export const updateProject = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -145,7 +145,7 @@ export const deleteProject = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )

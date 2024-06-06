@@ -64,6 +64,9 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import { fetchProject } from 'src/store/apps/organization/project'
 import DialogDeleteInvoice from 'src/views/apps/invoice/dialogs/DialogDeleteInvoice'
 
+// ** Constant Imports
+import { MenuProps } from 'src/constants'
+
 interface CustomInputProps {
   dates: Date[]
   label: string
@@ -423,6 +426,7 @@ const InvoiceList = () => {
                       label='Invoice Project'
                       onChange={e => handleOnChangeProjectId(e.target.value)}
                       labelId='invoice-project-select'
+                      MenuProps={MenuProps}
                     >
                       <MenuItem value=''>All Projects</MenuItem>
                       {projectStore.projects.map(project => (

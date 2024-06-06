@@ -39,7 +39,7 @@ export const fetchBudget = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -62,7 +62,7 @@ export const fetchABudget = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -88,7 +88,7 @@ export const addBudget = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -117,7 +117,7 @@ export const updateBudget = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -143,7 +143,7 @@ export const deleteBudget = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )

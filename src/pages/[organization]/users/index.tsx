@@ -57,6 +57,9 @@ import { AbilityContext } from 'src/layouts/components/acl/Can'
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
 
+// ** Constant Imports
+import { MenuProps } from 'src/constants'
+
 interface CellType {
   row: OrganizationUserResponseDto
 }
@@ -348,6 +351,7 @@ const UserPage = () => {
                     labelId='role-select'
                     onChange={handleRoleChange}
                     inputProps={{ placeholder: `${t('user_page.select_role')}` }}
+                    MenuProps={MenuProps}
                   >
                     <MenuItem value=''>{t('user_page.select_role')}</MenuItem>
                     {roleStore.roles.map(role => (

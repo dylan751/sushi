@@ -50,6 +50,9 @@ import { useCurrentOrganization } from 'src/hooks'
 import { formatCurrencyAsStandard } from 'src/utils/currency'
 import { calculateInvoiceSubtotal, calculateInvoiceTotal } from 'src/utils/invoice'
 
+// ** Constant Imports
+import { MenuProps } from 'src/constants'
+
 const initialFormData = {
   index: 0,
   name: '',
@@ -401,7 +404,7 @@ const EditCard = ({
                 </Box>
                 <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                   <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
-                    Project:
+                    {t('invoice_page.edit.project')}:
                   </Typography>
                   <Select size='small' value={projectId ?? ''} sx={{ width: { sm: '220px', xs: '170px' } }} disabled>
                     <MenuItem value={projectId} key={projectId}>
@@ -412,13 +415,14 @@ const EditCard = ({
                 {projectId && categories && categories.length > 0 && (
                   <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                     <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
-                      Category:
+                      {t('invoice_page.edit.category')}:
                     </Typography>
                     <Select
                       size='small'
                       value={categoryId ?? ''}
                       sx={{ width: { sm: '220px', xs: '170px' } }}
                       onChange={e => setCategoryId(e.target.value)}
+                      MenuProps={MenuProps}
                     >
                       {categories.map(
                         category =>

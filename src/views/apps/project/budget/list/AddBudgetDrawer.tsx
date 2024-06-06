@@ -37,6 +37,9 @@ import { useCurrentOrganization } from 'src/hooks'
 // ** Custom Component Imports
 import CustomChip from 'src/@core/components/mui/chip'
 
+// ** Constant Imports
+import { MenuProps } from 'src/constants'
+
 interface SidebarAddBudgetInterface {
   open: boolean
   toggle: () => void
@@ -51,17 +54,6 @@ const Header = styled(Box)<BoxProps>(({ theme }) => ({
   justifyContent: 'space-between',
   backgroundColor: theme.palette.background.default
 }))
-
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
-const MenuProps = {
-  PaperProps: {
-    style: {
-      width: 250,
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP
-    }
-  }
-}
 
 const schema = yup.object().shape({
   amount: yup.string().required(),
