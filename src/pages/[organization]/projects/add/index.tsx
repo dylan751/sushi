@@ -1,5 +1,6 @@
 // ** Next Imports
 import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 
 // ** React Imports
 import { forwardRef, useState } from 'react'
@@ -19,6 +20,7 @@ import Icon from 'src/@core/components/icon'
 // ** Third Party Imports
 import DatePicker from 'react-datepicker'
 import { format } from 'date-fns'
+import toast from 'react-hot-toast'
 
 // ** Type Imports
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
@@ -36,6 +38,7 @@ import { addProject } from 'src/store/apps/organization/project'
 // ** Util Imports
 import { getProjectListUrl } from 'src/utils/router'
 import { useTranslation } from 'react-i18next'
+import { $api } from 'src/utils/api'
 
 interface CustomInputProps {
   dates: Date[]
@@ -95,6 +98,7 @@ const ProjectAdd = () => {
   const router = useRouter()
   const { organizationId } = useCurrentOrganization()
   const { t } = useTranslation()
+  const session = useSession()
 
   const handleOnChangeRange = (dates: any) => {
     const [start, end] = dates
@@ -111,13 +115,24 @@ const ProjectAdd = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    if (formData.description.length > 2000) {
+      toast.error('Project description must be less than 2000 characters!')
+
+      return
+    }
+
     const createProjectRequest: CreateProjectRequestDto = {
       ...formData,
       startDate: format(dates[0], 'yyyy-MM-dd'),
       endDate: format(dates[1], 'yyyy-MM-dd')
     }
 
-    dispatch(addProject({ organizationId, ...createProjectRequest }))
+    dispatch(addProject({ organizationId, ...createProjectRequest })).then(async () => {
+      // Update current organization's session
+      const response = await $api(session.data?.accessToken).internal.getUserProfile()
+      session.update({ organizations: response.data.organizations })
+    })
     router.replace(getProjectListUrl())
   }
 

@@ -36,6 +36,7 @@ import { $api } from 'src/utils/api'
 
 // ** Third Party Imports
 import { format } from 'date-fns'
+import toast from 'react-hot-toast'
 import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
@@ -119,6 +120,12 @@ const ProjectEdit = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    if (formData.description && formData.description.length > 2000) {
+      toast.error('Project description must be less than 2000 characters!')
+
+      return
+    }
 
     // Update project api call
     const updateProjectRequest: UpdateProjectRequestDto = {
