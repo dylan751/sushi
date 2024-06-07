@@ -210,6 +210,7 @@ const ProjectAdd = () => {
                   isClearable
                   selectsRange
                   monthsShown={2}
+                  showYearDropdown
                   endDate={endDateRange}
                   selected={startDateRange}
                   startDate={startDateRange}
