@@ -31,6 +31,9 @@ import { Locale } from 'src/enum'
 import { getInitials } from 'src/@core/utils/get-initials'
 import { format } from 'date-fns'
 
+// ** Hooks Imports
+import { useCurrentOrganization } from 'src/hooks'
+
 export interface AddActionsProps {
   onSubmit: () => void
   isSubmitDisabled: () => boolean
@@ -55,6 +58,7 @@ const renderCurrencyImage = (row: ExchangeRateType) => {
 
 const AddActions = ({ onSubmit, isSubmitDisabled, exchangeRates }: AddActionsProps) => {
   const { t } = useTranslation()
+  const { organization } = useCurrentOrganization()
 
   const columns: GridColDef[] = [
     {
@@ -173,7 +177,7 @@ const AddActions = ({ onSubmit, isSubmitDisabled, exchangeRates }: AddActionsPro
       <Grid item xs={12}>
         <Typography variant='h6' sx={{ mt: 0, mb: 1, color: 'text.primary' }}>
           {t('invoice_page.add.exchange_rates_today', {
-            today: format(new Date(), 'MM/dd/yyyy')
+            today: format(new Date(), organization?.dateFormat)
           })}
         </Typography>
         <Card sx={{ height: 400, overflowY: 'auto', overflowX: 'hidden' }}>

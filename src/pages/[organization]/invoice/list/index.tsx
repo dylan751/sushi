@@ -73,6 +73,7 @@ interface CustomInputProps {
   end: number | Date
   start: number | Date
   setDates?: (value: Date[]) => void
+  dateformat: string
 }
 
 interface CellType {
@@ -117,8 +118,8 @@ const renderClient = (row: string) => {
 
 /* eslint-disable */
 const CustomInput = forwardRef((props: CustomInputProps, ref) => {
-  const startDate = props.start !== null ? format(props.start, 'MM/dd/yyyy') : ''
-  const endDate = props.end !== null ? ` - ${format(props.end, 'MM/dd/yyyy')}` : null
+  const startDate = props.start !== null ? format(props.start, props.dateformat) : ''
+  const endDate = props.end !== null ? ` - ${format(props.end, props.dateformat)}` : null
 
   const value = `${startDate}${endDate !== null ? endDate : ''}`
   props.start === null && props.dates.length && props.setDates ? props.setDates([]) : null
@@ -144,7 +145,7 @@ const InvoiceList = () => {
   const [selectedInvoice, setSelectedInvoice] = useState<InvoiceResponseDto | null>(null)
 
   // ** Hooks
-  const { organizationId } = useCurrentOrganization()
+  const { organization, organizationId } = useCurrentOrganization()
   const dispatch = useDispatch<AppDispatch>()
   const invoiceStore = useSelector((state: RootState) => state.invoice)
   const projectStore = useSelector((state: RootState) => state.project)
@@ -268,7 +269,7 @@ const InvoiceList = () => {
       field: 'date',
       headerName: t('invoice_page.list.date') as string,
       renderCell: ({ row }: CellType) => (
-        <Typography variant='body2'>{format(new Date(row.date), 'dd/MM/yyyy')}</Typography>
+        <Typography variant='body2'>{format(new Date(row.date), organization.dateFormat)}</Typography>
       )
     },
     {
@@ -380,6 +381,7 @@ const InvoiceList = () => {
                         label={t('invoice_page.list.invoice_date')}
                         end={endDateRange as number | Date}
                         start={startDateRange as number | Date}
+                        dateformat={organization.dateFormat}
                       />
                     }
                   />

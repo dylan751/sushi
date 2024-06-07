@@ -112,7 +112,7 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
                   {t('invoice_page.print.date')}:
                 </Typography>
                 <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                  {format(new Date(invoice?.date ? new Date(invoice.date) : new Date()), 'dd/MM/yyyy')}
+                  {format(new Date(invoice?.date ? new Date(invoice.date) : new Date()), organization?.dateFormat)}
                 </Typography>
               </Box>
             </Box>

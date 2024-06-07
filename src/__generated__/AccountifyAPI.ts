@@ -151,6 +151,8 @@ export interface OrganizationProfileResponseDto {
   phone: string
   /** @example "19A Bach Khoa, Ha Noi" */
   address: string
+  /** @example "dd/MM/yyyy" */
+  dateFormat: string
   projects: ProjectResponseDto[]
   roles: UserRole[]
 }
@@ -306,6 +308,8 @@ export interface OrganizationResponseDto {
   phone: string
   /** @example "19A Bach Khoa, Ha Noi" */
   address: string
+  /** @example "dd/MM/yyyy" */
+  dateFormat: string
   /**
    * @format date-time
    * @example "2024-02-26T07:31:35.000Z"
@@ -322,6 +326,8 @@ export interface UpdateOrganizationRequestDto {
   phone?: string
   /** @example "19A Bach Khoa, Ha Noi" */
   address?: string
+  /** @example "dd/MM/yyyy" */
+  dateFormat?: string
 }
 
 export interface PermissionSubjectResponseDto {

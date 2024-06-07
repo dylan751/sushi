@@ -68,7 +68,7 @@ const CategoryListTable = ({ projectId }: CategoryTabProps) => {
 
   // ** Hooks
   const { t } = useTranslation()
-  const { organizationId } = useCurrentOrganization()
+  const { organization, organizationId } = useCurrentOrganization()
   const dispatch = useDispatch<AppDispatch>()
   const categoryStore = useSelector((state: RootState) => state.category)
   const ability = useContext(AbilityContext)
@@ -138,7 +138,9 @@ const CategoryListTable = ({ projectId }: CategoryTabProps) => {
       minWidth: 215,
       field: 'createdDate',
       headerName: t('project_page.category.created_date') as string,
-      renderCell: ({ row }: CellType) => <Typography>{format(new Date(row.createdAt), 'dd/MM/yyyy')}</Typography>
+      renderCell: ({ row }: CellType) => (
+        <Typography>{format(new Date(row.createdAt), organization?.dateFormat)}</Typography>
+      )
     },
     {
       flex: 0.25,

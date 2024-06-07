@@ -26,6 +26,7 @@ import CustomChip from 'src/@core/components/mui/chip'
 
 // ** Hooks Imports
 import { useTranslation } from 'react-i18next'
+import { useCurrentOrganization } from 'src/hooks'
 
 // ** Third Party Imports
 import { format } from 'date-fns'
@@ -76,6 +77,7 @@ export interface ProjectLastInvoicesProps {
 
 const ProjectLastInvoices = ({ data }: ProjectLastInvoicesProps) => {
   const { t } = useTranslation()
+  const { organization } = useCurrentOrganization()
 
   const columns: GridColDef[] = [
     {
@@ -143,7 +145,7 @@ const ProjectLastInvoices = ({ data }: ProjectLastInvoicesProps) => {
       field: 'date',
       headerName: t('invoice_page.list.date') as string,
       renderCell: ({ row }: CellType) => (
-        <Typography variant='body2'>{format(new Date(row.date), 'dd/MM/yyyy')}</Typography>
+        <Typography variant='body2'>{format(new Date(row.date), organization?.dateFormat)}</Typography>
       )
     },
     {

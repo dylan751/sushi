@@ -50,12 +50,13 @@ interface CustomInputProps {
   end: number | Date
   start: number | Date
   setDates?: (value: Date[]) => void
+  dateformat: string
 }
 
 /* eslint-disable */
 const CustomInput = forwardRef((props: CustomInputProps, ref) => {
-  const startDate = props.start !== null ? format(props.start, 'MM/dd/yyyy') : ''
-  const endDate = props.end !== null ? ` - ${format(props.end, 'MM/dd/yyyy')}` : null
+  const startDate = props.start !== null ? format(props.start, props.dateformat) : ''
+  const endDate = props.end !== null ? ` - ${format(props.end, props.dateformat)}` : null
 
   const value = `${startDate}${endDate !== null ? endDate : ''}`
   props.start === null && props.dates.length && props.setDates ? props.setDates([]) : null
@@ -90,7 +91,7 @@ const ProjectEdit = () => {
   // ** Store
   const dispatch = useDispatch<AppDispatch>()
 
-  const { organizationId, project, projectId } = useCurrentOrganization(name)
+  const { organization, organizationId, project, projectId } = useCurrentOrganization(name)
   const { t } = useTranslation()
 
   // ** States
@@ -221,6 +222,7 @@ const ProjectEdit = () => {
                     isClearable
                     selectsRange
                     monthsShown={2}
+                    showYearDropdown
                     endDate={endDateRange}
                     selected={startDateRange}
                     startDate={startDateRange}
@@ -234,6 +236,7 @@ const ProjectEdit = () => {
                         label={t('project_page.edit.project_date')}
                         end={endDateRange as number | Date}
                         start={startDateRange as number | Date}
+                        dateformat={organization.dateFormat}
                       />
                     }
                   />
