@@ -46,12 +46,13 @@ interface CustomInputProps {
   end: number | Date
   start: number | Date
   setDates?: (value: Date[]) => void
+  dateformat: string
 }
 
 /* eslint-disable */
 const CustomInput = forwardRef((props: CustomInputProps, ref) => {
-  const startDate = props.start !== null ? format(props.start, 'MM/dd/yyyy') : ''
-  const endDate = props.end !== null ? ` - ${format(props.end, 'MM/dd/yyyy')}` : null
+  const startDate = props.start !== null ? format(props.start, props.dateformat) : ''
+  const endDate = props.end !== null ? ` - ${format(props.end, props.dateformat)}` : null
 
   const value = `${startDate}${endDate !== null ? endDate : ''}`
   props.start === null && props.dates.length && props.setDates ? props.setDates([]) : null
@@ -96,7 +97,7 @@ const ProjectAdd = () => {
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
   const router = useRouter()
-  const { organizationId } = useCurrentOrganization()
+  const { organization, organizationId } = useCurrentOrganization()
   const { t } = useTranslation()
   const session = useSession()
 
@@ -224,6 +225,7 @@ const ProjectAdd = () => {
                       label={t('project_page.add.project_date')}
                       end={endDateRange as number | Date}
                       start={startDateRange as number | Date}
+                      dateformat={organization?.dateFormat}
                     />
                   }
                 />

@@ -68,6 +68,7 @@ interface CustomInputProps {
   end: number | Date
   start: number | Date
   setDates?: (value: Date[]) => void
+  dateformat: string
 }
 
 interface CellType {
@@ -112,8 +113,8 @@ const renderClient = (row: string) => {
 
 /* eslint-disable */
 const CustomInput = forwardRef((props: CustomInputProps, ref) => {
-  const startDate = props.start !== null ? format(props.start, 'MM/dd/yyyy') : ''
-  const endDate = props.end !== null ? ` - ${format(props.end, 'MM/dd/yyyy')}` : null
+  const startDate = props.start !== null ? format(props.start, props.dateformat) : ''
+  const endDate = props.end !== null ? ` - ${format(props.end, props.dateformat)}` : null
 
   const value = `${startDate}${endDate !== null ? endDate : ''}`
   props.start === null && props.dates.length && props.setDates ? props.setDates([]) : null
@@ -140,7 +141,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 25 })
 
   // ** Hooks
-  const { organizationId } = useCurrentOrganization()
+  const { organization, organizationId } = useCurrentOrganization()
   const dispatch = useDispatch<AppDispatch>()
   const invoiceStore = useSelector((state: RootState) => state.invoice)
   const categoryStore = useSelector((state: RootState) => state.category)
@@ -260,7 +261,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
       field: 'date',
       headerName: t('invoice_page.list.date') as string,
       renderCell: ({ row }: CellType) => (
-        <Typography variant='body2'>{format(new Date(row.date), 'dd MMM yyyy')}</Typography>
+        <Typography variant='body2'>{format(new Date(row.date), organization?.dateFormat)}</Typography>
       )
     },
     {
@@ -360,6 +361,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
                         label={t('invoice_page.list.invoice_date')}
                         end={endDateRange as number | Date}
                         start={startDateRange as number | Date}
+                        dateformat={organization?.dateFormat}
                       />
                     }
                   />

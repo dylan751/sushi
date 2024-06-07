@@ -34,6 +34,9 @@ import { Locale } from 'src/enum'
 import { CurrencyType } from 'src/__generated__/AccountifyAPI'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 
+// ** Hooks Imports
+import { useCurrentOrganization } from 'src/hooks'
+
 interface EditActionsProps {
   id: string | undefined
   onSubmit: () => void
@@ -61,6 +64,7 @@ const renderCurrencyImage = (row: ExchangeRateType) => {
 const EditActions = ({ id, onSubmit, isSubmitDisabled, toggleAddPaymentDrawer, exchangeRates }: EditActionsProps) => {
   // ** Hook
   const { t } = useTranslation()
+  const { organization } = useCurrentOrganization()
 
   const columns: GridColDef[] = [
     {
@@ -202,7 +206,7 @@ const EditActions = ({ id, onSubmit, isSubmitDisabled, toggleAddPaymentDrawer, e
       <Grid item xs={12}>
         <Typography variant='h6' sx={{ mt: 0, mb: 1, color: 'text.primary' }}>
           {t('invoice_page.add.exchange_rates_today', {
-            today: format(new Date(), 'MM/dd/yyyy')
+            today: format(new Date(), organization?.dateFormat)
           })}
         </Typography>
         <Card sx={{ height: 400, overflowY: 'auto', overflowX: 'hidden' }}>

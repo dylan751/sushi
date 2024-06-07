@@ -433,6 +433,7 @@
             "organization_name": "Tên tổ chức",
             "phone_number": "Số điện thoại",
             "organization_address": "Địa chỉ tổ chức",
+            "date_format": "Định dạng ngày tháng",
             "delete_organization": "Xóa tổ chức",
             "deactivate_organization": "Vô hiệu hóa tổ chức",
             "organization_deactivation_checkbox": "Xác nhận vô hiệu hóa tổ chức",

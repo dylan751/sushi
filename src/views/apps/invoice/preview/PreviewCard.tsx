@@ -101,7 +101,7 @@ const PreviewCard = ({ data }: Props) => {
                       </MUITableCell>
                       <MUITableCell>
                         <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                          {format(new Date(data?.date ? new Date(data.date) : new Date()), 'dd MMM yyyy')}
+                          {format(new Date(data?.date ? new Date(data.date) : new Date()), organization?.dateFormat)}
                         </Typography>
                       </MUITableCell>
                     </TableRow>

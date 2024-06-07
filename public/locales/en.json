@@ -435,6 +435,7 @@
             "organization_name": "Organization Name",
             "phone_number": "Phone Number",
             "organization_address": "Organization Address",
+            "date_format": "Date Format",
             "delete_organization": "Delete Organization",
             "deactivate_organization": "Deactivate Organization",
             "organization_deactivation_checkbox": "I confirm my organization deactivation",
