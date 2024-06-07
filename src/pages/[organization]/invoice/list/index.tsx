@@ -268,7 +268,7 @@ const InvoiceList = () => {
       field: 'date',
       headerName: t('invoice_page.list.date') as string,
       renderCell: ({ row }: CellType) => (
-        <Typography variant='body2'>{format(new Date(row.date), 'dd MMM yyyy')}</Typography>
+        <Typography variant='body2'>{format(new Date(row.date), 'dd/MM/yyyy')}</Typography>
       )
     },
     {

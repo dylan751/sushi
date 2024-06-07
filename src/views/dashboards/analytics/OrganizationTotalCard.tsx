@@ -87,7 +87,7 @@ const OrganizationTotalCard = ({ title, type, invoices, total }: OrganizationTot
                     <Typography variant='body2' sx={{ mb: 0.5, fontWeight: 600, color: 'text.primary' }}>
                       <LinkStyled href={getInvoiceEditUrl(item.id)}>{`#${item.uid}`}</LinkStyled>
                     </Typography>
-                    <Typography variant='caption'> {format(new Date(item.date), 'yyyy-MM-dd')}</Typography>
+                    <Typography variant='caption'> {format(new Date(item.date), 'dd/MM/yyyy')}</Typography>
                   </Box>
 
                   <Box sx={{ minWidth: 85, display: 'flex', flexDirection: 'column' }}>

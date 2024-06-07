@@ -216,7 +216,7 @@ const Projects = () => {
       field: 'startDate',
       headerName: t('project_page.list.start_date') as string,
       renderCell: ({ row }: CellType) => (
-        <Typography variant='body2'>{format(new Date(row.startDate), 'dd MMM yyyy')}</Typography>
+        <Typography variant='body2'>{format(new Date(row.startDate), 'dd/MM/yyyy')}</Typography>
       )
     },
     {
@@ -225,7 +225,7 @@ const Projects = () => {
       field: 'endDate',
       headerName: t('project_page.list.end_date') as string,
       renderCell: ({ row }: CellType) => (
-        <Typography variant='body2'>{format(new Date(row.endDate), 'dd MMM yyyy')}</Typography>
+        <Typography variant='body2'>{format(new Date(row.endDate), 'dd/MM/yyyy')}</Typography>
       )
     }
   ]

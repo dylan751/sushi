@@ -138,7 +138,7 @@ const CategoryListTable = ({ projectId }: CategoryTabProps) => {
       minWidth: 215,
       field: 'createdDate',
       headerName: t('project_page.category.created_date') as string,
-      renderCell: ({ row }: CellType) => <Typography>{format(new Date(row.createdAt), 'dd MMM yyyy')}</Typography>
+      renderCell: ({ row }: CellType) => <Typography>{format(new Date(row.createdAt), 'dd/MM/yyyy')}</Typography>
     },
     {
       flex: 0.25,

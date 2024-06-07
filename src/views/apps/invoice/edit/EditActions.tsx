@@ -202,7 +202,7 @@ const EditActions = ({ id, onSubmit, isSubmitDisabled, toggleAddPaymentDrawer, e
       <Grid item xs={12}>
         <Typography variant='h6' sx={{ mt: 0, mb: 1, color: 'text.primary' }}>
           {t('invoice_page.add.exchange_rates_today', {
-            today: format(new Date(), 'MM/dd/yyyy')
+            today: format(new Date(), 'dd/MM/yyyy')
           })}
         </Typography>
         <Card sx={{ height: 400, overflowY: 'auto', overflowX: 'hidden' }}>
