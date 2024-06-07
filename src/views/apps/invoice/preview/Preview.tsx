@@ -56,10 +56,10 @@ const InvoicePreview = ({ id }: InvoicePreviewProps) => {
     return (
       <>
         <Grid container spacing={6}>
-          <Grid item xl={9} md={8} xs={12}>
+          <Grid item xl={8} md={7} xs={12}>
             <PreviewCard data={invoiceStore.invoice as InvoiceResponseDto} />
           </Grid>
-          <Grid item xl={3} md={4} xs={12}>
+          <Grid item xl={4} md={5} xs={12}>
             <PreviewActions
               id={id}
               toggleAddPaymentDrawer={toggleAddPaymentDrawer}

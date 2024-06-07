@@ -17,6 +17,7 @@ import { fetchAnInvoice, updateInvoice } from 'src/store/apps/organization/invoi
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
+import { BIDVResponseType } from 'src/pages/[organization]/exchange-rates'
 import {
   CurrencyType,
   InvoiceResponseDto,
@@ -37,6 +38,7 @@ import { getInvoiceListUrl, getInvoicePreviewUrl } from 'src/utils/router/invoic
 // ** Third Party Imports
 import { format } from 'date-fns'
 import toast from 'react-hot-toast'
+import axios from 'axios'
 
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
@@ -96,6 +98,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   )
   const [formData, setFormData] = useState<UpdateInvoiceFormData[]>([])
 
+  const [exchangeRates, setExchangeRates] = useState<BIDVResponseType>()
+
   const [addPaymentOpen, setAddPaymentOpen] = useState<boolean>(false)
   const [sendInvoiceOpen, setSendInvoiceOpen] = useState<boolean>(false)
 
@@ -112,6 +116,15 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
       dispatch(fetchCategory({ organizationId, projectId: (invoiceStore.invoice as InvoiceResponseDto).project.id }))
     }
   }, [dispatch, id, organizationId, invoiceStore.invoice])
+
+  useEffect(() => {
+    const getExchangeRates = async () => {
+      const response = await axios.get('https://bidv.com.vn/ServicesBIDV/ExchangeDetailServlet')
+      setExchangeRates(response.data)
+    }
+
+    getExchangeRates()
+  }, [])
 
   const isSubmitDisabled = (): boolean => {
     let isDisabled = false
@@ -179,7 +192,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
     return (
       <>
         <Grid container spacing={6}>
-          <Grid item xl={9} md={8} xs={12}>
+          <Grid item xl={8} md={7} xs={12}>
             <EditCard
               categories={categoryStore.categories}
               data={invoiceStore.invoice as InvoiceResponseDto}
@@ -211,12 +224,13 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
               setExchangeRate={setExchangeRate}
             />
           </Grid>
-          <Grid item xl={3} md={4} xs={12}>
+          <Grid item xl={4} md={5} xs={12}>
             <EditActions
               id={id}
               onSubmit={onSubmit}
               isSubmitDisabled={isSubmitDisabled}
               toggleAddPaymentDrawer={toggleAddPaymentDrawer}
+              exchangeRates={exchangeRates}
             />
           </Grid>
         </Grid>
