@@ -304,7 +304,8 @@
             "subtotal": "Subtotal",
             "discount": "Discount",
             "total": "Total",
-            "create_invoice": "Create Invoice"
+            "create_invoice": "Create Invoice",
+            "exchange_rates_today": "Exchange Rates, day {{today}}"
         },
         "edit": {
             "invoice": "Invoice",
@@ -328,7 +329,8 @@
             "discount": "Discount",
             "total": "Total",
             "update_invoice": "Update Invoice",
-            "preview": "Preview"
+            "preview": "Preview",
+            "exchange_rates_today": "Exchange Rates, day {{today}}"
         },
         "preview": {
             "invoice_to": "Invoice To",

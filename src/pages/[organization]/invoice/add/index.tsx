@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'src/store'
 import { addInvoice } from 'src/store/apps/organization/invoice'
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
+import { BIDVResponseType } from '../../exchange-rates'
 import {
   CreateInvoiceItemRequest,
   CreateInvoiceRequestDto,
@@ -32,6 +33,7 @@ import {
 // ** Third Party Imports
 import toast from 'react-hot-toast'
 import { format } from 'date-fns'
+import axios from 'axios'
 
 // ** Utils Imports
 import { getInvoiceListUrl } from 'src/utils/router/invoice'
@@ -74,6 +76,8 @@ const InvoiceAdd = () => {
   const [exchangeRate, setExchangeRate] = useState<string>('')
   const [formData, setFormData] = useState<CreateInvoiceFormData[]>([initialFormData])
 
+  const [exchangeRates, setExchangeRates] = useState<BIDVResponseType>()
+
   const toggleAddCategoryDrawer = () => setAddCategoryOpen(!addCategoryOpen)
 
   useEffect(() => {
@@ -85,6 +89,15 @@ const InvoiceAdd = () => {
       dispatch(fetchCategory({ organizationId, projectId: parseInt(projectId) }))
     }
   }, [dispatch, organizationId, projectId])
+
+  useEffect(() => {
+    const getExchangeRates = async () => {
+      const response = await axios.get('https://bidv.com.vn/ServicesBIDV/ExchangeDetailServlet')
+      setExchangeRates(response.data)
+    }
+
+    getExchangeRates()
+  }, [])
 
   const isSubmitDisabled = (): boolean => {
     let isDisabled = false
@@ -150,7 +163,7 @@ const InvoiceAdd = () => {
   return (
     <DatePickerWrapper sx={{ '& .react-datepicker-wrapper': { width: 'auto' } }}>
       <Grid container spacing={6}>
-        <Grid item xl={9} md={8} xs={12}>
+        <Grid item xl={8} md={7} xs={12}>
           <AddCard
             projects={projectStore.projects}
             categories={categoryStore.categories}
@@ -181,8 +194,8 @@ const InvoiceAdd = () => {
             setExchangeRate={setExchangeRate}
           />
         </Grid>
-        <Grid item xl={3} md={4} xs={12}>
-          <AddActions onSubmit={onSubmit} isSubmitDisabled={isSubmitDisabled} />
+        <Grid item xl={4} md={5} xs={12}>
+          <AddActions onSubmit={onSubmit} isSubmitDisabled={isSubmitDisabled} exchangeRates={exchangeRates} />
         </Grid>
       </Grid>
       <AddCategoryDrawer open={addCategoryOpen} toggle={toggleAddCategoryDrawer} projectId={parseInt(projectId)} />

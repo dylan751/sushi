@@ -33,7 +33,7 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import { styled } from '@mui/material/styles'
 
-interface ExchangeRateType {
+export interface ExchangeRateType {
   nameVI: string
   image: string
   muaTm: string
@@ -43,7 +43,7 @@ interface ExchangeRateType {
   ban: string
 }
 
-interface BIDVResponseType {
+export interface BIDVResponseType {
   hour: string
   data: ExchangeRateType[]
 }
@@ -59,7 +59,6 @@ const LinkStyled = styled(Link)(({ theme }) => ({
   fontWeight: '600'
 }))
 
-// ** renders client column
 const renderCurrencyImage = (row: ExchangeRateType) => {
   if (row.image) {
     return <CustomAvatar src={`https://bidv.com.vn/${row.image}`} sx={{ mr: 3, width: 30, height: 30 }} />

@@ -304,7 +304,8 @@
             "subtotal": "小計",
             "discount": "割引",
             "total": "合計",
-            "create_invoice": "インヴォイスの作成"
+            "create_invoice": "インヴォイスの作成",
+            "exchange_rates_today": "為替レート, 日付 {{today}}"
         },
         "edit": {
             "invoice": "インヴォイス",
@@ -328,7 +329,8 @@
             "discount": "割引",
             "total": "合計",
             "update_invoice": "インヴォイスの編集",
-            "preview": "プレビュー"
+            "preview": "プレビュー",
+            "exchange_rates_today": "為替レート, 日付 {{today}}"
         },
         "preview": {
             "invoice_to": "インヴォイス先",
