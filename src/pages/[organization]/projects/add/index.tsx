@@ -225,7 +225,7 @@ const ProjectAdd = () => {
                       label={t('project_page.add.project_date')}
                       end={endDateRange as number | Date}
                       start={startDateRange as number | Date}
-                      dateformat={organization.dateFormat}
+                      dateformat={organization?.dateFormat}
                     />
                   }
                 />

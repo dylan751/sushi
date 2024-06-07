@@ -269,7 +269,7 @@ const InvoiceList = () => {
       field: 'date',
       headerName: t('invoice_page.list.date') as string,
       renderCell: ({ row }: CellType) => (
-        <Typography variant='body2'>{format(new Date(row.date), organization.dateFormat)}</Typography>
+        <Typography variant='body2'>{format(new Date(row.date), organization?.dateFormat)}</Typography>
       )
     },
     {
@@ -381,7 +381,7 @@ const InvoiceList = () => {
                         label={t('invoice_page.list.invoice_date')}
                         end={endDateRange as number | Date}
                         start={startDateRange as number | Date}
-                        dateformat={organization.dateFormat}
+                        dateformat={organization?.dateFormat}
                       />
                     }
                   />
