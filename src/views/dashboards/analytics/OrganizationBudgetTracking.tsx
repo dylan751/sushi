@@ -4,6 +4,7 @@ import Link from 'next/link'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
+import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
@@ -72,18 +73,23 @@ const OrganizationBudgetTracking = ({ data }: OrganizationBudgetTrackingProps) =
                     sx={{
                       width: '100%',
                       display: 'flex',
-                      flexWrap: 'wrap',
-                      alignItems: 'center',
-                      justifyContent: 'space-between'
+                      flexWrap: 'nowrap',
+                      alignItems: 'flex-start',
+                      justifyContent: 'space-between',
+                      gap: '1rem'
                     }}
                   >
-                    <Box sx={{ mr: 2, display: 'flex', flexDirection: 'column' }}>
+                    <Box sx={{ mr: 2, display: 'flex', flexDirection: 'column', flex: 3 }}>
                       <Typography sx={{ mb: 0.25, fontWeight: 600, fontSize: '0.875rem' }}>
-                        <LinkStyled href={getProjectDefaultTab(project.id)}>{project.name}</LinkStyled>
+                        <LinkStyled href={getProjectDefaultTab(project.name)}>{project.name}</LinkStyled>
                       </Typography>
-                      <Typography variant='caption'>{project.description}</Typography>
+                      <Tooltip title={project.description}>
+                        <Typography variant='caption'>{`${project.description.slice(0, 50)} ${
+                          project.description.length < 50 ? '' : '...'
+                        }`}</Typography>
+                      </Tooltip>
                     </Box>
-                    <Box sx={{ width: '40%' }}>
+                    <Box sx={{ flex: 2 }}>
                       <Typography variant='body2'>
                         {calculateBudgetProcess(project.totalSpent, project.totalBudget)}%
                       </Typography>
