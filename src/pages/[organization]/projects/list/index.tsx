@@ -205,9 +205,11 @@ const Projects = () => {
       headerName: `${t('project_page.list.description')}`,
       renderCell: ({ row }: CellType) => {
         return (
-          <Typography variant='body2' noWrap>
-            {row.description || '-'}
-          </Typography>
+          <Tooltip title={row.description}>
+            <Typography variant='body2' noWrap>
+              {row.description || '-'}
+            </Typography>
+          </Tooltip>
         )
       }
     },
