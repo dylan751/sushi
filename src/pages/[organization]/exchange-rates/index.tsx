@@ -9,6 +9,9 @@ import axios from 'axios'
 // ** Custom Components Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
 
+// ** Third Party Imports
+import toast from 'react-hot-toast'
+
 // ** Utils Imports
 import { getInitials } from 'src/@core/utils/get-initials'
 import { formatCurrencyAsStandard } from 'src/utils/currency'
@@ -80,8 +83,12 @@ const ExchangeRates = () => {
 
   useEffect(() => {
     const getExchangeRates = async () => {
-      const response = await axios.get('https://bidv.com.vn/ServicesBIDV/ExchangeDetailServlet')
-      setExchangeRates(response.data)
+      try {
+        const response = await axios.get('https://bidv.com.vn/ServicesBIDV/ExchangeDetailServlet')
+        setExchangeRates(response.data)
+      } catch (error) {
+        toast.error('Error while fetching exchange rates!')
+      }
     }
 
     getExchangeRates()
