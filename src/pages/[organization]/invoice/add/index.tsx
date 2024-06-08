@@ -92,8 +92,12 @@ const InvoiceAdd = () => {
 
   useEffect(() => {
     const getExchangeRates = async () => {
-      const response = await axios.get('https://bidv.com.vn/ServicesBIDV/ExchangeDetailServlet')
-      setExchangeRates(response.data)
+      try {
+        const response = await axios.get('https://bidv.com.vn/ServicesBIDV/ExchangeDetailServlet')
+        setExchangeRates(response.data)
+      } catch (error) {
+        toast.error('Error while fetching exchange rates!')
+      }
     }
 
     getExchangeRates()

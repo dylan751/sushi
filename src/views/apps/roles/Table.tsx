@@ -172,8 +172,8 @@ const UserList = () => {
 
   const columns: GridColDef[] = [
     {
-      flex: 0.2,
-      minWidth: 230,
+      flex: 0.15,
+      minWidth: 200,
       field: 'name',
       headerName: `${t('role_page.user.user')}`,
       renderCell: ({ row }: CellType) => {
@@ -219,9 +219,9 @@ const UserList = () => {
       }
     },
     {
-      flex: 0.15,
+      flex: 0.1,
       field: 'role',
-      minWidth: 150,
+      minWidth: 125,
       headerName: `${t('role_page.user.role')}`,
       renderCell: ({ row }: CellType) => {
         return (
@@ -244,8 +244,8 @@ const UserList = () => {
       }
     },
     {
-      flex: 0.2,
-      minWidth: 250,
+      flex: 0.1,
+      minWidth: 125,
       field: 'phone',
       headerName: `${t('role_page.user.phone')}`,
       renderCell: ({ row }: CellType) => {
@@ -257,8 +257,8 @@ const UserList = () => {
       }
     },
     {
-      flex: 0.2,
-      minWidth: 250,
+      flex: 0.15,
+      minWidth: 200,
       field: 'address',
       headerName: `${t('role_page.user.address')}`,
       renderCell: ({ row }: CellType) => {

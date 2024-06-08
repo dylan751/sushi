@@ -15,7 +15,7 @@ import CardHeader from '@mui/material/CardHeader'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { DataGrid, GridColDef, GridRow, GridRowProps } from '@mui/x-data-grid'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -42,7 +42,6 @@ import { getProjectInvoiceTab } from 'src/utils/router'
 
 // ** Custom Components Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
-import OptionsMenu from 'src/@core/components/option-menu'
 import TableHeader from 'src/views/apps/invoice/list/TableHeader'
 import CustomChip from 'src/@core/components/mui/chip'
 
@@ -129,6 +128,14 @@ const CustomInput = forwardRef((props: CustomInputProps, ref) => {
   return <TextField fullWidth inputRef={ref} {...updatedProps} label={props.label || ''} value={value} />
 })
 /* eslint-enable */
+
+const TooltipRow = (props: React.HTMLAttributes<HTMLDivElement> & GridRowProps) => {
+  return (
+    <Tooltip placement='top' title={props.row?.note}>
+      <GridRow {...props} />
+    </Tooltip>
+  )
+}
 
 const InvoiceList = () => {
   // ** State
@@ -328,28 +335,19 @@ const InvoiceList = () => {
               </IconButton>
             </span>
           </Tooltip>
-          {ability?.can('update', 'invoice') && (
-            <OptionsMenu
-              iconProps={{ fontSize: 20 }}
-              iconButtonProps={{ size: 'small' }}
-              menuProps={{ sx: { '& .MuiMenuItem-root svg': { mr: 2 } } }}
-              options={[
-                {
-                  text: t('invoice_page.list.download'),
-                  icon: <Icon icon='mdi:download' fontSize={20} />
-                },
-                {
-                  text: t('invoice_page.list.edit'),
-                  href: getInvoiceEditUrl(row.id),
-                  icon: <Icon icon='mdi:pencil-outline' fontSize={20} />
-                },
-                {
-                  text: t('invoice_page.list.duplicate'),
-                  icon: <Icon icon='mdi:content-copy' fontSize={20} />
-                }
-              ]}
-            />
-          )}
+          <Tooltip title={t('invoice_page.list.edit')}>
+            <span>
+              <IconButton
+                size='small'
+                color='info'
+                component={Link}
+                href={getInvoiceEditUrl(row.id)}
+                disabled={!ability?.can('update', 'invoice')}
+              >
+                <Icon icon='mdi:pencil-outline' fontSize={20} />
+              </IconButton>
+            </span>
+          </Tooltip>
         </Box>
       )
     }
@@ -472,6 +470,9 @@ const InvoiceList = () => {
               pageSizeOptions={[25, 50, 100]}
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
+              slots={{
+                row: TooltipRow
+              }}
             />
           </Card>
         </Grid>
