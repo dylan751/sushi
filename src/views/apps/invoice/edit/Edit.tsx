@@ -239,7 +239,11 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
           </Grid>
         </Grid>
         <SendInvoiceDrawer open={sendInvoiceOpen} toggle={toggleSendInvoiceDrawer} />
-        <AddPaymentDrawer open={addPaymentOpen} toggle={toggleAddPaymentDrawer} />
+        <AddPaymentDrawer
+          open={addPaymentOpen}
+          toggle={toggleAddPaymentDrawer}
+          data={invoiceStore.invoice as InvoiceResponseDto}
+        />
       </>
     )
   } else {
