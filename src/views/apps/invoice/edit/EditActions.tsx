@@ -4,13 +4,9 @@ import Link from 'next/link'
 // ** MUI Imports
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
-import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
-import MenuItem from '@mui/material/MenuItem'
-import InputLabel from '@mui/material/InputLabel'
 import Box from '@mui/material/Box'
 import CardContent from '@mui/material/CardContent'
-import FormControl from '@mui/material/FormControl'
 import Typography from '@mui/material/Typography'
 
 // ** Icon Imports
@@ -169,9 +165,6 @@ const EditActions = ({ id, onSubmit, isSubmitDisabled, toggleAddPaymentDrawer, e
             >
               {t('invoice_page.edit.preview')}
             </Button>
-            <Button fullWidth color='secondary' variant='outlined' sx={{ mb: 3.5 }}>
-              Save
-            </Button>
             <Button
               fullWidth
               color='success'
@@ -183,25 +176,6 @@ const EditActions = ({ id, onSubmit, isSubmitDisabled, toggleAddPaymentDrawer, e
             </Button>
           </CardContent>
         </Card>
-      </Grid>
-
-      <Grid item xs={12}>
-        <FormControl fullWidth>
-          <InputLabel id='payment-select'>Accept payments via</InputLabel>
-          <Select
-            fullWidth
-            defaultValue='Internet Banking'
-            label='Accept payments via'
-            labelId='payment-select'
-            sx={{ mb: 4 }}
-          >
-            <MenuItem value='Internet Banking'>Internet Banking</MenuItem>
-            <MenuItem value='Debit Card'>Debit Card</MenuItem>
-            <MenuItem value='Credit Card'>Credit Card</MenuItem>
-            <MenuItem value='Paypal'>Paypal</MenuItem>
-            <MenuItem value='UPI Transfer'>UPI Transfer</MenuItem>
-          </Select>
-        </FormControl>
       </Grid>
       <Grid item xs={12}>
         <Typography variant='h6' sx={{ mt: 0, mb: 1, color: 'text.primary' }}>

@@ -26,10 +26,12 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 // ** Types
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
+import { InvoiceResponseDto } from 'src/__generated__/AccountifyAPI'
 
 interface Props {
   open: boolean
   toggle: () => void
+  data: InvoiceResponseDto
 }
 
 const CustomInput = forwardRef(({ ...props }, ref: ForwardedRef<HTMLElement>) => {
@@ -44,7 +46,7 @@ const Header = styled(Box)<BoxProps>(({ theme }) => ({
   backgroundColor: theme.palette.background.default
 }))
 
-const EditInvoiceDrawer = ({ open, toggle }: Props) => {
+const EditInvoiceDrawer = ({ open, toggle, data }: Props) => {
   // ** State
   const [date, setDate] = useState<DateType>(new Date())
 
@@ -70,7 +72,7 @@ const EditInvoiceDrawer = ({ open, toggle }: Props) => {
             id='invoice-balance'
             label='Invoice Balance'
             InputProps={{ disabled: true }}
-            defaultValue='5000.00'
+            defaultValue={data?.total}
           />
         </Box>
         <Box sx={{ mb: 6 }}>
@@ -117,14 +119,19 @@ const EditInvoiceDrawer = ({ open, toggle }: Props) => {
           <TextField rows={6} multiline fullWidth label='Internal Payment Note' placeholder='Internal Payment Note' />
         </Box>
 
-        <div>
-          <Button size='large' variant='contained' onClick={toggle} sx={{ mr: 4 }}>
-            Send
-          </Button>
-          <Button size='large' variant='outlined' color='secondary' onClick={toggle}>
-            Cancel
-          </Button>
-        </div>
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography sx={{ mb: 4 }} color='error.main'>
+            Sorry, this function is still in develop
+          </Typography>
+          <Box>
+            <Button size='large' variant='contained' onClick={toggle} sx={{ mr: 4 }} disabled>
+              Send
+            </Button>
+            <Button size='large' variant='outlined' color='secondary' onClick={toggle}>
+              Cancel
+            </Button>
+          </Box>
+        </Box>
       </Box>
     </Drawer>
   )

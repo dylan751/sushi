@@ -79,14 +79,19 @@ We would appreciate payment of this invoice by 05/11/2019`}
             icon={<Icon icon='mdi:attachment' fontSize={20} />}
           />
         </Box>
-        <div>
-          <Button size='large' variant='contained' onClick={toggle} sx={{ mr: 4 }}>
-            Send
-          </Button>
-          <Button size='large' variant='outlined' color='secondary' onClick={toggle}>
-            Cancel
-          </Button>
-        </div>
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography sx={{ mb: 4 }} color='error.main'>
+            Sorry, this function is still in develop
+          </Typography>
+          <Box>
+            <Button size='large' variant='contained' onClick={toggle} sx={{ mr: 4 }} disabled>
+              Send
+            </Button>
+            <Button size='large' variant='outlined' color='secondary' onClick={toggle}>
+              Cancel
+            </Button>
+          </Box>
+        </Box>
       </Box>
     </Drawer>
   )
