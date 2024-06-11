@@ -3,7 +3,7 @@
   <img
     width="300"
     src="./public/images/sushi.png"
-    alt="Vulcan"
+    alt="Sushi"
   />
 </p>
 
