@@ -30,9 +30,6 @@ import { fetchAnInvoice } from 'src/store/apps/organization/invoice'
 import { AppDispatch, RootState } from 'src/store'
 import { InvoiceResponseDto } from 'src/__generated__/AccountifyAPI'
 
-// ** Configs
-import themeConfig from 'src/configs/themeConfig'
-
 // ** Utils Imports
 import { getInvoiceListUrl } from 'src/utils/router/invoice'
 import { formatCurrencyAsStandard } from 'src/utils/currency'
@@ -91,7 +88,7 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
                   variant='h6'
                   sx={{ ml: 2.5, fontWeight: 600, lineHeight: 'normal', textTransform: 'uppercase' }}
                 >
-                  {themeConfig.templateName}
+                  {organization.name}
                 </Typography>
               </Box>
               <Box>

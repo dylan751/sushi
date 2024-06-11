@@ -31,9 +31,6 @@ import Icon from 'src/@core/components/icon'
 import DatePicker from 'react-datepicker'
 import { useTranslation } from 'react-i18next'
 
-// ** Configs
-import themeConfig from 'src/configs/themeConfig'
-
 // ** Types Imports
 import { CategoryResponseDto, CurrencyType, InvoiceResponseDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
 import { UpdateInvoiceFormData } from './Edit'
@@ -280,7 +277,7 @@ const EditCard = ({
                     variant='h6'
                     sx={{ ml: 2.5, fontWeight: 600, lineHeight: 'normal', textTransform: 'uppercase' }}
                   >
-                    {themeConfig.templateName}
+                    {organization.name}
                   </Typography>
                 </Box>
                 <Box>

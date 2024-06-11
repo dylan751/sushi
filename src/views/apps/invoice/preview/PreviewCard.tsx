@@ -13,9 +13,6 @@ import { styled } from '@mui/material/styles'
 import TableContainer from '@mui/material/TableContainer'
 import TableCell, { TableCellBaseProps } from '@mui/material/TableCell'
 
-// ** Configs
-import themeConfig from 'src/configs/themeConfig'
-
 // ** Types
 import { InvoiceResponseDto } from 'src/__generated__/AccountifyAPI'
 
@@ -72,7 +69,7 @@ const PreviewCard = ({ data }: Props) => {
                     variant='h6'
                     sx={{ ml: 2.5, fontWeight: 600, lineHeight: 'normal', textTransform: 'uppercase' }}
                   >
-                    {themeConfig.templateName}
+                    {organization.name}
                   </Typography>
                 </Box>
                 <Box>
