@@ -66,7 +66,11 @@ const renderCurrencyImage = (row: VCBExrateType) => {
   )
 }
 
-const VCBExchangeRates = () => {
+export interface VCBExchangeRatesProps {
+  customColumns?: GridColDef[]
+}
+
+const VCBExchangeRates = (props: VCBExchangeRatesProps) => {
   // ** States
   const [exchangeRates, setExchangeRates] = useState<VCBResponseType>()
 
@@ -91,7 +95,7 @@ const VCBExchangeRates = () => {
     getExchangeRates()
   }, [])
 
-  const columns: GridColDef[] = [
+  const defaultColumns: GridColDef[] = [
     {
       flex: 0.3,
       minWidth: 280,
@@ -173,9 +177,11 @@ const VCBExchangeRates = () => {
         <DataGrid
           autoHeight
           rows={exchangeRates ? exchangeRates.ExrateList.Exrate : []}
-          columns={columns}
+          columns={props.customColumns ? props.customColumns : defaultColumns}
           disableRowSelectionOnClick
           getRowId={(row: VCBExrateType) => `${row._attributes.CurrencyName} - ${row._attributes.CurrencyCode}`}
+
+          // slots={{ noRowsOverlay: CustomNoRowsOverlay }}
         />
       </Card>
     </Grid>

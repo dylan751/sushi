@@ -61,7 +61,11 @@ const renderCurrencyImage = (row: ExchangeRateType) => {
   }
 }
 
-const BIDVExchangeRates = () => {
+export interface BIDVExchangeRatesProps {
+  customColumns?: GridColDef[]
+}
+
+const BIDVExchangeRates = (props: BIDVExchangeRatesProps) => {
   // ** States
   const [exchangeRates, setExchangeRates] = useState<BIDVResponseType>()
 
@@ -81,7 +85,7 @@ const BIDVExchangeRates = () => {
     getExchangeRates()
   }, [])
 
-  const columns: GridColDef[] = [
+  const defaultColumns: GridColDef[] = [
     {
       flex: 0.3,
       minWidth: 280,
@@ -165,9 +169,11 @@ const BIDVExchangeRates = () => {
         <DataGrid
           autoHeight
           rows={exchangeRates ? exchangeRates.data : []}
-          columns={columns}
+          columns={props.customColumns ? props.customColumns : defaultColumns}
           disableRowSelectionOnClick
           getRowId={(row: ExchangeRateType) => `${row.nameVI} - ${row.image}`}
+
+          // slots={{ noRowsOverlay: CustomNoRowsOverlay }}
         />
       </Card>
     </Grid>

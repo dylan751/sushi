@@ -17,7 +17,6 @@ import { fetchAnInvoice, updateInvoice } from 'src/store/apps/organization/invoi
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
-import { BIDVResponseType } from '../../exchange-rates/BIDV'
 import {
   CurrencyType,
   InvoiceResponseDto,
@@ -38,7 +37,6 @@ import { getInvoiceListUrl, getInvoicePreviewUrl } from 'src/utils/router/invoic
 // ** Third Party Imports
 import { format } from 'date-fns'
 import toast from 'react-hot-toast'
-import axios from 'axios'
 
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
@@ -98,8 +96,6 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   )
   const [formData, setFormData] = useState<UpdateInvoiceFormData[]>([])
 
-  const [exchangeRates, setExchangeRates] = useState<BIDVResponseType>()
-
   const [addPaymentOpen, setAddPaymentOpen] = useState<boolean>(false)
   const [sendInvoiceOpen, setSendInvoiceOpen] = useState<boolean>(false)
 
@@ -116,19 +112,6 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
       dispatch(fetchCategory({ organizationId, projectId: (invoiceStore.invoice as InvoiceResponseDto).project.id }))
     }
   }, [dispatch, id, organizationId, invoiceStore.invoice])
-
-  useEffect(() => {
-    const getExchangeRates = async () => {
-      try {
-        const response = await axios.get('https://bidv.com.vn/ServicesBIDV/ExchangeDetailServlet')
-        setExchangeRates(response.data)
-      } catch (error) {
-        toast.error('Error while fetching exchange rates!')
-      }
-    }
-
-    getExchangeRates()
-  }, [])
 
   const isSubmitDisabled = (): boolean => {
     let isDisabled = false
@@ -234,7 +217,6 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
               onSubmit={onSubmit}
               isSubmitDisabled={isSubmitDisabled}
               toggleAddPaymentDrawer={toggleAddPaymentDrawer}
-              exchangeRates={exchangeRates}
             />
           </Grid>
         </Grid>

@@ -27,8 +27,8 @@ import { format } from 'date-fns'
 // ** Types Imports
 import { Locale } from 'src/enum'
 import { CurrencyType } from 'src/__generated__/AccountifyAPI'
-import { BIDVResponseType, ExchangeRateType } from '../../exchange-rates/BIDV'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import BIDVExchangeRates, { ExchangeRateType } from '../../exchange-rates/BIDV'
+import { GridColDef } from '@mui/x-data-grid'
 
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
@@ -38,7 +38,6 @@ interface EditActionsProps {
   onSubmit: () => void
   isSubmitDisabled: () => boolean
   toggleAddPaymentDrawer: () => void
-  exchangeRates: BIDVResponseType | undefined
 }
 
 interface CellType {
@@ -57,7 +56,7 @@ const renderCurrencyImage = (row: ExchangeRateType) => {
   }
 }
 
-const EditActions = ({ id, onSubmit, isSubmitDisabled, toggleAddPaymentDrawer, exchangeRates }: EditActionsProps) => {
+const EditActions = ({ id, onSubmit, isSubmitDisabled, toggleAddPaymentDrawer }: EditActionsProps) => {
   // ** Hook
   const { t } = useTranslation()
   const { organization } = useCurrentOrganization()
@@ -184,15 +183,7 @@ const EditActions = ({ id, onSubmit, isSubmitDisabled, toggleAddPaymentDrawer, e
           })}
         </Typography>
         <Card sx={{ height: 400, overflowY: 'auto', overflowX: 'hidden' }}>
-          <DataGrid
-            autoHeight
-            rows={exchangeRates ? exchangeRates.data : []}
-            columns={columns}
-            disableRowSelectionOnClick
-            getRowId={row => `${row.nameVI} - ${row.image}`}
-
-            // slots={{ noRowsOverlay: CustomNoRowsOverlay }}
-          />
+          <BIDVExchangeRates customColumns={columns} />
         </Card>
       </Grid>
     </Grid>

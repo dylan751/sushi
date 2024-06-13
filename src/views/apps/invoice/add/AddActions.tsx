@@ -4,7 +4,6 @@ import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import CardContent from '@mui/material/CardContent'
-import { DataGrid } from '@mui/x-data-grid/DataGrid'
 import Typography from '@mui/material/Typography'
 import { GridColDef } from '@mui/x-data-grid'
 
@@ -18,7 +17,7 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 import { useTranslation } from 'react-i18next'
 
 // ** Types Imports
-import { BIDVResponseType, ExchangeRateType } from '../../exchange-rates/BIDV'
+import BIDVExchangeRates, { ExchangeRateType } from '../../exchange-rates/BIDV'
 import { CurrencyType } from 'src/__generated__/AccountifyAPI'
 
 // ** Utils Imports
@@ -33,7 +32,6 @@ import { useCurrentOrganization } from 'src/hooks'
 export interface AddActionsProps {
   onSubmit: () => void
   isSubmitDisabled: () => boolean
-  exchangeRates: BIDVResponseType | undefined
 }
 
 interface CellType {
@@ -52,7 +50,7 @@ const renderCurrencyImage = (row: ExchangeRateType) => {
   }
 }
 
-const AddActions = ({ onSubmit, isSubmitDisabled, exchangeRates }: AddActionsProps) => {
+const AddActions = ({ onSubmit, isSubmitDisabled }: AddActionsProps) => {
   const { t } = useTranslation()
   const { organization } = useCurrentOrganization()
 
@@ -159,15 +157,7 @@ const AddActions = ({ onSubmit, isSubmitDisabled, exchangeRates }: AddActionsPro
           })}
         </Typography>
         <Card sx={{ height: 400, overflowY: 'auto', overflowX: 'hidden' }}>
-          <DataGrid
-            autoHeight
-            rows={exchangeRates ? exchangeRates.data : []}
-            columns={columns}
-            disableRowSelectionOnClick
-            getRowId={row => `${row.nameVI} - ${row.image}`}
-
-            // slots={{ noRowsOverlay: CustomNoRowsOverlay }}
-          />
+          <BIDVExchangeRates customColumns={columns} />
         </Card>
       </Grid>
     </Grid>

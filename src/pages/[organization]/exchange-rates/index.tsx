@@ -28,7 +28,7 @@ import { format } from 'date-fns'
 
 const ExchangeRates = () => {
   // ** States
-  const [source, setSource] = useState<BankOptions>(BankOptions.VCB)
+  const [source, setSource] = useState<BankOptions>(BankOptions.BIDV)
 
   // ** Hooks
   const { t } = useTranslation()
