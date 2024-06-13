@@ -17,7 +17,7 @@ import { fetchAnInvoice, updateInvoice } from 'src/store/apps/organization/invoi
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
-import { BIDVResponseType } from 'src/pages/[organization]/exchange-rates'
+import { BIDVResponseType } from '../../exchange-rates/BIDV'
 import {
   CurrencyType,
   InvoiceResponseDto,

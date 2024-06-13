@@ -25,9 +25,9 @@ import { useTranslation } from 'react-i18next'
 import { format } from 'date-fns'
 
 // ** Types Imports
-import { BIDVResponseType, ExchangeRateType } from 'src/pages/[organization]/exchange-rates'
 import { Locale } from 'src/enum'
 import { CurrencyType } from 'src/__generated__/AccountifyAPI'
+import { BIDVResponseType, ExchangeRateType } from '../../exchange-rates/BIDV'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 
 // ** Hooks Imports

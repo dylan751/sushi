@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'src/store'
 import { addInvoice } from 'src/store/apps/organization/invoice'
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
-import { BIDVResponseType } from '../../exchange-rates'
+import { BIDVResponseType } from 'src/views/apps/exchange-rates/BIDV'
 import {
   CreateInvoiceItemRequest,
   CreateInvoiceRequestDto,

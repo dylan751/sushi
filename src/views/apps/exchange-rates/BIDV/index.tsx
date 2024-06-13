@@ -1,39 +1,48 @@
-// ** MUI Imports
-import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
-import Button from '@mui/material/Button'
-import Box from '@mui/material/Box'
-import CardContent from '@mui/material/CardContent'
-import { DataGrid } from '@mui/x-data-grid/DataGrid'
-import Typography from '@mui/material/Typography'
-import { GridColDef } from '@mui/x-data-grid'
+// ** React Imports
+import { useEffect, useState } from 'react'
 
-// ** Icon Imports
-import Icon from 'src/@core/components/icon'
+import axios from 'axios'
 
 // ** Custom Components Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Third Party Imports
-import { useTranslation } from 'react-i18next'
-
-// ** Types Imports
-import { BIDVResponseType, ExchangeRateType } from '../../exchange-rates/BIDV'
-import { CurrencyType } from 'src/__generated__/AccountifyAPI'
+import toast from 'react-hot-toast'
 
 // ** Utils Imports
-import { formatCurrencyAsStandard } from 'src/utils/currency'
-import { Locale } from 'src/enum'
 import { getInitials } from 'src/@core/utils/get-initials'
-import { format } from 'date-fns'
+import { formatCurrencyAsStandard } from 'src/utils/currency'
+
+// ** Enum Imports
+import { Locale } from 'src/enum'
+
+// ** Type Imports
+import { CurrencyType } from 'src/__generated__/AccountifyAPI'
 
 // ** Hooks Imports
-import { useCurrentOrganization } from 'src/hooks'
+import { useTranslation } from 'react-i18next'
 
-export interface AddActionsProps {
-  onSubmit: () => void
-  isSubmitDisabled: () => boolean
-  exchangeRates: BIDVResponseType | undefined
+// ** MUI Imports
+import Grid from '@mui/material/Grid'
+import Card from '@mui/material/Card'
+import { DataGrid } from '@mui/x-data-grid/DataGrid'
+import { GridColDef } from '@mui/x-data-grid'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+
+export interface ExchangeRateType {
+  nameVI: string
+  image: string
+  muaTm: string
+  muaCk: string
+  currency: string
+  nameEN: string
+  ban: string
+}
+
+export interface BIDVResponseType {
+  hour: string
+  data: ExchangeRateType[]
 }
 
 interface CellType {
@@ -52,14 +61,30 @@ const renderCurrencyImage = (row: ExchangeRateType) => {
   }
 }
 
-const AddActions = ({ onSubmit, isSubmitDisabled, exchangeRates }: AddActionsProps) => {
+const BIDVExchangeRates = () => {
+  // ** States
+  const [exchangeRates, setExchangeRates] = useState<BIDVResponseType>()
+
+  // ** Hooks
   const { t } = useTranslation()
-  const { organization } = useCurrentOrganization()
+
+  useEffect(() => {
+    const getExchangeRates = async () => {
+      try {
+        const response = await axios.get('https://bidv.com.vn/ServicesBIDV/ExchangeDetailServlet')
+        setExchangeRates(response.data)
+      } catch (error) {
+        toast.error('Error while fetching exchange rates!')
+      }
+    }
+
+    getExchangeRates()
+  }, [])
 
   const columns: GridColDef[] = [
     {
       flex: 0.3,
-      minWidth: 140,
+      minWidth: 280,
       field: 'currency',
       headerName: t('exchange_rates.currency') as string,
       renderCell: ({ row }: CellType) => {
@@ -80,7 +105,7 @@ const AddActions = ({ onSubmit, isSubmitDisabled, exchangeRates }: AddActionsPro
     },
     {
       flex: 0.2,
-      minWidth: 100,
+      minWidth: 250,
       field: 'muaTm',
       headerName: t('exchange_rates.buy_tm') as string,
       renderCell: ({ row }: CellType) => {
@@ -98,7 +123,7 @@ const AddActions = ({ onSubmit, isSubmitDisabled, exchangeRates }: AddActionsPro
     },
     {
       flex: 0.2,
-      minWidth: 100,
+      minWidth: 250,
       field: 'muaCk',
       headerName: t('exchange_rates.buy_ck') as string,
       renderCell: ({ row }: CellType) => {
@@ -116,7 +141,7 @@ const AddActions = ({ onSubmit, isSubmitDisabled, exchangeRates }: AddActionsPro
     },
     {
       flex: 0.2,
-      minWidth: 100,
+      minWidth: 250,
       field: 'ban',
       headerName: t('exchange_rates.sell') as string,
       renderCell: ({ row }: CellType) => {
@@ -135,43 +160,18 @@ const AddActions = ({ onSubmit, isSubmitDisabled, exchangeRates }: AddActionsPro
   ]
 
   return (
-    <Grid container spacing={6}>
-      <Grid item xs={12}>
-        <Card>
-          <CardContent>
-            <Button
-              fullWidth
-              sx={{ mb: 3.5 }}
-              variant='contained'
-              startIcon={<Icon icon='mdi:send-outline' />}
-              disabled={isSubmitDisabled()}
-              onClick={() => onSubmit()}
-            >
-              {t('invoice_page.add.create_invoice')}
-            </Button>
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant='h6' sx={{ mt: 0, mb: 1, color: 'text.primary' }}>
-          {t('invoice_page.add.exchange_rates_today', {
-            today: format(new Date(), organization?.dateFormat)
-          })}
-        </Typography>
-        <Card sx={{ height: 400, overflowY: 'auto', overflowX: 'hidden' }}>
-          <DataGrid
-            autoHeight
-            rows={exchangeRates ? exchangeRates.data : []}
-            columns={columns}
-            disableRowSelectionOnClick
-            getRowId={row => `${row.nameVI} - ${row.image}`}
-
-            // slots={{ noRowsOverlay: CustomNoRowsOverlay }}
-          />
-        </Card>
-      </Grid>
+    <Grid item xs={12}>
+      <Card>
+        <DataGrid
+          autoHeight
+          rows={exchangeRates ? exchangeRates.data : []}
+          columns={columns}
+          disableRowSelectionOnClick
+          getRowId={(row: ExchangeRateType) => `${row.nameVI} - ${row.image}`}
+        />
+      </Card>
     </Grid>
   )
 }
 
-export default AddActions
+export default BIDVExchangeRates

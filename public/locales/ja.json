@@ -305,7 +305,7 @@
             "discount": "割引",
             "total": "合計",
             "create_invoice": "インヴォイスの作成",
-            "exchange_rates_today": "為替レート, 日付 {{today}}"
+            "exchange_rates_today": "為替レート ({{today}})"
         },
         "edit": {
             "invoice": "インヴォイス",
@@ -394,9 +394,10 @@
     "exchange_rates": {
         "title": "為替レート",
         "bidv_bank": "BIDV銀行",
+        "vcb_bank": "VCB銀行",
         "currency": "通貨",
-        "buy_tm": "TM買う",
-        "buy_ck": "CK買う",
+        "buy_tm": "現金で買う",
+        "buy_ck": "振込で買う",
         "sell": "売る"
     },
     "settings_page": {
