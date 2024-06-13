@@ -302,7 +302,7 @@
             "discount": "Giảm giá",
             "total": "Thành tiền",
             "create_invoice": "Tạo hoá đơn",
-            "exchange_rates_today": "Bảng tỷ giá, ngày {{today}}"
+            "exchange_rates_today": "Bảng tỷ giá ({{today}})"
         },
         "edit": {
             "invoice": "Hoá đơn",
@@ -392,9 +392,10 @@
     "exchange_rates": {
         "title": "Tỷ giá hối đoái",
         "bidv_bank": "Ngân hàng BIDV",
+        "vcb_bank": "Ngân hàng VCB",
         "currency": "Tiền tệ",
-        "buy_tm": "Mua TM",
-        "buy_ck": "Mua CK",
+        "buy_tm": "Mua tiền mặt",
+        "buy_ck": "Mua chuyển khoản",
         "sell": "Bán"
     },
     "settings_page": {

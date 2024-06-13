@@ -22,7 +22,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'src/store'
 import { addInvoice } from 'src/store/apps/organization/invoice'
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
-import { BIDVResponseType } from '../../exchange-rates'
 import {
   CreateInvoiceItemRequest,
   CreateInvoiceRequestDto,
@@ -33,10 +32,12 @@ import {
 // ** Third Party Imports
 import toast from 'react-hot-toast'
 import { format } from 'date-fns'
-import axios from 'axios'
 
 // ** Utils Imports
 import { getInvoiceListUrl } from 'src/utils/router/invoice'
+
+// ** Enum Imports
+import { BankOptions } from 'src/enum'
 
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
@@ -76,7 +77,7 @@ const InvoiceAdd = () => {
   const [exchangeRate, setExchangeRate] = useState<string>('')
   const [formData, setFormData] = useState<CreateInvoiceFormData[]>([initialFormData])
 
-  const [exchangeRates, setExchangeRates] = useState<BIDVResponseType>()
+  const [source, setSource] = useState<BankOptions>(BankOptions.BIDV)
 
   const toggleAddCategoryDrawer = () => setAddCategoryOpen(!addCategoryOpen)
 
@@ -89,19 +90,6 @@ const InvoiceAdd = () => {
       dispatch(fetchCategory({ organizationId, projectId: parseInt(projectId) }))
     }
   }, [dispatch, organizationId, projectId])
-
-  useEffect(() => {
-    const getExchangeRates = async () => {
-      try {
-        const response = await axios.get('https://bidv.com.vn/ServicesBIDV/ExchangeDetailServlet')
-        setExchangeRates(response.data)
-      } catch (error) {
-        toast.error('Error while fetching exchange rates!')
-      }
-    }
-
-    getExchangeRates()
-  }, [])
 
   const isSubmitDisabled = (): boolean => {
     let isDisabled = false
@@ -199,7 +187,7 @@ const InvoiceAdd = () => {
           />
         </Grid>
         <Grid item xl={4} md={5} xs={12}>
-          <AddActions onSubmit={onSubmit} isSubmitDisabled={isSubmitDisabled} exchangeRates={exchangeRates} />
+          <AddActions source={source} setSource={setSource} onSubmit={onSubmit} isSubmitDisabled={isSubmitDisabled} />
         </Grid>
       </Grid>
       <AddCategoryDrawer open={addCategoryOpen} toggle={toggleAddCategoryDrawer} projectId={parseInt(projectId)} />

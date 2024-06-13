@@ -17,7 +17,6 @@ import { fetchAnInvoice, updateInvoice } from 'src/store/apps/organization/invoi
 
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
-import { BIDVResponseType } from 'src/pages/[organization]/exchange-rates'
 import {
   CurrencyType,
   InvoiceResponseDto,
@@ -35,10 +34,12 @@ import SendInvoiceDrawer from 'src/views/apps/invoice/shared-drawer/SendInvoiceD
 // ** Utils Imports
 import { getInvoiceListUrl, getInvoicePreviewUrl } from 'src/utils/router/invoice'
 
+// ** Enum Imports
+import { BankOptions } from 'src/enum'
+
 // ** Third Party Imports
 import { format } from 'date-fns'
 import toast from 'react-hot-toast'
-import axios from 'axios'
 
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
@@ -98,7 +99,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   )
   const [formData, setFormData] = useState<UpdateInvoiceFormData[]>([])
 
-  const [exchangeRates, setExchangeRates] = useState<BIDVResponseType>()
+  const [source, setSource] = useState<BankOptions>(BankOptions.BIDV)
 
   const [addPaymentOpen, setAddPaymentOpen] = useState<boolean>(false)
   const [sendInvoiceOpen, setSendInvoiceOpen] = useState<boolean>(false)
@@ -116,19 +117,6 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
       dispatch(fetchCategory({ organizationId, projectId: (invoiceStore.invoice as InvoiceResponseDto).project.id }))
     }
   }, [dispatch, id, organizationId, invoiceStore.invoice])
-
-  useEffect(() => {
-    const getExchangeRates = async () => {
-      try {
-        const response = await axios.get('https://bidv.com.vn/ServicesBIDV/ExchangeDetailServlet')
-        setExchangeRates(response.data)
-      } catch (error) {
-        toast.error('Error while fetching exchange rates!')
-      }
-    }
-
-    getExchangeRates()
-  }, [])
 
   const isSubmitDisabled = (): boolean => {
     let isDisabled = false
@@ -233,8 +221,9 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
               id={id}
               onSubmit={onSubmit}
               isSubmitDisabled={isSubmitDisabled}
+              source={source}
+              setSource={setSource}
               toggleAddPaymentDrawer={toggleAddPaymentDrawer}
-              exchangeRates={exchangeRates}
             />
           </Grid>
         </Grid>

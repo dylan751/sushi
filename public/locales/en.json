@@ -305,7 +305,7 @@
             "discount": "Discount",
             "total": "Total",
             "create_invoice": "Create Invoice",
-            "exchange_rates_today": "Exchange Rates, day {{today}}"
+            "exchange_rates_today": "Exchange Rates ({{today}})"
         },
         "edit": {
             "invoice": "Invoice",
@@ -394,9 +394,10 @@
     "exchange_rates": {
         "title": "Exchange Rates",
         "bidv_bank": "BIDV Bank",
+        "vcb_bank": "VCB Bank",
         "currency": "Currency",
-        "buy_tm": "Buy TM",
-        "buy_ck": "Buy CK",
+        "buy_tm": "Buy Cash",
+        "buy_ck": "Buy Transfer",
         "sell": "Sell"
     },
     "settings_page": {

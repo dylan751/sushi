@@ -8,6 +8,8 @@ import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -25,10 +27,11 @@ import { useTranslation } from 'react-i18next'
 import { format } from 'date-fns'
 
 // ** Types Imports
-import { BIDVResponseType, ExchangeRateType } from 'src/pages/[organization]/exchange-rates'
-import { Locale } from 'src/enum'
+import { BankOptions, Locale } from 'src/enum'
 import { CurrencyType } from 'src/__generated__/AccountifyAPI'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import BIDVExchangeRates, { BIDVExchangeRateType } from '../../exchange-rates/BIDV'
+import VCBExchangeRates, { VCBExrateType } from '../../exchange-rates/VCB'
+import { GridColDef } from '@mui/x-data-grid'
 
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
@@ -37,15 +40,20 @@ interface EditActionsProps {
   id: string | undefined
   onSubmit: () => void
   isSubmitDisabled: () => boolean
+  source: BankOptions
+  setSource: (source: BankOptions) => void
   toggleAddPaymentDrawer: () => void
-  exchangeRates: BIDVResponseType | undefined
 }
 
-interface CellType {
-  row: ExchangeRateType
+interface BIDVCellType {
+  row: BIDVExchangeRateType
 }
 
-const renderCurrencyImage = (row: ExchangeRateType) => {
+interface VCBCellType {
+  row: VCBExrateType
+}
+
+const renderBIDVCurrencyImage = (row: BIDVExchangeRateType) => {
   if (row.image) {
     return <CustomAvatar src={`https://bidv.com.vn/${row.image}`} sx={{ mr: 3, width: 30, height: 30 }} />
   } else {
@@ -57,23 +65,38 @@ const renderCurrencyImage = (row: ExchangeRateType) => {
   }
 }
 
-const EditActions = ({ id, onSubmit, isSubmitDisabled, toggleAddPaymentDrawer, exchangeRates }: EditActionsProps) => {
+const renderVCBCurrencyImage = (row: VCBExrateType) => {
+  return (
+    <CustomAvatar skin='light' color='primary' sx={{ mr: 3, width: 30, height: 30, fontSize: '.875rem' }}>
+      {getInitials(row._attributes.CurrencyCode ? row._attributes.CurrencyCode : 'USD')}
+    </CustomAvatar>
+  )
+}
+
+const EditActions = ({
+  id,
+  onSubmit,
+  isSubmitDisabled,
+  source,
+  setSource,
+  toggleAddPaymentDrawer
+}: EditActionsProps) => {
   // ** Hook
   const { t } = useTranslation()
   const { organization } = useCurrentOrganization()
 
-  const columns: GridColDef[] = [
+  const BIDVColumns: GridColDef[] = [
     {
       flex: 0.3,
       minWidth: 140,
       field: 'currency',
       headerName: t('exchange_rates.currency') as string,
-      renderCell: ({ row }: CellType) => {
+      renderCell: ({ row }: BIDVCellType) => {
         const { nameVI, currency } = row
 
         return (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {renderCurrencyImage(row)}
+            {renderBIDVCurrencyImage(row)}
             <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
               {nameVI}
               <Typography noWrap variant='caption'>
@@ -89,7 +112,7 @@ const EditActions = ({ id, onSubmit, isSubmitDisabled, toggleAddPaymentDrawer, e
       minWidth: 100,
       field: 'muaTm',
       headerName: t('exchange_rates.buy_tm') as string,
-      renderCell: ({ row }: CellType) => {
+      renderCell: ({ row }: BIDVCellType) => {
         // Convert '25,801' into '25081' for formatting currency function
         const formattedMuaTm = row.muaTm.replace(',', '')
 
@@ -107,7 +130,7 @@ const EditActions = ({ id, onSubmit, isSubmitDisabled, toggleAddPaymentDrawer, e
       minWidth: 100,
       field: 'muaCk',
       headerName: t('exchange_rates.buy_ck') as string,
-      renderCell: ({ row }: CellType) => {
+      renderCell: ({ row }: BIDVCellType) => {
         // Convert '25,801' into '25081' for formatting currency function
         const formattedMuaCk = row.muaCk.replace(',', '')
 
@@ -125,9 +148,85 @@ const EditActions = ({ id, onSubmit, isSubmitDisabled, toggleAddPaymentDrawer, e
       minWidth: 100,
       field: 'ban',
       headerName: t('exchange_rates.sell') as string,
-      renderCell: ({ row }: CellType) => {
+      renderCell: ({ row }: BIDVCellType) => {
         // Convert '25,801' into '25081' for formatting currency function
         const formattedBan = row.ban.replace(',', '')
+
+        return (
+          <Typography noWrap variant='body2'>
+            {parseFloat(formattedBan)
+              ? formatCurrencyAsStandard(parseFloat(formattedBan), Locale.EN, CurrencyType.VND)
+              : '-'}
+          </Typography>
+        )
+      }
+    }
+  ]
+
+  const VCBColumns: GridColDef[] = [
+    {
+      flex: 0.3,
+      minWidth: 140,
+      field: 'currency',
+      headerName: t('exchange_rates.currency') as string,
+      renderCell: ({ row }: VCBCellType) => {
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {renderVCBCurrencyImage(row)}
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+              {row._attributes.CurrencyName}
+              <Typography noWrap variant='caption'>
+                {row._attributes.CurrencyCode}
+              </Typography>
+            </Box>
+          </Box>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 100,
+      field: 'muaTm',
+      headerName: t('exchange_rates.buy_tm') as string,
+      renderCell: ({ row }: VCBCellType) => {
+        // Convert '25,801' into '25081' for formatting currency function
+        const formattedMuaTm = row._attributes.Buy.replace(',', '')
+
+        return (
+          <Typography noWrap variant='body2'>
+            {parseFloat(formattedMuaTm)
+              ? formatCurrencyAsStandard(parseFloat(formattedMuaTm), Locale.EN, CurrencyType.VND)
+              : '-'}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 100,
+      field: 'muaCk',
+      headerName: t('exchange_rates.buy_ck') as string,
+      renderCell: ({ row }: VCBCellType) => {
+        // Convert '25,801' into '25081' for formatting currency function
+        const formattedMuaCk = row._attributes.Transfer.replace(',', '')
+
+        return (
+          <Typography noWrap variant='body2'>
+            {parseFloat(formattedMuaCk)
+              ? formatCurrencyAsStandard(parseFloat(formattedMuaCk), Locale.EN, CurrencyType.VND)
+              : '-'}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 100,
+      field: 'ban',
+      headerName: t('exchange_rates.sell') as string,
+      renderCell: ({ row }: VCBCellType) => {
+        // Convert '25,801' into '25081' for formatting currency function
+        const formattedBan = row._attributes.Sell.replace(',', '')
 
         return (
           <Typography noWrap variant='body2'>
@@ -183,16 +282,24 @@ const EditActions = ({ id, onSubmit, isSubmitDisabled, toggleAddPaymentDrawer, e
             today: format(new Date(), organization?.dateFormat)
           })}
         </Typography>
+        <Select
+          size='small'
+          value={source}
+          sx={{ width: { sm: '220px', xs: '170px' }, mb: '8px' }}
+          onChange={e => {
+            setSource(e.target.value as BankOptions)
+          }}
+        >
+          <MenuItem value={BankOptions.BIDV}>
+            <Typography sx={{ color: 'primary.main', fontWeight: '500' }}>{t('exchange_rates.bidv_bank')}</Typography>
+          </MenuItem>
+          <MenuItem value={BankOptions.VCB}>
+            <Typography sx={{ color: 'primary.main', fontWeight: '500' }}>{t('exchange_rates.vcb_bank')}</Typography>
+          </MenuItem>
+        </Select>
         <Card sx={{ height: 400, overflowY: 'auto', overflowX: 'hidden' }}>
-          <DataGrid
-            autoHeight
-            rows={exchangeRates ? exchangeRates.data : []}
-            columns={columns}
-            disableRowSelectionOnClick
-            getRowId={row => `${row.nameVI} - ${row.image}`}
-
-            // slots={{ noRowsOverlay: CustomNoRowsOverlay }}
-          />
+          {source === BankOptions.BIDV && <BIDVExchangeRates customColumns={BIDVColumns} />}
+          {source === BankOptions.VCB && <VCBExchangeRates customColumns={VCBColumns} />}
         </Card>
       </Grid>
     </Grid>
