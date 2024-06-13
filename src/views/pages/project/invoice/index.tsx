@@ -134,9 +134,10 @@ const TooltipRow = (props: React.HTMLAttributes<HTMLDivElement> & GridRowProps) 
 
 export interface InvoiceTabProps {
   projectId: number
+  name: string
 }
 
-const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
+const InvoiceTab = ({ projectId, name }: InvoiceTabProps) => {
   // ** State
   const [dates, setDates] = useState<Date[]>([])
   const [uid, setUid] = useState<string>('')
@@ -440,7 +441,7 @@ const InvoiceTab = ({ projectId }: InvoiceTabProps) => {
         </Grid>
         <Grid item xs={12}>
           <Card>
-            <TableHeader invoices={invoiceStore.projectInvoices} />
+            <TableHeader invoices={invoiceStore.projectInvoices} name={name} />
             <DataGrid
               autoHeight
               pagination

@@ -148,6 +148,7 @@ export interface AddCardProps {
   setNote: (value: string) => void
   exchangeRate: string
   setExchangeRate: (value: string) => void
+  projectName: string | undefined
 }
 
 const AddCard = ({
@@ -177,7 +178,8 @@ const AddCard = ({
   note,
   setNote,
   exchangeRate,
-  setExchangeRate
+  setExchangeRate,
+  projectName
 }: AddCardProps) => {
   // ** States
   const [count, setCount] = useState<number>(1)
@@ -376,12 +378,19 @@ const AddCard = ({
                     setCategoryId('')
                   }}
                   MenuProps={MenuProps}
+                  disabled={projectName ? true : false}
                 >
-                  {projects.map(project => (
-                    <MenuItem value={project.id} key={project.id}>
-                      {project.name}
+                  {projectName ? (
+                    <MenuItem value={projectId} key={projectId}>
+                      {projectName}
                     </MenuItem>
-                  ))}
+                  ) : (
+                    projects.map(project => (
+                      <MenuItem value={project.id} key={project.id}>
+                        {project.name}
+                      </MenuItem>
+                    ))
+                  )}
                 </Select>
               </Box>
               {projectId && categories && (

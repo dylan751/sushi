@@ -4,6 +4,10 @@ export const getInvoiceListUrl = (): string => {
   return `/${getOrgUniqueName()}/invoice/list`
 }
 
+export const getInvoiceAddUrl = (): string => {
+  return `/${getOrgUniqueName()}/invoice/add`
+}
+
 export const getInvoiceEditUrl = (id: string | number | undefined): string => {
   return `/${getOrgUniqueName()}/invoice/edit/${id}`
 }

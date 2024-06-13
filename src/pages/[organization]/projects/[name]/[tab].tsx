@@ -33,7 +33,7 @@ const ProjectsTab = () => {
     dispatch(fetchAProject({ organizationId, id: projectId! }))
   }, [dispatch, projectId, organizationId])
 
-  if (!tab.includes(currentTab)) {
+  if (!tab.includes(currentTab) || !project) {
     return <Error404 />
   }
 
