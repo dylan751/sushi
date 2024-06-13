@@ -34,6 +34,9 @@ import SendInvoiceDrawer from 'src/views/apps/invoice/shared-drawer/SendInvoiceD
 // ** Utils Imports
 import { getInvoiceListUrl, getInvoicePreviewUrl } from 'src/utils/router/invoice'
 
+// ** Enum Imports
+import { BankOptions } from 'src/enum'
+
 // ** Third Party Imports
 import { format } from 'date-fns'
 import toast from 'react-hot-toast'
@@ -95,6 +98,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
     (invoiceStore.invoice as InvoiceResponseDto).category?.id.toString() || ''
   )
   const [formData, setFormData] = useState<UpdateInvoiceFormData[]>([])
+
+  const [source, setSource] = useState<BankOptions>(BankOptions.BIDV)
 
   const [addPaymentOpen, setAddPaymentOpen] = useState<boolean>(false)
   const [sendInvoiceOpen, setSendInvoiceOpen] = useState<boolean>(false)
@@ -216,6 +221,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
               id={id}
               onSubmit={onSubmit}
               isSubmitDisabled={isSubmitDisabled}
+              source={source}
+              setSource={setSource}
               toggleAddPaymentDrawer={toggleAddPaymentDrawer}
             />
           </Grid>

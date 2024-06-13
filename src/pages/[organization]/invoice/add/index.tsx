@@ -36,6 +36,9 @@ import { format } from 'date-fns'
 // ** Utils Imports
 import { getInvoiceListUrl } from 'src/utils/router/invoice'
 
+// ** Enum Imports
+import { BankOptions } from 'src/enum'
+
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
 import { fetchProject } from 'src/store/apps/organization/project'
@@ -73,6 +76,8 @@ const InvoiceAdd = () => {
   const [note, setNote] = useState<string>('')
   const [exchangeRate, setExchangeRate] = useState<string>('')
   const [formData, setFormData] = useState<CreateInvoiceFormData[]>([initialFormData])
+
+  const [source, setSource] = useState<BankOptions>(BankOptions.BIDV)
 
   const toggleAddCategoryDrawer = () => setAddCategoryOpen(!addCategoryOpen)
 
@@ -182,7 +187,7 @@ const InvoiceAdd = () => {
           />
         </Grid>
         <Grid item xl={4} md={5} xs={12}>
-          <AddActions onSubmit={onSubmit} isSubmitDisabled={isSubmitDisabled} />
+          <AddActions source={source} setSource={setSource} onSubmit={onSubmit} isSubmitDisabled={isSubmitDisabled} />
         </Grid>
       </Grid>
       <AddCategoryDrawer open={addCategoryOpen} toggle={toggleAddCategoryDrawer} projectId={parseInt(projectId)} />

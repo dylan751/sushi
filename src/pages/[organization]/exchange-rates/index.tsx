@@ -52,14 +52,14 @@ const ExchangeRates = () => {
                 setSource(e.target.value as BankOptions)
               }}
             >
-              <MenuItem value={BankOptions.VCB}>
-                <Typography sx={{ color: 'primary.main', fontWeight: '500' }}>
-                  {t('exchange_rates.vcb_bank')}
-                </Typography>
-              </MenuItem>
               <MenuItem value={BankOptions.BIDV}>
                 <Typography sx={{ color: 'primary.main', fontWeight: '500' }}>
                   {t('exchange_rates.bidv_bank')}
+                </Typography>
+              </MenuItem>
+              <MenuItem value={BankOptions.VCB}>
+                <Typography sx={{ color: 'primary.main', fontWeight: '500' }}>
+                  {t('exchange_rates.vcb_bank')}
                 </Typography>
               </MenuItem>
             </Select>

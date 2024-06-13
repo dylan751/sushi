@@ -30,7 +30,7 @@ import { GridColDef } from '@mui/x-data-grid'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
-export interface ExchangeRateType {
+export interface BIDVExchangeRateType {
   nameVI: string
   image: string
   muaTm: string
@@ -42,14 +42,14 @@ export interface ExchangeRateType {
 
 export interface BIDVResponseType {
   hour: string
-  data: ExchangeRateType[]
+  data: BIDVExchangeRateType[]
 }
 
 interface CellType {
-  row: ExchangeRateType
+  row: BIDVExchangeRateType
 }
 
-const renderCurrencyImage = (row: ExchangeRateType) => {
+const renderCurrencyImage = (row: BIDVExchangeRateType) => {
   if (row.image) {
     return <CustomAvatar src={`https://bidv.com.vn/${row.image}`} sx={{ mr: 3, width: 30, height: 30 }} />
   } else {
@@ -171,7 +171,7 @@ const BIDVExchangeRates = (props: BIDVExchangeRatesProps) => {
           rows={exchangeRates ? exchangeRates.data : []}
           columns={props.customColumns ? props.customColumns : defaultColumns}
           disableRowSelectionOnClick
-          getRowId={(row: ExchangeRateType) => `${row.nameVI} - ${row.image}`}
+          getRowId={(row: BIDVExchangeRateType) => `${row.nameVI} - ${row.image}`}
 
           // slots={{ noRowsOverlay: CustomNoRowsOverlay }}
         />
