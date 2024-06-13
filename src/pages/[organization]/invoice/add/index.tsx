@@ -61,14 +61,14 @@ const InvoiceAdd = () => {
   const router = useRouter()
   const projectStore = useSelector((state: RootState) => state.project)
   const categoryStore = useSelector((state: RootState) => state.category)
-  const { organizationId } = useCurrentOrganization()
+  const { project, organizationId } = useCurrentOrganization(router.query.project as string)
 
   // ** States
   const [addCategoryOpen, setAddCategoryOpen] = useState<boolean>(false)
   const [date, setDate] = useState<DateType>(new Date())
   const [type, setType] = useState<InvoiceType>(InvoiceType.EXPENSE)
   const [currency, setCurrency] = useState<CurrencyType>(CurrencyType.USD)
-  const [projectId, setProjectId] = useState<string>('')
+  const [projectId, setProjectId] = useState<string>(project?.id?.toString() ?? '')
   const [categoryId, setCategoryId] = useState<string>('')
   const [clientName, setClientName] = useState<string>('')
   const [uid, setUid] = useState<string>('')
@@ -190,6 +190,7 @@ const InvoiceAdd = () => {
             note={note}
             setNote={setNote}
             setExchangeRate={setExchangeRate}
+            projectName={project?.name}
           />
         </Grid>
         <Grid item xl={4} md={5} xs={12}>
