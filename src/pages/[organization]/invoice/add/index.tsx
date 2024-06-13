@@ -35,6 +35,7 @@ import { format } from 'date-fns'
 
 // ** Utils Imports
 import { getInvoiceListUrl } from 'src/utils/router/invoice'
+import { getProjectInvoiceTab } from 'src/utils/router'
 
 // ** Enum Imports
 import { BankOptions } from 'src/enum'
@@ -149,7 +150,12 @@ const InvoiceAdd = () => {
     // Call api
     setFormData([initialFormData])
     dispatch(addInvoice({ organizationId, projectId: parseInt(projectId), ...createInvoiceRequest }))
-    router.replace(getInvoiceListUrl())
+
+    if (router.query.project) {
+      router.replace(getProjectInvoiceTab(router.query.project as string))
+    } else {
+      router.replace(getInvoiceListUrl())
+    }
   }
 
   return (
