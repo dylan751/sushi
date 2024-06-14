@@ -73,7 +73,6 @@ const ProjectsTab = () => {
 
   // ** States
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [currentProjectName, setCurrentProjectName] = useState<string>(name)
 
   // ** Hooks
   const theme = useTheme()
@@ -87,10 +86,6 @@ const ProjectsTab = () => {
     dispatch(fetchAProject({ organizationId, id: projectId! }))
     dispatch(fetchProject({ organizationId }))
   }, [dispatch, projectId, organizationId, projectStore.projects])
-
-  useEffect(() => {
-    setCurrentProjectName(name)
-  }, [name])
 
   const handleChange = (event: SyntheticEvent, newValue: string) => {
     setIsLoading(true)
@@ -111,11 +106,11 @@ const ProjectsTab = () => {
   }
 
   return (
-    <TabContext value={currentProjectName}>
+    <TabContext value={name}>
       <Box sx={{ display: 'flex', flexDirection: ['column', 'column', 'row'] }}>
         <Box sx={{ mr: [0, 0, 9], mb: [5, 5, 0], display: 'flex', flexDirection: 'column' }}>
           <Typography key='2' variant='h6' sx={{ color: `${theme.palette.primary.main} !important`, mb: '8px' }}>
-            {currentProjectName}
+            {name}
           </Typography>
           <TabList orientation='vertical' onChange={handleChange} aria-label='vertical tabs example'>
             {renderTabs()}
