@@ -24,9 +24,7 @@ import DashboardTab from 'src/views/pages/project/dashboard'
 import InvoiceTab from 'src/views/pages/project/invoice'
 import BudgetTab from 'src/views/pages/project/budget'
 import CategoryTab from 'src/views/pages/project/category'
-import ProjectHeader from 'src/views/pages/project/ProjectHeader'
 import { getOrgUniqueName } from 'src/utils/organization'
-import { ProjectResponseDto } from 'src/__generated__/AccountifyAPI'
 import { useTranslation } from 'react-i18next'
 
 // ** Context Imports
@@ -52,17 +50,7 @@ const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
   }
 }))
 
-const Project = ({
-  tab,
-  name,
-  id,
-  project
-}: {
-  tab: string
-  name: string
-  id: number
-  project: ProjectResponseDto
-}) => {
+const Project = ({ tab, name, id }: { tab: string; name: string; id: number }) => {
   // ** State
   const [activeTab, setActiveTab] = useState<string>(tab)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -100,9 +88,6 @@ const Project = ({
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12}>
-        <ProjectHeader project={project} />
-      </Grid>
       {activeTab === undefined ? null : (
         <Grid item xs={12}>
           <TabContext value={activeTab}>
