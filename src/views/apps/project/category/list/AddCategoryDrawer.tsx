@@ -170,7 +170,7 @@ const SidebarAddCategory = (props: SidebarAddCategoryInterface) => {
                     MenuProps={MenuProps}
                   >
                     {Object.values(IconType).map(icon => (
-                      <MenuItem key={icon} value={icon}>
+                      <MenuItem key={icon} value={icon} sx={{ display: 'inline-flex', width: '25%' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 3 } }}>
                           <Icon icon={icon} fontSize={20} />
                         </Box>
