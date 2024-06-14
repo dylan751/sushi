@@ -85,7 +85,7 @@ const ProjectsTab = () => {
     // Fetch organization's projects
     dispatch(fetchAProject({ organizationId, id: projectId! }))
     dispatch(fetchProject({ organizationId }))
-  }, [dispatch, projectId, organizationId, projectStore.projects])
+  }, [dispatch, projectId, organizationId])
 
   const handleChange = (event: SyntheticEvent, newValue: string) => {
     setIsLoading(true)
