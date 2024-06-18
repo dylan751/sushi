@@ -103,6 +103,8 @@ const navigation = (): HorizontalNavItemsType => {
     {
       title: 'navbar.landing_page.landing_pages',
       icon: 'mdi:content-copy',
+      badgeContent: '4',
+      badgeColor: 'info',
       children: [
         {
           action: 'read',
