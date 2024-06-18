@@ -110,7 +110,7 @@ const navigation = (): VerticalNavItemsType => {
           action: 'read',
           subject: 'settings',
           title: 'navbar.landing_page.home',
-          path: `${process.env.NEXT_PUBLIC_LANDING_PAGE_ENDPOINT}/home`,
+          path: `${process.env.NEXT_PUBLIC_LANDING_PAGE_ENDPOINT}`,
           externalLink: true,
           openInNewTab: true
         },
@@ -118,7 +118,7 @@ const navigation = (): VerticalNavItemsType => {
           action: 'read',
           subject: 'settings',
           title: 'navbar.landing_page.pricing',
-          path: `${process.env.NEXT_PUBLIC_LANDING_PAGE_ENDPOINT}/home/pricing`,
+          path: `${process.env.NEXT_PUBLIC_LANDING_PAGE_ENDPOINT}/pricing`,
           externalLink: true,
           openInNewTab: true
         },
@@ -126,7 +126,7 @@ const navigation = (): VerticalNavItemsType => {
           action: 'read',
           subject: 'settings',
           title: 'navbar.landing_page.payment',
-          path: `${process.env.NEXT_PUBLIC_LANDING_PAGE_ENDPOINT}/home/payment`,
+          path: `${process.env.NEXT_PUBLIC_LANDING_PAGE_ENDPOINT}/payment`,
           externalLink: true,
           openInNewTab: true
         },
@@ -134,7 +134,7 @@ const navigation = (): VerticalNavItemsType => {
           action: 'read',
           subject: 'settings',
           title: 'navbar.landing_page.help_center',
-          path: `${process.env.NEXT_PUBLIC_LANDING_PAGE_ENDPOINT}/home/help-center`,
+          path: `${process.env.NEXT_PUBLIC_LANDING_PAGE_ENDPOINT}/help-center`,
           externalLink: true,
           openInNewTab: true
         }
