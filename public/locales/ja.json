@@ -23,6 +23,14 @@
             "account": "アカウント",
             "security": "セキュリティ",
             "organization": "組織"
+        },
+        "landing_page": {
+            "landing_pages": "ランディングページ",
+            "home": "ホームページ",
+            "pricing": "価格設定",
+            "payment": "支払い",
+            "checkout": "チェックアウト",
+            "help_center": "ヘルプセンター"
         }
     },
     "autocomplete": {

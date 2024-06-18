@@ -23,6 +23,14 @@
             "account": "Account",
             "security": "Security",
             "organization": "Organization"
+        },
+        "landing_page": {
+            "landing_pages": "Landing Pages",
+            "home": "Home",
+            "pricing": "Pricing",
+            "payment": "Payment",
+            "checkout": "Checkout",
+            "help_center": "Help Center"
         }
     },
     "autocomplete": {
