@@ -23,6 +23,14 @@
             "account": "Tài khoản",
             "security": "Bảo mật",
             "organization": "Tổ chức"
+        },
+        "landing_page": {
+            "landing_pages": "Trang giới thiệu",
+            "home": "Trang chủ",
+            "pricing": "Bảng giá",
+            "payment": "Thanh toán",
+            "checkout": "Thủ tục thanh toán",
+            "help_center": "Trung tâm trợ giúp"
         }
     },
     "user_dropdown": {
