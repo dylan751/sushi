@@ -78,7 +78,7 @@ const InvoicePrint = ({ id }: InvoicePrintProps) => {
     const invoice = invoiceStore.invoice as InvoiceResponseDto
 
     return (
-      <Box sx={{ p: 12, pb: 6, width: '50%', margin: 'auto' }}>
+      <Box sx={{ p: 12, pb: 6, margin: 'auto' }}>
         <Grid container>
           <Grid item xs={8} sx={{ mb: { sm: 0, xs: 4 } }}>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
