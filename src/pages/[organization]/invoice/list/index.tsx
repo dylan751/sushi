@@ -268,7 +268,9 @@ const InvoiceList = () => {
           {row.type === InvoiceType.EXPENSE ? '-' : '+'}
           {formatCurrencyAsStandard(row.total, Locale.EN, row.currency)}
         </Typography>
-      )
+      ),
+      headerAlign: 'right',
+      align: 'right'
     },
     {
       flex: 0.2,
