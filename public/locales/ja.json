@@ -116,6 +116,7 @@
             "subtitle_1": "ロールによって事前定義されたメニューと機能へのアクセスが提供されるため、割り当てられた役割に応じて管理者は必要なものにアクセスできるようになります。",
             "subtitle_2": "組織は最大 {{MAX_ROLES_PER_ORGANIZATION}} 個のロールを持つことができます",
             "total_users": "合計 {{totalUsers}} ユーザー",
+            "organization_role": "{{organizationName}}のロール",
             "add": "追加",
             "edit": "編集",
             "show": "見せる",

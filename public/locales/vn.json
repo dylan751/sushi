@@ -113,6 +113,7 @@
             "subtitle_1": "Một vai trò cung cấp khả năng truy cập vào các menu và tính năng được xác định trước để tùy thuộc vào vai trò được giao, quản trị viên có thể có quyền truy cập vào những gì mình cần",
             "subtitle_2": "Một tổ chức có thể có tối đa {{MAX_ROLES_PER_ORGANIZATION}} vai trò",
             "total_users": "Có {{totalUsers}} người dùng",
+            "organization_role": "Vai trò của {{organizationName}}",
             "add": "Tạo",
             "edit": "Sửa",
             "show": "Xem",
