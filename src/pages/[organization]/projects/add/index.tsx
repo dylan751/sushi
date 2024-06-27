@@ -1,5 +1,6 @@
 // ** Next Imports
 import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 
 // ** React Imports
 import { forwardRef, useState } from 'react'
@@ -19,6 +20,7 @@ import Icon from 'src/@core/components/icon'
 // ** Third Party Imports
 import DatePicker from 'react-datepicker'
 import { format } from 'date-fns'
+import toast from 'react-hot-toast'
 
 // ** Type Imports
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
@@ -36,6 +38,7 @@ import { addProject } from 'src/store/apps/organization/project'
 // ** Util Imports
 import { getProjectListUrl } from 'src/utils/router'
 import { useTranslation } from 'react-i18next'
+import { $api } from 'src/utils/api'
 
 interface CustomInputProps {
   dates: Date[]
@@ -43,12 +46,13 @@ interface CustomInputProps {
   end: number | Date
   start: number | Date
   setDates?: (value: Date[]) => void
+  dateformat: string
 }
 
 /* eslint-disable */
 const CustomInput = forwardRef((props: CustomInputProps, ref) => {
-  const startDate = props.start !== null ? format(props.start, 'MM/dd/yyyy') : ''
-  const endDate = props.end !== null ? ` - ${format(props.end, 'MM/dd/yyyy')}` : null
+  const startDate = props.start !== null ? format(props.start, props.dateformat) : ''
+  const endDate = props.end !== null ? ` - ${format(props.end, props.dateformat)}` : null
 
   const value = `${startDate}${endDate !== null ? endDate : ''}`
   props.start === null && props.dates.length && props.setDates ? props.setDates([]) : null
@@ -93,8 +97,9 @@ const ProjectAdd = () => {
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
   const router = useRouter()
-  const { organizationId } = useCurrentOrganization()
+  const { organization, organizationId } = useCurrentOrganization()
   const { t } = useTranslation()
+  const session = useSession()
 
   const handleOnChangeRange = (dates: any) => {
     const [start, end] = dates
@@ -111,13 +116,24 @@ const ProjectAdd = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    if (formData.description.length > 2000) {
+      toast.error('Project description must be less than 2000 characters!')
+
+      return
+    }
+
     const createProjectRequest: CreateProjectRequestDto = {
       ...formData,
       startDate: format(dates[0], 'yyyy-MM-dd'),
       endDate: format(dates[1], 'yyyy-MM-dd')
     }
 
-    dispatch(addProject({ organizationId, ...createProjectRequest }))
+    dispatch(addProject({ organizationId, ...createProjectRequest })).then(async () => {
+      // Update current organization's session
+      const response = await $api(session.data?.accessToken).internal.getUserProfile()
+      session.update({ organizations: response.data.organizations })
+    })
     router.replace(getProjectListUrl())
   }
 
@@ -195,6 +211,7 @@ const ProjectAdd = () => {
                   isClearable
                   selectsRange
                   monthsShown={2}
+                  showYearDropdown
                   endDate={endDateRange}
                   selected={startDateRange}
                   startDate={startDateRange}
@@ -208,6 +225,7 @@ const ProjectAdd = () => {
                       label={t('project_page.add.project_date')}
                       end={endDateRange as number | Date}
                       start={startDateRange as number | Date}
+                      dateformat={organization?.dateFormat}
                     />
                   }
                 />

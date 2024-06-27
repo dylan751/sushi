@@ -21,7 +21,8 @@ export const calculateInvoiceSubtotal = (
 
 export const calculateInvoiceTotal = (
   items: InvoiceItemResponseDto[] | CreateInvoiceFormData[] | UpdateInvoiceFormData[],
-  tax: string
+  tax: string,
+  discount: string
 ): number => {
   // We have to use any[] here since Union type with .reduce() makes `yarn build` error
   let total = (items as any[])?.reduce((accumulator, currentValue) => {
@@ -32,7 +33,9 @@ export const calculateInvoiceTotal = (
     }
   }, 0)
   const invoiceTax = tax ? parseInt(tax) / 100 : 0 // tax can be null
+  const invoiceDiscount = discount ? parseInt(discount) : 0
 
+  total -= invoiceDiscount
   total += total * invoiceTax
 
   return total

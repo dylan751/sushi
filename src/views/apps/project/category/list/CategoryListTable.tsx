@@ -54,7 +54,7 @@ interface CellType {
 }
 
 export interface CategoryTabProps {
-  projectId: string
+  projectId: number
 }
 
 const CategoryListTable = ({ projectId }: CategoryTabProps) => {
@@ -68,7 +68,7 @@ const CategoryListTable = ({ projectId }: CategoryTabProps) => {
 
   // ** Hooks
   const { t } = useTranslation()
-  const { organizationId } = useCurrentOrganization()
+  const { organization, organizationId } = useCurrentOrganization()
   const dispatch = useDispatch<AppDispatch>()
   const categoryStore = useSelector((state: RootState) => state.category)
   const ability = useContext(AbilityContext)
@@ -77,7 +77,7 @@ const CategoryListTable = ({ projectId }: CategoryTabProps) => {
     dispatch(
       fetchCategory({
         organizationId,
-        projectId: parseInt(projectId),
+        projectId,
         query: value,
         type: type
       })
@@ -93,7 +93,7 @@ const CategoryListTable = ({ projectId }: CategoryTabProps) => {
   }, [])
 
   const handleDeleteCategory = (categoryId: number) => {
-    dispatch(deleteCategory({ organizationId, projectId: parseInt(projectId), categoryId }))
+    dispatch(deleteCategory({ organizationId, projectId, categoryId }))
   }
 
   const toggleAddCategoryDrawer = () => {
@@ -138,7 +138,9 @@ const CategoryListTable = ({ projectId }: CategoryTabProps) => {
       minWidth: 215,
       field: 'createdDate',
       headerName: t('project_page.category.created_date') as string,
-      renderCell: ({ row }: CellType) => <Typography>{format(new Date(row.createdAt), 'dd MMM yyyy')}</Typography>
+      renderCell: ({ row }: CellType) => (
+        <Typography>{format(new Date(row.createdAt), organization?.dateFormat)}</Typography>
+      )
     },
     {
       flex: 0.25,

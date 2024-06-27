@@ -99,6 +99,46 @@ const navigation = (): VerticalNavItemsType => {
           path: `/${uniqueName}/settings/organization`
         }
       ]
+    },
+    {
+      title: 'navbar.landing_page.landing_pages',
+      icon: 'mdi:content-copy',
+      badgeContent: '4',
+      badgeColor: 'info',
+      children: [
+        {
+          action: 'read',
+          subject: 'settings',
+          title: 'navbar.landing_page.home',
+          path: `${process.env.NEXT_PUBLIC_LANDING_PAGE_ENDPOINT}`,
+          externalLink: true,
+          openInNewTab: true
+        },
+        {
+          action: 'read',
+          subject: 'settings',
+          title: 'navbar.landing_page.pricing',
+          path: `${process.env.NEXT_PUBLIC_LANDING_PAGE_ENDPOINT}/pricing`,
+          externalLink: true,
+          openInNewTab: true
+        },
+        {
+          action: 'read',
+          subject: 'settings',
+          title: 'navbar.landing_page.payment',
+          path: `${process.env.NEXT_PUBLIC_LANDING_PAGE_ENDPOINT}/payment`,
+          externalLink: true,
+          openInNewTab: true
+        },
+        {
+          action: 'read',
+          subject: 'settings',
+          title: 'navbar.landing_page.help_center',
+          path: `${process.env.NEXT_PUBLIC_LANDING_PAGE_ENDPOINT}/help-center`,
+          externalLink: true,
+          openInNewTab: true
+        }
+      ]
     }
   ]
 }

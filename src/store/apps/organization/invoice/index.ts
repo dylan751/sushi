@@ -48,7 +48,7 @@ export const fetchInvoice = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -71,7 +71,7 @@ export const fetchInvoiceForProject = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -94,7 +94,7 @@ export const fetchAnInvoice = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -121,7 +121,7 @@ export const addInvoice = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -146,12 +146,13 @@ export const updateInvoice = createAsyncThunk(
       }).internal.updateAnInvoiceForAProjectOfOrganization(organizationId, projectId, resData.invoiceId, resData)
 
       dispatch(fetchInvoice({ organizationId }))
+      dispatch(fetchAnInvoice({ organizationId, id: resData.invoiceId }))
       dispatch(fetchInvoiceForProject({ organizationId, projectId }))
       toast.success('Update invoice succeed')
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -181,7 +182,7 @@ export const deleteInvoice = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )

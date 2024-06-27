@@ -49,6 +49,7 @@ import { OrganizationUserResponseDto } from 'src/__generated__/AccountifyAPI'
 // ** Custom Table Components Imports
 import TableHeader from 'src/views/apps/user/list/TableHeader'
 import AddUserDrawer from 'src/views/apps/user/list/AddUserDrawer'
+import DialogDeleteUser from 'src/views/apps/roles/dialogs/DialogDeleteUser'
 
 // ** Hooks
 import { useTranslation } from 'react-i18next'
@@ -56,6 +57,9 @@ import { AbilityContext } from 'src/layouts/components/acl/Can'
 
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
+
+// ** Constant Imports
+import { MenuProps } from 'src/constants'
 
 interface CellType {
   row: OrganizationUserResponseDto
@@ -86,16 +90,17 @@ const renderClient = (row: OrganizationUserResponseDto) => {
 }
 
 const RowOptions = ({
-  organizationId,
   row,
-  isUserLastAdmin
+  isUserLastAdmin,
+  setShowDialogDeleteUser,
+  setSelectedOrganizationUser
 }: {
-  organizationId: number
   row: OrganizationUserResponseDto
   isUserLastAdmin: (user: OrganizationUserResponseDto) => boolean
+  setShowDialogDeleteUser: (value: boolean) => void
+  setSelectedOrganizationUser: (value: OrganizationUserResponseDto | null) => void
 }) => {
   // ** Hooks
-  const dispatch = useDispatch<AppDispatch>()
   const ability = useContext(AbilityContext)
   const { t } = useTranslation()
 
@@ -109,11 +114,6 @@ const RowOptions = ({
   }
   const handleRowOptionsClose = () => {
     setAnchorEl(null)
-  }
-
-  const handleDelete = (userId: number) => {
-    dispatch(deleteUser({ organizationId, userId }))
-    handleRowOptionsClose()
   }
 
   return (
@@ -141,7 +141,11 @@ const RowOptions = ({
             <Button
               color='error'
               disabled={isUserLastAdmin(row)}
-              onClick={() => handleDelete(row.id)}
+              onClick={() => {
+                setShowDialogDeleteUser(true)
+                setSelectedOrganizationUser(row)
+                handleRowOptionsClose()
+              }}
               sx={{ p: 0, m: 0, mr: 2 }}
             >
               <Icon icon='mdi:delete-outline' fontSize={20} />
@@ -166,7 +170,9 @@ const UserPage = () => {
   const [role, setRole] = useState<string>('')
   const [value, setValue] = useState<string>('')
   const [addUserOpen, setAddUserOpen] = useState<boolean>(false)
+  const [showDialogDeleteUser, setShowDialogDeleteUser] = useState<boolean>(false)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 25 })
+  const [selectedOrganizationUser, setSelectedOrganizationUser] = useState<OrganizationUserResponseDto | null>(null)
   const [isSelectAdmin, setIsSelectAdmin] = useState(false)
 
   // ** Hooks
@@ -217,6 +223,13 @@ const UserPage = () => {
     setRole(e.target.value)
   }, [])
 
+  const handleDeleteUser = (userId: number) => {
+    dispatch(deleteUser({ organizationId, userId }))
+
+    setShowDialogDeleteUser(false)
+    setSelectedOrganizationUser(null)
+  }
+
   const toggleAddUserDrawer = () => {
     setAddUserOpen(!addUserOpen)
     setIsSelectAdmin(false)
@@ -224,8 +237,8 @@ const UserPage = () => {
 
   const columns: GridColDef[] = [
     {
-      flex: 0.2,
-      minWidth: 230,
+      flex: 0.15,
+      minWidth: 200,
       field: 'name',
       headerName: `${t('user_page.user')}`,
       renderCell: ({ row }: CellType) => {
@@ -258,9 +271,9 @@ const UserPage = () => {
       }
     },
     {
-      flex: 0.15,
+      flex: 0.1,
       field: 'role',
-      minWidth: 150,
+      minWidth: 125,
       headerName: `${t('user_page.role')}`,
       renderCell: ({ row }: CellType) => {
         return (
@@ -283,8 +296,8 @@ const UserPage = () => {
       }
     },
     {
-      flex: 0.2,
-      minWidth: 250,
+      flex: 0.1,
+      minWidth: 125,
       field: 'phone',
       headerName: `${t('user_page.phone')}`,
       renderCell: ({ row }: CellType) => {
@@ -296,8 +309,8 @@ const UserPage = () => {
       }
     },
     {
-      flex: 0.2,
-      minWidth: 250,
+      flex: 0.15,
+      minWidth: 200,
       field: 'address',
       headerName: `${t('user_page.address')}`,
       renderCell: ({ row }: CellType) => {
@@ -310,12 +323,17 @@ const UserPage = () => {
     },
     {
       flex: 0.1,
-      minWidth: 90,
+      minWidth: 100,
       sortable: false,
       field: 'actions',
       headerName: `${t('user_page.actions')}`,
       renderCell: ({ row }: CellType) => (
-        <RowOptions organizationId={organizationId} row={row} isUserLastAdmin={isUserLastAdmin} />
+        <RowOptions
+          row={row}
+          isUserLastAdmin={isUserLastAdmin}
+          setShowDialogDeleteUser={setShowDialogDeleteUser}
+          setSelectedOrganizationUser={setSelectedOrganizationUser}
+        />
       )
     }
   ]
@@ -348,6 +366,7 @@ const UserPage = () => {
                     labelId='role-select'
                     onChange={handleRoleChange}
                     inputProps={{ placeholder: `${t('user_page.select_role')}` }}
+                    MenuProps={MenuProps}
                   >
                     <MenuItem value=''>{t('user_page.select_role')}</MenuItem>
                     {roleStore.roles.map(role => (
@@ -380,6 +399,13 @@ const UserPage = () => {
         allRoles={roleStore.roles}
         isSelectAdmin={isSelectAdmin}
         setIsSelectAdmin={setIsSelectAdmin}
+      />
+      <DialogDeleteUser
+        show={showDialogDeleteUser}
+        setShow={setShowDialogDeleteUser}
+        userId={selectedOrganizationUser?.id || 0}
+        handleDelete={handleDeleteUser}
+        setSelectedOrganizationUser={setSelectedOrganizationUser}
       />
     </Grid>
   )

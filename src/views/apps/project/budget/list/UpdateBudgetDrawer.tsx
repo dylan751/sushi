@@ -34,7 +34,7 @@ import { useCurrentOrganization } from 'src/hooks'
 interface SidebarUpdateBudgetInterface {
   open: boolean
   toggle: (categoryId: number | null) => void
-  projectId: string
+  projectId: number
   selectedBudget: BudgetResponseDto | null
   setSelectedBudget: (budget: BudgetResponseDto | null) => void
 }
@@ -87,7 +87,7 @@ const SidebarUpdateBudget = (props: SidebarUpdateBudgetInterface) => {
     dispatch(
       updateBudget({
         organizationId,
-        projectId: parseInt(projectId),
+        projectId,
         budgetId: selectedBudget.id,
         ...updateBudgetRequest
       })

@@ -23,6 +23,14 @@
             "account": "アカウント",
             "security": "セキュリティ",
             "organization": "組織"
+        },
+        "landing_page": {
+            "landing_pages": "ランディングページ",
+            "home": "ホームページ",
+            "pricing": "価格設定",
+            "payment": "支払い",
+            "checkout": "チェックアウト",
+            "help_center": "ヘルプセンター"
         }
     },
     "autocomplete": {
@@ -108,6 +116,7 @@
             "subtitle_1": "ロールによって事前定義されたメニューと機能へのアクセスが提供されるため、割り当てられた役割に応じて管理者は必要なものにアクセスできるようになります。",
             "subtitle_2": "組織は最大 {{MAX_ROLES_PER_ORGANIZATION}} 個のロールを持つことができます",
             "total_users": "合計 {{totalUsers}} ユーザー",
+            "organization_role": "{{organizationName}}のロール",
             "add": "追加",
             "edit": "編集",
             "show": "見せる",
@@ -288,6 +297,9 @@
             "type": "タイプ",
             "quantity": "量",
             "currency": "通貨",
+            "project": "プロジェクト",
+            "category": "カテゴリー",
+            "add_new_category": "カテゴリーの追加",
             "invoice_to": "インヴォイス先",
             "invoice_from": "インヴォイス元",
             "client_name": "クライアントの名前",
@@ -301,7 +313,8 @@
             "subtotal": "小計",
             "discount": "割引",
             "total": "合計",
-            "create_invoice": "インヴォイスの作成"
+            "create_invoice": "インヴォイスの作成",
+            "exchange_rates_today": "為替レート ({{today}})"
         },
         "edit": {
             "invoice": "インヴォイス",
@@ -310,6 +323,8 @@
             "type": "タイプ",
             "quantity": "量",
             "currency": "通貨",
+            "project": "プロジェクト",
+            "category": "カテゴリー",
             "invoice_to": "インヴォイス先",
             "client_name": "クライアントの名前",
             "name": "名前",
@@ -323,7 +338,8 @@
             "discount": "割引",
             "total": "合計",
             "update_invoice": "インヴォイスの編集",
-            "preview": "プレビュー"
+            "preview": "プレビュー",
+            "exchange_rates_today": "為替レート, 日付 {{today}}"
         },
         "preview": {
             "invoice_to": "インヴォイス先",
@@ -387,9 +403,10 @@
     "exchange_rates": {
         "title": "為替レート",
         "bidv_bank": "BIDV銀行",
+        "vcb_bank": "VCB銀行",
         "currency": "通貨",
-        "buy_tm": "TM買う",
-        "buy_ck": "CK買う",
+        "buy_tm": "現金で買う",
+        "buy_ck": "振込で買う",
         "sell": "売る"
     },
     "settings_page": {
@@ -428,6 +445,7 @@
             "organization_name": "会社名",
             "phone_number": "電話番号",
             "organization_address": "会社の住所",
+            "date_format": "日付形式",
             "delete_organization": "組織の削除",
             "deactivate_organization": "組織の無効化",
             "organization_deactivation_checkbox": "組織の無効化を確認します",

@@ -5,8 +5,12 @@ import { useContext } from 'react'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 import CardHeader from '@mui/material/CardHeader'
+import InputLabel from '@mui/material/InputLabel'
+import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
@@ -35,7 +39,10 @@ import { useTranslation } from 'react-i18next'
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
 
-const OrganizationAddressCard = () => {
+// ** Constants Imports
+import { MenuProps, dateFormatOptions } from 'src/constants'
+
+const OrganizationInformationCard = () => {
   // ** Hooks
   const session = useSession()
   const { organizationId, organization } = useCurrentOrganization()
@@ -46,7 +53,8 @@ const OrganizationAddressCard = () => {
   const defaultValues = {
     name: organization.name || '',
     phone: organization.phone || '',
-    address: organization.address || ''
+    address: organization.address || '',
+    dateFormat: organization.dateFormat || 'dd/MM/yyyy'
   }
 
   const {
@@ -129,6 +137,41 @@ const OrganizationAddressCard = () => {
                 {errors.address && <FormHelperText sx={{ color: 'error.main' }}>This field is required</FormHelperText>}
               </FormControl>
             </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth>
+                <Controller
+                  name='dateFormat'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <>
+                      <InputLabel id='dateFormat-select'>{t('settings_page.organization.date_format')} *</InputLabel>
+                      <Select
+                        fullWidth
+                        value={value}
+                        id='dateFormat'
+                        label={t('settings_page.organization.date_format')}
+                        labelId='dateFormat'
+                        onChange={e => {
+                          onChange(e.target.value)
+                        }}
+                        inputProps={{ placeholder: t('settings_page.organization.date_format').toString() }}
+                        MenuProps={MenuProps}
+                      >
+                        {dateFormatOptions.map(dateFormat => (
+                          <MenuItem key={dateFormat.value} value={dateFormat.value}>
+                            <Typography>{dateFormat.label}</Typography>
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </>
+                  )}
+                />
+                {errors.dateFormat && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.dateFormat.message}</FormHelperText>
+                )}
+              </FormControl>
+            </Grid>
             <Grid item xs={12}>
               <Button
                 type='submit'
@@ -146,4 +189,4 @@ const OrganizationAddressCard = () => {
   )
 }
 
-export default OrganizationAddressCard
+export default OrganizationInformationCard

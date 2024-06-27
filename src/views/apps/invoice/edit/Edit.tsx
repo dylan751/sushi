@@ -34,6 +34,9 @@ import SendInvoiceDrawer from 'src/views/apps/invoice/shared-drawer/SendInvoiceD
 // ** Utils Imports
 import { getInvoiceListUrl, getInvoicePreviewUrl } from 'src/utils/router/invoice'
 
+// ** Enum Imports
+import { BankOptions } from 'src/enum'
+
 // ** Third Party Imports
 import { format } from 'date-fns'
 import toast from 'react-hot-toast'
@@ -70,8 +73,18 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   const [tax, setTax] = useState<string>(
     (invoiceStore.invoice as InvoiceResponseDto).tax ? (invoiceStore.invoice as InvoiceResponseDto).tax.toString() : ''
   )
+  const [discount, setDiscount] = useState<string>(
+    (invoiceStore.invoice as InvoiceResponseDto).discount
+      ? (invoiceStore.invoice as InvoiceResponseDto).discount.toString()
+      : '0'
+  )
+  const [note, setNote] = useState<string>(
+    (invoiceStore.invoice as InvoiceResponseDto).note
+      ? (invoiceStore.invoice as InvoiceResponseDto).note.toString()
+      : ''
+  )
   const [exchangeRate, setExchangeRate] = useState<string>(
-    (invoiceStore.invoice as InvoiceResponseDto).tax
+    (invoiceStore.invoice as InvoiceResponseDto).exchangeRate
       ? (invoiceStore.invoice as InvoiceResponseDto).exchangeRate.toString()
       : ''
   )
@@ -85,6 +98,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
     (invoiceStore.invoice as InvoiceResponseDto).category?.id.toString() || ''
   )
   const [formData, setFormData] = useState<UpdateInvoiceFormData[]>([])
+
+  const [source, setSource] = useState<BankOptions>(BankOptions.BIDV)
 
   const [addPaymentOpen, setAddPaymentOpen] = useState<boolean>(false)
   const [sendInvoiceOpen, setSendInvoiceOpen] = useState<boolean>(false)
@@ -148,6 +163,8 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
       uid,
       categoryId: parseInt(categoryId),
       tax: parseInt(tax),
+      discount: parseInt(discount) ?? 0,
+      note,
       exchangeRate: parseInt(exchangeRate)
     }
 
@@ -167,7 +184,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
     return (
       <>
         <Grid container spacing={6}>
-          <Grid item xl={9} md={8} xs={12}>
+          <Grid item xl={8} md={7} xs={12}>
             <EditCard
               categories={categoryStore.categories}
               data={invoiceStore.invoice as InvoiceResponseDto}
@@ -191,21 +208,31 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
               setUid={setUid}
               tax={tax}
               setTax={setTax}
+              discount={discount}
+              setDiscount={setDiscount}
+              note={note}
+              setNote={setNote}
               exchangeRate={exchangeRate}
               setExchangeRate={setExchangeRate}
             />
           </Grid>
-          <Grid item xl={3} md={4} xs={12}>
+          <Grid item xl={4} md={5} xs={12}>
             <EditActions
               id={id}
               onSubmit={onSubmit}
               isSubmitDisabled={isSubmitDisabled}
+              source={source}
+              setSource={setSource}
               toggleAddPaymentDrawer={toggleAddPaymentDrawer}
             />
           </Grid>
         </Grid>
         <SendInvoiceDrawer open={sendInvoiceOpen} toggle={toggleSendInvoiceDrawer} />
-        <AddPaymentDrawer open={addPaymentOpen} toggle={toggleAddPaymentDrawer} />
+        <AddPaymentDrawer
+          open={addPaymentOpen}
+          toggle={toggleAddPaymentDrawer}
+          data={invoiceStore.invoice as InvoiceResponseDto}
+        />
       </>
     )
   } else {

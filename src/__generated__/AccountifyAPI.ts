@@ -25,6 +25,178 @@ export interface UserRole {
   slug: string
 }
 
+export interface OrganizationUserResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "robin@moneyforward.co.jp" */
+  email: string
+  /** @example "robin" */
+  name: string
+  /** @example "0339089172" */
+  phone: string
+  /** @example "19A Bach Khoa, Ha Noi" */
+  address: string
+  /** @example "https://image.com/avatar-1" */
+  avatar: string
+  roles: UserRole[]
+}
+
+export enum ColorType {
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary',
+  ERROR = 'error',
+  INFO = 'info',
+  SUCCESS = 'success',
+  WARNING = 'warning'
+}
+
+export enum IconType {
+  MDI_INVOICE_ADD = 'mdi:invoice-add',
+  MDI_INVOICE_ARROW_LEFT_OUTLINE = 'mdi:invoice-arrow-left-outline',
+  MDI_INVOICE_ARROW_RIGHT_OUTLINE = 'mdi:invoice-arrow-right-outline',
+  MDI_INVOICE_LIST_OUTLINE = 'mdi:invoice-list-outline',
+  MDI_INVOICE_CLOCK_OUTLINE = 'mdi:invoice-clock-outline',
+  MDI_INVOICE_EDIT_OUTLINE = 'mdi:invoice-edit-outline',
+  MDI_INVOICE_MINUS_OUTLINE = 'mdi:invoice-minus-outline',
+  MDI_INVOICE_RECEIVE_OUTLINE = 'mdi:invoice-receive-outline',
+  MDI_INVOICE_SCHEDULE_OUTLINE = 'mdi:invoice-schedule-outline',
+  MDI_INVOICE_TEXT_CHECK_OUTLINE = 'mdi:invoice-text-check-outline',
+  MDI_INVOICE_TEXT_REMOVE_OUTLINE = 'mdi:invoice-text-remove-outline',
+  MDI_INVOICE_TEXT_PLUS_OUTLINE = 'mdi:invoice-text-plus-outline',
+  MDI_INVOICE_TEXT_SEND_OUTLINE = 'mdi:invoice-text-send-outline',
+  MDI_CATEGORY = 'mdi:category',
+  MDI_CATEGORY_OUTLINE = 'mdi:category-outline',
+  MDI_CATEGORY_PLUS = 'mdi:category-plus',
+  MDI_CATEGORY_PLUS_OUTLINE = 'mdi:category-plus-outline',
+  MDI_COMPUTER = 'mdi:computer',
+  MDI_COMPUTER_CLASSIC = 'mdi:computer-classic',
+  MDI_ACCOUNT_BADGE_OUTLINE = 'mdi:account-badge-outline',
+  MDI_ACCOUNT_BOX = 'mdi:account-box',
+  MDI_ACCOUNT_COG = 'mdi:account-cog',
+  MDI_ACCOUNT_CASH = 'mdi:account-cash',
+  MDI_ACCOUNT_EDIT = 'mdi:account-edit',
+  MDI_ACCOUNT_ALERT = 'mdi:account-alert',
+  MDI_ACCOUNT_BOX_OUTLINE = 'mdi:account-box-outline',
+  MDI_ACCOUNT_COG_OUTLINE = 'mdi:account-cog-outline',
+  MDI_ACCOUNT_CASH_OUTLINE = 'mdi:account-cash-outline',
+  MDI_ACCOUNT_EDIT_OUTLINE = 'mdi:account-edit-outline',
+  MDI_ACCOUNT_ALERT_OUTLINE = 'mdi:account-alert-outline',
+  MDI_BADGE_ACCOUNT_OUTLINE = 'mdi:badge-account-outline',
+  MDI_BOOK_ACCOUNT_OUTLINE = 'mdi:book-account-outline',
+  MDI_BRIEFCASE_ACCOUNT_OUTLINE = 'mdi:briefcase-account-outline',
+  MDI_MAP_MARKER_ACCOUNT_OUTLINE = 'mdi:map-marker-account-outline',
+  MDI_MEDICINE = 'mdi:medicine',
+  MDI_MEDICINE_OUTLINE = 'mdi:medicine-outline',
+  MDI_MEDICINE_BOTTLE = 'mdi:medicine-bottle',
+  MDI_MEDICINE_BOTTLE_OUTLINE = 'mdi:medicine-bottle-outline',
+  MDI_MEDICINE_OFF = 'mdi:medicine-off',
+  MDI_AIRPLANE = 'mdi:airplane',
+  MDI_AIRPLANE_ALERT = 'mdi:airplane-alert',
+  MDI_AIRPLANE_CAR = 'mdi:airplane-car',
+  MDI_AIRPLANE_CLOCK = 'mdi:airplane-clock',
+  MDI_AIRPLANE_COG = 'mdi:airplane-cog',
+  MDI_PAPER_AIRPLANE = 'mdi:paper-airplane',
+  MDI_PAPER_AIRPLANE_OUTLINE = 'mdi:paper-airplane-outline',
+  MDI_PAPER_AIRPLANE_VARIANT = 'mdi:paper-airplane-variant',
+  MDI_PAPER_AIRPLANE_VARIANT_OUTLINE = 'mdi:paper-airplane-variant-outline',
+  MDI_CAR_OUTLINE = 'mdi:car-outline',
+  MDI_CABLE_CAR = 'mdi:cable-car',
+  MDI_CAR_ARROW_LEFT = 'mdi:car-arrow-left',
+  MDI_CAR_ARROW_RIGHT = 'mdi:car-arrow-right',
+  MDI_IMPORT = 'mdi:import',
+  MDI_CALENDAR_IMPORT_OUTLINE = 'mdi:calendar-import-outline',
+  MDI_FILE_IMPORT_OUTLINE = 'mdi:file-import-outline',
+  MDI_EXPORT = 'mdi:export',
+  MDI_CALENDAR_EXPORT_OUTLINE = 'mdi:calendar-export-outline',
+  MDI_FILE_EXPORT_OUTLINE = 'mdi:file-export-outline',
+  MDI_CREDIT_CARD_ADD = 'mdi:credit-card-add',
+  MDI_EMAIL_CHECK_OUTLINE = 'mdi:email-check-outline',
+  MDI_EMAIL_SEARCH_OUTLINE = 'mdi:email-search-outline',
+  MDI_EMAIL_EDIT_OUTLINE = 'mdi:email-edit-outline',
+  MDI_EMAIL_PLUS_OUTLINE = 'mdi:email-plus-outline',
+  MDI_EMAIL_OFF_OUTLINE = 'mdi:email-off-outline',
+  MDI_EMAIL_ADD_OUTLINE = 'mdi:email-add-outline',
+  MDI_ABACUS = 'mdi:abacus',
+  MDI_ACCOUNT = 'mdi:account',
+  MDI_AB_TESTING = 'mdi:ab-testing',
+  MDI_ABJAD_ARABIC = 'mdi:abjad-arabic',
+  MDI_ABJAD_HEBREW = 'mdi:abjad-hebrew',
+  MDI_ABUGIDA_THAI = 'mdi:abugida-thai',
+  MDI_ACCESS_POINT = 'mdi:access-point'
+}
+
+export enum InvoiceType {
+  EXPENSE = 'expense',
+  INCOME = 'income'
+}
+
+export interface CategoryResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "Computer Expense" */
+  name: string
+  /** @example "primary" */
+  color: ColorType
+  /** @example "mdi:airplane" */
+  icon: IconType
+  /** @example "expense" */
+  type: InvoiceType
+  /** @example 1000 */
+  totalSpent: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
+export interface BudgetResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example 1 */
+  categoryId: number
+  /** @example 100000 */
+  amount: number
+  category: CategoryResponseDto
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
+export interface ProjectResponseDto {
+  /** @example 1 */
+  id: number
+  /** @example "Technology Investment" */
+  name: string
+  /** @example "A project to improve school technology" */
+  description: string
+  /** @example 100000 */
+  totalBudget: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  startDate: string
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  endDate: string
+  creator: OrganizationUserResponseDto
+  invoices: any[][]
+  budgets: BudgetResponseDto[]
+  categories: CategoryResponseDto[]
+  /** @example 1000 */
+  totalSpent: number
+  /**
+   * @format date-time
+   * @example "2024-02-26T07:31:35.000Z"
+   */
+  createdAt: string
+}
+
 export interface OrganizationProfileResponseDto {
   /** @example 1 */
   id: number
@@ -36,6 +208,9 @@ export interface OrganizationProfileResponseDto {
   phone: string
   /** @example "19A Bach Khoa, Ha Noi" */
   address: string
+  /** @example "dd/MM/yyyy" */
+  dateFormat: string
+  projects: ProjectResponseDto[]
   roles: UserRole[]
 }
 
@@ -97,22 +272,6 @@ export interface UpdateProfileRequestDto {
   address?: string
   /** @example "password" */
   password?: string
-}
-
-export interface OrganizationUserResponseDto {
-  /** @example 1 */
-  id: number
-  /** @example "robin@moneyforward.co.jp" */
-  email: string
-  /** @example "robin" */
-  name: string
-  /** @example "0339089172" */
-  phone: string
-  /** @example "19A Bach Khoa, Ha Noi" */
-  address: string
-  /** @example "https://image.com/avatar-1" */
-  avatar: string
-  roles: UserRole[]
 }
 
 export interface UserSearchRequestDto {
@@ -206,6 +365,8 @@ export interface OrganizationResponseDto {
   phone: string
   /** @example "19A Bach Khoa, Ha Noi" */
   address: string
+  /** @example "dd/MM/yyyy" */
+  dateFormat: string
   /**
    * @format date-time
    * @example "2024-02-26T07:31:35.000Z"
@@ -222,110 +383,13 @@ export interface UpdateOrganizationRequestDto {
   phone?: string
   /** @example "19A Bach Khoa, Ha Noi" */
   address?: string
+  /** @example "dd/MM/yyyy" */
+  dateFormat?: string
 }
 
 export interface PermissionSubjectResponseDto {
   /** @example "organization" */
   subject: string
-}
-
-export enum ColorType {
-  PRIMARY = 'primary',
-  SECONDARY = 'secondary',
-  ERROR = 'error',
-  INFO = 'info',
-  SUCCESS = 'success',
-  WARNING = 'warning'
-}
-
-export enum IconType {
-  MDI_INVOICE_ADD = 'mdi:invoice-add',
-  MDI_INVOICE_MINUS = 'mdi:invoice-minus',
-  MDI_INVOICE_TEXT_CHECK_OUTLINE = 'mdi:invoice-text-check-outline',
-  MDI_INVOICE_TEXT_SEND_OUTLINE = 'mdi:invoice-text-send-outline',
-  MDI_CATEGORY_OUTLINE = 'mdi:category-outline',
-  MDI_CATEGORY_PLUS_OUTLINE = 'mdi:category-plus-outline',
-  MDI_COMPUTER = 'mdi:computer',
-  MDI_ACCOUNT_BADGE_OUTLINE = 'mdi:account-badge-outline',
-  MDI_MEDICINE_BOTTLE_OUTLINE = 'mdi:medicine-bottle-outline',
-  MDI_AIRPLANE = 'mdi:airplane',
-  MDI_CAR_OUTLINE = 'mdi:car-outline',
-  MDI_IMPORT = 'mdi:import',
-  MDI_EXPORT = 'mdi:export',
-  MDI_CREDIT_CARD_ADD = 'mdi:credit-card-add',
-  MDI_EMAIL_ADD_OUTLINE = 'mdi:email-add-outline'
-}
-
-export enum InvoiceType {
-  EXPENSE = 'expense',
-  INCOME = 'income'
-}
-
-export interface CategoryResponseDto {
-  /** @example 1 */
-  id: number
-  /** @example "Computer Expense" */
-  name: string
-  /** @example "primary" */
-  color: ColorType
-  /** @example "mdi:airplane" */
-  icon: IconType
-  /** @example "expense" */
-  type: InvoiceType
-  /** @example 1000 */
-  totalSpent: number
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  createdAt: string
-}
-
-export interface BudgetResponseDto {
-  /** @example 1 */
-  id: number
-  /** @example 1 */
-  categoryId: number
-  /** @example 100000 */
-  amount: number
-  category: CategoryResponseDto
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  createdAt: string
-}
-
-export interface ProjectResponseDto {
-  /** @example 1 */
-  id: number
-  /** @example "Technology Investment" */
-  name: string
-  /** @example "A project to improve school technology" */
-  description: string
-  /** @example 100000 */
-  totalBudget: number
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  startDate: string
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  endDate: string
-  creator: OrganizationUserResponseDto
-  invoices: any[][]
-  budgets: BudgetResponseDto[]
-  categories: CategoryResponseDto[]
-  /** @example 1000 */
-  totalSpent: number
-  /**
-   * @format date-time
-   * @example "2024-02-26T07:31:35.000Z"
-   */
-  createdAt: string
 }
 
 export interface OrganizationStatisticsResponseDto {
@@ -446,6 +510,10 @@ export interface InvoiceResponseDto {
   /** @example 10 */
   tax: number
   /** @example 10 */
+  discount: number
+  /** @example "Pay monthly internet bill" */
+  note: string
+  /** @example 10 */
   total: number
   /** @example 10 */
   exchangeRate: number
@@ -535,6 +603,10 @@ export interface CreateInvoiceRequestDto {
   uid: string
   /** @example 10 */
   tax?: number
+  /** @example 10 */
+  discount: number
+  /** @example "Pay monthly internet bill" */
+  note?: string
   /** @example 24.35 */
   exchangeRate?: number
   items: CreateInvoiceItemRequest[]
@@ -569,6 +641,10 @@ export interface UpdateInvoiceRequestDto {
   uid?: string
   /** @example 10 */
   tax?: number
+  /** @example 10 */
+  discount?: number
+  /** @example "Pay monthly internet bill" */
+  note?: string
   /** @example 24.35 */
   exchangeRate?: number
   items: UpdateInvoiceItemRequest[]
@@ -1297,6 +1373,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         fromDate?: string
         /** @format date-time */
         toDate?: string
+        uid?: string
         type?: string
         projectId?: number
         status?: string
@@ -1505,6 +1582,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         fromDate?: string
         /** @format date-time */
         toDate?: string
+        uid?: string
         type?: string
         projectId?: number
         status?: string

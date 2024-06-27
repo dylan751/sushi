@@ -61,6 +61,7 @@ interface CustomInputProps {
   end: number | Date
   start: number | Date
   setDates?: (value: Date[]) => void
+  dateformat: string
 }
 
 interface CellType {
@@ -92,8 +93,8 @@ const renderCreator = (row: OrganizationUserResponseDto) => {
 
 /* eslint-disable */
 const CustomInput = forwardRef((props: CustomInputProps, ref) => {
-  const startDate = props.start !== null ? format(props.start, 'MM/dd/yyyy') : ''
-  const endDate = props.end !== null ? ` - ${format(props.end, 'MM/dd/yyyy')}` : null
+  const startDate = props.start !== null ? format(props.start, props.dateformat) : ''
+  const endDate = props.end !== null ? ` - ${format(props.end, props.dateformat)}` : null
 
   const value = `${startDate}${endDate !== null ? endDate : ''}`
   props.start === null && props.dates.length && props.setDates ? props.setDates([]) : null
@@ -105,7 +106,7 @@ const CustomInput = forwardRef((props: CustomInputProps, ref) => {
 /* eslint-enable */
 
 const Projects = () => {
-  const { organizationId } = useCurrentOrganization()
+  const { organization, organizationId } = useCurrentOrganization()
   const { t } = useTranslation()
 
   // ** Hooks
@@ -158,7 +159,7 @@ const Projects = () => {
       field: 'name',
       headerName: `${t('project_page.list.name')}`,
       renderCell: ({ row }: CellType) => {
-        return <LinkStyled href={getProjectDefaultTab(row.id)}>{`${row.name}` || '-'}</LinkStyled>
+        return <LinkStyled href={getProjectDefaultTab(row.name)}>{`${row.name}` || '-'}</LinkStyled>
       }
     },
     {
@@ -204,9 +205,11 @@ const Projects = () => {
       headerName: `${t('project_page.list.description')}`,
       renderCell: ({ row }: CellType) => {
         return (
-          <Typography variant='body2' noWrap>
-            {row.description || '-'}
-          </Typography>
+          <Tooltip title={row.description}>
+            <Typography variant='body2' noWrap>
+              {row.description || '-'}
+            </Typography>
+          </Tooltip>
         )
       }
     },
@@ -216,7 +219,7 @@ const Projects = () => {
       field: 'startDate',
       headerName: t('project_page.list.start_date') as string,
       renderCell: ({ row }: CellType) => (
-        <Typography variant='body2'>{format(new Date(row.startDate), 'dd MMM yyyy')}</Typography>
+        <Typography variant='body2'>{format(new Date(row.startDate), organization?.dateFormat)}</Typography>
       )
     },
     {
@@ -225,7 +228,7 @@ const Projects = () => {
       field: 'endDate',
       headerName: t('project_page.list.end_date') as string,
       renderCell: ({ row }: CellType) => (
-        <Typography variant='body2'>{format(new Date(row.endDate), 'dd MMM yyyy')}</Typography>
+        <Typography variant='body2'>{format(new Date(row.endDate), organization?.dateFormat)}</Typography>
       )
     }
   ]
@@ -257,7 +260,7 @@ const Projects = () => {
           </Tooltip>
           <Tooltip title={t('invoice_page.list.view')}>
             <span>
-              <IconButton size='small' component={Link} href={getProjectDefaultTab(row.id)}>
+              <IconButton size='small' component={Link} href={getProjectDefaultTab(row.name)}>
                 <Icon icon='mdi:eye-outline' fontSize={20} />
               </IconButton>
             </span>
@@ -267,7 +270,7 @@ const Projects = () => {
               <IconButton
                 size='small'
                 color='info'
-                onClick={() => router.replace(getProjectEditUrl(row.id))}
+                onClick={() => router.replace(getProjectEditUrl(row.name))}
                 disabled={!ability?.can('update', 'project')}
               >
                 <Icon icon='mdi:pencil-outline' fontSize={20} />
@@ -305,6 +308,7 @@ const Projects = () => {
                         label={t('project_page.list.project_start_date')}
                         end={endDateRange as number | Date}
                         start={startDateRange as number | Date}
+                        dateformat={organization?.dateFormat}
                       />
                     }
                   />

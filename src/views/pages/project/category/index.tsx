@@ -2,7 +2,7 @@ import Grid from '@mui/material/Grid'
 import CategoryListTable from 'src/views/apps/project/category/list/CategoryListTable'
 
 export interface CategoryTabProps {
-  projectId: string
+  projectId: number
 }
 
 const CategoryTab = ({ projectId }: CategoryTabProps) => {

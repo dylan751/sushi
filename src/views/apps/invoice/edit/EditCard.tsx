@@ -31,9 +31,6 @@ import Icon from 'src/@core/components/icon'
 import DatePicker from 'react-datepicker'
 import { useTranslation } from 'react-i18next'
 
-// ** Configs
-import themeConfig from 'src/configs/themeConfig'
-
 // ** Types Imports
 import { CategoryResponseDto, CurrencyType, InvoiceResponseDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
 import { UpdateInvoiceFormData } from './Edit'
@@ -49,6 +46,9 @@ import { useCurrentOrganization } from 'src/hooks'
 // ** Utils Imports
 import { formatCurrencyAsStandard } from 'src/utils/currency'
 import { calculateInvoiceSubtotal, calculateInvoiceTotal } from 'src/utils/invoice'
+
+// ** Constant Imports
+import { MenuProps } from 'src/constants'
 
 const initialFormData = {
   index: 0,
@@ -140,6 +140,10 @@ export interface EditCardProps {
   setUid: (value: string) => void
   tax: string
   setTax: (value: string) => void
+  discount: string
+  setDiscount: (value: string) => void
+  note: string
+  setNote: (value: string) => void
   exchangeRate: string
   setExchangeRate: (value: string) => void
 }
@@ -167,6 +171,10 @@ const EditCard = ({
   setUid,
   tax,
   setTax,
+  discount,
+  setDiscount,
+  note,
+  setNote,
   exchangeRate,
   setExchangeRate
 }: EditCardProps) => {
@@ -187,6 +195,8 @@ const EditCard = ({
       setClientName(data.clientName)
       setUid(data.uid)
       setTax(data.tax ? data.tax.toString() : '')
+      setDiscount(data.discount ? data.discount.toString() : '0')
+      setNote(data.note ? data.note.toString() : '')
       setExchangeRate(data.exchangeRate ? data.exchangeRate.toString() : '')
       setProjectId(data.project?.id.toString())
       setProjectName(data.project?.name)
@@ -206,6 +216,8 @@ const EditCard = ({
     setClientName,
     setUid,
     setTax,
+    setDiscount,
+    setNote,
     setExchangeRate,
     setProjectId,
     setProjectName,
@@ -265,7 +277,7 @@ const EditCard = ({
                     variant='h6'
                     sx={{ ml: 2.5, fontWeight: 600, lineHeight: 'normal', textTransform: 'uppercase' }}
                   >
-                    {themeConfig.templateName}
+                    {organization.name}
                   </Typography>
                 </Box>
                 <Box>
@@ -389,7 +401,7 @@ const EditCard = ({
                 </Box>
                 <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                   <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
-                    Project:
+                    {t('invoice_page.edit.project')}:
                   </Typography>
                   <Select size='small' value={projectId ?? ''} sx={{ width: { sm: '220px', xs: '170px' } }} disabled>
                     <MenuItem value={projectId} key={projectId}>
@@ -400,13 +412,14 @@ const EditCard = ({
                 {projectId && categories && categories.length > 0 && (
                   <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                     <Typography variant='body2' sx={{ mr: 3, width: '125px' }}>
-                      Category:
+                      {t('invoice_page.edit.category')}:
                     </Typography>
                     <Select
                       size='small'
                       value={categoryId ?? ''}
                       sx={{ width: { sm: '220px', xs: '170px' } }}
                       onChange={e => setCategoryId(e.target.value)}
+                      MenuProps={MenuProps}
                     >
                       {categories.map(
                         category =>
@@ -446,6 +459,21 @@ const EditCard = ({
                 value={clientName}
                 onChange={e => setClientName(e.target.value)}
               />
+            </Grid>
+            <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: ['flex-start', 'flex-end'] }}>
+              <div>
+                <Typography variant='body2' sx={{ mb: 3.5, color: 'text.primary', fontWeight: 600 }}>
+                  {t('invoice_page.edit.note')}:
+                </Typography>
+                <TextField
+                  rows={2}
+                  placeholder={t('invoice_page.add.note') as string}
+                  fullWidth
+                  multiline
+                  value={note}
+                  onChange={e => setNote(e.target.value)}
+                />
+              </div>
             </Grid>
           </Grid>
         </CardContent>
@@ -576,16 +604,21 @@ const EditCard = ({
             </Grid>
             <Grid item xs={12} sm={5} lg={4} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>
               <CalcWrapper>
-                <Typography variant='body2'>{t('invoice_page.preview.subtotal')}:</Typography>
+                <Typography variant='body2'>{t('invoice_page.edit.subtotal')}:</Typography>
                 <Typography variant='body2' sx={{ fontWeight: 600 }}>
                   {formatCurrencyAsStandard(calculateInvoiceSubtotal(formData), Locale.EN, currency)}
                 </Typography>
               </CalcWrapper>
               <CalcWrapper>
-                <Typography variant='body2'>{t('invoice_page.preview.discount')}:</Typography>
-                <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                  {formatCurrencyAsStandard(0, Locale.EN, currency)}
-                </Typography>
+                <Typography variant='body2'>{t('invoice_page.edit.discount')}:</Typography>
+                <TextField
+                  size='small'
+                  type='number'
+                  placeholder='100'
+                  sx={{ width: '70px' }}
+                  value={discount}
+                  onChange={e => setDiscount(e.target.value)}
+                />
               </CalcWrapper>
               <CalcWrapper>
                 <Typography variant='body2'>{t('invoice_page.edit.tax')}:</Typography>
@@ -600,9 +633,9 @@ const EditCard = ({
               </CalcWrapper>
               <Divider />
               <CalcWrapper>
-                <Typography variant='body2'>{t('invoice_page.preview.total')}:</Typography>
+                <Typography variant='body2'>{t('invoice_page.edit.total')}:</Typography>
                 <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                  {formatCurrencyAsStandard(calculateInvoiceTotal(formData, tax), Locale.EN, currency)}
+                  {formatCurrencyAsStandard(calculateInvoiceTotal(formData, tax, discount), Locale.EN, currency)}
                 </Typography>
               </CalcWrapper>
             </Grid>

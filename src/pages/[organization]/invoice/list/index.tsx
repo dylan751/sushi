@@ -15,7 +15,7 @@ import CardHeader from '@mui/material/CardHeader'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { DataGrid, GridColDef, GridRow, GridRowProps } from '@mui/x-data-grid'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -42,7 +42,6 @@ import { getProjectInvoiceTab } from 'src/utils/router'
 
 // ** Custom Components Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
-import OptionsMenu from 'src/@core/components/option-menu'
 import TableHeader from 'src/views/apps/invoice/list/TableHeader'
 import CustomChip from 'src/@core/components/mui/chip'
 
@@ -64,12 +63,16 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import { fetchProject } from 'src/store/apps/organization/project'
 import DialogDeleteInvoice from 'src/views/apps/invoice/dialogs/DialogDeleteInvoice'
 
+// ** Constant Imports
+import { MenuProps } from 'src/constants'
+
 interface CustomInputProps {
   dates: Date[]
   label: string
   end: number | Date
   start: number | Date
   setDates?: (value: Date[]) => void
+  dateformat: string
 }
 
 interface CellType {
@@ -114,8 +117,8 @@ const renderClient = (row: string) => {
 
 /* eslint-disable */
 const CustomInput = forwardRef((props: CustomInputProps, ref) => {
-  const startDate = props.start !== null ? format(props.start, 'MM/dd/yyyy') : ''
-  const endDate = props.end !== null ? ` - ${format(props.end, 'MM/dd/yyyy')}` : null
+  const startDate = props.start !== null ? format(props.start, props.dateformat) : ''
+  const endDate = props.end !== null ? ` - ${format(props.end, props.dateformat)}` : null
 
   const value = `${startDate}${endDate !== null ? endDate : ''}`
   props.start === null && props.dates.length && props.setDates ? props.setDates([]) : null
@@ -125,6 +128,14 @@ const CustomInput = forwardRef((props: CustomInputProps, ref) => {
   return <TextField fullWidth inputRef={ref} {...updatedProps} label={props.label || ''} value={value} />
 })
 /* eslint-enable */
+
+const TooltipRow = (props: React.HTMLAttributes<HTMLDivElement> & GridRowProps) => {
+  return (
+    <Tooltip placement='top' title={props.row?.note}>
+      <GridRow {...props} />
+    </Tooltip>
+  )
+}
 
 const InvoiceList = () => {
   // ** State
@@ -141,7 +152,7 @@ const InvoiceList = () => {
   const [selectedInvoice, setSelectedInvoice] = useState<InvoiceResponseDto | null>(null)
 
   // ** Hooks
-  const { organizationId } = useCurrentOrganization()
+  const { organization, organizationId } = useCurrentOrganization()
   const dispatch = useDispatch<AppDispatch>()
   const invoiceStore = useSelector((state: RootState) => state.invoice)
   const projectStore = useSelector((state: RootState) => state.project)
@@ -257,7 +268,9 @@ const InvoiceList = () => {
           {row.type === InvoiceType.EXPENSE ? '-' : '+'}
           {formatCurrencyAsStandard(row.total, Locale.EN, row.currency)}
         </Typography>
-      )
+      ),
+      headerAlign: 'right',
+      align: 'right'
     },
     {
       flex: 0.2,
@@ -265,7 +278,7 @@ const InvoiceList = () => {
       field: 'date',
       headerName: t('invoice_page.list.date') as string,
       renderCell: ({ row }: CellType) => (
-        <Typography variant='body2'>{format(new Date(row.date), 'dd MMM yyyy')}</Typography>
+        <Typography variant='body2'>{format(new Date(row.date), organization?.dateFormat)}</Typography>
       )
     },
     {
@@ -274,7 +287,7 @@ const InvoiceList = () => {
       field: 'project',
       headerName: t('invoice_page.list.project') as string,
       renderCell: ({ row }: CellType) => (
-        <LinkStyled href={getProjectInvoiceTab(row.project.id)}>{`${row.project.name}`}</LinkStyled>
+        <LinkStyled href={getProjectInvoiceTab(row.project.name)}>{`${row.project.name}`}</LinkStyled>
       )
     },
     {
@@ -324,28 +337,19 @@ const InvoiceList = () => {
               </IconButton>
             </span>
           </Tooltip>
-          {ability?.can('update', 'invoice') && (
-            <OptionsMenu
-              iconProps={{ fontSize: 20 }}
-              iconButtonProps={{ size: 'small' }}
-              menuProps={{ sx: { '& .MuiMenuItem-root svg': { mr: 2 } } }}
-              options={[
-                {
-                  text: t('invoice_page.list.download'),
-                  icon: <Icon icon='mdi:download' fontSize={20} />
-                },
-                {
-                  text: t('invoice_page.list.edit'),
-                  href: getInvoiceEditUrl(row.id),
-                  icon: <Icon icon='mdi:pencil-outline' fontSize={20} />
-                },
-                {
-                  text: t('invoice_page.list.duplicate'),
-                  icon: <Icon icon='mdi:content-copy' fontSize={20} />
-                }
-              ]}
-            />
-          )}
+          <Tooltip title={t('invoice_page.list.edit')}>
+            <span>
+              <IconButton
+                size='small'
+                color='info'
+                component={Link}
+                href={getInvoiceEditUrl(row.id)}
+                disabled={!ability?.can('update', 'invoice')}
+              >
+                <Icon icon='mdi:pencil-outline' fontSize={20} />
+              </IconButton>
+            </span>
+          </Tooltip>
         </Box>
       )
     }
@@ -377,6 +381,7 @@ const InvoiceList = () => {
                         label={t('invoice_page.list.invoice_date')}
                         end={endDateRange as number | Date}
                         start={startDateRange as number | Date}
+                        dateformat={organization?.dateFormat}
                       />
                     }
                   />
@@ -423,6 +428,7 @@ const InvoiceList = () => {
                       label='Invoice Project'
                       onChange={e => handleOnChangeProjectId(e.target.value)}
                       labelId='invoice-project-select'
+                      MenuProps={MenuProps}
                     >
                       <MenuItem value=''>All Projects</MenuItem>
                       {projectStore.projects.map(project => (
@@ -466,6 +472,9 @@ const InvoiceList = () => {
               pageSizeOptions={[25, 50, 100]}
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
+              slots={{
+                row: TooltipRow
+              }}
             />
           </Card>
         </Grid>

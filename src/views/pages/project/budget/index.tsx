@@ -2,7 +2,7 @@ import { Grid } from '@mui/material'
 import BudgetListTable from 'src/views/apps/project/budget/list/BudgetListTable'
 
 export interface BudgetTabProps {
-  projectId: string
+  projectId: number
 }
 
 const BudgetTab = ({ projectId }: BudgetTabProps) => {

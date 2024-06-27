@@ -45,12 +45,15 @@ import TableHeader from './TableHeader'
 import AddBudgetDrawer from './AddBudgetDrawer'
 import UpdateBudgetDrawer from './UpdateBudgetDrawer'
 
+// ** Constant Imports
+import { MenuProps } from 'src/constants'
+
 interface CellType {
   row: BudgetResponseDto
 }
 
 export interface BudgetListTableProps {
-  projectId: string
+  projectId: number
 }
 
 const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
@@ -74,7 +77,7 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
   }
 
   const handleDeleteBudget = (budgetId: number) => {
-    dispatch(deleteBudget({ organizationId, projectId: parseInt(projectId), budgetId }))
+    dispatch(deleteBudget({ organizationId, projectId, budgetId }))
   }
 
   const toggleAddBudgetDrawer = () => {
@@ -95,7 +98,7 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
   useEffect(() => {
     const fetchBudgetParams: any = {
       organizationId,
-      projectId: parseInt(projectId)
+      projectId
     }
     if (categoryId) {
       fetchBudgetParams.categoryId = parseInt(categoryId)
@@ -105,7 +108,7 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
 
   useEffect(() => {
     if (ability?.can('read', 'category')) {
-      dispatch(fetchCategory({ organizationId, projectId: parseInt(projectId) }))
+      dispatch(fetchCategory({ organizationId, projectId }))
     }
   }, [dispatch, organizationId, projectId, ability])
 
@@ -217,6 +220,7 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
                     label='Category Type'
                     onChange={e => handleOnChangeCategory(e.target.value)}
                     labelId='category-type-select'
+                    MenuProps={MenuProps}
                   >
                     <MenuItem value=''>All Categories</MenuItem>
                     {categoryStore.categories.map(

@@ -21,7 +21,6 @@ import { InvoiceResponseDto } from 'src/__generated__/AccountifyAPI'
 // ** Components Imports
 import PreviewCard from 'src/views/apps/invoice/preview/PreviewCard'
 import PreviewActions from 'src/views/apps/invoice/preview/PreviewActions'
-import AddPaymentDrawer from 'src/views/apps/invoice/shared-drawer/AddPaymentDrawer'
 import SendInvoiceDrawer from 'src/views/apps/invoice/shared-drawer/SendInvoiceDrawer'
 
 // ** Utils Imports
@@ -46,29 +45,22 @@ const InvoicePreview = ({ id }: InvoicePreviewProps) => {
   }, [dispatch, id, organizationId])
 
   // ** State
-  const [addPaymentOpen, setAddPaymentOpen] = useState<boolean>(false)
   const [sendInvoiceOpen, setSendInvoiceOpen] = useState<boolean>(false)
 
   const toggleSendInvoiceDrawer = () => setSendInvoiceOpen(!sendInvoiceOpen)
-  const toggleAddPaymentDrawer = () => setAddPaymentOpen(!addPaymentOpen)
 
   if (invoiceStore.invoice) {
     return (
       <>
         <Grid container spacing={6}>
-          <Grid item xl={9} md={8} xs={12}>
+          <Grid item xl={8} md={7} xs={12}>
             <PreviewCard data={invoiceStore.invoice as InvoiceResponseDto} />
           </Grid>
-          <Grid item xl={3} md={4} xs={12}>
-            <PreviewActions
-              id={id}
-              toggleAddPaymentDrawer={toggleAddPaymentDrawer}
-              toggleSendInvoiceDrawer={toggleSendInvoiceDrawer}
-            />
+          <Grid item xl={4} md={5} xs={12}>
+            <PreviewActions id={id} toggleSendInvoiceDrawer={toggleSendInvoiceDrawer} />
           </Grid>
         </Grid>
         <SendInvoiceDrawer open={sendInvoiceOpen} toggle={toggleSendInvoiceDrawer} />
-        <AddPaymentDrawer open={addPaymentOpen} toggle={toggleAddPaymentDrawer} />
       </>
     )
   } else {

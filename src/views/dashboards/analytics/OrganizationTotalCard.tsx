@@ -24,6 +24,9 @@ import { formatCurrencyAsStandard } from 'src/utils/currency'
 import { getInvoiceEditUrl } from 'src/utils/router'
 import format from 'date-fns/format'
 
+// ** Hook Imports
+import { useCurrentOrganization } from 'src/hooks'
+
 // ** Styled component for the link in the dataTable
 const LinkStyled = styled(Link)(({ theme }) => ({
   textDecoration: 'none',
@@ -42,6 +45,7 @@ export interface OrganizationTotalCardProps {
 }
 
 const OrganizationTotalCard = ({ title, type, invoices, total }: OrganizationTotalCardProps) => {
+  const { organization } = useCurrentOrganization()
   const data = invoices.filter(invoice => invoice.type === type)
 
   return (
@@ -87,7 +91,7 @@ const OrganizationTotalCard = ({ title, type, invoices, total }: OrganizationTot
                     <Typography variant='body2' sx={{ mb: 0.5, fontWeight: 600, color: 'text.primary' }}>
                       <LinkStyled href={getInvoiceEditUrl(item.id)}>{`#${item.uid}`}</LinkStyled>
                     </Typography>
-                    <Typography variant='caption'> {format(new Date(item.date), 'yyyy-MM-dd')}</Typography>
+                    <Typography variant='caption'> {format(new Date(item.date), organization?.dateFormat)}</Typography>
                   </Box>
 
                   <Box sx={{ minWidth: 85, display: 'flex', flexDirection: 'column' }}>

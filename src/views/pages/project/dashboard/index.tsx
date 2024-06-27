@@ -58,7 +58,7 @@ const CustomInput = forwardRef(({ ...props }: CustomInputProps, ref) => {
 })
 
 export interface DashboardTabProps {
-  projectId: string
+  projectId: number
 }
 
 const DashboardTab = ({ projectId }: DashboardTabProps) => {
@@ -73,11 +73,11 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
   const invoiceStore = useSelector((state: RootState) => state.invoice)
 
   useEffect(() => {
-    dispatch(fetchStatistics({ organizationId, projectId: parseInt(projectId), date: year ? year.toString() : '' }))
+    dispatch(fetchStatistics({ organizationId, projectId, date: year ? year.toString() : '' }))
     dispatch(
       fetchInvoiceForProject({
         organizationId,
-        projectId: parseInt(projectId),
+        projectId,
         status: 'uncategorized',
         fromDate: startOfYear(year ?? new Date())?.toString(),
         toDate: endOfYear(year ?? new Date())?.toString()

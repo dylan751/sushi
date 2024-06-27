@@ -35,6 +35,10 @@ import { format } from 'date-fns'
 
 // ** Utils Imports
 import { getInvoiceListUrl } from 'src/utils/router/invoice'
+import { getProjectInvoiceTab } from 'src/utils/router'
+
+// ** Enum Imports
+import { BankOptions } from 'src/enum'
 
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
@@ -57,20 +61,24 @@ const InvoiceAdd = () => {
   const router = useRouter()
   const projectStore = useSelector((state: RootState) => state.project)
   const categoryStore = useSelector((state: RootState) => state.category)
-  const { organizationId } = useCurrentOrganization()
+  const { project, organizationId } = useCurrentOrganization(router.query.project as string)
 
   // ** States
   const [addCategoryOpen, setAddCategoryOpen] = useState<boolean>(false)
   const [date, setDate] = useState<DateType>(new Date())
   const [type, setType] = useState<InvoiceType>(InvoiceType.EXPENSE)
   const [currency, setCurrency] = useState<CurrencyType>(CurrencyType.USD)
-  const [projectId, setProjectId] = useState<string>('')
+  const [projectId, setProjectId] = useState<string>(project?.id?.toString() ?? '')
   const [categoryId, setCategoryId] = useState<string>('')
   const [clientName, setClientName] = useState<string>('')
   const [uid, setUid] = useState<string>('')
   const [tax, setTax] = useState<string>('')
+  const [discount, setDiscount] = useState<string>('0')
+  const [note, setNote] = useState<string>('')
   const [exchangeRate, setExchangeRate] = useState<string>('')
   const [formData, setFormData] = useState<CreateInvoiceFormData[]>([initialFormData])
+
+  const [source, setSource] = useState<BankOptions>(BankOptions.BIDV)
 
   const toggleAddCategoryDrawer = () => setAddCategoryOpen(!addCategoryOpen)
 
@@ -134,19 +142,26 @@ const InvoiceAdd = () => {
       categoryId: parseInt(categoryId),
       uid,
       tax: parseInt(tax),
+      discount: parseInt(discount) ?? 0,
+      note,
       exchangeRate: parseInt(exchangeRate)
     }
 
     // Call api
     setFormData([initialFormData])
     dispatch(addInvoice({ organizationId, projectId: parseInt(projectId), ...createInvoiceRequest }))
-    router.replace(getInvoiceListUrl())
+
+    if (router.query.project) {
+      router.replace(getProjectInvoiceTab(router.query.project as string))
+    } else {
+      router.replace(getInvoiceListUrl())
+    }
   }
 
   return (
     <DatePickerWrapper sx={{ '& .react-datepicker-wrapper': { width: 'auto' } }}>
       <Grid container spacing={6}>
-        <Grid item xl={9} md={8} xs={12}>
+        <Grid item xl={8} md={7} xs={12}>
           <AddCard
             projects={projectStore.projects}
             categories={categoryStore.categories}
@@ -169,15 +184,20 @@ const InvoiceAdd = () => {
             setUid={setUid}
             tax={tax}
             setTax={setTax}
+            discount={discount}
+            setDiscount={setDiscount}
             exchangeRate={exchangeRate}
+            note={note}
+            setNote={setNote}
             setExchangeRate={setExchangeRate}
+            projectName={project?.name}
           />
         </Grid>
-        <Grid item xl={3} md={4} xs={12}>
-          <AddActions onSubmit={onSubmit} isSubmitDisabled={isSubmitDisabled} />
+        <Grid item xl={4} md={5} xs={12}>
+          <AddActions source={source} setSource={setSource} onSubmit={onSubmit} isSubmitDisabled={isSubmitDisabled} />
         </Grid>
       </Grid>
-      <AddCategoryDrawer open={addCategoryOpen} toggle={toggleAddCategoryDrawer} projectId={projectId} />
+      <AddCategoryDrawer open={addCategoryOpen} toggle={toggleAddCategoryDrawer} projectId={parseInt(projectId)} />
     </DatePickerWrapper>
   )
 }

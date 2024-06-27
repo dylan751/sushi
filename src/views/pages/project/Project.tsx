@@ -24,9 +24,7 @@ import DashboardTab from 'src/views/pages/project/dashboard'
 import InvoiceTab from 'src/views/pages/project/invoice'
 import BudgetTab from 'src/views/pages/project/budget'
 import CategoryTab from 'src/views/pages/project/category'
-import ProjectHeader from 'src/views/pages/project/ProjectHeader'
 import { getOrgUniqueName } from 'src/utils/organization'
-import { ProjectResponseDto } from 'src/__generated__/AccountifyAPI'
 import { useTranslation } from 'react-i18next'
 
 // ** Context Imports
@@ -52,7 +50,7 @@ const TabList = styled(MuiTabList)<TabListProps>(({ theme }) => ({
   }
 }))
 
-const Project = ({ tab, id, project }: { tab: string; id: string; project: ProjectResponseDto }) => {
+const Project = ({ tab, name, id }: { tab: string; name: string; id: number }) => {
   // ** State
   const [activeTab, setActiveTab] = useState<string>(tab)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -68,7 +66,7 @@ const Project = ({ tab, id, project }: { tab: string; id: string; project: Proje
     setActiveTab(value)
     router
       .push({
-        pathname: `/${getOrgUniqueName()}/projects/${id}/${value.toLowerCase()}`
+        pathname: `/${getOrgUniqueName()}/projects/${name}/${value.toLowerCase()}`
       })
       .then(() => setIsLoading(false))
   }
@@ -83,16 +81,13 @@ const Project = ({ tab, id, project }: { tab: string; id: string; project: Proje
 
   const tabContentList: { [key: string]: ReactElement } = {
     dashboard: <DashboardTab projectId={id} />,
-    invoice: <InvoiceTab projectId={id} />,
+    invoice: <InvoiceTab projectId={id} name={name} />,
     budget: <BudgetTab projectId={id} />,
     category: <CategoryTab projectId={id} />
   }
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12}>
-        <ProjectHeader project={project} />
-      </Grid>
       {activeTab === undefined ? null : (
         <Grid item xs={12}>
           <TabContext value={activeTab}>

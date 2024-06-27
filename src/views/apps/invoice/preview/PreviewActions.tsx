@@ -23,11 +23,10 @@ import { useTranslation } from 'react-i18next'
 
 interface Props {
   id: string | undefined
-  toggleAddPaymentDrawer: () => void
   toggleSendInvoiceDrawer: () => void
 }
 
-const PreviewActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }: Props) => {
+const PreviewActions = ({ id, toggleSendInvoiceDrawer }: Props) => {
   // ** Hooks
   const ability = useContext(AbilityContext)
   const { t } = useTranslation()
@@ -59,21 +58,13 @@ const PreviewActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }:
           fullWidth
           sx={{ mb: 3.5 }}
           component={Link}
-          color='secondary'
-          variant='outlined'
+          color='success'
+          variant='contained'
           href={getInvoiceEditUrl(id)}
+          startIcon={<Icon icon='mdi:pencil-outline' />}
           disabled={!ability?.can('update', 'invoice')}
         >
           {t('invoice_page.preview.update_invoice')}
-        </Button>
-        <Button
-          fullWidth
-          color='success'
-          variant='contained'
-          onClick={toggleAddPaymentDrawer}
-          startIcon={<Icon icon='mdi:currency-usd' />}
-        >
-          Add Payment
         </Button>
       </CardContent>
     </Card>

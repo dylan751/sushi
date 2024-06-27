@@ -13,9 +13,6 @@ import { styled } from '@mui/material/styles'
 import TableContainer from '@mui/material/TableContainer'
 import TableCell, { TableCellBaseProps } from '@mui/material/TableCell'
 
-// ** Configs
-import themeConfig from 'src/configs/themeConfig'
-
 // ** Types
 import { InvoiceResponseDto } from 'src/__generated__/AccountifyAPI'
 
@@ -72,7 +69,7 @@ const PreviewCard = ({ data }: Props) => {
                     variant='h6'
                     sx={{ ml: 2.5, fontWeight: 600, lineHeight: 'normal', textTransform: 'uppercase' }}
                   >
-                    {themeConfig.templateName}
+                    {organization.name}
                   </Typography>
                 </Box>
                 <Box>
@@ -101,7 +98,7 @@ const PreviewCard = ({ data }: Props) => {
                       </MUITableCell>
                       <MUITableCell>
                         <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                          {format(new Date(data?.date ? new Date(data.date) : new Date()), 'dd MMM yyyy')}
+                          {format(new Date(data?.date ? new Date(data.date) : new Date()), organization?.dateFormat)}
                         </Typography>
                       </MUITableCell>
                     </TableRow>
@@ -123,6 +120,16 @@ const PreviewCard = ({ data }: Props) => {
               <Typography variant='body2' sx={{ mb: 2 }}>
                 {data.clientName}
               </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: ['flex-start', 'flex-end'] }}>
+              <div>
+                <Typography variant='body2' sx={{ mb: 3.5, fontWeight: 600 }}>
+                  {t('invoice_page.preview.note')}:
+                </Typography>
+                <Typography variant='body2' sx={{ mb: 2 }}>
+                  {data.note}
+                </Typography>
+              </div>
             </Grid>
           </Grid>
         </CardContent>
@@ -182,7 +189,7 @@ const PreviewCard = ({ data }: Props) => {
               <CalcWrapper>
                 <Typography variant='body2'>{t('invoice_page.preview.discount')}:</Typography>
                 <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                  {formatCurrencyAsStandard(0, Locale.EN, data.currency)}
+                  {formatCurrencyAsStandard(data.discount, Locale.EN, data.currency)}
                 </Typography>
               </CalcWrapper>
               <CalcWrapper>

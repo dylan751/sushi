@@ -1,5 +1,5 @@
 // ** Next Import
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 // ** React Import
 import { useContext } from 'react'
@@ -12,8 +12,8 @@ import Button from '@mui/material/Button'
 import Icon from 'src/@core/components/icon'
 
 // ** Utils Imports
-import { getOrgUniqueName } from 'src/utils/organization'
 import { generateCsvFilename } from 'src/utils/csv'
+import { getInvoiceAddUrl } from 'src/utils/router'
 
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
@@ -27,19 +27,19 @@ import { useTheme } from '@mui/material/styles'
 
 // ** Types Imports
 import { InvoiceResponseDto } from 'src/__generated__/AccountifyAPI'
+import { UrlObject } from 'url'
 
 interface TableHeaderProps {
   invoices: InvoiceResponseDto[]
+  name?: string
 }
 
 const TableHeader = (props: TableHeaderProps) => {
   const { invoices } = props
 
-  // ** Utils
-  const uniqueName = getOrgUniqueName()
-
   // ** Hooks
   const { t } = useTranslation()
+  const router = useRouter()
   const ability = useContext(AbilityContext)
   const theme = useTheme()
 
@@ -53,6 +53,14 @@ const TableHeader = (props: TableHeaderProps) => {
 
     return data
   })
+
+  const handleAddInvoice = () => {
+    const routerOptions: UrlObject = { pathname: getInvoiceAddUrl() }
+    if (props.name) {
+      routerOptions.query = { project: props.name }
+    }
+    router.replace(routerOptions)
+  }
 
   return (
     <Box
@@ -79,9 +87,8 @@ const TableHeader = (props: TableHeaderProps) => {
       <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
         <Button
           sx={{ mb: 2 }}
-          component={Link}
           variant='contained'
-          href={`/${uniqueName}/invoice/add`}
+          onClick={handleAddInvoice}
           disabled={!ability?.can('create', 'invoice')}
         >
           {t('invoice_page.list.create_invoice')}

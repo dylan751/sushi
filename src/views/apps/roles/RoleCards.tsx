@@ -78,7 +78,7 @@ const cardDummyData = {
 const RolesCards = () => {
   // ** Hooks
   const session = useSession()
-  const { organizationId } = useCurrentOrganization()
+  const { organizationId, organization } = useCurrentOrganization()
   const ability = useContext(AbilityContext)
   const { t } = useTranslation()
   const dispatch = useDispatch<AppDispatch>()
@@ -218,8 +218,8 @@ const RolesCards = () => {
           <CardContent>
             <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography variant='body2'>
-                {t('role_page.role.total_users', {
-                  totalUsers: cardDummyData.totalUsers
+                {t('role_page.role.organization_role', {
+                  organizationName: organization.name
                 })}
               </Typography>
               <AvatarGroup max={4} sx={{ '& .MuiAvatar-root': { width: 32, height: 32, fontSize: '0.875rem' } }}>

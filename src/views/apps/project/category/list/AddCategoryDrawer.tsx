@@ -40,10 +40,13 @@ import { useCurrentOrganization } from 'src/hooks'
 // ** Utils Imports
 import { capitalizeFirstLetter } from 'src/utils/string'
 
+// ** Constant Imports
+import { MenuProps } from 'src/constants'
+
 interface SidebarAddCategoryInterface {
   open: boolean
   toggle: () => void
-  projectId: string
+  projectId: number
 }
 
 const Header = styled(Box)<BoxProps>(({ theme }) => ({
@@ -53,17 +56,6 @@ const Header = styled(Box)<BoxProps>(({ theme }) => ({
   justifyContent: 'space-between',
   backgroundColor: theme.palette.background.default
 }))
-
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
-const MenuProps = {
-  PaperProps: {
-    style: {
-      width: 250,
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP
-    }
-  }
-}
 
 const schema = yup.object().shape({
   name: yup.string().required(),
@@ -112,7 +104,7 @@ const SidebarAddCategory = (props: SidebarAddCategoryInterface) => {
       type: data.type
     }
 
-    dispatch(addCategory({ organizationId, projectId: parseInt(projectId), ...createCategoryRequest }))
+    dispatch(addCategory({ organizationId, projectId, ...createCategoryRequest }))
     toggle()
     reset()
   }
@@ -178,7 +170,7 @@ const SidebarAddCategory = (props: SidebarAddCategoryInterface) => {
                     MenuProps={MenuProps}
                   >
                     {Object.values(IconType).map(icon => (
-                      <MenuItem key={icon} value={icon}>
+                      <MenuItem key={icon} value={icon} sx={{ display: 'inline-flex', width: '25%' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 3 } }}>
                           <Icon icon={icon} fontSize={20} />
                         </Box>

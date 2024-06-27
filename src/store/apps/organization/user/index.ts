@@ -43,7 +43,7 @@ export const fetchUser = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -70,7 +70,7 @@ export const addUser = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -97,7 +97,7 @@ export const updateUser = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -124,7 +124,7 @@ export const deleteUser = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
 )
@@ -144,7 +144,7 @@ export const fetchAdminCount = createAsyncThunk('appUsers/fetchAdminCount', asyn
 
     return response.data
   } catch (error: any) {
-    toast.error(error.message)
+    toast.error(error.response.data.message)
   }
 })
 

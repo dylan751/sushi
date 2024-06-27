@@ -23,6 +23,14 @@
             "account": "Account",
             "security": "Security",
             "organization": "Organization"
+        },
+        "landing_page": {
+            "landing_pages": "Landing Pages",
+            "home": "Home",
+            "pricing": "Pricing",
+            "payment": "Payment",
+            "checkout": "Checkout",
+            "help_center": "Help Center"
         }
     },
     "autocomplete": {
@@ -108,6 +116,7 @@
             "subtitle_1": "A role provided access to predefined menus and features so that depending on assigned role an administrator can have access to what he need",
             "subtitle_2": "An organization can have up to {{MAX_ROLES_PER_ORGANIZATION}} roles",
             "total_users": "Total {{totalUsers}} users",
+            "organization_role": "{{organizationName}}'s role",
             "add": "Add",
             "edit": "Edit",
             "show": "Show",
@@ -288,6 +297,9 @@
             "type": "Type",
             "quantity": "Quantity",
             "currency": "Currency",
+            "project": "Project",
+            "category": "Category",
+            "add_new_category": "Add New Category",
             "invoice_to": "Invoice To",
             "invoice_from": "Invoice From",
             "client_name": "Client Name",
@@ -301,7 +313,8 @@
             "subtotal": "Subtotal",
             "discount": "Discount",
             "total": "Total",
-            "create_invoice": "Create Invoice"
+            "create_invoice": "Create Invoice",
+            "exchange_rates_today": "Exchange Rates ({{today}})"
         },
         "edit": {
             "invoice": "Invoice",
@@ -310,6 +323,8 @@
             "type": "Type",
             "quantity": "Quantity",
             "currency": "Currency",
+            "project": "Project",
+            "category": "Category",
             "invoice_to": "Invoice To",
             "client_name": "Client Name",
             "name": "Name",
@@ -323,7 +338,8 @@
             "discount": "Discount",
             "total": "Total",
             "update_invoice": "Update Invoice",
-            "preview": "Preview"
+            "preview": "Preview",
+            "exchange_rates_today": "Exchange Rates, day {{today}}"
         },
         "preview": {
             "invoice_to": "Invoice To",
@@ -387,9 +403,10 @@
     "exchange_rates": {
         "title": "Exchange Rates",
         "bidv_bank": "BIDV Bank",
+        "vcb_bank": "VCB Bank",
         "currency": "Currency",
-        "buy_tm": "Buy TM",
-        "buy_ck": "Buy CK",
+        "buy_tm": "Buy Cash",
+        "buy_ck": "Buy Transfer",
         "sell": "Sell"
     },
     "settings_page": {
@@ -428,6 +445,7 @@
             "organization_name": "Organization Name",
             "phone_number": "Phone Number",
             "organization_address": "Organization Address",
+            "date_format": "Date Format",
             "delete_organization": "Delete Organization",
             "deactivate_organization": "Deactivate Organization",
             "organization_deactivation_checkbox": "I confirm my organization deactivation",

@@ -23,6 +23,14 @@
             "account": "Tài khoản",
             "security": "Bảo mật",
             "organization": "Tổ chức"
+        },
+        "landing_page": {
+            "landing_pages": "Trang giới thiệu",
+            "home": "Trang chủ",
+            "pricing": "Bảng giá",
+            "payment": "Thanh toán",
+            "checkout": "Thủ tục thanh toán",
+            "help_center": "Trung tâm trợ giúp"
         }
     },
     "user_dropdown": {
@@ -105,6 +113,7 @@
             "subtitle_1": "Một vai trò cung cấp khả năng truy cập vào các menu và tính năng được xác định trước để tùy thuộc vào vai trò được giao, quản trị viên có thể có quyền truy cập vào những gì mình cần",
             "subtitle_2": "Một tổ chức có thể có tối đa {{MAX_ROLES_PER_ORGANIZATION}} vai trò",
             "total_users": "Có {{totalUsers}} người dùng",
+            "organization_role": "Vai trò của {{organizationName}}",
             "add": "Tạo",
             "edit": "Sửa",
             "show": "Xem",
@@ -285,6 +294,9 @@
             "type": "Loại",
             "quantity": "Số lượng",
             "currency": "Tiền tệ",
+            "project": "Dự án",
+            "category": "Phân loại",
+            "add_new_category": "Thêm phân loại",
             "invoice_to": "Người nhận",
             "invoice_from": "Người chuyển",
             "client_name": "Tên khách hàng",
@@ -298,7 +310,8 @@
             "subtotal": "Thành tiền",
             "discount": "Giảm giá",
             "total": "Thành tiền",
-            "create_invoice": "Tạo hoá đơn"
+            "create_invoice": "Tạo hoá đơn",
+            "exchange_rates_today": "Bảng tỷ giá ({{today}})"
         },
         "edit": {
             "invoice": "Hoá đơn",
@@ -320,7 +333,8 @@
             "discount": "Giảm giá",
             "total": "Tổng tiền",
             "update_invoice": "Cập nhật hoá đơn",
-            "preview": "Xem trước"
+            "preview": "Xem trước",
+            "exchange_rates_today": "Bảng tỷ giá, ngày {{today}}"
         },
         "preview": {
             "invoice_to": "Người nhận",
@@ -387,9 +401,10 @@
     "exchange_rates": {
         "title": "Tỷ giá hối đoái",
         "bidv_bank": "Ngân hàng BIDV",
+        "vcb_bank": "Ngân hàng VCB",
         "currency": "Tiền tệ",
-        "buy_tm": "Mua TM",
-        "buy_ck": "Mua CK",
+        "buy_tm": "Mua tiền mặt",
+        "buy_ck": "Mua chuyển khoản",
         "sell": "Bán"
     },
     "settings_page": {
@@ -428,6 +443,7 @@
             "organization_name": "Tên tổ chức",
             "phone_number": "Số điện thoại",
             "organization_address": "Địa chỉ tổ chức",
+            "date_format": "Định dạng ngày tháng",
             "delete_organization": "Xóa tổ chức",
             "deactivate_organization": "Vô hiệu hóa tổ chức",
             "organization_deactivation_checkbox": "Xác nhận vô hiệu hóa tổ chức",
