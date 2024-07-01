@@ -16,7 +16,7 @@ import { fetchInvoiceForProject } from 'src/store/apps/organization/invoice'
 import { AppDispatch, RootState } from 'src/store'
 import { CardStatsCharacterProps } from 'src/@core/components/card-statistics/types'
 import { Locale } from 'src/enum'
-import { CurrencyType, InvoiceType } from 'src/__generated__/AccountifyAPI'
+import { InvoiceType } from 'src/__generated__/AccountifyAPI'
 
 // ** Custom Components Imports
 import CardStatisticsCharacter from 'src/@core/components/card-statistics/card-stats-with-image'
@@ -40,7 +40,7 @@ import { useCurrentOrganization } from 'src/hooks'
 import { useTranslation } from 'react-i18next'
 
 // ** Utils Imports
-import { formatCurrencyAsCompact } from 'src/utils/currency'
+import { convertCurrencyValue, formatCurrencyAsCompact } from 'src/utils/currency'
 import { endOfYear, format, startOfYear } from 'date-fns'
 
 interface CustomInputProps {
@@ -66,7 +66,7 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
   const [year, setYear] = useState<Date>(new Date())
 
   // ** Hooks
-  const { organizationId } = useCurrentOrganization()
+  const { organizationId, organization } = useCurrentOrganization()
   const { t } = useTranslation()
   const dispatch = useDispatch<AppDispatch>()
   const statisticsStore = useSelector((state: RootState) => state.projectStatistics)
@@ -88,7 +88,11 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
   const data: CardStatsCharacterProps[] = [
     {
       // trendNumber: '+38%',
-      stats: formatCurrencyAsCompact(statisticsStore.statistics.totalIncome ?? 0, Locale.EN, CurrencyType.USD),
+      stats: formatCurrencyAsCompact(
+        convertCurrencyValue(statisticsStore.statistics.totalIncome ?? 0, organization?.currency, 25000),
+        Locale.EN,
+        organization?.currency
+      ),
       title: t('project_page.dashboard.income'),
       chipColor: 'success',
       chipText: `${t('dashboard_page.year_of')} ${format(year ?? new Date(), 'yyyy')}`,
@@ -97,7 +101,11 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
     {
       // trend: 'negative',
       // trendNumber: '-22%',
-      stats: formatCurrencyAsCompact(statisticsStore.statistics.totalExpense ?? 0, Locale.EN, CurrencyType.USD),
+      stats: formatCurrencyAsCompact(
+        convertCurrencyValue(statisticsStore.statistics.totalExpense ?? 0, organization?.currency, 25000),
+        Locale.EN,
+        organization?.currency
+      ),
       title: t('project_page.dashboard.expense'),
       chipText: `${t('dashboard_page.year_of')} ${format(year ?? new Date(), 'yyyy')}`,
       chipColor: 'error',

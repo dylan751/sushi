@@ -23,7 +23,7 @@ import { useForm, Controller } from 'react-hook-form'
 import 'react-credit-cards/es/styles-compiled.css'
 
 // ** Type Imports
-import { UpdateOrganizationRequestDto } from 'src/__generated__/AccountifyAPI'
+import { CurrencyType, UpdateOrganizationRequestDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Store Imports
 import { useDispatch } from 'react-redux'
@@ -54,7 +54,8 @@ const OrganizationInformationCard = () => {
     name: organization.name || '',
     phone: organization.phone || '',
     address: organization.address || '',
-    dateFormat: organization.dateFormat || 'dd/MM/yyyy'
+    dateFormat: organization.dateFormat || 'dd/MM/yyyy',
+    currency: organization.currency || CurrencyType.USD
   }
 
   const {
@@ -169,6 +170,70 @@ const OrganizationInformationCard = () => {
                 />
                 {errors.dateFormat && (
                   <FormHelperText sx={{ color: 'error.main' }}>{errors.dateFormat.message}</FormHelperText>
+                )}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth>
+                <Controller
+                  name='currency'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <>
+                      <InputLabel id='currency-select'>{t('settings_page.organization.default_currency')} *</InputLabel>
+                      <Select
+                        fullWidth
+                        value={value}
+                        id='currency'
+                        label={t('settings_page.organization.default_currency')}
+                        labelId='currency'
+                        onChange={e => {
+                          onChange(e.target.value)
+                        }}
+                        inputProps={{ placeholder: t('settings_page.organization.default_currency').toString() }}
+                        MenuProps={MenuProps}
+                      >
+                        <MenuItem value={CurrencyType.USD}>USD</MenuItem>
+                        <MenuItem value={CurrencyType.VND}>VND</MenuItem>
+                      </Select>
+                    </>
+                  )}
+                />
+                {errors.currency && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.currency.message}</FormHelperText>
+                )}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth>
+                <Controller
+                  name='bank'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <>
+                      <InputLabel id='currency-select'>{t('settings_page.organization.default_currency')} *</InputLabel>
+                      <Select
+                        fullWidth
+                        value={value}
+                        id='currency'
+                        label={t('settings_page.organization.default_currency')}
+                        labelId='currency'
+                        onChange={e => {
+                          onChange(e.target.value)
+                        }}
+                        inputProps={{ placeholder: t('settings_page.organization.default_currency').toString() }}
+                        MenuProps={MenuProps}
+                      >
+                        <MenuItem value={CurrencyType.USD}>USD</MenuItem>
+                        <MenuItem value={CurrencyType.VND}>VND</MenuItem>
+                      </Select>
+                    </>
+                  )}
+                />
+                {errors.currency && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.currency.message}</FormHelperText>
                 )}
               </FormControl>
             </Grid>

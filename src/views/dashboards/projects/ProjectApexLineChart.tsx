@@ -13,14 +13,15 @@ import { ApexOptions } from 'apexcharts'
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
 // ** Type Imports
-import { CurrencyType, ProjectStatisticsResponseDto } from 'src/__generated__/AccountifyAPI'
+import { ProjectStatisticsResponseDto } from 'src/__generated__/AccountifyAPI'
 import { Locale } from 'src/enum'
 
 // ** Utils Imports
-import { formatCurrencyAsCompact } from 'src/utils/currency'
+import { convertCurrencyValue, formatCurrencyAsCompact } from 'src/utils/currency'
 
 // ** Hooks Imports
 import { useTranslation } from 'react-i18next'
+import { useCurrentOrganization } from 'src/hooks'
 
 export interface ProjectApexLineChartProps {
   data: ProjectStatisticsResponseDto
@@ -28,6 +29,7 @@ export interface ProjectApexLineChartProps {
 
 const ProjectApexLineChart = ({ data }: ProjectApexLineChartProps) => {
   // ** Hook
+  const { organization } = useCurrentOrganization()
   const theme = useTheme()
   const { t } = useTranslation()
 
@@ -57,9 +59,9 @@ const ProjectApexLineChart = ({ data }: ProjectApexLineChartProps) => {
       custom(data: any) {
         return `<div class='bar-chart'>
           <span>${formatCurrencyAsCompact(
-            data.series[data.seriesIndex][data.dataPointIndex],
+            convertCurrencyValue(data.series[data.seriesIndex][data.dataPointIndex], organization?.currency, 25000),
             Locale.EN,
-            CurrencyType.USD
+            organization?.currency
           )}</span>
         </div>`
       }
@@ -107,7 +109,11 @@ const ProjectApexLineChart = ({ data }: ProjectApexLineChartProps) => {
         action={
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography variant='h6' sx={{ mr: 5 }} color={data.balance > 0 ? 'success.main' : 'error.main'}>
-              {formatCurrencyAsCompact(data.balance, Locale.EN, CurrencyType.USD)}
+              {formatCurrencyAsCompact(
+                convertCurrencyValue(data.balance, organization?.currency, 25000),
+                Locale.EN,
+                organization?.currency
+              )}
             </Typography>
           </Box>
         }

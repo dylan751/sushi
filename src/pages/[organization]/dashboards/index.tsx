@@ -34,11 +34,11 @@ import { useTranslation } from 'react-i18next'
 
 // ** Types Imports
 import { Locale } from 'src/enum'
-import { CurrencyType, InvoiceType } from 'src/__generated__/AccountifyAPI'
+import { InvoiceType } from 'src/__generated__/AccountifyAPI'
 
 // ** Utils Imports
 import { endOfYear, format, startOfYear } from 'date-fns'
-import { formatCurrencyAsCompact } from 'src/utils/currency'
+import { convertCurrencyValue, formatCurrencyAsCompact } from 'src/utils/currency'
 import { fetchInvoice } from 'src/store/apps/organization/invoice'
 
 // ** Third Party Imports
@@ -66,7 +66,7 @@ const Dashboard = () => {
   const [year, setYear] = useState<Date>(new Date())
 
   // ** Hooks
-  const { organizationId } = useCurrentOrganization()
+  const { organizationId, organization } = useCurrentOrganization()
   const { t } = useTranslation()
   const dispatch = useDispatch<AppDispatch>()
 
@@ -110,7 +110,11 @@ const Dashboard = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={2} sx={{ order: 0 }}>
             <CardStatisticsVerticalComponent
-              stats={formatCurrencyAsCompact(statisticsStore.statistics.totalIncome ?? 0, Locale.EN, CurrencyType.USD)}
+              stats={formatCurrencyAsCompact(
+                convertCurrencyValue(statisticsStore.statistics.totalIncome ?? 0, organization?.currency, 25000),
+                Locale.EN,
+                organization?.currency
+              )}
               color='success'
               trendNumber={t('dashboard_page.good') as string}
               title={t('dashboard_page.income')}
@@ -120,7 +124,11 @@ const Dashboard = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={2} sx={{ order: 0 }}>
             <CardStatisticsVerticalComponent
-              stats={formatCurrencyAsCompact(statisticsStore.statistics.totalExpense ?? 0, Locale.EN, CurrencyType.USD)}
+              stats={formatCurrencyAsCompact(
+                convertCurrencyValue(statisticsStore.statistics.totalExpense ?? 0, organization?.currency, 25000),
+                Locale.EN,
+                organization?.currency
+              )}
               color='error'
               title={t('dashboard_page.expense')}
               trendNumber={t('dashboard_page.good') as string}

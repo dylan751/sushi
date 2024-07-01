@@ -24,14 +24,15 @@ import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
 // ** Util Import
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-import { formatCurrencyAsStandard } from 'src/utils/currency'
+import { convertCurrencyValue, formatCurrencyAsStandard } from 'src/utils/currency'
 
 // ** Types Import
-import { CurrencyType, OrganizationStatisticsResponseDto } from 'src/__generated__/AccountifyAPI'
+import { OrganizationStatisticsResponseDto } from 'src/__generated__/AccountifyAPI'
 import { Locale } from 'src/enum'
 
 // ** Hooks Imports
 import { useTranslation } from 'react-i18next'
+import { useCurrentOrganization } from 'src/hooks'
 
 const ScrollWrapper = ({ children }: { children: ReactNode }) => {
   return <Box sx={{ height: '140px', overflowY: 'auto', overflowX: 'hidden' }}>{children}</Box>
@@ -54,6 +55,7 @@ export interface OrganizationBudgetOverviewProps {
 
 const OrganizationBudgetOverview = ({ data }: OrganizationBudgetOverviewProps) => {
   // ** Hook
+  const { organization } = useCurrentOrganization()
   const theme = useTheme()
   const { t } = useTranslation()
 
@@ -98,7 +100,12 @@ const OrganizationBudgetOverview = ({ data }: OrganizationBudgetOverviewProps) =
             value: {
               offsetY: -15,
               fontWeight: 500,
-              formatter: value => formatCurrencyAsStandard(parseFloat(value) ?? 0, Locale.EN, CurrencyType.USD),
+              formatter: value =>
+                formatCurrencyAsStandard(
+                  convertCurrencyValue(parseFloat(value) ?? 0, organization?.currency, 25000),
+                  Locale.EN,
+                  organization?.currency
+                ),
               color: theme.palette.text.primary
             },
             total: {
@@ -108,9 +115,13 @@ const OrganizationBudgetOverview = ({ data }: OrganizationBudgetOverviewProps) =
               color: theme.palette.text.secondary,
               formatter: value =>
                 formatCurrencyAsStandard(
-                  parseFloat(value.globals.seriesTotals.reduce((total: number, num: number) => total + num)) ?? 0,
+                  convertCurrencyValue(
+                    parseFloat(value.globals.seriesTotals.reduce((total: number, num: number) => total + num)) ?? 0,
+                    organization?.currency,
+                    25000
+                  ),
                   Locale.EN,
-                  CurrencyType.USD
+                  organization?.currency
                 )
             }
           }
@@ -154,13 +165,17 @@ const OrganizationBudgetOverview = ({ data }: OrganizationBudgetOverviewProps) =
                 <Typography variant='body2'>{t('dashboard_page.total_budget_for_projects')}</Typography>
                 <Typography variant='h6'>
                   {formatCurrencyAsStandard(
-                    data.projects
-                      ? data.projects.reduce((accumulator, currentValue) => {
-                          return accumulator + currentValue.totalBudget
-                        }, 0)
-                      : 0,
+                    convertCurrencyValue(
+                      data.projects
+                        ? data.projects.reduce((accumulator, currentValue) => {
+                            return accumulator + currentValue.totalBudget
+                          }, 0)
+                        : 0,
+                      organization?.currency,
+                      25000
+                    ),
                     Locale.EN,
-                    CurrencyType.USD
+                    organization?.currency
                   )}
                 </Typography>
               </Box>
@@ -183,7 +198,11 @@ const OrganizationBudgetOverview = ({ data }: OrganizationBudgetOverviewProps) =
                         <Typography variant='body2'>{project.name}</Typography>
                       </Box>
                       <Typography sx={{ fontWeight: 600 }}>
-                        {formatCurrencyAsStandard(project.totalBudget ?? 0, Locale.EN, CurrencyType.USD)}
+                        {formatCurrencyAsStandard(
+                          convertCurrencyValue(project.totalBudget ?? 0, organization?.currency, 25000),
+                          Locale.EN,
+                          organization?.currency
+                        )}
                       </Typography>
                     </Grid>
                   ))}
