@@ -21,11 +21,11 @@ import { useTranslation } from 'react-i18next'
 // ** Types Imports
 import BIDVExchangeRates, { BIDVExchangeRateType } from '../../exchange-rates/BIDV'
 import VCBExchangeRates, { VCBExrateType } from '../../exchange-rates/VCB'
-import { CurrencyType } from 'src/__generated__/AccountifyAPI'
+import { BankType, CurrencyType } from 'src/__generated__/AccountifyAPI'
 
 // ** Utils Imports
 import { formatCurrencyAsStandard } from 'src/utils/currency'
-import { BankOptions, Locale } from 'src/enum'
+import { Locale } from 'src/enum'
 import { getInitials } from 'src/@core/utils/get-initials'
 import { format } from 'date-fns'
 
@@ -35,8 +35,8 @@ import { useCurrentOrganization } from 'src/hooks'
 export interface AddActionsProps {
   onSubmit: () => void
   isSubmitDisabled: () => boolean
-  source: BankOptions
-  setSource: (source: BankOptions) => void
+  source: BankType
+  setSource: (source: BankType) => void
 }
 
 interface BIDVCellType {
@@ -254,19 +254,19 @@ const AddActions = ({ source, setSource, onSubmit, isSubmitDisabled }: AddAction
           value={source}
           sx={{ width: { sm: '220px', xs: '170px' }, mb: '8px' }}
           onChange={e => {
-            setSource(e.target.value as BankOptions)
+            setSource(e.target.value as BankType)
           }}
         >
-          <MenuItem value={BankOptions.BIDV}>
+          <MenuItem value={BankType.BIDV}>
             <Typography sx={{ color: 'primary.main', fontWeight: '500' }}>{t('exchange_rates.bidv_bank')}</Typography>
           </MenuItem>
-          <MenuItem value={BankOptions.VCB}>
+          <MenuItem value={BankType.VCB}>
             <Typography sx={{ color: 'primary.main', fontWeight: '500' }}>{t('exchange_rates.vcb_bank')}</Typography>
           </MenuItem>
         </Select>
         <Card sx={{ height: 400, overflowY: 'auto', overflowX: 'hidden' }}>
-          {source === BankOptions.BIDV && <BIDVExchangeRates customColumns={BIDVColumns} />}
-          {source === BankOptions.VCB && <VCBExchangeRates customColumns={VCBColumns} />}
+          {source === BankType.BIDV && <BIDVExchangeRates customColumns={BIDVColumns} />}
+          {source === BankType.VCB && <VCBExchangeRates customColumns={VCBColumns} />}
         </Card>
       </Grid>
     </Grid>

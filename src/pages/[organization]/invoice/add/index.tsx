@@ -23,6 +23,7 @@ import { AppDispatch, RootState } from 'src/store'
 import { addInvoice } from 'src/store/apps/organization/invoice'
 import { DateType } from 'src/types/forms/reactDatepickerTypes'
 import {
+  BankType,
   CreateInvoiceItemRequest,
   CreateInvoiceRequestDto,
   CurrencyType,
@@ -36,9 +37,6 @@ import { format } from 'date-fns'
 // ** Utils Imports
 import { getInvoiceListUrl } from 'src/utils/router/invoice'
 import { getProjectInvoiceTab } from 'src/utils/router'
-
-// ** Enum Imports
-import { BankOptions } from 'src/enum'
 
 // ** Hooks Imports
 import { useCurrentOrganization } from 'src/hooks'
@@ -78,7 +76,7 @@ const InvoiceAdd = () => {
   const [exchangeRate, setExchangeRate] = useState<string>('')
   const [formData, setFormData] = useState<CreateInvoiceFormData[]>([initialFormData])
 
-  const [source, setSource] = useState<BankOptions>(BankOptions.BIDV)
+  const [source, setSource] = useState<BankType>(BankType.BIDV)
 
   const toggleAddCategoryDrawer = () => setAddCategoryOpen(!addCategoryOpen)
 

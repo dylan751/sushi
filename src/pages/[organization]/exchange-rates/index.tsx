@@ -21,14 +21,17 @@ import { useTranslation } from 'react-i18next'
 import { useCurrentOrganization } from 'src/hooks'
 
 // ** Enums Imports
-import { BankOptions, BankUrl } from 'src/enum'
+import { BankUrl } from 'src/enum'
 
 // ** Utils Imports
 import { format } from 'date-fns'
 
+// ** Types Imports
+import { BankType } from 'src/__generated__/AccountifyAPI'
+
 const ExchangeRates = () => {
   // ** States
-  const [source, setSource] = useState<BankOptions>(BankOptions.BIDV)
+  const [source, setSource] = useState<BankType>(BankType.BIDV)
 
   // ** Hooks
   const { t } = useTranslation()
@@ -49,15 +52,15 @@ const ExchangeRates = () => {
               value={source}
               sx={{ width: { sm: '220px', xs: '170px' } }}
               onChange={e => {
-                setSource(e.target.value as BankOptions)
+                setSource(e.target.value as BankType)
               }}
             >
-              <MenuItem value={BankOptions.BIDV}>
+              <MenuItem value={BankType.BIDV}>
                 <Typography sx={{ color: 'primary.main', fontWeight: '500' }}>
                   {t('exchange_rates.bidv_bank')}
                 </Typography>
               </MenuItem>
-              <MenuItem value={BankOptions.VCB}>
+              <MenuItem value={BankType.VCB}>
                 <Typography sx={{ color: 'primary.main', fontWeight: '500' }}>
                   {t('exchange_rates.vcb_bank')}
                 </Typography>
@@ -69,8 +72,8 @@ const ExchangeRates = () => {
           </CardContent>
         </Card>
       </Grid>
-      {source === BankOptions.BIDV && <BIDVExchangeRates />}
-      {source === BankOptions.VCB && <VCBExchangeRates />}
+      {source === BankType.BIDV && <BIDVExchangeRates />}
+      {source === BankType.VCB && <VCBExchangeRates />}
     </Grid>
   )
 }
