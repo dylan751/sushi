@@ -19,7 +19,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { styled } from '@mui/material/styles'
 
 // ** Type Imports
-import { CurrencyType, OrganizationUserResponseDto, ProjectResponseDto } from 'src/__generated__/AccountifyAPI'
+import { OrganizationUserResponseDto, ProjectResponseDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
@@ -30,7 +30,7 @@ import { Locale } from 'src/enum'
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
 import { getProjectDefaultTab, getProjectEditUrl } from 'src/utils/router'
-import { formatCurrencyAsCompact } from 'src/utils/currency'
+import { convertCurrencyValue, formatCurrencyAsCompact } from 'src/utils/currency'
 import { renderColorBudgetProcess } from 'src/utils/budget'
 
 // ** Custom Components Imports
@@ -190,11 +190,20 @@ const Projects = () => {
       renderCell: ({ row }: CellType) => (
         <Box sx={{ display: 'flex' }}>
           <Typography sx={{ color: `${renderColorBudgetProcess(row.totalSpent, row.totalBudget)}.main` }}>
-            {formatCurrencyAsCompact(row.totalSpent, Locale.EN, CurrencyType.USD)}/
+            {formatCurrencyAsCompact(
+              convertCurrencyValue(row.totalSpent, organization?.currency, organization?.exchangeRate),
+              Locale.EN,
+              organization?.currency
+            )}
+            /
           </Typography>
           <Typography
             sx={{ fontWeight: 600, color: `${renderColorBudgetProcess(row.totalSpent, row.totalBudget)}.main` }}
-          >{`${formatCurrencyAsCompact(row.totalBudget, Locale.EN, CurrencyType.USD)}`}</Typography>
+          >{`${formatCurrencyAsCompact(
+            convertCurrencyValue(row.totalBudget, organization?.currency, organization?.exchangeRate),
+            Locale.EN,
+            organization?.currency
+          )}`}</Typography>
         </Box>
       )
     },

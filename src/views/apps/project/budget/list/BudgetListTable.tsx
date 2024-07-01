@@ -29,11 +29,11 @@ import { deleteBudget, fetchBudget } from 'src/store/apps/organization/project/b
 import { fetchCategory } from 'src/store/apps/organization/project/category'
 
 // ** Type Imports
-import { BudgetResponseDto, CurrencyType, InvoiceType } from 'src/__generated__/AccountifyAPI'
+import { BudgetResponseDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
 import { Locale } from 'src/enum'
 
 // ** Utils Imports
-import { formatCurrencyAsCompact } from 'src/utils/currency'
+import { convertCurrencyValue, formatCurrencyAsCompact } from 'src/utils/currency'
 import { calculateBudgetProcess, renderColorBudgetProcess } from 'src/utils/budget'
 
 // ** Icon Imports
@@ -65,7 +65,7 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 25 })
 
   // ** Hooks
-  const { organizationId } = useCurrentOrganization()
+  const { organizationId, organization } = useCurrentOrganization()
   const { t } = useTranslation()
   const dispatch = useDispatch<AppDispatch>()
   const budgetStore = useSelector((state: RootState) => state.budget)
@@ -159,7 +159,11 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
       headerName: t('project_page.budget.amount') as string,
       renderCell: ({ row }: CellType) => (
         <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {formatCurrencyAsCompact(row.amount, Locale.EN, CurrencyType.USD)}
+          {formatCurrencyAsCompact(
+            convertCurrencyValue(row.amount, organization?.currency, organization?.exchangeRate),
+            Locale.EN,
+            organization?.currency
+          )}
         </Typography>
       )
     }

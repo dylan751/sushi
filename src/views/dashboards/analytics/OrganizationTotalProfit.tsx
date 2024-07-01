@@ -22,7 +22,7 @@ import { ApexOptions } from 'apexcharts'
 
 // ** Types
 import { ThemeColor } from 'src/@core/layouts/types'
-import { CurrencyType, OrganizationStatisticsResponseDto } from 'src/__generated__/AccountifyAPI'
+import { OrganizationStatisticsResponseDto } from 'src/__generated__/AccountifyAPI'
 import { Locale } from 'src/enum'
 
 // ** Custom Components Imports
@@ -31,11 +31,12 @@ import OptionsMenu from 'src/@core/components/option-menu'
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
 // ** Utils Imports
-import { formatCurrencyAsCompact, formatCurrencyAsStandard } from 'src/utils/currency'
+import { convertCurrencyValue, formatCurrencyAsCompact, formatCurrencyAsStandard } from 'src/utils/currency'
 import { getInvoiceListUrl } from 'src/utils/router'
 
 // ** Hooks Imports
 import { useTranslation } from 'react-i18next'
+import { useCurrentOrganization } from 'src/hooks'
 
 interface DataType {
   title: string
@@ -60,25 +61,42 @@ export interface OrganizationTotalProfitProps {
 
 const OrganizationTotalProfit = ({ data }: OrganizationTotalProfitProps) => {
   // ** Hook
+  const { organization } = useCurrentOrganization()
   const theme = useTheme()
   const router = useRouter()
   const { t } = useTranslation()
 
   const dataFormat: DataType[] = [
     {
-      title: formatCurrencyAsStandard(data.totalIncome - data.totalExpense ?? 0, Locale.EN, CurrencyType.USD),
+      title: formatCurrencyAsStandard(
+        convertCurrencyValue(
+          data.totalIncome - data.totalExpense ?? 0,
+          organization?.currency,
+          organization?.exchangeRate
+        ),
+        Locale.EN,
+        organization?.currency
+      ),
       avatarColor: 'primary',
       subtitle: t('dashboard_page.total_profit'),
       icon: <Icon icon='mdi:trending-up' fontSize='1.875rem' />
     },
     {
-      title: formatCurrencyAsStandard(data.totalIncome ?? 0, Locale.EN, CurrencyType.USD),
+      title: formatCurrencyAsStandard(
+        convertCurrencyValue(data.totalIncome ?? 0, organization?.currency, organization?.exchangeRate),
+        Locale.EN,
+        organization?.currency
+      ),
       avatarColor: 'success',
       subtitle: t('dashboard_page.total_income'),
       icon: <Icon icon='mdi:currency-usd' fontSize='1.875rem' />
     },
     {
-      title: formatCurrencyAsStandard(data.totalExpense ?? 0, Locale.EN, CurrencyType.USD),
+      title: formatCurrencyAsStandard(
+        convertCurrencyValue(data.totalExpense ?? 0, organization?.currency, organization?.exchangeRate),
+        Locale.EN,
+        organization?.currency
+      ),
       avatarColor: 'error',
       subtitle: t('dashboard_page.total_expense'),
       icon: <Icon icon='mdi:poll' />
@@ -211,7 +229,11 @@ const OrganizationTotalProfit = ({ data }: OrganizationTotalProfitProps) => {
         </StyledGrid>
         <Grid item xs={12} sm={4}>
           <CardHeader
-            title={formatCurrencyAsCompact(data.balance ?? 0, Locale.EN, CurrencyType.USD)}
+            title={formatCurrencyAsCompact(
+              convertCurrencyValue(data.balance ?? 0, organization?.currency, organization?.exchangeRate),
+              Locale.EN,
+              organization?.currency
+            )}
             subheader={t('dashboard_page.total_profit_subheader')}
             subheaderTypographyProps={{ sx: { lineHeight: '1.25rem', fontSize: '0.875rem !important' } }}
             titleTypographyProps={{

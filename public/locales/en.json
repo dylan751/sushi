@@ -446,6 +446,7 @@
             "phone_number": "Phone Number",
             "organization_address": "Organization Address",
             "date_format": "Date Format",
+            "default_currency": "Default Currency",
             "delete_organization": "Delete Organization",
             "deactivate_organization": "Deactivate Organization",
             "organization_deactivation_checkbox": "I confirm my organization deactivation",

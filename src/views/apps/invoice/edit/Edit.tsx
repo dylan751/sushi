@@ -18,6 +18,7 @@ import { fetchAnInvoice, updateInvoice } from 'src/store/apps/organization/invoi
 // ** Types Imports
 import { AppDispatch, RootState } from 'src/store'
 import {
+  BankType,
   CurrencyType,
   InvoiceResponseDto,
   InvoiceType,
@@ -33,9 +34,6 @@ import SendInvoiceDrawer from 'src/views/apps/invoice/shared-drawer/SendInvoiceD
 
 // ** Utils Imports
 import { getInvoiceListUrl, getInvoicePreviewUrl } from 'src/utils/router/invoice'
-
-// ** Enum Imports
-import { BankOptions } from 'src/enum'
 
 // ** Third Party Imports
 import { format } from 'date-fns'
@@ -99,7 +97,7 @@ const InvoiceEdit = ({ id }: InvoiceEditProps) => {
   )
   const [formData, setFormData] = useState<UpdateInvoiceFormData[]>([])
 
-  const [source, setSource] = useState<BankOptions>(BankOptions.BIDV)
+  const [source, setSource] = useState<BankType>(BankType.BIDV)
 
   const [addPaymentOpen, setAddPaymentOpen] = useState<boolean>(false)
   const [sendInvoiceOpen, setSendInvoiceOpen] = useState<boolean>(false)

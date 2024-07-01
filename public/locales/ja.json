@@ -446,6 +446,7 @@
             "phone_number": "電話番号",
             "organization_address": "会社の住所",
             "date_format": "日付形式",
+            "default_currency": "デフォルトの通貨",
             "delete_organization": "組織の削除",
             "deactivate_organization": "組織の無効化",
             "organization_deactivation_checkbox": "組織の無効化を確認します",

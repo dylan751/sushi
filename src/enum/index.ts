@@ -3,12 +3,7 @@ export enum Locale {
   EN = 'en'
 }
 
-export enum BankOptions {
-  BIDV = 'BIDV',
-  VCB = 'VCB'
-}
-
 export enum BankUrl {
-  BIDV = 'https://bidv.com.vn/',
-  VCB = 'https://www.vietcombank.com.vn/'
+  bidv = 'https://bidv.com.vn/',
+  vcb = 'https://www.vietcombank.com.vn/'
 }

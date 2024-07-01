@@ -16,6 +16,16 @@ export interface LoginRequestDto {
   password: string
 }
 
+export enum CurrencyType {
+  VND = 'vnd',
+  USD = 'usd'
+}
+
+export enum BankType {
+  BIDV = 'bidv',
+  VCB = 'vcb'
+}
+
 export interface UserRole {
   /** @example 1 */
   id: number
@@ -210,6 +220,12 @@ export interface OrganizationProfileResponseDto {
   address: string
   /** @example "dd/MM/yyyy" */
   dateFormat: string
+  /** @example "vnd" */
+  currency: CurrencyType
+  /** @example "bidv" */
+  bank: BankType
+  /** @example 25464 */
+  exchangeRate: number
   projects: ProjectResponseDto[]
   roles: UserRole[]
 }
@@ -367,6 +383,12 @@ export interface OrganizationResponseDto {
   address: string
   /** @example "dd/MM/yyyy" */
   dateFormat: string
+  /** @example "vnd" */
+  currency: CurrencyType
+  /** @example "bidv" */
+  bank: BankType
+  /** @example 25464 */
+  exchangeRate: number
   /**
    * @format date-time
    * @example "2024-02-26T07:31:35.000Z"
@@ -385,6 +407,12 @@ export interface UpdateOrganizationRequestDto {
   address?: string
   /** @example "dd/MM/yyyy" */
   dateFormat?: string
+  /** @example "vnd" */
+  currency?: CurrencyType
+  /** @example "bidv" */
+  bank?: BankType
+  /** @example 25464 */
+  exchangeRate?: number
 }
 
 export interface PermissionSubjectResponseDto {
@@ -471,11 +499,6 @@ export interface UpdateRoleRequestDto {
   /** @example "admin" */
   slug?: string
   permissionConfigs: PermissionConfigDto[]
-}
-
-export enum CurrencyType {
-  VND = 'vnd',
-  USD = 'usd'
 }
 
 export interface InvoiceItemResponseDto {

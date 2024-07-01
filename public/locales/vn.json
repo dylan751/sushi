@@ -19,7 +19,7 @@
         "user_page": "Trang người dùng",
         "exchange_rates": "Tỷ giá hối đoái",
         "settings_page": {
-            "settings": "Cài đặt tài khoản",
+            "settings": "Cài đặt",
             "account": "Tài khoản",
             "security": "Bảo mật",
             "organization": "Tổ chức"
@@ -408,7 +408,7 @@
         "sell": "Bán"
     },
     "settings_page": {
-        "title": "Cài đặt tài khoản",
+        "title": "Cài đặt",
         "account": {
             "title": "Tài khoản",
             "full_name": "Họ và tên",
@@ -444,6 +444,7 @@
             "phone_number": "Số điện thoại",
             "organization_address": "Địa chỉ tổ chức",
             "date_format": "Định dạng ngày tháng",
+            "default_currency": "Loại tiền tệ mặc định",
             "delete_organization": "Xóa tổ chức",
             "deactivate_organization": "Vô hiệu hóa tổ chức",
             "organization_deactivation_checkbox": "Xác nhận vô hiệu hóa tổ chức",

@@ -13,14 +13,14 @@ import CardContent from '@mui/material/CardContent'
 import { styled } from '@mui/material/styles'
 
 // ** Types
-import { CurrencyType, InvoiceResponseDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
+import { InvoiceResponseDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
 import { Locale } from 'src/enum'
 
 // ** Custom Components Imports
 import OptionsMenu from 'src/@core/components/option-menu'
 
 // ** Utils Imports
-import { formatCurrencyAsStandard } from 'src/utils/currency'
+import { convertCurrencyValue, formatCurrencyAsStandard } from 'src/utils/currency'
 import { getInvoiceEditUrl } from 'src/utils/router'
 import format from 'date-fns/format'
 
@@ -63,7 +63,11 @@ const ProjectTotalCard = ({ title, type, invoices, total }: ProjectTotalCardProp
       <CardContent sx={{ pt: theme => `${theme.spacing(2.25)} !important` }}>
         <Box sx={{ mb: 10, display: 'flex', alignItems: 'center' }}>
           <Typography variant='h4' sx={{ fontWeight: 600, fontSize: '2.125rem !important' }}>
-            {formatCurrencyAsStandard(total, Locale.EN, CurrencyType.USD)}
+            {formatCurrencyAsStandard(
+              convertCurrencyValue(total, organization?.currency, organization?.exchangeRate),
+              Locale.EN,
+              organization?.currency
+            )}
           </Typography>
         </Box>
 

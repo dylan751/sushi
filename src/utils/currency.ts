@@ -49,3 +49,17 @@ export function formatCurrencyAsStandard(value: number, locale: MergeLocaleType,
 
   return formatter.format(value)
 }
+
+export const convertCurrencyValue = (value: number, currencyType: CurrencyType, exchangeRate: number): number => {
+  /**
+   * The value will default to be in USD
+   * If the `currencyType` is VND, then convert value based on `exchangeRate`
+   * If the `currencyType` is USD, then don't change anything
+   */
+
+  if (currencyType === CurrencyType.VND) {
+    return value * exchangeRate
+  }
+
+  return value
+}
