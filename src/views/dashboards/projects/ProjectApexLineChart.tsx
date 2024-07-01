@@ -59,7 +59,11 @@ const ProjectApexLineChart = ({ data }: ProjectApexLineChartProps) => {
       custom(data: any) {
         return `<div class='bar-chart'>
           <span>${formatCurrencyAsCompact(
-            convertCurrencyValue(data.series[data.seriesIndex][data.dataPointIndex], organization?.currency, 25000),
+            convertCurrencyValue(
+              data.series[data.seriesIndex][data.dataPointIndex],
+              organization?.currency,
+              organization?.exchangeRate
+            ),
             Locale.EN,
             organization?.currency
           )}</span>
@@ -110,7 +114,7 @@ const ProjectApexLineChart = ({ data }: ProjectApexLineChartProps) => {
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography variant='h6' sx={{ mr: 5 }} color={data.balance > 0 ? 'success.main' : 'error.main'}>
               {formatCurrencyAsCompact(
-                convertCurrencyValue(data.balance, organization?.currency, 25000),
+                convertCurrencyValue(data.balance, organization?.currency, organization?.exchangeRate),
                 Locale.EN,
                 organization?.currency
               )}

@@ -21,6 +21,11 @@ export enum CurrencyType {
   USD = 'usd'
 }
 
+export enum BankType {
+  BIDV = 'bidv',
+  VCB = 'vcb'
+}
+
 export interface UserRole {
   /** @example 1 */
   id: number
@@ -217,6 +222,10 @@ export interface OrganizationProfileResponseDto {
   dateFormat: string
   /** @example "vnd" */
   currency: CurrencyType
+  /** @example "bidv" */
+  bank: BankType
+  /** @example 25464 */
+  exchangeRate: number
   projects: ProjectResponseDto[]
   roles: UserRole[]
 }
@@ -376,6 +385,10 @@ export interface OrganizationResponseDto {
   dateFormat: string
   /** @example "vnd" */
   currency: CurrencyType
+  /** @example "bidv" */
+  bank: BankType
+  /** @example 25464 */
+  exchangeRate: number
   /**
    * @format date-time
    * @example "2024-02-26T07:31:35.000Z"
@@ -396,6 +409,10 @@ export interface UpdateOrganizationRequestDto {
   dateFormat?: string
   /** @example "vnd" */
   currency?: CurrencyType
+  /** @example "bidv" */
+  bank?: BankType
+  /** @example 25464 */
+  exchangeRate?: number
 }
 
 export interface PermissionSubjectResponseDto {

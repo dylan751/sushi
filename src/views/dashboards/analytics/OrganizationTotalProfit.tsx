@@ -69,7 +69,11 @@ const OrganizationTotalProfit = ({ data }: OrganizationTotalProfitProps) => {
   const dataFormat: DataType[] = [
     {
       title: formatCurrencyAsStandard(
-        convertCurrencyValue(data.totalIncome - data.totalExpense ?? 0, organization?.currency, 25000),
+        convertCurrencyValue(
+          data.totalIncome - data.totalExpense ?? 0,
+          organization?.currency,
+          organization?.exchangeRate
+        ),
         Locale.EN,
         organization?.currency
       ),
@@ -79,7 +83,7 @@ const OrganizationTotalProfit = ({ data }: OrganizationTotalProfitProps) => {
     },
     {
       title: formatCurrencyAsStandard(
-        convertCurrencyValue(data.totalIncome ?? 0, organization?.currency, 25000),
+        convertCurrencyValue(data.totalIncome ?? 0, organization?.currency, organization?.exchangeRate),
         Locale.EN,
         organization?.currency
       ),
@@ -89,7 +93,7 @@ const OrganizationTotalProfit = ({ data }: OrganizationTotalProfitProps) => {
     },
     {
       title: formatCurrencyAsStandard(
-        convertCurrencyValue(data.totalExpense ?? 0, organization?.currency, 25000),
+        convertCurrencyValue(data.totalExpense ?? 0, organization?.currency, organization?.exchangeRate),
         Locale.EN,
         organization?.currency
       ),
@@ -226,7 +230,7 @@ const OrganizationTotalProfit = ({ data }: OrganizationTotalProfitProps) => {
         <Grid item xs={12} sm={4}>
           <CardHeader
             title={formatCurrencyAsCompact(
-              convertCurrencyValue(data.balance ?? 0, organization?.currency, 25000),
+              convertCurrencyValue(data.balance ?? 0, organization?.currency, organization?.exchangeRate),
               Locale.EN,
               organization?.currency
             )}

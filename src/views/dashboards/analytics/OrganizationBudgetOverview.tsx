@@ -102,7 +102,7 @@ const OrganizationBudgetOverview = ({ data }: OrganizationBudgetOverviewProps) =
               fontWeight: 500,
               formatter: value =>
                 formatCurrencyAsStandard(
-                  convertCurrencyValue(parseFloat(value) ?? 0, organization?.currency, 25000),
+                  convertCurrencyValue(parseFloat(value) ?? 0, organization?.currency, organization?.exchangeRate),
                   Locale.EN,
                   organization?.currency
                 ),
@@ -118,7 +118,7 @@ const OrganizationBudgetOverview = ({ data }: OrganizationBudgetOverviewProps) =
                   convertCurrencyValue(
                     parseFloat(value.globals.seriesTotals.reduce((total: number, num: number) => total + num)) ?? 0,
                     organization?.currency,
-                    25000
+                    organization?.exchangeRate
                   ),
                   Locale.EN,
                   organization?.currency
@@ -172,7 +172,7 @@ const OrganizationBudgetOverview = ({ data }: OrganizationBudgetOverviewProps) =
                           }, 0)
                         : 0,
                       organization?.currency,
-                      25000
+                      organization?.exchangeRate
                     ),
                     Locale.EN,
                     organization?.currency
@@ -199,7 +199,11 @@ const OrganizationBudgetOverview = ({ data }: OrganizationBudgetOverviewProps) =
                       </Box>
                       <Typography sx={{ fontWeight: 600 }}>
                         {formatCurrencyAsStandard(
-                          convertCurrencyValue(project.totalBudget ?? 0, organization?.currency, 25000),
+                          convertCurrencyValue(
+                            project.totalBudget ?? 0,
+                            organization?.currency,
+                            organization?.exchangeRate
+                          ),
                           Locale.EN,
                           organization?.currency
                         )}

@@ -47,7 +47,7 @@ const ProjectApexDonutChart = ({ data }: ProjectApexDonutChartProps) => {
       y: {
         formatter: (val: number) =>
           `${formatCurrencyAsCompact(
-            convertCurrencyValue(val, organization?.currency, 25000),
+            convertCurrencyValue(val, organization?.currency, organization?.exchangeRate),
             Locale.EN,
             organization?.currency
           )}`
@@ -75,7 +75,7 @@ const ProjectApexDonutChart = ({ data }: ProjectApexDonutChartProps) => {
               color: theme.palette.text.secondary,
               formatter: (val: string) =>
                 `${formatCurrencyAsCompact(
-                  convertCurrencyValue(parseInt(val), organization?.currency, 25000),
+                  convertCurrencyValue(parseInt(val), organization?.currency, organization?.exchangeRate),
                   Locale.EN,
                   organization?.currency
                 )}`
@@ -86,7 +86,7 @@ const ProjectApexDonutChart = ({ data }: ProjectApexDonutChartProps) => {
               label: t('project_page.dashboard.total_expense') as string,
               formatter: () =>
                 formatCurrencyAsCompact(
-                  convertCurrencyValue(data.totalExpense, organization?.currency, 25000),
+                  convertCurrencyValue(data.totalExpense, organization?.currency, organization?.exchangeRate),
                   Locale.EN,
                   organization?.currency
                 ),

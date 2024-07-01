@@ -111,7 +111,11 @@ const Dashboard = () => {
           <Grid item xs={12} sm={6} md={2} sx={{ order: 0 }}>
             <CardStatisticsVerticalComponent
               stats={formatCurrencyAsCompact(
-                convertCurrencyValue(statisticsStore.statistics.totalIncome ?? 0, organization?.currency, 25000),
+                convertCurrencyValue(
+                  statisticsStore.statistics.totalIncome ?? 0,
+                  organization?.currency,
+                  organization?.exchangeRate
+                ),
                 Locale.EN,
                 organization?.currency
               )}
@@ -125,7 +129,11 @@ const Dashboard = () => {
           <Grid item xs={12} sm={6} md={2} sx={{ order: 0 }}>
             <CardStatisticsVerticalComponent
               stats={formatCurrencyAsCompact(
-                convertCurrencyValue(statisticsStore.statistics.totalExpense ?? 0, organization?.currency, 25000),
+                convertCurrencyValue(
+                  statisticsStore.statistics.totalExpense ?? 0,
+                  organization?.currency,
+                  organization?.exchangeRate
+                ),
                 Locale.EN,
                 organization?.currency
               )}

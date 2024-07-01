@@ -89,7 +89,11 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
     {
       // trendNumber: '+38%',
       stats: formatCurrencyAsCompact(
-        convertCurrencyValue(statisticsStore.statistics.totalIncome ?? 0, organization?.currency, 25000),
+        convertCurrencyValue(
+          statisticsStore.statistics.totalIncome ?? 0,
+          organization?.currency,
+          organization?.exchangeRate
+        ),
         Locale.EN,
         organization?.currency
       ),
@@ -102,7 +106,11 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
       // trend: 'negative',
       // trendNumber: '-22%',
       stats: formatCurrencyAsCompact(
-        convertCurrencyValue(statisticsStore.statistics.totalExpense ?? 0, organization?.currency, 25000),
+        convertCurrencyValue(
+          statisticsStore.statistics.totalExpense ?? 0,
+          organization?.currency,
+          organization?.exchangeRate
+        ),
         Locale.EN,
         organization?.currency
       ),

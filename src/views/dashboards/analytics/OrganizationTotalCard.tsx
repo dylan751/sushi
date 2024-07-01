@@ -64,7 +64,7 @@ const OrganizationTotalCard = ({ title, type, invoices, total }: OrganizationTot
         <Box sx={{ mb: 10, display: 'flex', alignItems: 'center' }}>
           <Typography variant='h4' sx={{ fontWeight: 600, fontSize: '2.125rem !important' }}>
             {formatCurrencyAsStandard(
-              convertCurrencyValue(total, organization?.currency, 25000),
+              convertCurrencyValue(total, organization?.currency, organization?.exchangeRate),
               Locale.EN,
               organization?.currency
             )}

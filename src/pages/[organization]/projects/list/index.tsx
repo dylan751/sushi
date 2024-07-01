@@ -191,7 +191,7 @@ const Projects = () => {
         <Box sx={{ display: 'flex' }}>
           <Typography sx={{ color: `${renderColorBudgetProcess(row.totalSpent, row.totalBudget)}.main` }}>
             {formatCurrencyAsCompact(
-              convertCurrencyValue(row.totalSpent, organization?.currency, 25000),
+              convertCurrencyValue(row.totalSpent, organization?.currency, organization?.exchangeRate),
               Locale.EN,
               organization?.currency
             )}
@@ -200,7 +200,7 @@ const Projects = () => {
           <Typography
             sx={{ fontWeight: 600, color: `${renderColorBudgetProcess(row.totalSpent, row.totalBudget)}.main` }}
           >{`${formatCurrencyAsCompact(
-            convertCurrencyValue(row.totalBudget, organization?.currency, 25000),
+            convertCurrencyValue(row.totalBudget, organization?.currency, organization?.exchangeRate),
             Locale.EN,
             organization?.currency
           )}`}</Typography>

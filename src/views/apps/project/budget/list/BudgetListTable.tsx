@@ -160,7 +160,7 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
       renderCell: ({ row }: CellType) => (
         <Typography variant='body2' sx={{ color: 'text.primary' }}>
           {formatCurrencyAsCompact(
-            convertCurrencyValue(row.amount, organization?.currency, 25000),
+            convertCurrencyValue(row.amount, organization?.currency, organization?.exchangeRate),
             Locale.EN,
             organization?.currency
           )}
