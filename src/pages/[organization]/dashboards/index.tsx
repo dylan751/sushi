@@ -1,5 +1,5 @@
 // ** React Imports
-import { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useContext, useEffect, useState } from 'react'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
@@ -46,6 +46,7 @@ import DatePicker from 'react-datepicker'
 
 // ** Styled Component Import
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import { AbilityContext } from 'src/layouts/components/acl/Can'
 
 interface CustomInputProps {
   label?: string
@@ -68,6 +69,7 @@ const Dashboard = () => {
   // ** Hooks
   const { organizationId, organization } = useCurrentOrganization()
   const { t } = useTranslation()
+  const ability = useContext(AbilityContext)
   const dispatch = useDispatch<AppDispatch>()
 
   const statisticsStore = useSelector((state: RootState) => state.organizationStatistics)
@@ -75,15 +77,17 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(fetchStatistics({ organizationId, date: year ? year.toString() : '' }))
-    dispatch(
-      fetchInvoice({
-        organizationId,
-        status: 'uncategorized',
-        fromDate: startOfYear(year ?? new Date())?.toString(),
-        toDate: endOfYear(year ?? new Date())?.toString()
-      })
-    )
-  }, [dispatch, year, organizationId])
+    if (ability?.can('read', 'project')) {
+      dispatch(
+        fetchInvoice({
+          organizationId,
+          status: 'uncategorized',
+          fromDate: startOfYear(year ?? new Date())?.toString(),
+          toDate: endOfYear(year ?? new Date())?.toString()
+        })
+      )
+    }
+  }, [dispatch, year, organizationId, ability])
 
   return (
     <ApexChartWrapper>
@@ -179,6 +183,7 @@ const Dashboard = () => {
                   icon={<Icon icon='mdi:account-outline' />}
                 />
               </Grid>
+
               <Grid item xs={12} sm={6}>
                 <CardStatisticsVerticalComponent
                   stats={statisticsStore.statistics.roleCount?.toString()}
@@ -190,22 +195,26 @@ const Dashboard = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12} md={4}>
-            <OrganizationTotalCard
-              title={t('dashboard_page.total_uncategorized_incomes')}
-              type={InvoiceType.INCOME}
-              invoices={invoiceStore.invoices}
-              total={statisticsStore.statistics.totalUncategorizedIncome}
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <OrganizationTotalCard
-              title={t('dashboard_page.total_uncategorized_expenses')}
-              type={InvoiceType.EXPENSE}
-              invoices={invoiceStore.invoices}
-              total={statisticsStore.statistics.totalUncategorizedExpense}
-            />
-          </Grid>
+          {ability?.can('read', 'invoice') && (
+            <>
+              <Grid item xs={12} md={4}>
+                <OrganizationTotalCard
+                  title={t('dashboard_page.total_uncategorized_incomes')}
+                  type={InvoiceType.INCOME}
+                  invoices={invoiceStore.invoices}
+                  total={statisticsStore.statistics.totalUncategorizedIncome}
+                />
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <OrganizationTotalCard
+                  title={t('dashboard_page.total_uncategorized_expenses')}
+                  type={InvoiceType.EXPENSE}
+                  invoices={invoiceStore.invoices}
+                  total={statisticsStore.statistics.totalUncategorizedExpense}
+                />
+              </Grid>
+            </>
+          )}
 
           <Grid item xs={12} md={4} sx={{ order: 0 }}>
             <OrganizationBudgetTracking data={statisticsStore.statistics} />
