@@ -87,8 +87,6 @@ const Dashboard = () => {
     )
   }, [dispatch, year, organizationId])
 
-  console.log(statisticsStore.statistics)
-
   return (
     <ApexChartWrapper>
       <DatePickerWrapper>
