@@ -11,7 +11,7 @@ import { ApexOptions } from 'apexcharts'
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
 // ** Types Imports
-import { ProjectStatisticsResponseDto } from 'src/__generated__/AccountifyAPI'
+import { OrganizationStatisticsResponseDto, ProjectStatisticsResponseDto } from 'src/__generated__/AccountifyAPI'
 import { Locale } from 'src/enum'
 
 // ** Utils Imports
@@ -21,11 +21,11 @@ import { convertCurrencyValue, formatCurrencyAsCompact } from 'src/utils/currenc
 import { useTranslation } from 'react-i18next'
 import { useCurrentOrganization } from 'src/hooks'
 
-export interface ProjectApexDonutChartProps {
-  data: ProjectStatisticsResponseDto
+export interface IncomeDonutChartProps {
+  data: ProjectStatisticsResponseDto | OrganizationStatisticsResponseDto
 }
 
-const ProjectApexDonutChart = ({ data }: ProjectApexDonutChartProps) => {
+const IncomeDonutChart = ({ data }: IncomeDonutChartProps) => {
   // ** Hook
   const { organization } = useCurrentOrganization()
   const theme = useTheme()
@@ -33,10 +33,10 @@ const ProjectApexDonutChart = ({ data }: ProjectApexDonutChartProps) => {
 
   const options: ApexOptions = {
     stroke: { width: 0 },
-    labels: data.expensesByCategory ? data.expensesByCategory.map(expense => expense.name) : [],
+    labels: data.incomesByCategory ? data.incomesByCategory.map(income => income.name) : [],
 
-    colors: data.expensesByCategory
-      ? data.expensesByCategory.map(expense => (theme.palette as any)[expense.color].main)
+    colors: data.incomesByCategory
+      ? data.incomesByCategory.map(income => (theme.palette as any)[income.color].main)
       : [],
     dataLabels: {
       enabled: true,
@@ -83,10 +83,10 @@ const ProjectApexDonutChart = ({ data }: ProjectApexDonutChartProps) => {
             total: {
               show: true,
               fontSize: '1.2rem',
-              label: t('project_page.dashboard.total_expense') as string,
+              label: t('project_page.dashboard.total_income') as string,
               formatter: () =>
                 formatCurrencyAsCompact(
-                  convertCurrencyValue(data.totalExpense, organization?.currency, organization?.exchangeRate),
+                  convertCurrencyValue(data.totalIncome, organization?.currency, organization?.exchangeRate),
                   Locale.EN,
                   organization?.currency
                 ),
@@ -137,13 +137,13 @@ const ProjectApexDonutChart = ({ data }: ProjectApexDonutChartProps) => {
     ]
   }
 
-  const series = data.expensesByCategory ? data.expensesByCategory.map(expense => expense.total) : []
+  const series = data.incomesByCategory ? data.incomesByCategory.map(income => income.total) : []
 
   return (
     <Card>
       <CardHeader
-        title={t('project_page.dashboard.expense_ratio')}
-        subheader={t('project_page.dashboard.donut_chart_subtitle')}
+        title={t('project_page.dashboard.income_ratio')}
+        subheader={t('project_page.dashboard.income_chart_subtitle')}
         subheaderTypographyProps={{ sx: { color: theme => `${theme.palette.text.disabled} !important` } }}
       />
       <CardContent>
@@ -153,4 +153,4 @@ const ProjectApexDonutChart = ({ data }: ProjectApexDonutChartProps) => {
   )
 }
 
-export default ProjectApexDonutChart
+export default IncomeDonutChart

@@ -420,6 +420,15 @@ export interface PermissionSubjectResponseDto {
   subject: string
 }
 
+export interface IncomesAndExpensesByCategoryResponseDto {
+  /** @example "Computer Expense" */
+  name: string
+  /** @example "success" */
+  color: string
+  /** @example 1000 */
+  total: number
+}
+
 export interface OrganizationStatisticsResponseDto {
   /** @example 1 */
   id: number
@@ -448,6 +457,8 @@ export interface OrganizationStatisticsResponseDto {
   incomesByMonth: number[]
   /** @example [280,200,220,180,270,250,70,90,200,150,160,100] */
   expensesByMonth: number[]
+  incomesByCategory: IncomesAndExpensesByCategoryResponseDto[]
+  expensesByCategory: IncomesAndExpensesByCategoryResponseDto[]
   projects: ProjectResponseDto[]
   /** @example 10000 */
   totalUncategorizedIncome: number
@@ -717,15 +728,6 @@ export interface UpdateCategoryRequestDto {
   icon?: IconType
   /** @example "expense" */
   type?: InvoiceType
-}
-
-export interface IncomesAndExpensesByCategoryResponseDto {
-  /** @example "Computer Expense" */
-  name: string
-  /** @example "success" */
-  color: string
-  /** @example 1000 */
-  total: number
 }
 
 export interface ProjectStatisticsResponseDto {

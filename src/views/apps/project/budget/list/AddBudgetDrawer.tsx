@@ -26,7 +26,7 @@ import { addBudget } from 'src/store/apps/organization/project/budget'
 
 // ** Types Imports
 import { AppDispatch } from 'src/store'
-import { CategoryResponseDto, CreateBudgetRequestDto, InvoiceType } from 'src/__generated__/AccountifyAPI'
+import { CategoryResponseDto, CreateBudgetRequestDto } from 'src/__generated__/AccountifyAPI'
 
 // ** Third Party Imports
 import { useTranslation } from 'react-i18next'
@@ -146,7 +146,7 @@ const SidebarAddBudget = (props: SidebarAddBudgetInterface) => {
               rules={{ required: true }}
               render={({ field: { value, onChange } }) => (
                 <>
-                  <InputLabel id='icon-select'>{t('project_page.budget.category_only_expense')} *</InputLabel>
+                  <InputLabel id='icon-select'>{t('project_page.budget.category')} *</InputLabel>
                   <Select
                     fullWidth
                     value={value}
@@ -159,14 +159,11 @@ const SidebarAddBudget = (props: SidebarAddBudgetInterface) => {
                     inputProps={{ placeholder: t('project_page.budget.category').toString() }}
                     MenuProps={MenuProps}
                   >
-                    {categories.map(
-                      category =>
-                        category.type === InvoiceType.EXPENSE && (
-                          <MenuItem key={category.id} value={category.id}>
-                            <CustomChip size='small' skin='light' color={category.color as any} label={category.name} />
-                          </MenuItem>
-                        )
-                    )}
+                    {categories.map(category => (
+                      <MenuItem key={category.id} value={category.id}>
+                        <CustomChip size='small' skin='light' color={category.color as any} label={category.name} />
+                      </MenuItem>
+                    ))}
                   </Select>
                 </>
               )}

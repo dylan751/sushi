@@ -47,6 +47,7 @@ import UpdateBudgetDrawer from './UpdateBudgetDrawer'
 
 // ** Constant Imports
 import { MenuProps } from 'src/constants'
+import { capitalizeFirstLetter } from 'src/utils/string'
 
 interface CellType {
   row: BudgetResponseDto
@@ -114,7 +115,7 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
 
   const defaultColumns: GridColDef[] = [
     {
-      flex: 0.25,
+      flex: 0.3,
       minWidth: 150,
       field: 'category',
       headerName: t('project_page.budget.category') as string,
@@ -153,8 +154,8 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
       )
     },
     {
-      flex: 0.25,
-      minWidth: 150,
+      flex: 0.15,
+      minWidth: 100,
       field: 'amount',
       headerName: t('project_page.budget.amount') as string,
       renderCell: ({ row }: CellType) => (
@@ -165,6 +166,20 @@ const BudgetListTable = ({ projectId }: BudgetListTableProps) => {
             organization?.currency
           )}
         </Typography>
+      )
+    },
+    {
+      flex: 0.15,
+      minWidth: 100,
+      field: 'type',
+      headerName: t('project_page.category.type') as string,
+      renderCell: ({ row }: CellType) => (
+        <CustomChip
+          size='small'
+          skin='light'
+          color={row.category.type === InvoiceType.EXPENSE ? 'error' : 'success'}
+          label={capitalizeFirstLetter(row.category.type)}
+        />
       )
     }
   ]
