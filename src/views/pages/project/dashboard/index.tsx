@@ -28,7 +28,7 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 // ** Components Imports
 import ProjectTransactions from 'src/views/dashboards/projects/ProjectTransactions'
 import ProjectApexLineChart from 'src/views/dashboards/projects/ProjectApexLineChart'
-import ProjectApexDonutChart from 'src/views/dashboards/projects/ProjectApexDonutChart'
+import ExpenseDonutChart from 'src/views/dashboards/projects/ExpenseDonutChart'
 import ProjectTotalCard from 'src/views/dashboards/projects/ProjectTotalCard'
 import ProjectLastInvoices from 'src/views/dashboards/projects/ProjectLastInvoices'
 
@@ -154,7 +154,7 @@ const DashboardTab = ({ projectId }: DashboardTabProps) => {
             <ProjectApexLineChart data={statisticsStore.statistics} />
           </Grid>
           <Grid item xs={12} md={6}>
-            <ProjectApexDonutChart data={statisticsStore.statistics} />
+            <ExpenseDonutChart data={statisticsStore.statistics} />
           </Grid>
           <Grid item xs={12} md={6}>
             <ProjectTotalCard

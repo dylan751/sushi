@@ -16,8 +16,10 @@ import CardStatisticsVerticalComponent from 'src/@core/components/card-statistic
 // ** Styled Component Import
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 
-// ** Demo Components Imports
+// ** Components Imports
 import OrganizationTotalProfit from 'src/views/dashboards/analytics/OrganizationTotalProfit'
+import ExpenseDonutChart from 'src/views/dashboards/projects/ExpenseDonutChart'
+import IncomeDonutChart from 'src/views/dashboards/projects/IncomeDonutChart'
 import OrganizationBudgetOverview from 'src/views/dashboards/analytics/OrganizationBudgetOverview'
 import OrganizationTotalCard from 'src/views/dashboards/analytics/OrganizationTotalCard'
 import OrganizationBudgetTracking from 'src/views/dashboards/analytics/OrganizationBudgetTracking'
@@ -150,6 +152,12 @@ const Dashboard = () => {
           </Grid>
           <Grid item xs={12} md={12} sx={{ order: 0 }}>
             <OrganizationTotalProfit data={statisticsStore.statistics} />
+          </Grid>
+          <Grid item xs={12} md={6} sx={{ order: 0 }}>
+            <ExpenseDonutChart data={statisticsStore.statistics} />
+          </Grid>
+          <Grid item xs={12} md={6} sx={{ order: 0 }}>
+            <IncomeDonutChart data={statisticsStore.statistics} />
           </Grid>
           <Grid item xs={12} md={8}>
             <OrganizationBudgetOverview data={statisticsStore.statistics} />
